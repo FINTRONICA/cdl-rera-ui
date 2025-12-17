@@ -1,1 +1,0 @@
-export { CommentModal } from './CommentModal' 

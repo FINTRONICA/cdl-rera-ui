@@ -1,1 +1,0 @@
-export { UserAvatarGroup } from './UserAvatarGroup' 
