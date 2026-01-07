@@ -1,5 +1,6 @@
 const nextConfig = {
   reactStrictMode: true,
+basePath: '/escrow',
   serverExternalPackages: ['bcryptjs'],
 
   eslint: {
