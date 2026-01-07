@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { AuthService, JWTPayload, Permission } from '../lib/auth';
+import { addBasePath } from '../utils/basePath'
 
 export interface AuthContext {
   user: JWTPayload;
@@ -10,15 +11,21 @@ export class AuthMiddleware {
   // Protect routes that require authentication
   static async authenticate(request: NextRequest): Promise<NextResponse | AuthContext> {
     const token = AuthService.extractTokenFromRequest(request);
-    
+
     if (!token) {
-      return NextResponse.redirect(new URL('/login', request.url));
+      // return NextResponse.redirect(new URL('/login', request.url));
+      const url = request.nextUrl.clone()
+      url.pathname = addBasePath('/login')
+      return NextResponse.redirect(url)
     }
 
     const payload = AuthService.verifyToken(token);
-    
+
     if (!payload) {
-      return NextResponse.redirect(new URL('/login', request.url));
+      const url = request.nextUrl.clone()
+      url.pathname = addBasePath('/login')
+      return NextResponse.redirect(url)
+      // return NextResponse.redirect(new URL('/login', request.url));
     }
 
     return {
@@ -30,7 +37,7 @@ export class AuthMiddleware {
   // Protect API routes
   static async authenticateAPI(request: NextRequest): Promise<NextResponse | AuthContext> {
     const token = AuthService.extractTokenFromRequest(request);
-    
+
     if (!token) {
       return NextResponse.json(
         { error: 'Authentication required' },
@@ -39,7 +46,7 @@ export class AuthMiddleware {
     }
 
     const payload = AuthService.verifyToken(token);
-    
+
     if (!payload) {
       return NextResponse.json(
         { error: 'Invalid or expired token' },
@@ -74,13 +81,16 @@ export class AuthMiddleware {
     permission: Permission
   ): Promise<NextResponse | AuthContext> {
     const authResult = await this.authenticate(request);
-    
+
     if (authResult instanceof NextResponse) {
       return authResult;
     }
 
     if (!this.hasPermission(authResult.user, permission)) {
-      return NextResponse.redirect(new URL('/unauthorized', request.url));
+      const url = request.nextUrl.clone()
+      url.pathname = addBasePath('/unauthorized')
+      return NextResponse.redirect(url)
+      // return NextResponse.redirect(new URL('/unauthorized', request.url));
     }
 
     return authResult;
@@ -92,7 +102,7 @@ export class AuthMiddleware {
     permission: Permission
   ): Promise<NextResponse | AuthContext> {
     const authResult = await this.authenticateAPI(request);
-    
+
     if (authResult instanceof NextResponse) {
       return authResult;
     }
@@ -113,13 +123,16 @@ export class AuthMiddleware {
     permissions: Permission[]
   ): Promise<NextResponse | AuthContext> {
     const authResult = await this.authenticate(request);
-    
+
     if (authResult instanceof NextResponse) {
       return authResult;
     }
 
     if (!this.hasAnyPermission(authResult.user, permissions)) {
-      return NextResponse.redirect(new URL('/unauthorized', request.url));
+      // return NextResponse.redirect(new URL('/unauthorized', request.url));
+      const url = request.nextUrl.clone()
+      url.pathname = addBasePath('/unauthorized')
+      return NextResponse.redirect(url)
     }
 
     return authResult;
@@ -131,7 +144,7 @@ export class AuthMiddleware {
     permissions: Permission[]
   ): Promise<NextResponse | AuthContext> {
     const authResult = await this.authenticateAPI(request);
-    
+
     if (authResult instanceof NextResponse) {
       return authResult;
     }
@@ -152,13 +165,16 @@ export class AuthMiddleware {
     permissions: Permission[]
   ): Promise<NextResponse | AuthContext> {
     const authResult = await this.authenticate(request);
-    
+
     if (authResult instanceof NextResponse) {
       return authResult;
     }
 
     if (!this.hasAllPermissions(authResult.user, permissions)) {
-      return NextResponse.redirect(new URL('/unauthorized', request.url));
+      const url = request.nextUrl.clone()
+      url.pathname = addBasePath('/unauthorized')
+      return NextResponse.redirect(url)
+      // return NextResponse.redirect(new URL('/unauthorized', request.url));
     }
 
     return authResult;
@@ -170,7 +186,7 @@ export class AuthMiddleware {
     permissions: Permission[]
   ): Promise<NextResponse | AuthContext> {
     const authResult = await this.authenticateAPI(request);
-    
+
     if (authResult instanceof NextResponse) {
       return authResult;
     }
