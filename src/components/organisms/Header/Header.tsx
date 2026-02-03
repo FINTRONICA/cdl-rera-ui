@@ -54,12 +54,13 @@ export const Header: React.FC<HeaderProps> = ({
           </p>
         </div>
 
-        {/* Spacer */}
         <div className="flex-1"></div>
 
-        {/* Right side - Controls */}
         <div className="flex items-center gap-6">
           <ThemeSwitcher />
+          <div className="inline-flex items-center justify-center min-h-0 px-0.5 text-xs font-semibold text-white bg-blue-500 rounded-md shadow-sm aspect-square min-w-4">
+            RERA
+          </div>
           <UserProfile
             name={displayName}
             {...(displayEmail && { email: displayEmail })}
