@@ -1,4 +1,4 @@
-export const BASE_PATH = '/escrow'
+export const BASE_PATH = '/hoa'
 
 function normalizePathname(pathname: string): string {
   if (!pathname) return '/'
@@ -14,18 +14,18 @@ function hasExactBasePath(pathname: string): boolean {
  * Strips the base path from a given pathname
  * Used when comparing routes in middleware or components
  * 
- * @param pathname - The full pathname (e.g., '/escrow/login')
+ * @param pathname - The full pathname (e.g., '/hoa/login')
  * @returns The pathname without base path (e.g., '/login')
  * 
  * @example
- * stripBasePath('/escrow/login') // returns '/login'
+ * stripBasePath('/hoa/login') // returns '/login'
  * stripBasePath('/login') // returns '/login' (already stripped)
  */
 export function stripBasePath(pathname: string): string {
   let p = normalizePathname(pathname)
 
   // Strip repeatedly to protect against accidental double basePath like:
-  // `/escrow/escrow/agreement` -> `/agreement`
+  // `/hoa/hoa/agreement` -> `/agreement`
   while (hasExactBasePath(p)) {
     p = p.slice(BASE_PATH.length) || '/'
     p = normalizePathname(p)
@@ -39,26 +39,26 @@ export function stripBasePath(pathname: string): string {
  * Used for window.location or manual redirects
  * 
  * @param pathname - The pathname without base path (e.g., '/login')
- * @returns The full pathname with base path (e.g., '/escrow/login')
+ * @returns The full pathname with base path (e.g., '/hoa/login')
  * 
  * @example
- * addBasePath('/login') // returns '/escrow/login'
- * addBasePath('/escrow/login') // returns '/escrow/login' (already has base path)
+ * addBasePath('/login') // returns '/hoa/login'
+ * addBasePath('/hoa/login') // returns '/hoa/login' (already has base path)
  */
 export function addBasePath(pathname: string): string {
   // Remove leading slash if present to avoid double slashes
   const cleanPath = normalizePathname(pathname)
-
+  
   // If path already has base path (segment-aware), return as is
   if (hasExactBasePath(cleanPath)) {
     return cleanPath
   }
-
+  
   // If it's the root path, return base path
   if (cleanPath === '/') {
     return BASE_PATH
   }
-
+  
   return `${BASE_PATH}${cleanPath}`
 }
 
@@ -69,15 +69,14 @@ export function hasBasePath(pathname: string): boolean {
   return hasExactBasePath(pathname)
 }
 
-export function getPublicAssetPath(assetPath: string): string {
-  // Ensure the path starts with /
-  const normalizedPath = assetPath.startsWith('/') ? assetPath : `/${assetPath}`
-  
-  // If it already has the base path, return as is
-  if (hasExactBasePath(normalizedPath)) {
-    return normalizedPath
-  }
-  
-  // Add base path prefix
-  return `${BASE_PATH}${normalizedPath}`
+/**
+ * Returns the public URL for a static asset (e.g. in public/ folder).
+ * Use for src on Image, script, link href, etc., so assets work with basePath.
+ *
+ * @param path - Asset path (e.g. '/Logo.png')
+ * @returns Full path with base (e.g. '/hoa/Logo.png')
+ */
+export function getPublicAssetPath(path: string): string {
+  return addBasePath(path || '/')
 }
+

@@ -1,132 +1,3 @@
-// import { NextResponse } from 'next/server';
-// import type { NextRequest } from 'next/server';
-// import { JWTParser } from './utils/jwtParser';
-// import { COOKIES } from './types/auth';
-// import { addBasePath, stripBasePath } from './utils/basePath'
-
-// export function middleware(request: NextRequest) {
-
-//   if (request.nextUrl.pathname.startsWith('/_next/') || 
-//       request.nextUrl.pathname.startsWith('/favicon.ico') ||
-//       request.nextUrl.pathname.startsWith('/next/') ||
-//       request.nextUrl.pathname.match(/\.(js|css|png|jpg|jpeg|gif|webp|svg|woff|woff2|ttf|eot|ico)$/)) {
-//     return NextResponse.next();
-//   }
-
-//   const response = NextResponse.next();
-
-//   if (request.nextUrl.protocol !== 'https:' && process.env.NODE_ENV === 'production' && process.env.FORCE_HTTPS === 'true') {
-//     const url = request.nextUrl.clone();
-//     url.protocol = 'https:';
-//     return NextResponse.redirect(url);
-//   }
-
-//   const { pathname } = request.nextUrl;
-//   const token = request.cookies.get(COOKIES.AUTH_TOKEN)?.value || 
-//                 request.headers.get('authorization')?.replace('Bearer ', '');
-
-//   // FIRST LINE OF DEFENSE: When user returns to website, check token expiration
-//   // If token exists but is expired, immediately redirect to login and clear auth cookies
-//   if (token && JWTParser.isExpired(token)) {
-//     const response = NextResponse.redirect(new URL('/login', request.url));
-//     response.cookies.delete(COOKIES.AUTH_TOKEN);
-//     response.cookies.delete(COOKIES.USER_TYPE);
-//     response.cookies.delete(COOKIES.USER_NAME);
-//     response.cookies.delete(COOKIES.USER_ID);
-//     return response;
-//   }
-
-//   const publicRoutes = ['/login', '/api/auth/login', '/api/auth/logout'];
-//   const isPublicRoute = publicRoutes.some(route => pathname.startsWith(route));
-
-//   // REROUTING LOGIC:
-//   // 1. If user is on /login but has valid token → redirect to intended page or dashboard
-//   if (pathname === '/login' && token) {
-//     const redirectTo = request.nextUrl.searchParams.get('redirect') || '/dashboard';
-//     return NextResponse.redirect(new URL(redirectTo, request.url));
-//   }
-
-//   // 2. If user tries to access protected route without token → redirect to login with return path
-//   if (!isPublicRoute && !token && pathname !== '/') {
-//     const loginUrl = new URL('/login', request.url);
-//     loginUrl.searchParams.set('redirect', pathname);
-//     return NextResponse.redirect(loginUrl);
-//   }
-
-//   // 3. Root path handling: authenticated users → dashboard, guests → login
-//   if (pathname === '/') {
-//     if (token) {
-//       return NextResponse.redirect(new URL('/dashboard', request.url));
-//     } else {
-//       return NextResponse.redirect(new URL('/login', request.url));
-//     }
-//   }
-
-//   response.headers.set('Strict-Transport-Security', 'max-age=63072000; includeSubDomains; preload');
-
-//   response.headers.set(
-//     'Content-Security-Policy',
-//     [
-//       "default-src 'self'",
-//       "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
-//       "style-src 'self' 'unsafe-inline'",
-//       "img-src 'self' data: https:",
-//       "font-src 'self'",
-//       // `connect-src 'self' ${process.env.NEXT_PUBLIC_API_URL || 'https://103.181.200.143:2021'}`,
-//       `connect-src 'self' ${process.env.NODE_ENV === 'production' ? '' : (process.env.NEXT_PUBLIC_API_URL || 'https://103.181.200.143:2021')}`,
-//       "frame-ancestors 'none'",
-//       "base-uri 'self'",
-//       "form-action 'self'",
-//       "object-src 'none'",
-//       "media-src 'self'",
-//       "worker-src 'self'"
-//     ].join('; ')
-//   );
-
-//   response.headers.set('X-Content-Type-Options', 'nosniff');
-//   response.headers.set('X-Frame-Options', 'DENY');
-//   response.headers.set('X-XSS-Protection', '1; mode=block');
-//   response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
-
-//   response.headers.set(
-//     'Permissions-Policy',
-//     [
-//       'geolocation=()',
-//       'microphone=()',
-//       'camera=()',
-//       'payment=()',
-//       'usb=()',
-//       'magnetometer=()',
-//       'gyroscope=()',
-//       'accelerometer=()'
-//     ].join(', ')
-//   );
-
-//   response.headers.set('X-DNS-Prefetch-Control', 'off');
-//   response.headers.delete('Server');
-
-//   if (request.nextUrl.pathname.startsWith('/admin') || 
-//       request.nextUrl.pathname.startsWith('/dashboard') ||
-//       request.nextUrl.pathname.startsWith('/api')) {
-//     response.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
-//     response.headers.set('Pragma', 'no-cache');
-//     response.headers.set('Expires', '0');
-//   }
-
-//   response.headers.set('X-Permitted-Cross-Domain-Policies', 'none');
-//   response.headers.set('Cross-Origin-Embedder-Policy', 'require-corp');
-//   response.headers.set('Cross-Origin-Opener-Policy', 'same-origin');
-//   response.headers.set('Cross-Origin-Resource-Policy', 'same-origin');
-//   return response;
-// }
-
-// export const config = {
-//   matcher: [
-//     '/((?!_next|next|favicon.ico|api/|.*\\.(?:svg|png|jpg|jpeg|gif|webp|css|js|woff|woff2|ttf|eot|ico)$).*)',
-//   ],
-// };
-
-
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { JWTParser } from './utils/jwtParser'
@@ -140,7 +11,7 @@ export function middleware(request: NextRequest) {
   // Work with a basePath-stripped pathname for checks and auth logic
   const pathname = stripBasePath(originalPathname)
 
-  // Ignore Next internals + static assets (support both `/...` and `/escrow/...`)
+  // Ignore Next internals + static assets (support both `/...` and `/hoa/...`)
   if (
     pathname.startsWith('/_next/') ||
     pathname.startsWith('/favicon.ico') ||
@@ -156,8 +27,8 @@ export function middleware(request: NextRequest) {
   }
 
   // Enforce canonical basePath for ALL non-API requests.
-  // - `/dashboard` -> `/escrow/dashboard`
-  // - `/escrow/escrow/login` -> `/escrow/login`
+  // - `/dashboard` -> `/hoa/dashboard`
+  // - `/hoa/hoa/login` -> `/hoa/login`
   const canonicalFullPath = addBasePath(pathname)
   if (canonicalFullPath !== originalPathname) {
     originalUrl.pathname = canonicalFullPath
@@ -177,7 +48,7 @@ export function middleware(request: NextRequest) {
   const token =
     request.cookies.get(COOKIES.AUTH_TOKEN)?.value ||
     request.headers.get('authorization')?.replace('Bearer ', '')
-
+  
   const publicRoutes = ['/login', '/api/auth/login', '/api/auth/logout']
   const isPublicRoute = publicRoutes.some((route) => pathname.startsWith(route))
 
@@ -187,7 +58,7 @@ export function middleware(request: NextRequest) {
     if (value.startsWith('http://') || value.startsWith('https://')) return fallback
     return value.startsWith('/') ? value : `/${value}`
   }
-
+  
   // FIRST LINE OF DEFENSE: When user returns to website, check token expiration
   // If token exists but is expired, immediately redirect to login and clear auth cookies
   if (token && JWTParser.isExpired(token)) {
@@ -202,7 +73,7 @@ export function middleware(request: NextRequest) {
     expiredResponse.cookies.delete(COOKIES.USER_ID)
     return expiredResponse
   }
-
+  
   // REROUTING LOGIC:
   // 1. If user is on /login but has valid token → redirect to intended page or dashboard
   if (pathname === '/login' && token) {
@@ -215,7 +86,7 @@ export function middleware(request: NextRequest) {
     url.searchParams.delete('redirect')
     return NextResponse.redirect(url)
   }
-
+  
   // 2. If user tries to access protected route without token → redirect to login with return path
   if (!isPublicRoute && !token && pathname !== '/') {
     const loginUrl = new URL(request.url)
@@ -223,7 +94,7 @@ export function middleware(request: NextRequest) {
     loginUrl.searchParams.set('redirect', pathname)
     return NextResponse.redirect(loginUrl)
   }
-
+  
   // 3. Root path handling: authenticated users → dashboard, guests → login
   if (pathname === '/') {
     const url = new URL(request.url)
@@ -246,6 +117,8 @@ export function middleware(request: NextRequest) {
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: https:",
       "font-src 'self'",
+      // `connect-src 'self' ${process.env.NODE_ENV === 'production' ? '' : (process.env.NEXT_PUBLIC_API_URL || 'https://103.181.200.143:2022')}`,
+
       // connect-src must be ORIGINS (scheme+host+port), not URLs with paths.
       // If NEXT_PUBLIC_API_URL includes `/api` or `/api/v1`, browsers may ignore it and block requests
       // which shows up in Axios as "Network Error".
