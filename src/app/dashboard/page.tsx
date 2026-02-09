@@ -213,7 +213,7 @@ const DateRangeDisplay = ({
             startDate={startDate}
             endDate={endDate}
             onChange={onDateChange}
-            className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg shadow-lg dark:shadow-gray-900/50 p-4 w-full"
+            className="w-full p-4 bg-white border border-gray-300 rounded-lg shadow-lg dark:bg-gray-800 dark:border-gray-600 dark:shadow-gray-900/50"
           />
         </div>
       )}
@@ -300,11 +300,11 @@ const FiltersRow = ({
   }, [selectedRealEstateAsset])
 
   return (
-    <div className="flex flex-col lg:flex-row lg:justify-between lg:items-end gap-4 mb-6 mt-2">
+    <div className="flex flex-col gap-4 mt-2 mb-6 lg:flex-row lg:justify-between lg:items-end">
       <div className="flex flex-wrap gap-3">
         <div className="flex flex-col">
           <label className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5 uppercase tracking-wide">
-            Build Partner
+          Asset Register
           </label>
           <Autocomplete
             value={selectedDeveloper}
@@ -313,7 +313,7 @@ const FiltersRow = ({
             selectedOption={selectedBuildPartnerOption}
             options={[]}
             onSearch={searchBuildPartners}
-            placeholder="Search build partners..."
+            placeholder="Search asset register"
             loading={isSearchingBuildPartners}
             className="min-w-[150px]"
             clearable={true}
@@ -323,7 +323,7 @@ const FiltersRow = ({
 
         <div className="flex flex-col">
           <label className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5 uppercase tracking-wide">
-            Build Partner Assets
+          Management Firm
           </label>
           <Autocomplete
             value={selectedProject}
@@ -332,7 +332,7 @@ const FiltersRow = ({
             selectedOption={selectedRealEstateAssetOption}
             options={[]}
             onSearch={searchRealEstateAssets}
-            placeholder="Search real estate assets..."
+            placeholder="Search management firm"
             loading={isSearchingRealEstateAssets}
             className="min-w-[150px]"
             clearable={true}
@@ -352,7 +352,7 @@ const FiltersRow = ({
         </div>
         <div className="flex flex-col items-center justify-end mb-[2px]">
           <button
-            className="bg-blue-500 dark:bg-blue-600 text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-blue-600 dark:hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-4 py-2 text-white transition-colors bg-blue-500 rounded-lg cursor-pointer dark:bg-blue-600 hover:bg-blue-600 dark:hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
             onClick={onSubmit}
             disabled={isSubmitting}
           >
@@ -365,26 +365,26 @@ const FiltersRow = ({
 }
 
 const MainBalance = ({ dashboardData }: { dashboardData: any }) => (
-  <div className="mb-8 mt-8 pb-8 border-b border-gray-200 dark:border-gray-700">
-    <h1 className="text-2xl lg:text-3xl font-semibold text-gray-900 dark:text-gray-100 mb-2 leading-tight">
+  <div className="pb-8 mt-8 mb-8 border-b border-gray-200 dark:border-gray-700">
+    <h1 className="mb-2 text-2xl font-semibold leading-tight text-gray-900 lg:text-3xl dark:text-gray-100">
       Available Balance in Accounts
     </h1>
-    <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-6">
+    <div className="mb-6 text-xs font-semibold tracking-wider text-gray-500 uppercase dark:text-gray-400">
       MAIN TRUST ACCOUNT SUMMARY
     </div>
     <div className="flex flex-wrap items-baseline gap-4 lg:gap-6">
       <div className="flex items-baseline gap-2">
-        <span className="text-2xl lg:text-3xl font-bold text-gray-900 dark:text-gray-100">
+        <span className="text-2xl font-bold text-gray-900 lg:text-3xl dark:text-gray-100">
           ₹
         </span>
-        <span className="text-4xl lg:text-5xl font-bold tracking-tight text-gray-900 dark:text-gray-100 leading-none">
+        <span className="text-4xl font-bold leading-none tracking-tight text-gray-900 lg:text-5xl dark:text-gray-100">
           {formatIndianCurrency(
             dashboardData?.mainTrustSummary?.availableBalance
           )}
         </span>
       </div>
       <div className="flex flex-col">
-        <div className="text-xl lg:text-2xl font-semibold text-gray-900 dark:text-gray-100 leading-tight">
+        <div className="text-xl font-semibold leading-tight text-gray-900 lg:text-2xl dark:text-gray-100">
           CRORE
         </div>
         <TrendBadge
@@ -424,10 +424,10 @@ const CustomLegend = ({
     {data.map((entry, i) => (
       <div key={i} className="flex items-center gap-2">
         <div
-          className="w-3 h-3 rounded-sm flex-shrink-0"
+          className="flex-shrink-0 w-3 h-3 rounded-sm"
           style={{ backgroundColor: entry.color }}
         />
-        <span className="text-gray-600 dark:text-gray-400 text-sm font-medium leading-relaxed">
+        <span className="text-sm font-medium leading-relaxed text-gray-600 dark:text-gray-400">
           {entry.name}
         </span>
       </div>
@@ -472,11 +472,11 @@ const KpiCard = ({
     <div
       className={`bg-white dark:bg-gray-800 rounded-xl shadow-sm dark:shadow-gray-900/50 border border-gray-200 dark:border-gray-700 h-full p-6 ${className}`}
     >
-      <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-4">
+      <div className="mb-4 text-xs font-semibold tracking-wider text-gray-500 uppercase dark:text-gray-400">
         {title}
       </div>
-      <div className="flex items-baseline gap-1 mb-8 flex-col">
-        <div className="text-2xl lg:text-3xl font-bold text-gray-900 dark:text-gray-100 leading-tight">
+      <div className="flex flex-col items-baseline gap-1 mb-8">
+        <div className="text-2xl font-bold leading-tight text-gray-900 lg:text-3xl dark:text-gray-100">
           ₹{formatIndianCurrency(amount)}
         </div>
         <div className="-mt-1 -mb-1">
@@ -484,7 +484,7 @@ const KpiCard = ({
         </div>
       </div>
       <div className="flex items-center justify-between h-[330px] flex-col">
-        <div className="flex-1 flex justify-center w-full">
+        <div className="flex justify-center flex-1 w-full">
           <div className="w-48 h-48">
             <HighchartsReact
               highcharts={Highcharts}
@@ -492,7 +492,7 @@ const KpiCard = ({
             />
           </div>
         </div>
-        <div className="flex-1 flex items-start justify-center w-full px-4">
+        <div className="flex items-start justify-center flex-1 w-full px-4">
           <CustomLegend data={data} />
         </div>
       </div>
@@ -519,15 +519,15 @@ const AccountCard = ({
   }
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm dark:shadow-gray-900/50 border border-gray-200 dark:border-gray-700 p-6 w-full">
+    <div className="w-full p-6 bg-white border border-gray-200 shadow-sm dark:bg-gray-800 rounded-xl dark:shadow-gray-900/50 dark:border-gray-700">
       <div className="flex items-center gap-3 mb-4">
         <div className={`w-3 h-3 rounded-full border-2 ${iconColors[type]}`} />
-        <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+        <div className="text-xs font-semibold tracking-wider text-gray-500 uppercase dark:text-gray-400">
           {title}
         </div>
       </div>
-      <div className="flex items-baseline gap-1 flex-col">
-        <div className="text-xl font-bold text-gray-900 dark:text-gray-100 leading-tight">
+      <div className="flex flex-col items-baseline gap-1">
+        <div className="text-xl font-bold leading-tight text-gray-900 dark:text-gray-100">
           ₹{formatIndianCurrency(amount)}
         </div>
         <div className="-mt-1 -mb-1">
@@ -654,11 +654,11 @@ const StatusBars = ({
   }
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm dark:shadow-gray-900/50 border border-gray-200 dark:border-gray-700 h-full p-6">
-      <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-4">
+    <div className="h-full p-6 bg-white border border-gray-200 shadow-sm dark:bg-gray-800 rounded-xl dark:shadow-gray-900/50 dark:border-gray-700">
+      <div className="mb-4 text-xs font-semibold tracking-wider text-gray-500 uppercase dark:text-gray-400">
         UNIT STATUS COUNT
       </div>
-      <div className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4 leading-tight">
+      <div className="mb-4 text-3xl font-bold leading-tight text-gray-900 dark:text-gray-100">
         {total}
       </div>
       <div className="h-[330px] overflow-hidden">
@@ -788,11 +788,11 @@ const GuaranteeChart = ({
   }
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm dark:shadow-gray-900/50 border border-gray-200 dark:border-gray-700 h-full p-6">
-      <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-4">
+    <div className="h-full p-6 bg-white border border-gray-200 shadow-sm dark:bg-gray-800 rounded-xl dark:shadow-gray-900/50 dark:border-gray-700">
+      <div className="mb-4 text-xs font-semibold tracking-wider text-gray-500 uppercase dark:text-gray-400">
         GUARANTEE STATUS
       </div>
-      <div className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-8 leading-tight">
+      <div className="mb-8 text-3xl font-bold leading-tight text-gray-900 dark:text-gray-100">
         {total}
       </div>
       <div className="h-[330px] overflow-hidden">
@@ -1056,7 +1056,7 @@ const Dashboard = () => {
   if (error) {
     return (
       <DashboardLayout title={dashboardTitle} subtitle="">
-        <div className="bg-white/75 dark:bg-gray-800/80 rounded-2xl flex flex-col h-full">
+        <div className="flex flex-col h-full bg-white/75 dark:bg-gray-800/80 rounded-2xl">
           <GlobalError
             error={error}
             onRetry={() => window.location.reload()}
@@ -1070,12 +1070,12 @@ const Dashboard = () => {
 
   return (
     <DashboardLayout title={dashboardTitle} subtitle="">
-      <div className="w-full max-w-7xl mx-auto">
+      <div className="w-full mx-auto max-w-7xl">
         <FiltersRow onSubmit={handleSubmit} isSubmitting={isSubmitting} />
 
         <MainBalance dashboardData={dashboardData} />
 
-        <div className="flex gap-6 mb-8 mt-8 justify-between">
+        <div className="flex justify-between gap-6 mt-8 mb-8">
           <AccountCard
             type="retention"
             title="RETENTION ACCOUNT"
@@ -1102,9 +1102,9 @@ const Dashboard = () => {
           />
         </div>
 
-        <div className="grid grid-cols-1 xl:grid-cols-12 gap-8">
+        <div className="grid grid-cols-1 gap-8 xl:grid-cols-12">
           <div className="xl:col-span-12">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <div className="grid grid-cols-1 gap-6 mb-8 md:grid-cols-2 lg:grid-cols-3">
               <KpiCard
                 title="TOTAL DEPOSITS (MAIN A/C)"
                 amount={chartData.totals.deposits}
@@ -1125,7 +1125,7 @@ const Dashboard = () => {
               />
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
               <div>
                 <StatusBars
                   data={chartData.statusData}
