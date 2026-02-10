@@ -162,6 +162,29 @@ export const createSidebarConfig = (
     ],
   },
   {
+    id: "budget",
+    label: "BUDGET",
+    icon: HandCoins,
+    items: [
+      {
+        id: "budget",
+        label: getLabel('budget', 'Budget'),
+        icon: FileText,
+        href: "/budgets/budget",
+        // permissions: ['nav_menu_budget_master', 'nav_menu_all'],
+        permissions: ['*'],
+      },
+      {
+        id: 'budget-management-firm',
+        label: getLabel('budget-management-firm', 'Budget Management Firm '),
+        icon: FileText,
+        href: '/budget/budget-management-firm',
+        // permissions: ['nav_menu_budget_management_firm', 'nav_menu_all'],
+        permissions: ['*'],
+      },
+    ],
+  },
+  {
     id: 'guarantee',
     label: getLabel('guarantee', 'Guarantee'),
     icon: ShieldCheckIcon,

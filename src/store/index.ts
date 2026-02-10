@@ -184,6 +184,8 @@ export const useLabels = () => {
   const workflowAmountRuleLabels = useAppStore((state) => state.workflowAmountRuleLabels)
   const workflowAmountStageOverrideLabels = useAppStore((state) => state.workflowAmountStageOverrideLabels)
   const workflowRequestedLabels = useAppStore((state) => state.workflowRequestedLabels)
+  const budgetLabels = useAppStore((state) => state.budgetLabels)
+
   const allLabelsLoading = useAppStore((state) => state.allLabelsLoading)
   const allLabelsError = useAppStore((state) => state.allLabelsError)
 
@@ -199,10 +201,12 @@ export const useLabels = () => {
       workflowAmountRuleLabels,
       workflowAmountStageOverrideLabels,
       workflowRequestedLabels,
+      budgetLabels,
+
       allLabelsLoading,
       allLabelsError,
     }),
-    [sidebarLabels, buildPartnerLabels, capitalPartnerLabels, buildPartnerAssetLabels, workflowActionLabels, allLabelsLoading, allLabelsError, workflowDefinitionLabels, workflowStageTemplateLabels, workflowAmountRuleLabels, workflowAmountStageOverrideLabels, workflowRequestedLabels]
+    [sidebarLabels, buildPartnerLabels, capitalPartnerLabels, buildPartnerAssetLabels, workflowActionLabels, allLabelsLoading, allLabelsError, workflowDefinitionLabels, workflowStageTemplateLabels, workflowAmountRuleLabels, workflowAmountStageOverrideLabels, workflowRequestedLabels, budgetLabels]
 
   )
 }
@@ -217,6 +221,8 @@ export const useLabelsLoadingState = () => {
   const workflowStageTemplateLabelsLoading = useAppStore((state) => state.workflowStageTemplateLabelsLoading)
   const workflowAmountRuleLabelsLoading = useAppStore((state) => state.workflowAmountRuleLabelsLoading)
   const workflowAmountStageOverrideLabelsLoading = useAppStore((state) => state.workflowAmountStageOverrideLabelsLoading)
+  const budgetLabelsLoading = useAppStore((state) => state.budgetLabelsLoading)
+
   const workflowRequestedLabelsLoading = useAppStore((state) => state.workflowRequestedLabelsLoading)
 
   const getLoadingStatus = useAppStore((state) => state.getLoadingStatus)
@@ -233,10 +239,12 @@ export const useLabelsLoadingState = () => {
       workflowAmountRuleLabelsLoading,
       workflowAmountStageOverrideLabelsLoading,
       workflowRequestedLabelsLoading,
+      budgetLabelsLoading,
+
 
       getLoadingStatus,
     }),
-    [sidebarLabelsLoading, buildPartnerLabelsLoading, capitalPartnerLabelsLoading, buildPartnerAssetLabelsLoading, workflowActionLabelsLoading, workflowDefinitionLabelsLoading, workflowStageTemplateLabelsLoading, workflowAmountRuleLabelsLoading, workflowAmountStageOverrideLabelsLoading, workflowRequestedLabelsLoading, getLoadingStatus]
+    [sidebarLabelsLoading, buildPartnerLabelsLoading, capitalPartnerLabelsLoading, buildPartnerAssetLabelsLoading, workflowActionLabelsLoading, workflowDefinitionLabelsLoading, workflowStageTemplateLabelsLoading, workflowAmountRuleLabelsLoading, workflowAmountStageOverrideLabelsLoading, workflowRequestedLabelsLoading, budgetLabelsLoading, getLoadingStatus]
 
   )
 }
@@ -315,7 +323,10 @@ export const useLabelsActions = () => {
   const setWorkflowRequestedLabels = useAppStore((state) => state.setWorkflowRequestedLabels)
   const setWorkflowRequestedLabelsLoading = useAppStore((state) => state.setWorkflowRequestedLabelsLoading)
   const setWorkflowRequestedLabelsError = useAppStore((state) => state.setWorkflowRequestedLabelsError)
-
+  //Budget actions
+  const setBudgetLabels = useAppStore((state) => state.setBudgetLabels)
+  const setBudgetLabelsLoading = useAppStore((state) => state.setBudgetLabelsLoading)
+  const setBudgetLabelsError = useAppStore((state) => state.setBudgetLabelsError)
   // Global actions
   const setAllLabelsLoading = useAppStore((state) => state.setAllLabelsLoading)
   const setAllLabelsError = useAppStore((state) => state.setAllLabelsError)
@@ -382,6 +393,10 @@ export const useLabelsActions = () => {
       setWorkflowRequestedLabels,
       setWorkflowRequestedLabelsLoading,
       setWorkflowRequestedLabelsError,
+      //Budget
+      setBudgetLabels,
+      setBudgetLabelsLoading,
+      setBudgetLabelsError,
 
       // Global
       setAllLabelsLoading,
@@ -415,6 +430,9 @@ export const useLabelsActions = () => {
       setWorkflowAmountStageOverrideLabels, setWorkflowAmountStageOverrideLabelsLoading, setWorkflowAmountStageOverrideLabelsError,
       // Workflow Requested
       setWorkflowRequestedLabels, setWorkflowRequestedLabelsLoading, setWorkflowRequestedLabelsError,
+      //Budget
+      setBudgetLabels, setBudgetLabelsLoading, setBudgetLabelsError,
+
       // Global & utilities
       setAllLabelsLoading, setAllLabelsError,
       clearAllLabels, getLabel, hasLabels, getAvailableLanguages,

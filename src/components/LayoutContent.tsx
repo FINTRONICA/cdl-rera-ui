@@ -18,6 +18,7 @@ const AUTHENTICATED_ROUTES = [
   '/capital-partner',
   '/build-partner-assets',
   '/build-partner',
+  '/budgets',
   '/help',
 ]
 
@@ -119,6 +120,12 @@ const LayoutContentComponent = ({ children }: LayoutContentProps) => {
           pathname?.startsWith('/capital-partner/')
         )
       }
+      if (route === '/budgets') {
+        return (
+          pathname === '/budgets' ||
+          pathname?.startsWith('/budgets/')
+        )
+      }
       if (route === '/help') {
         return pathname === '/help'
       }
@@ -132,7 +139,7 @@ const LayoutContentComponent = ({ children }: LayoutContentProps) => {
     return (
       <div className="flex h-screen bg-gray-50 dark:bg-gray-900">
         <Sidebar />
-        <div className="flex-1 flex flex-col overflow-hidden">{children}</div>
+        <div className="flex flex-col flex-1 overflow-hidden">{children}</div>
       </div>
     )
   }

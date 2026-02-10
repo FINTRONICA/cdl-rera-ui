@@ -1,7 +1,9 @@
 // API Base URL and Version
 export const API_CONFIG = {
   // BASE_URL: process.env.NEXT_PUBLIC_API_URL || 'https://103.181.200.143:2021',
-  BASE_URL: process.env.NODE_ENV === 'production' ? '/hoa' : (process.env.NEXT_PUBLIC_API_URL || 'https://103.181.200.143:2021'),
+  // BASE_URL: process.env.NODE_ENV === 'production' ? '/hoa' : (process.env.NEXT_PUBLIC_API_URL || 'https://103.181.200.143:2021'),
+    BASE_URL: process.env.NODE_ENV === 'production' ? '/hoa' : (process.env.NEXT_PUBLIC_API_URL || 'https://103.181.200.143:2022'),
+
   VERSION: 'v1',
   API_PREFIX: '/api/v1',
 } as const
@@ -52,6 +54,7 @@ export const API_ENDPOINTS = {
     BUILD_PARTNER_ASSET: '/app-language-translation/build-partner-assests',
     CAPITAL_PARTNER: '/app-language-translation/capital-partner',
     WORKFLOW_ACTIONS: '/app-language-translation/workflow',
+    BUDGET: '/app-language-translation/budget',
     WORKFLOW_DEFINITION: '/app-language-translation/workflow',
     WORKFLOW_STAGE_TEMPLATE:
       '/app-language-translation/workflow-stage-template',
@@ -71,6 +74,60 @@ export const API_ENDPOINTS = {
     PAYMENTS_LABEL: '/app-language-translation/payments',
     FEE_REPUSH: '/app-language-translation/fee-repush',
   },
+
+   // BUDGET API START
+  BUDGET: {
+    GET_ALL: '/budget?deleted.equals=false&enabled.equals=true',
+    SAVE: '/budget',
+    GET_BY_ID: (id: string) => `/budget/${id}`,
+    UPDATE: (id: string) => `/budget/${id}`,
+    DELETE: (id: string) => `/budget/${id}`,
+    SOFT_DELETE: (id: string) => `/budget/soft/${id}`,
+    FIND_ALL: '/budget/find-all',
+    GET_DATA: (id: string) => `/budget/data/${id}`,
+    UPLOAD: '/budget/upload',
+  },
+
+  BUDGET_ITEM: {
+    GET_ALL: '/budget-item?deleted.equals=false&enabled.equals=true',
+    SAVE: '/budget-item',
+    GET_BY_ID: (id: string) =>
+      `budget-item?budgetItemId.equals=${id}&deleted.equals=false&enabled.equals=true`,
+    UPDATE: (id: string) => `/budget-item/${id}`,
+    DELETE: (id: string) => `/budget-item/${id}`,
+    SOFT_DELETE: (id: string) => `/budget-item/soft/${id}`,
+    FIND_ALL: '/budget-item/find-all',
+    GET_DATA: (id: string) => `/budget-item/data/${id}`,
+    UPLOAD: '/budget-item/upload',
+  },
+
+  BUDGET_EVENT: { 
+    GET_ALL: '/budget-event?deleted.equals=false&enabled.equals=true',
+    SAVE: '/budget-event',  
+    GET_BY_ID: (id: string) => `/budget-event/${id}`,
+    UPDATE: (id: string) => `/budget-event/${id}`,  
+    DELETE: (id: string) => `/budget-event/${id}`,
+    SOFT_DELETE: (id: string) => `/budget-event/soft/${id}`,
+    FIND_ALL: '/budget-event/find-all',
+    GET_DATA: (id: string) => `/budget-event/data/${id}`,
+    UPLOAD: '/budget-event/upload',
+  },
+
+  BUDGET_CATEGORY: {
+    GET_ALL: '/budget-category?deleted.equals=false&enabled.equals=true',
+    SAVE: '/budget-category',
+    GET_BY_ID: (id: string) => `/budget-category/${id}`,
+    UPDATE: (id: string) => `/budget-category/${id}`,
+    DELETE: (id: string) => `/budget-category/${id}`,
+    SOFT_DELETE: (id: string) => `/budget-category/soft/${id}`,
+    FIND_ALL: '/budget-category/find-all',
+    GET_DATA: (id: string) => `/budget-category/data/${id}`,
+    UPLOAD: '/budget-category/upload',
+  },
+
+
+// BUDGET API END
+  
 
   APPLICATION_CONFIGURATION: {
     GET_BY_ID: (id: string) => `/application-configuration/${id}`,

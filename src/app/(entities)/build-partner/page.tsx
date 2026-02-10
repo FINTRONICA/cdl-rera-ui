@@ -8,7 +8,7 @@ const DevelopersPageClient = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="bg-white/75 dark:bg-gray-800/80 rounded-2xl flex flex-col h-full">
+      <div className="flex flex-col h-full bg-white/75 dark:bg-gray-800/80 rounded-2xl">
         <GlobalLoading fullHeight />
       </div>
     ),
@@ -56,11 +56,11 @@ const ErrorMessage: React.FC<{ error: Error; onRetry?: () => void }> = ({
   onRetry,
 }) => (
   <div className="flex items-center justify-center min-h-[400px] bg-gray-50 rounded-2xl px-4">
-    <div className="max-w-md w-full text-center">
+    <div className="w-full max-w-md text-center">
       <div className="mb-8">
-        <div className="mx-auto flex items-center justify-center h-24 w-24 rounded-full bg-red-100 mb-6">
+        <div className="flex items-center justify-center w-24 h-24 mx-auto mb-6 bg-red-100 rounded-full">
           <svg
-            className="h-12 w-12 text-red-600"
+            className="w-12 h-12 text-red-600"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -73,19 +73,19 @@ const ErrorMessage: React.FC<{ error: Error; onRetry?: () => void }> = ({
             />
           </svg>
         </div>
-        <h1 className="text-2xl font-semibold text-gray-900 mb-4">
+        <h1 className="mb-4 text-2xl font-semibold text-gray-900">
           Failed to load developers
         </h1>
-        <p className="text-gray-600 mb-4">
+        <p className="mb-4 text-gray-600">
           {error.message ||
             'An error occurred while loading the data. Please try again.'}
         </p>
         {process.env.NODE_ENV === 'development' && (
           <details className="text-left">
-            <summary className="cursor-pointer text-sm text-gray-600 font-medium">
+            <summary className="text-sm font-medium text-gray-600 cursor-pointer">
               Error Details (Development)
             </summary>
-            <pre className="mt-2 text-xs text-gray-500 bg-gray-100 p-4 rounded overflow-auto">
+            <pre className="p-4 mt-2 overflow-auto text-xs text-gray-500 bg-gray-100 rounded">
               {error.stack}
             </pre>
           </details>
@@ -94,7 +94,7 @@ const ErrorMessage: React.FC<{ error: Error; onRetry?: () => void }> = ({
       {onRetry && (
         <button
           onClick={onRetry}
-          className="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+          className="w-full px-4 py-2 text-white transition-colors bg-blue-600 rounded-lg hover:bg-blue-700"
         >
           Try Again
         </button>
@@ -336,7 +336,7 @@ const DevelopersPageImpl: React.FC = () => {
 
       {/* Download Error Alert */}
       {downloadError && (
-        <div className="fixed top-4 right-4 z-50 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded shadow-lg">
+        <div className="fixed z-50 px-4 py-3 text-red-700 bg-red-100 border border-red-400 rounded shadow-lg top-4 right-4">
           <div className="flex items-center justify-between">
             <span className="text-sm font-medium">
               Download Error: {downloadError}
@@ -352,12 +352,12 @@ const DevelopersPageImpl: React.FC = () => {
       )}
 
       <DashboardLayout title={developersPageTitle}>
-        <div className="bg-white/75 dark:bg-gray-800/80 rounded-2xl flex flex-col h-full">
+        <div className="flex flex-col h-full bg-white/75 dark:bg-gray-800/80 rounded-2xl">
           {/* Show loading state within the layout */}
           {developersLoading ? (
             <LoadingSpinner />
           ) : developersError ? (
-            <div className="bg-white/75 dark:bg-gray-800/80 rounded-2xl flex flex-col h-full">
+            <div className="flex flex-col h-full bg-white/75 dark:bg-gray-800/80 rounded-2xl">
               <ErrorMessage
                 error={developersError}
                 onRetry={refetchDevelopers}
@@ -365,9 +365,9 @@ const DevelopersPageImpl: React.FC = () => {
             </div>
           ) : (
             <>
-              <div className="sticky top-0 z-10 bg-white/75 dark:bg-gray-800/80 border-b border-gray-200 dark:border-gray-700 rounded-t-2xl">
+              <div className="sticky top-0 z-10 border-b border-gray-200 bg-white/75 dark:bg-gray-800/80 dark:border-gray-700 rounded-t-2xl">
                 <PageActionButtons
-                  entityType="developer"
+                  entityType="budget"
                   customActionButtons={actionButtons}
                   onDownloadTemplate={handleDownloadTemplate}
                   isDownloading={isDownloading}
@@ -379,7 +379,7 @@ const DevelopersPageImpl: React.FC = () => {
                 />
               </div>
 
-              <div className="flex-1 flex flex-col min-h-0">
+              <div className="flex flex-col flex-1 min-h-0">
                 <div className="flex-1 overflow-auto">
                   <PermissionAwareDataTable<DeveloperData>
                     data={paginated}
@@ -405,10 +405,10 @@ const DevelopersPageImpl: React.FC = () => {
                     onRowDelete={handleRowDelete}
                     onRowView={handleRowView}
                     onRowEdit={handleRowEdit}
-                    deletePermissions={['bp_delete']}
-                    viewPermissions={['bp_view']}
-                    editPermissions={['bp_update']}
-                    updatePermissions={['bp_update']}
+                    deletePermissions={['budget_delete']}
+                    viewPermissions={['budget_view']}
+                    editPermissions={['budget_update']}
+                    updatePermissions={['budget_update']}
                     sortConfig={sortConfig}
                     onSort={handleSort}
                   />

@@ -22,6 +22,7 @@ export type EntityType =
   | 'suretyBond'
   | 'developerBeneficiary'
   | 'pendingPayment'
+  | 'budget'
 
 interface ActionButton {
   label: string
@@ -200,6 +201,13 @@ const PageActionButtonsComponent: React.FC<PageActionButtonsProps> = ({
       label: 'Add New Pending Payment',
       route: '/pending-payment/new',
       permissions: ['pending_tran_create'], // Only users with pending_payment_create permission
+      downloadPermission: ['data_export'], // Unified download permission
+      uploadPermission: ['bulk_upload'], // Unified upload permission
+    },
+    budget: {
+      label: 'Add New Budget',
+      route: '/budget/new',
+      permissions: ['budget_create'], // Only users with budget_create permission
       downloadPermission: ['data_export'], // Unified download permission
       uploadPermission: ['bulk_upload'], // Unified upload permission
     },

@@ -56,15 +56,15 @@ export const ThemeSwitcher: React.FC = () => {
     <button
       onClick={toggleTheme}
       type="button"
-      className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 cursor-pointer relative z-10"
+      className="relative z-10 p-2 transition-colors rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
       aria-label={`Current theme: ${getThemeLabel()}. Click to switch to ${resolvedTheme === 'dark' ? 'light' : 'dark'} theme`}
       title={`Theme: ${getThemeLabel()}. Click to switch`}
       style={{ pointerEvents: 'auto', position: 'relative', zIndex: 10 }}
     >
       {resolvedTheme === 'dark' ? (
-        <Moon className="w-5 h-5 text-gray-700 dark:text-gray-300 pointer-events-none" />
+        <Moon className="w-5 h-5 text-gray-700 pointer-events-none dark:text-gray-300" />
       ) : (
-        <Sun className="w-5 h-5 text-gray-700 dark:text-gray-300 pointer-events-none" />
+        <Sun className="w-5 h-5 text-gray-700 pointer-events-none dark:text-gray-300" />
       )}
     </button>
   )

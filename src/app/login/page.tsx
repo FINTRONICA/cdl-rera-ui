@@ -8,9 +8,7 @@ import {
   Grid,
   Typography,
   TextField,
-  Checkbox,
   Button,
-  FormControlLabel,
   InputAdornment,
   IconButton,
   Divider,
@@ -20,6 +18,8 @@ import {
   FormControl,
   Alert,
   CircularProgress,
+  useTheme,
+  alpha,
 } from '@mui/material'
 import { Visibility, VisibilityOff, Language, ExpandMore as ExpandMoreIcon } from '@mui/icons-material'
 import Image from 'next/image'
@@ -149,8 +149,11 @@ export default function LoginPage() {
 
   const handleForgotPassword = () => {}
 
+  const theme = useTheme()
+  const isDark = theme.palette.mode === 'dark'
+
   const labelSx = {
-    color: '#6A7282',
+    color: isDark ? '#CBD5E1' : '#6A7282',
     fontFamily: 'Outfit',
     fontWeight: 400,
     fontStyle: 'normal',
@@ -159,7 +162,7 @@ export default function LoginPage() {
   }
 
   const valueSx = {
-    color: '#1E2939',
+    color: isDark ? '#FFFFFF' : '#1E2939',
     fontFamily: 'Outfit',
     fontWeight: 400,
     fontStyle: 'normal',
@@ -172,15 +175,19 @@ export default function LoginPage() {
     '& .MuiOutlinedInput-root': {
       height: '46px',
       borderRadius: '8px',
+      backgroundColor: isDark ? alpha(theme.palette.background.paper, 0.5) : '#FFFFFF',
       '& fieldset': {
-        borderColor: '#CAD5E2',
+        borderColor: isDark ? alpha('#FFFFFF', 0.3) : '#CAD5E2',
         borderWidth: '1px',
       },
       '&:hover fieldset': {
-        borderColor: '#CAD5E2',
+        borderColor: isDark ? alpha('#FFFFFF', 0.5) : '#CAD5E2',
       },
       '&.Mui-focused fieldset': {
-        borderColor: '#2563EB',
+        borderColor: theme.palette.primary.main,
+      },
+      '& .MuiInputBase-input': {
+        color: isDark ? '#FFFFFF' : '#1E2939',
       },
     },
   }
@@ -205,7 +212,7 @@ export default function LoginPage() {
           sx={{
             borderRadius: '24px',
             padding: '16px',
-            background: '#FFFFFF80',
+            background: isDark ? alpha(theme.palette.background.paper, 0.9) : 'rgba(255, 255, 255, 0.8)',
             backdropFilter: 'blur(10px)',
             display: 'flex',
             flexDirection: 'column',
@@ -213,7 +220,7 @@ export default function LoginPage() {
             alignItems: 'stretch',
             justifyContent: 'space-between',
             boxShadow: 4,
-            
+            border: isDark ? `1px solid ${alpha('#FFFFFF', 0.15)}` : 'none',
           }}
         >
           <Paper
@@ -225,8 +232,9 @@ export default function LoginPage() {
               pl: 4,
               borderRadius: '16px',
               backdropFilter: 'blur(10px)',
-              backgroundColor: 'rgba(255, 255, 255, 0.8)',
+              backgroundColor: isDark ? alpha(theme.palette.background.paper, 0.95) : 'rgba(255, 255, 255, 0.8)',
               fontFamily: 'Outfit, sans-serif',
+              border: isDark ? `1px solid ${alpha('#FFFFFF', 0.1)}` : 'none',
             }}
           >
             {/* Header */}
@@ -243,7 +251,7 @@ export default function LoginPage() {
                   fontWeight: 600,
                   fontSize: '28px',
                   lineHeight: '100%',
-                  color: '#1E2939',
+                  color: theme.palette.text.primary,
                 }}
               >
                 Login
@@ -258,35 +266,31 @@ export default function LoginPage() {
                     inputProps={{ 'aria-label': 'Language' }}
                     startAdornment={
                       <InputAdornment position="start">
-                        <Language sx={{ color: '#2F80ED', fontSize: 20 }} />
+                        <Language sx={{ color: theme.palette.primary.main, fontSize: 20 }} />
                       </InputAdornment>
                     }
                     sx={{
                       borderRadius: '8px',
-                      border: '1px solid #90CAF9',
+                      border: isDark ? `1px solid ${alpha('#FFFFFF', 0.3)}` : '1px solid #90CAF9',
                       backgroundColor: 'transparent',
-                      color: '#2F80ED',
+                      color: theme.palette.primary.main,
                       pl: 0.5,
                       fontWeight: 500,
                       fontSize: '14px',
                       height: '36px',
                       '& .MuiSelect-icon': {
-                        color: '#2F80ED',
+                        color: theme.palette.primary.main,
                         right: 8,
                         fontSize: 20,
                         strokeWidth: 0.5,
-                        '& path': {
-                          strokeWidth: 0.5,
-                        },
+                        '& path': { strokeWidth: 0.5 },
                       },
-                      '& fieldset': {
-                        border: 'none',
-                      },
+                      '& fieldset': { border: 'none' },
                     }}
                     renderValue={(selected) => {
                       if (!selected) {
                         return (
-                          <Typography sx={{ color: '#2F80ED' }}>
+                          <Typography sx={{ color: theme.palette.primary.main }}>
                             Language
                           </Typography>
                         )
@@ -303,13 +307,12 @@ export default function LoginPage() {
             <Box sx={{ mt: 1 }}>
               <Typography
                 sx={{
-                  // fontFamily: 'Outfit',
                   fontWeight: 400,
                   fontStyle: 'normal',
                   fontSize: '16px',
                   lineHeight: '100%',
                   letterSpacing: 0,
-                  color: '#6A7282',
+                  color: theme.palette.text.secondary,
                 }}
               >
                  Welcome back, please login to access your personal account
@@ -359,7 +362,7 @@ export default function LoginPage() {
                       <IconButton
                         onClick={() => setShowPassword(!showPassword)}
                         edge="end"
-                        sx={{ color: '#CAD5E2' }}
+                        sx={{ color: isDark ? alpha('#FFFFFF', 0.6) : '#CAD5E2' }}
                         disabled={isLoading}
                       >
                         {showPassword ? <VisibilityOff /> : <Visibility />}
@@ -420,7 +423,7 @@ export default function LoginPage() {
                     sx={{
                       mb: 1,
                       textAlign: 'center',
-                      color: '#6A7282',
+                      color: theme.palette.text.secondary,
                       fontSize: '14px',
                     }}
                   >
@@ -432,7 +435,7 @@ export default function LoginPage() {
                         style={{
                           width: '100%',
                           height: '4px',
-                          backgroundColor: '#E5E7EB',
+                          backgroundColor: isDark ? alpha('#FFFFFF', 0.2) : '#E5E7EB',
                           borderRadius: '2px',
                           overflow: 'hidden',
                         }}
@@ -441,7 +444,7 @@ export default function LoginPage() {
                           style={{
                             width: `${(apiProgress.completed / apiProgress.total) * 100}%`,
                             height: '100%',
-                            backgroundColor: '#2563EB',
+                            backgroundColor: theme.palette.primary.main,
                             transition: 'width 0.3s ease',
                             borderRadius: '2px',
                           }}
@@ -451,7 +454,7 @@ export default function LoginPage() {
                     <Typography
                       variant="body2"
                       sx={{
-                        color: '#6A7282',
+                        color: theme.palette.text.secondary,
                         fontSize: '12px',
                         minWidth: 'fit-content',
                       }}
@@ -471,8 +474,7 @@ export default function LoginPage() {
           textAlign="center"
           display="block"
           mt={2}
-          color="#364153"
-          fontSize="14px"
+          sx={{ color: theme.palette.text.secondary, fontSize: '14px' }}
         >
           © 2025, Powered by <strong>Fintronika®</strong>
         </Typography>
