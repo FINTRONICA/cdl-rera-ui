@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, forwardRef, useImperativeHandle, useEffect, useCallback, useRef } from 'react'
+import { useState, forwardRef, useImperativeHandle, useEffect, useCallback, useRef, useMemo } from 'react'
 import {
   Card,
   CardContent,
@@ -10,18 +10,32 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  OutlinedInput,
+  useTheme,
+  alpha,
 } from '@mui/material'
 import { KeyboardArrowDown as KeyboardArrowDownIcon } from '@mui/icons-material'
 import { Controller, useFormContext } from 'react-hook-form'
-import { useBudgetManagementFirmLabelsApi } from '@/hooks/useBudgetManagementFirmLabelsWithCache'
+import { useBudgetManagementLabelsWithCache as useBudgetManagementFirmLabelsApi } from '@/hooks/budget/useBudgetManagementLabelsWithCache'
 import { useAppStore } from '@/store'
-import { budgetService } from '@/services/api/budgetApi/budgetTEstService'
+import { budgetService } from '@/services/api/budgetApi/budgetManagementService'
 import { buildPartnerService } from '@/services/api/buildPartnerService'
 import { realEstateAssetService } from '@/services/api/projectService'
 import { BudgetCategoryService } from '@/services/api/budgetApi/budgetCategoryService'
 import { BudgetStep1Schema } from '@/lib/validation/budgetSchemas'
-import { BUDGET_LABELS } from '@/constants/mappings/budgetLabels'
+import { BUDGET_MANAGEMENT_FIRM_LABELS } from '@/constants/mappings/budgetLabels'
 import { FormError } from '@/components/atoms/FormError'
+import {
+  commonFieldStyles as sharedCommonFieldStyles,
+  labelSx as sharedLabelSx,
+  valueSx as sharedValueSx,
+  selectStyles as sharedSelectStyles,
+  cardStyles as sharedCardStyles,
+  errorFieldStyles as sharedErrorFieldStyles,
+} from '@/components/organisms/ProjectStepper/styles'
+import type { Theme } from '@mui/material/styles'
+
+type ThemeStyleFn = (theme: Theme) => Record<string, unknown>
 import { DateRangePicker } from '@/app/dashboard/components/filters/DateRangePicker'
 import dayjs from 'dayjs'
 import type { BudgetRequest } from '@/utils/budgetMapper'
@@ -56,6 +70,8 @@ const Step1 = forwardRef<Step1Ref, Step1Props>(
       trigger,
     } = useFormContext()
 
+    const theme = useTheme()
+    const isDark = theme.palette.mode === 'dark'
     const { getLabel } = useBudgetManagementFirmLabelsApi()
     const currentLanguage = useAppStore((state) => state.language)
 
@@ -508,62 +524,51 @@ const Step1 = forwardRef<Step1Ref, Step1Props>(
       [handleSaveAndNext]
     )
 
-    const commonFieldStyles = {
-      '& .MuiOutlinedInput-root': {
-        height: '46px',
-        borderRadius: '8px',
-        '& fieldset': {
-          borderColor: '#CAD5E2',
-          borderWidth: '1px',
-        },
-        '&:hover fieldset': {
-          borderColor: '#CAD5E2',
-        },
-        '&.Mui-focused fieldset': {
-          borderColor: '#2563EB',
-        },
+    const labelStyles = useMemo(() => (sharedLabelSx as ThemeStyleFn)(theme), [theme])
+    const valueStyles = useMemo(() => (sharedValueSx as ThemeStyleFn)(theme), [theme])
+    const commonFieldStyles = useMemo(
+      () => (sharedCommonFieldStyles as ThemeStyleFn)(theme),
+      [theme]
+    )
+    const selectStyles = useMemo(() => (sharedSelectStyles as ThemeStyleFn)(theme), [theme])
+    const cardStylesMui = useMemo(() => (sharedCardStyles as ThemeStyleFn)(theme), [theme])
+    const errorFieldStyles = useMemo(() => (sharedErrorFieldStyles as ThemeStyleFn)(theme), [theme])
+
+    const getLabelSx = () => ({
+      ...labelStyles,
+      marginBottom: '4px',
+      fontWeight: 600,
+      lineHeight: 1.25,
+      color: theme.palette.text.secondary,
+      '&.Mui-focused': { color: theme.palette.primary.main },
+      '&.MuiFormLabel-filled': {
+        color: theme.palette.text.primary,
+      },
+      '&.MuiInputLabel-root': {
+        color: theme.palette.text.secondary,
+      },
+    })
+
+    const focusedLabelSx = {
+      '&:has(.MuiOutlinedInput-root.Mui-focused) .MuiInputLabel-root': {
+        color: `${theme.palette.primary.main} !important`,
       },
     }
 
-    const selectStyles = {
-      height: '46px',
-      '& .MuiOutlinedInput-root': {
-        height: '46px',
-        borderRadius: '8px',
-        '& fieldset': {
-          borderColor: '#CAD5E2',
-          borderWidth: '1px',
-        },
-        '&:hover fieldset': {
-          borderColor: '#CAD5E2',
-        },
-        '&.Mui-focused fieldset': {
-          borderColor: '#2563EB',
-        },
-      },
-      '& .MuiSelect-icon': {
-        color: '#666',
-      },
-    }
+    const valueSx = valueStyles
+    const labelSx = getLabelSx()
 
-    const labelSx = {
-      color: '#6A7282',
-      fontFamily: 'Outfit',
-      fontWeight: 400,
-      fontStyle: 'normal',
-      fontSize: '12px',
-      letterSpacing: 0,
-    }
-
-    const valueSx = {
-      color: '#1E2939',
-      fontFamily: 'Outfit',
-      fontWeight: 400,
-      fontStyle: 'normal',
-      fontSize: '14px',
-      letterSpacing: 0,
-      wordBreak: 'break-word',
-    }
+    const getFormControlLabelSx = (hasError: boolean) => ({
+      '& .MuiInputLabel-root': {
+        color: hasError ? theme.palette.error.main : theme.palette.text.secondary,
+      },
+      '&:has(.MuiOutlinedInput-root.Mui-focused) .MuiInputLabel-root': {
+        color: `${hasError ? theme.palette.error.main : theme.palette.primary.main} !important`,
+      },
+      '& .MuiFormLabel-filled.MuiInputLabel-root': {
+        color: hasError ? theme.palette.error.main : theme.palette.text.primary,
+      },
+    })
 
     const renderTextField = (
       name: string,
@@ -588,37 +593,51 @@ const Step1 = forwardRef<Step1Ref, Step1Props>(
                   fullWidth
                   disabled={disabled || isViewMode || isLoadingBudget}
                   error={!!errors[name]}
-                  InputLabelProps={{ sx: labelSx }}
-                  InputProps={{ sx: valueSx }}
+                  InputLabelProps={{
+                    sx: {
+                      ...labelSx,
+                      color: theme.palette.text.secondary,
+                      '&.MuiInputLabel-root': {
+                        color: theme.palette.text.secondary,
+                      },
+                      ...(!!errors[name] &&
+                        !isViewMode && {
+                          color: `${theme.palette.error.main} !important`,
+                          '&.Mui-focused': { color: theme.palette.error.main },
+                          '&.MuiFormLabel-filled': { color: theme.palette.error.main },
+                          '&.MuiInputLabel-root': { color: theme.palette.error.main },
+                        }),
+                    },
+                  }}
+                  InputProps={{
+                    sx: {
+                      ...valueSx,
+                      ...((disabled || isViewMode || isLoadingBudget) && {
+                        backgroundColor: isDark ? alpha(theme.palette.background.paper, 0.25) : '#F9FAFB',
+                        color: isDark ? theme.palette.text.secondary : '#6B7280',
+                        '& .MuiOutlinedInput-notchedOutline': {
+                          borderColor: isDark ? alpha('#FFFFFF', 0.2) : '#E5E7EB',
+                        },
+                      }),
+                    },
+                  }}
                   sx={{
                     ...commonFieldStyles,
-                    ...(disabled && {
-                      '& .MuiOutlinedInput-root': {
-                        backgroundColor: '#F5F5F5',
-                        '& fieldset': {
-                          borderColor: '#E0E0E0',
-                        },
-                        '&:hover fieldset': {
-                          borderColor: '#E0E0E0',
-                        },
-                      },
-                    }),
-                    ...(!!errors[name] && !isViewMode && {
+                    ...focusedLabelSx,
+                    ...((disabled || isViewMode || isLoadingBudget) && {
                       '& .MuiOutlinedInput-root': {
                         '& fieldset': {
-                          borderColor: '#d32f2f',
-                          borderWidth: '1px',
+                          borderColor: isDark ? alpha('#FFFFFF', 0.2) : '#E5E7EB',
                         },
                         '&:hover fieldset': {
-                          borderColor: '#d32f2f',
-                          borderWidth: '1px',
+                          borderColor: isDark ? alpha('#FFFFFF', 0.2) : '#E5E7EB',
                         },
                         '&.Mui-focused fieldset': {
-                          borderColor: '#d32f2f',
-                          borderWidth: '1px',
+                          borderColor: isDark ? alpha('#FFFFFF', 0.2) : '#E5E7EB',
                         },
                       },
                     }),
+                    ...(!!errors[name] && !isViewMode && errorFieldStyles),
                   }}
                   required={required}
                   value={field.value || ''}
@@ -665,27 +684,39 @@ const Step1 = forwardRef<Step1Ref, Step1Props>(
             rules={required ? { required: `${label} is required` } : {}}
             defaultValue={''}
             render={({ field }) => (
-              <FormControl fullWidth error={!!errors[name]} required={required}>
-                <InputLabel sx={labelSx} required={required}>
+              <FormControl
+                fullWidth
+                error={!!errors[name]}
+                required={required}
+                variant="outlined"
+                sx={getFormControlLabelSx(!!errors[name] && !isViewMode)}
+              >
+                <InputLabel
+                  sx={{
+                    ...labelSx,
+                    color: theme.palette.text.secondary,
+                    '&.MuiInputLabel-root': { color: theme.palette.text.secondary },
+                    '&.Mui-focused': { color: theme.palette.primary.main },
+                    '&.MuiFormLabel-filled': { color: theme.palette.text.primary },
+                    ...(!!errors[name] &&
+                      !isViewMode && {
+                        color: `${theme.palette.error.main} !important`,
+                        '&.MuiInputLabel-root': { color: theme.palette.error.main },
+                      }),
+                  }}
+                  required={required}
+                >
                   {loading ? `Loading...` : label}
                 </InputLabel>
                 <Select
                   {...field}
+                  input={<OutlinedInput label={loading ? `Loading...` : label} />}
                   label={loading ? `Loading...` : label}
                   required={required}
                   sx={{
                     ...selectStyles,
                     ...valueSx,
-                    '& .MuiOutlinedInput-notchedOutline': {
-                      border: '1px solid #d1d5db',
-                      borderRadius: '6px',
-                    },
-                    '&:hover .MuiOutlinedInput-notchedOutline': {
-                      border: '1px solid #9ca3af',
-                    },
-                    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                      border: '2px solid #2563eb',
-                    },
+                    ...(!!errors[name] && !isViewMode && errorFieldStyles),
                   }}
                   IconComponent={KeyboardArrowDownIcon}
                   disabled={loading || isViewMode || isLoadingBudget}
@@ -808,7 +839,11 @@ const Step1 = forwardRef<Step1Ref, Step1Props>(
       return (
         <div ref={containerRef} className="relative">
           <div
-            className="px-3 py-2.5 border border-gray-300 rounded-lg bg-white text-sm font-medium text-gray-700 min-w-[200px] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer flex items-center gap-3"
+            className={`px-3 py-2.5 border rounded-lg text-sm font-medium min-w-[200px] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer flex items-center gap-3 ${
+              isDark
+                ? 'border-slate-600 bg-slate-800/80 text-slate-200'
+                : 'border-gray-300 bg-white text-gray-700'
+            }`}
             onClick={() => setIsOpen(!isOpen)}
             style={{
               height: '46px',
@@ -817,7 +852,7 @@ const Step1 = forwardRef<Step1Ref, Step1Props>(
             }}
           >
             <svg
-              className="w-4 h-4 text-gray-400"
+              className={`w-4 h-4 ${isDark ? 'text-slate-400' : 'text-gray-400'}`}
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -829,16 +864,15 @@ const Step1 = forwardRef<Step1Ref, Step1Props>(
                 d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
               />
             </svg>
-            <span className="flex-1 text-gray-700">
+            <span className={`flex-1 ${isDark ? 'text-slate-200' : 'text-gray-700'}`}>
               {startDate || 'Start Date'} | {endDate || 'End Date'}
             </span>
           </div>
 
           {isOpen && (
-            <div 
+            <div
               className="absolute top-full left-0 mt-1 z-[9999] w-96 max-w-[90vw] right-0"
               onClick={(e) => {
-                // Prevent clicks inside the DatePicker from closing the popup
                 e.stopPropagation()
               }}
             >
@@ -846,7 +880,11 @@ const Step1 = forwardRef<Step1Ref, Step1Props>(
                 startDate={startDate || ''}
                 endDate={endDate || ''}
                 onChange={onDateChange}
-                className="w-full p-4 bg-white border border-gray-300 rounded-lg shadow-lg"
+                className={`w-full p-4 border rounded-lg shadow-lg ${
+                  isDark
+                    ? 'bg-slate-800 border-slate-600'
+                    : 'bg-white border-gray-300'
+                }`}
               />
             </div>
           )}
@@ -854,13 +892,16 @@ const Step1 = forwardRef<Step1Ref, Step1Props>(
       )
     }
 
+    const F = BUDGET_MANAGEMENT_FIRM_LABELS.FORM_FIELDS
+    const Fb = BUDGET_MANAGEMENT_FIRM_LABELS.FALLBACKS.FORM_FIELDS
+
     return (
       <Card
         sx={{
-          boxShadow: 'none',
-          backgroundColor: '#FFFFFFBF',
+          ...cardStylesMui,
           width: '84%',
           margin: '0 auto',
+          border: isDark ? `1px solid ${alpha('#FFFFFF', 0.2)}` : 'none',
         }}
       >
         <CardContent>
@@ -868,30 +909,30 @@ const Step1 = forwardRef<Step1Ref, Step1Props>(
             {/* Asset Register Dropdown */}
             {renderSelectField(
               'assetRegisterId',
-              BUDGET_LABELS.FORM_FIELDS.MANAGEMENT_FIRM_GROUP_NAME,
-              'Asset Register',
+              F.ASSET_REGISTER,
+              Fb.ASSET_REGISTER,
               assetRegisterOptions,
                 6,
-                true,
+                false,
               loadingAssetRegisters
             )}
 
             {/* Management Firm Dropdown */}
             {renderSelectField(
               'managementFirmId',
-              BUDGET_LABELS.FORM_FIELDS.MANAGEMENT_COMPANY_NAME,
-              'Management Firm',
+              F.MANAGEMENT_COMPANY_NAME,
+              Fb.MANAGEMENT_COMPANY_NAME,
               managementFirmOptions,
                 6,
-                true,
+                false,
               loadingManagementFirms
               )}
 
             {/* Budget ID */}
               {renderTextField(
               'budgetId',
-              BUDGET_LABELS.FORM_FIELDS.BUDGET_PERIOD_CODE,
-              'Budget ID',
+              F.BUDGET_ID,
+              Fb.BUDGET_ID,
               6,
               false,
                 true
@@ -900,8 +941,8 @@ const Step1 = forwardRef<Step1Ref, Step1Props>(
             {/* Budget Name */}
               {renderTextField(
               'budgetName',
-              BUDGET_LABELS.FORM_FIELDS.BUDGET_PERIOD_TITLE,
-              'Budget Name',
+              F.BUDGET_NAME,
+              Fb.BUDGET_NAME,
               6,
               false,
                 true
@@ -956,8 +997,8 @@ const Step1 = forwardRef<Step1Ref, Step1Props>(
             {/* Property Group ID */}
               {renderTextField(
               'propertyGroupId',
-              BUDGET_LABELS.FORM_FIELDS.MANAGEMENT_FIRM_GROUP_ID,
-              'Property Group ID',
+              F.MANAGEMENT_FIRM_GROUP_ID,
+              Fb.MANAGEMENT_FIRM_GROUP_ID,
               6,
               false,
                 true
@@ -966,8 +1007,8 @@ const Step1 = forwardRef<Step1Ref, Step1Props>(
             {/* Property Manager Email */}
               {renderTextField(
               'propertyManagerEmail',
-              BUDGET_LABELS.FORM_FIELDS.MANAGEMENT_FIRM_MANAGER_EMAIL,
-              'Property Manager Email',
+              F.MANAGEMENT_FIRM_MANAGER_EMAIL,
+              Fb.MANAGEMENT_FIRM_MANAGER_EMAIL,
               6,
               false,
                 true
@@ -976,8 +1017,8 @@ const Step1 = forwardRef<Step1Ref, Step1Props>(
             {/* Master Community Name */}
               {renderTextField(
               'masterCommunityName',
-              BUDGET_LABELS.FORM_FIELDS.MASTER_COMMUNITY_NAME,
-              'Master Community Name',
+              F.MASTER_COMMUNITY_NAME,
+              Fb.MASTER_COMMUNITY_NAME,
               6,
               false,
                 true
@@ -986,8 +1027,8 @@ const Step1 = forwardRef<Step1Ref, Step1Props>(
             {/* Master Community Name (Local) */}
               {renderTextField(
               'masterCommunityNameLocale',
-              BUDGET_LABELS.FORM_FIELDS.MASTER_COMMUNITY_LOCAL_NAME,
-              'Master Community Name (Local)',
+              F.MASTER_COMMUNITY_LOCAL_NAME,
+              Fb.MASTER_COMMUNITY_LOCAL_NAME,
               6,
                 false,
                 false

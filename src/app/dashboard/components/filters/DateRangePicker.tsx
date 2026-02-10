@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useMemo } from 'react'
+import { useTheme, alpha } from '@mui/material/styles'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
@@ -18,6 +19,9 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
   onChange,
   className = '',
 }) => {
+  const theme = useTheme()
+  const isDark = theme.palette.mode === 'dark'
+
   const handleStartDateChange = (date: any) => {
     if (date) {
       onChange(date.format('DD-MM-YYYY'), endDate)
@@ -30,42 +34,62 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
     }
   }
 
-  const labelSx = {
-    color: '#6A7282',
-    fontFamily: 'Outfit',
-    fontWeight: 400,
-    fontStyle: 'normal',
-    fontSize: '12px',
-    letterSpacing: 0,
-  }
+  const { labelSx, valueSx, commonFieldStyles, dividerColor } = useMemo(() => {
+    const labelColor = isDark ? '#E2E8F0' : '#6A7282'
+    const inputColor = isDark ? '#F1F5F9' : '#1E2939'
+    const borderColor = isDark ? alpha('#FFFFFF', 0.3) : '#CAD5E2'
+    const hoverBorder = isDark ? alpha('#FFFFFF', 0.5) : '#94A3B8'
+    const focusBorder = theme.palette.primary.main
+    const bgColor = isDark ? alpha(theme.palette.background.paper, 0.5) : '#FFFFFF'
 
-  const valueSx = {
-    color: '#1E2939',
-    fontFamily: 'Outfit',
-    fontWeight: 400,
-    fontStyle: 'normal',
-    fontSize: '14px',
-    letterSpacing: 0,
-    wordBreak: 'break-word',
-  }
-
-  const commonFieldStyles = {
-    height: '46px',
-    '& .MuiOutlinedInput-root': {
-      height: '46px',
-      borderRadius: '8px',
-      '& fieldset': {
-        borderColor: '#CAD5E2',
-        borderWidth: '1px',
+    return {
+      labelSx: {
+        color: labelColor,
+        fontFamily: 'Outfit',
+        fontWeight: 400,
+        fontStyle: 'normal',
+        fontSize: '12px',
+        letterSpacing: 0,
+        '&.Mui-focused': { color: focusBorder },
       },
-      '&:hover fieldset': {
-        borderColor: '#CAD5E2',
+      valueSx: {
+        color: inputColor,
+        fontFamily: 'Outfit',
+        fontWeight: 400,
+        fontStyle: 'normal',
+        fontSize: '14px',
+        letterSpacing: 0,
+        wordBreak: 'break-word',
+        '& .MuiInputBase-input::placeholder': {
+          color: isDark ? alpha('#FFFFFF', 0.5) : undefined,
+          opacity: 1,
+        },
       },
-      '&.Mui-focused fieldset': {
-        borderColor: '#2563EB',
+      commonFieldStyles: {
+        height: '46px',
+        '& .MuiOutlinedInput-root': {
+          height: '46px',
+          borderRadius: '8px',
+          backgroundColor: bgColor,
+          '& fieldset': {
+            borderColor,
+            borderWidth: '1px',
+          },
+          '&:hover fieldset': {
+            borderColor: hoverBorder,
+          },
+          '&.Mui-focused fieldset': {
+            borderColor: focusBorder,
+            borderWidth: '1px',
+          },
+          '& .MuiInputBase-input': {
+            color: inputColor,
+          },
+        },
       },
-    },
-  }
+      dividerColor: isDark ? alpha('#FFFFFF', 0.4) : '#9CA3AF',
+    }
+  }, [theme, isDark])
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -91,7 +115,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
           }}
         />
 
-        <span className="flex items-center text-gray-400">|</span>
+        <span className="flex items-center" style={{ color: dividerColor }}>|</span>
 
         <DatePicker
           label="End Date"

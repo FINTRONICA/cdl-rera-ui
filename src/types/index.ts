@@ -2,6 +2,7 @@
 
 // Export bank types
 export * from './bank'
+export * from './budget'
 export * from './labelConfig'
 
 // Export label configuration types

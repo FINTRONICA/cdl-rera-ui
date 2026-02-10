@@ -16,20 +16,23 @@ import {
   InputLabel,
   OutlinedInput,
 } from '@mui/material'
+import { alpha, useTheme } from '@mui/material/styles'
+import { buildPanelSurfaceTokens } from './panelTheme'
 import { KeyboardArrowDown as KeyboardArrowDownIcon } from '@mui/icons-material'
 import { Controller, useForm } from 'react-hook-form'
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined'
 import { BudgetStep2Schema } from '@/lib/validation/budgetSchemas'
 import {
-  useCreateBudgetItem, 
-  useUpdateBudgetItem 
-} from '@/hooks/budget/useBudgetItems'
+  useCreateBudgetItem,
+  useUpdateBudgetItem,
+} from '@/hooks/budget/useBudgetManagement'
 import { BudgetCategoryService } from '@/services/api/budgetApi/budgetCategoryService'
 import type { BudgetCategoryUIData } from '@/services/api/budgetApi/budgetCategoryService'
-import { useBudgetManagementFirmLabelsApi } from '@/hooks/useBudgetManagementFirmLabelsWithCache'
+import { budgetManagementService } from '@/services/api/budgetApi/budgetManagementService'
 import { useAppStore } from '@/store'
+import { useBudgetManagementLabelsWithCache as useBudgetManagementFirmLabelsApi } from '@/hooks/budget/useBudgetManagementLabelsWithCache'
 import { FormError } from '../../atoms/FormError'
-import { BUDGET_LABELS } from '@/constants/mappings/budgetLabels'
+import { BUDGET_MANAGEMENT_FIRM_LABELS } from '@/constants/mappings/budgetLabels'
 import type { BudgetItemResponse, BudgetItemRequest } from '@/utils/budgetMapper'
 
 interface RightSlideBudgetItemPanelProps {
@@ -78,6 +81,8 @@ export const RightSlideBudgetItemPanel: React.FC<RightSlideBudgetItemPanelProps>
   const [budgetCategoryOptions, setBudgetCategoryOptions] = useState<{ id: number; displayName: string; settingValue: string }[]>([])
   const [loadingBudgetCategories, setLoadingBudgetCategories] = useState(true)
 
+  const theme = useTheme()
+  const tokens = React.useMemo(() => buildPanelSurfaceTokens(theme), [theme])
   const { getLabel } = useBudgetManagementFirmLabelsApi()
   const currentLanguage = useAppStore((state) => state.language) || 'EN'
   
@@ -115,7 +120,7 @@ export const RightSlideBudgetItemPanel: React.FC<RightSlideBudgetItemPanelProps>
       if (mode === 'edit' && budgetItemData?.id) {
         try {
           setLoadingBudgetItem(true)
-          const data = await budgetItemsService.getBudgetItemsById(budgetItemData.id)
+          const data = await budgetManagementService.getBudgetItemsById(budgetItemData.id)
           setApiBudgetItemData(data)
         } catch (error) {
           console.error('Error fetching budget item:', error)
@@ -449,70 +454,31 @@ export const RightSlideBudgetItemPanel: React.FC<RightSlideBudgetItemPanelProps>
     onClose()
   }
 
-  const commonFieldStyles = {
-    '& .MuiOutlinedInput-root': {
+  const commonFieldStyles = React.useMemo(() => tokens.input, [tokens])
+  const errorFieldStyles = React.useMemo(() => tokens.inputError, [tokens])
+  const labelSx = tokens.label
+  const valueSx = tokens.value
+  const isDark = theme.palette.mode === 'dark'
+  const selectStyles = React.useMemo(
+    () => ({
       height: '46px',
       borderRadius: '8px',
-      '& fieldset': {
-        borderColor: '#CAD5E2',
+      '& .MuiOutlinedInput-notchedOutline': {
+        borderColor: isDark ? alpha('#FFFFFF', 0.3) : '#CAD5E2',
         borderWidth: '1px',
       },
-      '&:hover fieldset': {
-        borderColor: '#CAD5E2',
+      '&:hover .MuiOutlinedInput-notchedOutline': {
+        borderColor: isDark ? alpha('#FFFFFF', 0.5) : '#94A3B8',
       },
-      '&.Mui-focused fieldset': {
-        borderColor: '#2563EB',
+      '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+        borderColor: theme.palette.primary.main,
       },
-    },
-  }
-
-  const errorFieldStyles = {
-    '& .MuiOutlinedInput-root': {
-      height: '46px',
-      borderRadius: '8px',
-      '& fieldset': {
-        borderColor: 'red',
-        borderWidth: '1px',
+      '& .MuiSelect-icon': {
+        color: isDark ? alpha('#FFFFFF', 0.7) : '#666',
       },
-    },
-  }
-
-  const labelSx = {
-    color: '#6A7282',
-    fontFamily: 'Outfit',
-    fontWeight: 400,
-    fontStyle: 'normal',
-    fontSize: '12px',
-    letterSpacing: 0,
-  }
-
-  const valueSx = {
-    color: '#1E2939',
-    fontFamily: 'Outfit',
-    fontWeight: 400,
-    fontStyle: 'normal',
-    fontSize: '14px',
-    letterSpacing: 0,
-    wordBreak: 'break-word',
-  }
-
-  const selectStyles = {
-    height: '46px',
-    borderRadius: '8px',
-    '& .MuiOutlinedInput-notchedOutline': {
-      borderColor: '#CAD5E2',
-      borderWidth: '1px',
-    },
-    '&:hover .MuiOutlinedInput-notchedOutline': {
-      borderColor: '#CAD5E2',
-    },
-    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-      borderColor: '#2563EB',
-    },
-    '& .MuiSelect-icon': {
-      color: '#666',
-    },
-  }
+    }),
+    [theme]
+  )
 
   const renderTextField = (
     name: keyof BudgetItemFormData,
@@ -624,12 +590,8 @@ export const RightSlideBudgetItemPanel: React.FC<RightSlideBudgetItemPanelProps>
       onClose={handleClose}
       PaperProps={{
         sx: {
+          ...tokens.paper,
           width: 460,
-          borderRadius: 3,
-          backgroundColor: 'white',
-          backdropFilter: 'blur(15px)',
-          border: '2px solid rgba(255, 255, 255, 0.3)',
-          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
           display: 'flex',
           flexDirection: 'column',
           overflow: 'hidden',
@@ -649,16 +611,27 @@ export const RightSlideBudgetItemPanel: React.FC<RightSlideBudgetItemPanelProps>
           letterSpacing: '0.15px',
           verticalAlign: 'middle',
           flexShrink: 0,
-          borderBottom: '1px solid #E5E7EB',
-          backgroundColor: 'white',
+          borderBottom: `1px solid ${tokens.dividerColor}`,
+          backgroundColor: tokens.paper.backgroundColor as string,
+          color: theme.palette.text.primary,
           zIndex: 11,
+          pr: 3,
+          pl: 3,
         }}
       >
         {mode === 'edit'
           ? getLabel('CDL_BDG_BUDGET_ITEM_EDIT', currentLanguage, 'Edit Budget Item')
           : getLabel('CDL_BDG_BUDGET_ITEM_ADD', currentLanguage, 'Add Budget Item')}
-        <IconButton onClick={handleClose}>
-          <CancelOutlinedIcon />
+        <IconButton
+          onClick={handleClose}
+          sx={{
+            color: theme.palette.text.secondary,
+            '&:hover': {
+              backgroundColor: theme.palette.action.hover,
+            },
+          }}
+        >
+          <CancelOutlinedIcon fontSize="small" />
         </IconButton>
       </DialogTitle>
 
@@ -680,11 +653,22 @@ export const RightSlideBudgetItemPanel: React.FC<RightSlideBudgetItemPanelProps>
             overflowY: 'auto',
             paddingBottom: '20px',
             marginBottom: '80px', // Space for fixed buttons
+            borderColor: tokens.dividerColor,
+            backgroundColor: tokens.paper.backgroundColor as string,
           }}
         >
           {loadingBudgetItem && (
-              <Alert severity="info" sx={{ mb: 2 }}>
-              Loading budget item data...
+              <Alert
+                severity="info"
+                sx={{
+                  mb: 2,
+                  backgroundColor: isDark
+                    ? alpha(theme.palette.info.main, 0.12)
+                    : alpha(theme.palette.info.main, 0.08),
+                  color: theme.palette.text.primary,
+                }}
+              >
+                Loading budget item data...
               </Alert>
             )}
 
@@ -692,7 +676,7 @@ export const RightSlideBudgetItemPanel: React.FC<RightSlideBudgetItemPanelProps>
             {/* Budget Category Dropdown */}
             {renderSelectField(
               'budgetCategoryId',
-              getLabel(BUDGET_LABELS.FORM_FIELDS.SERVICE_CHARGE_GROUP_NAME, currentLanguage, 'Budget Category'),
+              getLabel(BUDGET_MANAGEMENT_FIRM_LABELS.FORM_FIELDS.SERVICE_CHARGE_GROUP_NAME, currentLanguage, 'Budget Category'),
               budgetCategoryOptions,
               12,
               true,
@@ -782,9 +766,14 @@ export const RightSlideBudgetItemPanel: React.FC<RightSlideBudgetItemPanelProps>
             left: 0,
             right: 0,
             padding: 2,
-            backgroundColor: 'white',
-            borderTop: '1px solid #E5E7EB',
-            boxShadow: '0 -2px 10px rgba(0, 0, 0, 0.05)',
+            display: 'flex',
+            gap: 2,
+            borderTop: `1px solid ${tokens.dividerColor}`,
+            backgroundColor: alpha(
+              theme.palette.background.paper,
+              theme.palette.mode === 'dark' ? 0.92 : 0.9
+            ),
+            backdropFilter: 'blur(10px)',
             zIndex: 10,
           }}
         >
@@ -802,6 +791,11 @@ export const RightSlideBudgetItemPanel: React.FC<RightSlideBudgetItemPanelProps>
                   fontSize: '14px',
                   lineHeight: '20px',
                   letterSpacing: 0,
+                  borderWidth: '1px',
+                  borderColor:
+                    theme.palette.mode === 'dark'
+                      ? theme.palette.primary.main
+                      : undefined,
                 }}
               >
                 Cancel
@@ -821,8 +815,32 @@ export const RightSlideBudgetItemPanel: React.FC<RightSlideBudgetItemPanelProps>
                   fontSize: '14px',
                   lineHeight: '20px',
                   letterSpacing: 0,
-                  backgroundColor: '#2563EB',
-                  color: '#fff',
+                  backgroundColor: theme.palette.primary.main,
+                  color: theme.palette.primary.contrastText,
+                  borderWidth: '1px',
+                  borderStyle: 'solid',
+                  borderColor:
+                    theme.palette.mode === 'dark'
+                      ? theme.palette.primary.main
+                      : 'transparent',
+                  '&:hover': {
+                    backgroundColor: theme.palette.primary.dark,
+                    borderColor:
+                      theme.palette.mode === 'dark'
+                        ? theme.palette.primary.main
+                        : 'transparent',
+                  },
+                  '&:disabled': {
+                    backgroundColor:
+                      theme.palette.mode === 'dark'
+                        ? alpha(theme.palette.grey[600], 0.5)
+                        : theme.palette.grey[300],
+                    borderColor:
+                      theme.palette.mode === 'dark'
+                        ? alpha(theme.palette.primary.main, 0.5)
+                        : 'transparent',
+                    color: theme.palette.text.disabled,
+                  },
                 }}
               >
                 {isSubmitting

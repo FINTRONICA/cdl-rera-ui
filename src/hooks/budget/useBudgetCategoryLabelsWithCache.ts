@@ -43,3 +43,6 @@ export function useBudgetCategoryLabelsWithCache() {
     cacheStatus: budgetLabels ? 'cached' : budgetLabelsLoading ? 'Loading...' : 'fresh',
   }
 }
+
+/** Alias for budget category page and stepper (same API as useBudgetCategoryLabelsWithCache). */
+export const useBudgetLabelsWithCache = useBudgetCategoryLabelsWithCache

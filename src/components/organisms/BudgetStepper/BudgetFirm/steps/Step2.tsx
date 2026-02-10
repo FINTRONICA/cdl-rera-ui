@@ -8,13 +8,14 @@ import { RightSlideBudgetItemPanel } from '../../../RightSlidePanel/RightSlideBu
 import { ExpandableDataTable } from '../../../ExpandableDataTable'
 import { useTableState } from '@/hooks'
 import { useDeleteConfirmation } from '@/store/confirmationDialogStore'
-import { 
-  useBudgetItems, 
-  useDeleteBudgetItem 
-} from '@/hooks/budget/useBudgetItems'
-import { budgetItemsService } from '@/services/api/budgetApi/budgetItemsService'
-import { useBudgetManagementFirmLabelsApi } from '@/hooks/useBudgetManagementFirmLabelsWithCache'
+import {
+  useBudgetItems,
+  useDeleteBudgetItem,
+} from '@/hooks/budget/useBudgetManagement'
+import { budgetManagementService } from '@/services/api/budgetApi/budgetManagementService'
+import { useBudgetManagementLabelsWithCache as useBudgetManagementFirmLabelsApi } from '@/hooks/budget/useBudgetManagementLabelsWithCache'
 import { useAppStore } from '@/store'
+import { useIsDarkMode } from '@/hooks/useIsDarkMode'
 import { BudgetStep2Schema } from '@/lib/validation/budgetSchemas'
 import type { BudgetItemResponse } from '@/utils/budgetMapper'
 
@@ -62,6 +63,7 @@ const Step2 = forwardRef<Step2Ref, Step2Props>(
 
     const confirmDelete = useDeleteConfirmation()
     const deleteMutation = useDeleteBudgetItem()
+    const isDarkMode = useIsDarkMode()
     const { getLabel } = useBudgetManagementFirmLabelsApi()
     const currentLanguage = useAppStore((state) => state.language) || 'EN'
 
@@ -257,7 +259,7 @@ const Step2 = forwardRef<Step2Ref, Step2Props>(
             const budgetIdNum = typeof budgetIdToUse === 'string' 
               ? parseInt(budgetIdToUse) 
               : budgetIdToUse
-            const directResult = await budgetItemsService.getBudgetItemsByBudgetCategoryId(
+            const directResult = await budgetManagementService.getBudgetItemsByBudgetCategoryId(
               0, // categoryId is deprecated, pass dummy value
               0,
               1000,
@@ -479,11 +481,12 @@ const Step2 = forwardRef<Step2Ref, Step2Props>(
 
       return (
         <Card
-                  sx={{
+          sx={{
             boxShadow: 'none',
-            backgroundColor: '#FFFFFFBF',
-          width: '94%',
+            backgroundColor: isDarkMode ? '#101828' : 'rgba(255, 255, 255, 0.75)',
+            width: '94%',
             margin: '0 auto',
+            border: isDarkMode ? '1px solid #334155' : 'none',
           }}
         >
           <CardContent>

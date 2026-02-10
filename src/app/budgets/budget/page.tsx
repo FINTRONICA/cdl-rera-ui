@@ -9,7 +9,7 @@ import { PageActionButtons } from '@/components/molecules/PageActionButtons'
 import { useTableState } from '@/hooks/useTableState'
 import { useBudgetCategories } from '@/hooks/budget/useBudgetCategory'
 import { useDeleteBudgetCategory } from '@/hooks/budget/useBudgetCategory'
-import { useBudgetLabelsWithCache } from '@/hooks/budget/useBudgetLabelsWithCache'
+import { useBudgetLabelsWithCache } from '@/hooks/budget/useBudgetCategoryLabelsWithCache'
 import { getBudgetLabel } from '@/constants/mappings/budgetLabels'
 import { useAppStore } from '@/store'
 import { GlobalLoading } from '@/components/atoms'
@@ -97,7 +97,7 @@ function BudgetPageImpl() {
   const { data: apiResponse, isLoading, error, refetch } = useBudgetCategories(0, 1000)
   const deleteMutation = useDeleteBudgetCategory()
   const confirmDelete = useDeleteConfirmation()
-  const { getLabel } = useBudgetLabelsWithCache('EN')
+  const { getLabel } = useBudgetLabelsWithCache()
   const { getLabelResolver } = useSidebarConfig()
   const BudgetPageTitle = getLabelResolver
   ? getLabelResolver('CDL_BDG_PAGE_TITLE', 'Budget Categories')

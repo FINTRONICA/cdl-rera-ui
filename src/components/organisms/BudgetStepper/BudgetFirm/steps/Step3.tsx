@@ -1,6 +1,6 @@
 'use client'
 
-import { useBudgetManagementFirmLabelsApi } from '@/hooks/useBudgetManagementFirmLabelsWithCache'
+import { useBudgetManagementLabelsWithCache as useBudgetManagementFirmLabelsApi } from '@/hooks/budget/useBudgetManagementLabelsWithCache'
 import { useAppStore } from '@/store'
 import React from 'react'
 import {
@@ -23,34 +23,15 @@ import {
 import EditIcon from '@mui/icons-material/Edit'
 import { useRouter } from 'next/navigation'
 import { GlobalLoading } from '@/components/atoms'
-import { budgetService } from '@/services/api/budgetApi/budgetTEstService'
-import type { BudgetUIData } from '@/services/api/budgetApi/budgetTEstService'
-import { BUDGET_LABELS } from '@/constants/mappings/budgetLabels'
-import { budgetItemsService } from '@/services/api/budgetApi/budgetItemsService'
+import { budgetService } from '@/services/api/budgetApi/budgetManagementService'
+import type { BudgetUIData } from '@/services/api/budgetApi/budgetManagementService'
+import { BUDGET_MANAGEMENT_FIRM_LABELS } from '@/constants/mappings/budgetLabels'
+import { budgetManagementService } from '@/services/api/budgetApi/budgetManagementService'
 import type { BudgetItemResponse } from '@/utils/budgetMapper'
 import { buildPartnerService } from '@/services/api/buildPartnerService'
 import type { DocumentItem, ApiDocumentResponse } from '@/components/organisms/DeveloperStepper/developerTypes'
-import { mapApiToDocumentItem } from '@/components/organisms/DocumentUpload/configs/budgetConfig'
-
-const labelSx = {
-  color: '#6B7280',
-  fontFamily: 'Outfit, sans-serif',
-  fontWeight: 400,
-  fontSize: '12px',
-  lineHeight: '16px',
-  letterSpacing: 0,
-  marginBottom: '4px',
-}
-
-const valueSx = {
-  color: '#1F2937',
-  fontFamily: 'Outfit, sans-serif',
-  fontWeight: 500,
-  fontSize: '14px',
-  lineHeight: '20px',
-  letterSpacing: 0,
-  wordBreak: 'break-word',
-}
+import { mapApiToDocumentItem } from '@/components/organisms/DocumentUpload/configs/budgetManagementConfig'
+import { useIsDarkMode } from '@/hooks/useIsDarkMode'
 
 const fieldBoxSx = {
   display: 'flex',
@@ -71,9 +52,45 @@ const Step3: React.FC<Step3Props> = ({
   onEditStep,
 }) => {
   const router = useRouter()
+  const isDarkMode = useIsDarkMode()
   const { getLabel } = useBudgetManagementFirmLabelsApi()
   const currentLanguage = useAppStore((state) => state.language)
   const [budgetData, setBudgetData] = React.useState<BudgetUIData | null>(null)
+
+  const labelSx = React.useMemo(
+    () => ({
+      color: isDarkMode ? '#E2E8F0' : '#6B7280',
+      fontFamily: 'Outfit, sans-serif',
+      fontWeight: 400,
+      fontSize: '12px',
+      lineHeight: '16px',
+      letterSpacing: 0,
+      marginBottom: '4px',
+    }),
+    [isDarkMode]
+  )
+  const valueSx = React.useMemo(
+    () => ({
+      color: isDarkMode ? '#F1F5F9' : '#1F2937',
+      fontFamily: 'Outfit, sans-serif',
+      fontWeight: 500,
+      fontSize: '14px',
+      lineHeight: '20px',
+      letterSpacing: 0,
+      wordBreak: 'break-word' as const,
+    }),
+    [isDarkMode]
+  )
+  const cardBg = isDarkMode ? '#101828' : '#FFFFFF'
+  const cardBorder = isDarkMode ? '1px solid #334155' : '1px solid #E5E7EB'
+  const headingColor = isDarkMode ? '#E2E8F0' : '#1E2939'
+  const buttonColor = isDarkMode ? '#94A3B8' : '#6B7280'
+  const buttonBorder = isDarkMode ? '#475569' : '#D1D5DB'
+  const buttonHoverBg = isDarkMode ? 'rgba(51, 65, 85, 0.5)' : '#F9FAFB'
+  const tableHeaderBg = isDarkMode ? 'rgba(51, 65, 85, 0.5)' : '#F9FAFB'
+  const tableRowHoverBg = isDarkMode ? 'rgba(51, 65, 85, 0.3)' : '#F9FAFB'
+  const tableCellBorder = isDarkMode ? '#334155' : '#E5E7EB'
+  const tableCellColor = isDarkMode ? '#E2E8F0' : '#374151'
   const [budgetItems, setBudgetItems] = React.useState<BudgetItemResponse[]>([])
   const [documents, setDocuments] = React.useState<DocumentItem[]>([])
   const [isLoading, setIsLoading] = React.useState(false)
@@ -104,7 +121,7 @@ const Step3: React.FC<Step3Props> = ({
               console.log('[Step3] ===== Fetching budget items =====')
               console.log('[Step3] Budget ID:', data.id, 'Type:', typeof data.id)
               // ✅ FIX: Use budgetId instead of categoryId (pass 0 as dummy categoryId)
-              const response = await budgetItemsService.getBudgetItemsByBudgetCategoryId(
+              const response = await budgetManagementService.getBudgetItemsByBudgetCategoryId(
                 0, // categoryId is deprecated, pass dummy value
                 0, // page
                 1000, // size
@@ -204,7 +221,7 @@ const Step3: React.FC<Step3Props> = ({
 
   if (error) {
     return (
-      <Card sx={{ boxShadow: 'none', backgroundColor: '#FFFFFFBF', width: '84%', margin: '0 auto' }}>
+      <Card sx={{ boxShadow: 'none', backgroundColor: cardBg, border: cardBorder, width: '84%', margin: '0 auto' }}>
         <CardContent>
           <Alert severity="error">
             {error.message}
@@ -216,7 +233,7 @@ const Step3: React.FC<Step3Props> = ({
 
   if (!budgetData) {
     return (
-      <Card sx={{ boxShadow: 'none', backgroundColor: '#FFFFFFBF', width: '84%', margin: '0 auto' }}>
+      <Card sx={{ boxShadow: 'none', backgroundColor: cardBg, border: cardBorder, width: '84%', margin: '0 auto' }}>
         <CardContent>
           <Alert severity="info">
             No budget data available. Please complete Step 1 and Step 2 first.
@@ -232,11 +249,11 @@ const Step3: React.FC<Step3Props> = ({
       <Card
         sx={{
           boxShadow: 'none',
-          backgroundColor: '#FFFFFF',
+          backgroundColor: cardBg,
           width: '100%',
           margin: '0 auto',
           mb: 3,
-          border: '1px solid #E5E7EB',
+          border: cardBorder,
         }}
       >
         <CardContent sx={{ p: 3 }}>
@@ -254,10 +271,10 @@ const Step3: React.FC<Step3Props> = ({
                 fontWeight: 600,
                 fontSize: '18px',
                 lineHeight: '24px',
-                color: '#1E2939',
+                color: headingColor,
               }}
             >
-              {getLabel(BUDGET_LABELS.SECTION_TITLES.GENERAL, currentLanguage, 'Budget Details')}
+              {getLabel(BUDGET_MANAGEMENT_FIRM_LABELS.SECTION_TITLES.GENERAL, currentLanguage, 'Budget Details')}
             </Typography>
             {!isViewMode && (
               <Button
@@ -269,12 +286,12 @@ const Step3: React.FC<Step3Props> = ({
                   fontWeight: 500,
                   fontSize: '14px',
                   lineHeight: '20px',
-                  color: '#6B7280',
-                  borderColor: '#D1D5DB',
+                  color: buttonColor,
+                  borderColor: buttonBorder,
                   textTransform: 'none',
                   '&:hover': {
-                    borderColor: '#9CA3AF',
-                    backgroundColor: '#F9FAFB',
+                    borderColor: isDarkMode ? '#64748B' : '#9CA3AF',
+                    backgroundColor: buttonHoverBg,
                   },
                 }}
               >
@@ -282,12 +299,12 @@ const Step3: React.FC<Step3Props> = ({
               </Button>
             )}
           </Box>
-          <Divider sx={{ mb: 3, borderColor: '#E5E7EB' }} />
+          <Divider sx={{ mb: 3, borderColor: isDarkMode ? '#334155' : '#E5E7EB' }} />
           <Grid container spacing={3}>
             <Grid size={{ xs: 12, md: 6 }}>
               <Box sx={fieldBoxSx}>
                 <Typography sx={labelSx}>
-                  {getLabel(BUDGET_LABELS.FORM_FIELDS.BUDGET_PERIOD_CODE, currentLanguage, 'Budget ID')}:
+                  {getLabel(BUDGET_MANAGEMENT_FIRM_LABELS.FORM_FIELDS.BUDGET_ID, currentLanguage, 'Budget ID')}:
                 </Typography>
                 <Typography sx={valueSx}>{budgetData.budgetId || '-'}</Typography>
               </Box>
@@ -295,7 +312,7 @@ const Step3: React.FC<Step3Props> = ({
             <Grid size={{ xs: 12, md: 6 }}>
               <Box sx={fieldBoxSx}>
                 <Typography sx={labelSx}>
-                  {getLabel(BUDGET_LABELS.FORM_FIELDS.BUDGET_PERIOD_TITLE, currentLanguage, 'Budget Name')}:
+                  {getLabel(BUDGET_MANAGEMENT_FIRM_LABELS.FORM_FIELDS.BUDGET_NAME, currentLanguage, 'Budget Name')}:
                 </Typography>
                 <Typography sx={valueSx}>{budgetData.budgetName || '-'}</Typography>
               </Box>
@@ -303,7 +320,7 @@ const Step3: React.FC<Step3Props> = ({
             <Grid size={{ xs: 12, md: 6 }}>
               <Box sx={fieldBoxSx}>
                 <Typography sx={labelSx}>
-                  {getLabel(BUDGET_LABELS.FORM_FIELDS.BUDGET_PERIOD_CODE, currentLanguage, 'Budget Period Code')}:
+                  {getLabel(BUDGET_MANAGEMENT_FIRM_LABELS.FORM_FIELDS.BUDGET_PERIOD_CODE, currentLanguage, 'Budget Period Code')}:
                 </Typography>
                 <Typography sx={valueSx}>{budgetData.budgetPeriodCode || '-'}</Typography>
               </Box>
@@ -311,7 +328,7 @@ const Step3: React.FC<Step3Props> = ({
             <Grid size={{ xs: 12, md: 6 }}>
               <Box sx={fieldBoxSx}>
                 <Typography sx={labelSx}>
-                  {getLabel(BUDGET_LABELS.FORM_FIELDS.MASTER_COMMUNITY_NAME, currentLanguage, 'Master Community Name')}:
+                  {getLabel(BUDGET_MANAGEMENT_FIRM_LABELS.FORM_FIELDS.MASTER_COMMUNITY_NAME, currentLanguage, 'Master Community Name')}:
                 </Typography>
                 <Typography sx={valueSx}>{budgetData.masterCommunityName || '-'}</Typography>
               </Box>
@@ -319,7 +336,7 @@ const Step3: React.FC<Step3Props> = ({
             <Grid size={{ xs: 12, md: 6 }}>
               <Box sx={fieldBoxSx}>
                 <Typography sx={labelSx}>
-                  {getLabel(BUDGET_LABELS.FORM_FIELDS.MANAGEMENT_COMPANY_NAME, currentLanguage, 'Management Company Name')}:
+                  {getLabel(BUDGET_MANAGEMENT_FIRM_LABELS.FORM_FIELDS.MANAGEMENT_COMPANY_NAME, currentLanguage, 'Management Company Name')}:
                 </Typography>
                 <Typography sx={valueSx}>
                   {budgetData.managementFirmDTO?.mfName || budgetData.managementCompanyName || '-'}
@@ -329,7 +346,7 @@ const Step3: React.FC<Step3Props> = ({
             <Grid size={{ xs: 12, md: 6 }}>
               <Box sx={fieldBoxSx}>
                 <Typography sx={labelSx}>
-                  {getLabel(BUDGET_LABELS.FORM_FIELDS.MANAGEMENT_FIRM_MANAGER_EMAIL, currentLanguage, 'Property Manager Email')}:
+                  {getLabel(BUDGET_MANAGEMENT_FIRM_LABELS.FORM_FIELDS.MANAGEMENT_FIRM_MANAGER_EMAIL, currentLanguage, 'Property Manager Email')}:
                 </Typography>
                 <Typography sx={valueSx}>{budgetData.propertyManagerEmail || '-'}</Typography>
               </Box>
@@ -337,7 +354,7 @@ const Step3: React.FC<Step3Props> = ({
             <Grid size={{ xs: 12, md: 6 }}>
               <Box sx={fieldBoxSx}>
                 <Typography sx={labelSx}>
-                  {getLabel(BUDGET_LABELS.FORM_FIELDS.SERVICE_CHARGE_GROUP_NAME, currentLanguage, 'Service Charge Group')}:
+                  {getLabel(BUDGET_MANAGEMENT_FIRM_LABELS.FORM_FIELDS.SERVICE_CHARGE_GROUP_NAME, currentLanguage, 'Service Charge Group')}:
                 </Typography>
                 <Typography sx={valueSx}>{budgetData.serviceChargeGroupName || '-'}</Typography>
               </Box>
@@ -356,11 +373,11 @@ const Step3: React.FC<Step3Props> = ({
       <Card
         sx={{
           boxShadow: 'none',
-          backgroundColor: '#FFFFFF',
+          backgroundColor: cardBg,
           width: '100%',
           margin: '0 auto',
           mb: 3,
-          border: '1px solid #E5E7EB',
+          border: cardBorder,
         }}
       >
         <CardContent sx={{ p: 3 }}>
@@ -378,7 +395,7 @@ const Step3: React.FC<Step3Props> = ({
                 fontWeight: 600,
                 fontSize: '18px',
                 lineHeight: '24px',
-                color: '#1E2939',
+                color: headingColor,
               }}
             >
               Budget Items
@@ -393,12 +410,12 @@ const Step3: React.FC<Step3Props> = ({
                   fontWeight: 500,
                   fontSize: '14px',
                   lineHeight: '20px',
-                  color: '#6B7280',
-                  borderColor: '#D1D5DB',
+                  color: buttonColor,
+                  borderColor: buttonBorder,
                   textTransform: 'none',
                   '&:hover': {
-                    borderColor: '#9CA3AF',
-                    backgroundColor: '#F9FAFB',
+                    borderColor: isDarkMode ? '#64748B' : '#9CA3AF',
+                    backgroundColor: buttonHoverBg,
                   },
                 }}
               >
@@ -406,7 +423,7 @@ const Step3: React.FC<Step3Props> = ({
               </Button>
             )}
           </Box>
-          <Divider sx={{ mb: 3, borderColor: '#E5E7EB' }} />
+          <Divider sx={{ mb: 3, borderColor: tableCellBorder }} />
           
           {isLoadingItems ? (
             <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
@@ -415,89 +432,30 @@ const Step3: React.FC<Step3Props> = ({
           ) : budgetItems.length > 0 ? (
               <TableContainer
                 component={Paper}
-                sx={{ boxShadow: 'none', border: '1px solid #E5E7EB' }}
+                sx={{ boxShadow: 'none', border: `1px solid ${tableCellBorder}`, backgroundColor: isDarkMode ? 'transparent' : undefined }}
               >
                 <Table>
                   <TableHead>
-                    <TableRow sx={{ backgroundColor: '#F9FAFB' }}>
-                      <TableCell
-                        sx={{
-                          fontFamily: 'Outfit, sans-serif',
-                          fontWeight: 600,
-                          fontSize: '14px',
-                          color: '#374151',
-                          borderBottom: '1px solid #E5E7EB',
-                        }}
-                      >
+                    <TableRow sx={{ backgroundColor: tableHeaderBg }}>
+                      <TableCell sx={{ fontFamily: 'Outfit, sans-serif', fontWeight: 600, fontSize: '14px', color: tableCellColor, borderBottom: `1px solid ${tableCellBorder}` }}>
                         Sub-Category Name
                       </TableCell>
-                      <TableCell
-                        sx={{
-                          fontFamily: 'Outfit, sans-serif',
-                          fontWeight: 600,
-                          fontSize: '14px',
-                          color: '#374151',
-                          borderBottom: '1px solid #E5E7EB',
-                        }}
-                      >
+                      <TableCell sx={{ fontFamily: 'Outfit, sans-serif', fontWeight: 600, fontSize: '14px', color: tableCellColor, borderBottom: `1px solid ${tableCellBorder}` }}>
                         Sub-Category Name (Local)
                       </TableCell>
-                      <TableCell
-                        sx={{
-                          fontFamily: 'Outfit, sans-serif',
-                          fontWeight: 600,
-                          fontSize: '14px',
-                          color: '#374151',
-                          borderBottom: '1px solid #E5E7EB',
-                        }}
-                      >
+                      <TableCell sx={{ fontFamily: 'Outfit, sans-serif', fontWeight: 600, fontSize: '14px', color: tableCellColor, borderBottom: `1px solid ${tableCellBorder}` }}>
                         Service Code
                       </TableCell>
-                      <TableCell
-                        sx={{
-                          fontFamily: 'Outfit, sans-serif',
-                          fontWeight: 600,
-                          fontSize: '14px',
-                          color: '#374151',
-                          borderBottom: '1px solid #E5E7EB',
-                        }}
-                      >
+                      <TableCell sx={{ fontFamily: 'Outfit, sans-serif', fontWeight: 600, fontSize: '14px', color: tableCellColor, borderBottom: `1px solid ${tableCellBorder}` }}>
                         Service Name
                       </TableCell>
-                      <TableCell
-                        sx={{
-                          fontFamily: 'Outfit, sans-serif',
-                          fontWeight: 600,
-                          fontSize: '14px',
-                          color: '#374151',
-                          borderBottom: '1px solid #E5E7EB',
-                        }}
-                        align="right"
-                      >
+                      <TableCell sx={{ fontFamily: 'Outfit, sans-serif', fontWeight: 600, fontSize: '14px', color: tableCellColor, borderBottom: `1px solid ${tableCellBorder}` }} align="right">
                         Total Budget
                       </TableCell>
-                      <TableCell
-                        sx={{
-                          fontFamily: 'Outfit, sans-serif',
-                          fontWeight: 600,
-                          fontSize: '14px',
-                          color: '#374151',
-                          borderBottom: '1px solid #E5E7EB',
-                        }}
-                        align="right"
-                      >
+                      <TableCell sx={{ fontFamily: 'Outfit, sans-serif', fontWeight: 600, fontSize: '14px', color: tableCellColor, borderBottom: `1px solid ${tableCellBorder}` }} align="right">
                         Available Budget
                       </TableCell>
-                      <TableCell
-                        sx={{
-                          fontFamily: 'Outfit, sans-serif',
-                          fontWeight: 600,
-                          fontSize: '14px',
-                          color: '#374151',
-                          borderBottom: '1px solid #E5E7EB',
-                        }}
-                        align="right"
-                      >
+                      <TableCell sx={{ fontFamily: 'Outfit, sans-serif', fontWeight: 600, fontSize: '14px', color: tableCellColor, borderBottom: `1px solid ${tableCellBorder}` }} align="right">
                         Utilized Budget
                       </TableCell>
                     </TableRow>
@@ -506,24 +464,17 @@ const Step3: React.FC<Step3Props> = ({
                     {budgetItems.map((item, index) => (
                       <TableRow
                         key={item.id || index}
-                        sx={{ '&:hover': { backgroundColor: '#F9FAFB' } }}
+                        sx={{ '&:hover': { backgroundColor: tableRowHoverBg } }}
                       >
-                        <TableCell
-                          sx={{
-                            fontFamily: 'Outfit, sans-serif',
-                            fontSize: '14px',
-                            color: '#374151',
-                            borderBottom: '1px solid #E5E7EB',
-                          }}
-                        >
+                        <TableCell sx={{ fontFamily: 'Outfit, sans-serif', fontSize: '14px', color: tableCellColor, borderBottom: `1px solid ${tableCellBorder}` }}>
                           {item.subCategoryName || '-'}
                         </TableCell>
                         <TableCell
                           sx={{
                             fontFamily: 'Outfit, sans-serif',
                             fontSize: '14px',
-                            color: '#374151',
-                            borderBottom: '1px solid #E5E7EB',
+                            color: tableCellColor,
+                            borderBottom: `1px solid ${tableCellBorder}`,
                           }}
                         >
                           {item.subCategoryNameLocale || '-'}
@@ -532,8 +483,8 @@ const Step3: React.FC<Step3Props> = ({
                           sx={{
                             fontFamily: 'Outfit, sans-serif',
                             fontSize: '14px',
-                            color: '#374151',
-                            borderBottom: '1px solid #E5E7EB',
+                            color: tableCellColor,
+                            borderBottom: `1px solid ${tableCellBorder}`,
                           }}
                         >
                           {item.serviceCode || '-'}
@@ -542,8 +493,8 @@ const Step3: React.FC<Step3Props> = ({
                           sx={{
                             fontFamily: 'Outfit, sans-serif',
                             fontSize: '14px',
-                            color: '#374151',
-                            borderBottom: '1px solid #E5E7EB',
+                            color: tableCellColor,
+                            borderBottom: `1px solid ${tableCellBorder}`,
                           }}
                         >
                           {item.serviceName || '-'}
@@ -552,8 +503,8 @@ const Step3: React.FC<Step3Props> = ({
                           sx={{
                             fontFamily: 'Outfit, sans-serif',
                             fontSize: '14px',
-                            color: '#374151',
-                            borderBottom: '1px solid #E5E7EB',
+                            color: tableCellColor,
+                            borderBottom: `1px solid ${tableCellBorder}`,
                           }}
                           align="right"
                         >
@@ -563,8 +514,8 @@ const Step3: React.FC<Step3Props> = ({
                           sx={{
                             fontFamily: 'Outfit, sans-serif',
                             fontSize: '14px',
-                            color: '#374151',
-                            borderBottom: '1px solid #E5E7EB',
+                            color: tableCellColor,
+                            borderBottom: `1px solid ${tableCellBorder}`,
                           }}
                           align="right"
                         >
@@ -574,8 +525,8 @@ const Step3: React.FC<Step3Props> = ({
                           sx={{
                             fontFamily: 'Outfit, sans-serif',
                             fontSize: '14px',
-                            color: '#374151',
-                            borderBottom: '1px solid #E5E7EB',
+                            color: tableCellColor,
+                            borderBottom: `1px solid ${tableCellBorder}`,
                           }}
                           align="right"
                         >
@@ -606,11 +557,11 @@ const Step3: React.FC<Step3Props> = ({
       <Card
         sx={{
           boxShadow: 'none',
-          backgroundColor: '#FFFFFF',
+          backgroundColor: cardBg,
           width: '100%',
           margin: '0 auto',
           mb: 3,
-          border: '1px solid #E5E7EB',
+          border: cardBorder,
         }}
       >
         <CardContent sx={{ p: 3 }}>
@@ -628,7 +579,7 @@ const Step3: React.FC<Step3Props> = ({
                 fontWeight: 600,
                 fontSize: '18px',
                 lineHeight: '24px',
-                color: '#1E2939',
+                color: headingColor,
               }}
             >
               Submitted Documents
@@ -643,12 +594,12 @@ const Step3: React.FC<Step3Props> = ({
                   fontWeight: 500,
                   fontSize: '14px',
                   lineHeight: '20px',
-                  color: '#6B7280',
-                  borderColor: '#D1D5DB',
+                  color: buttonColor,
+                  borderColor: buttonBorder,
                   textTransform: 'none',
                   '&:hover': {
-                    borderColor: '#9CA3AF',
-                    backgroundColor: '#F9FAFB',
+                    borderColor: isDarkMode ? '#64748B' : '#9CA3AF',
+                    backgroundColor: buttonHoverBg,
                   },
                 }}
               >
@@ -656,7 +607,7 @@ const Step3: React.FC<Step3Props> = ({
               </Button>
             )}
           </Box>
-          <Divider sx={{ mb: 3, borderColor: '#E5E7EB' }} />
+          <Divider sx={{ mb: 3, borderColor: tableCellBorder }} />
           
           {isLoadingDocuments ? (
             <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
@@ -665,18 +616,18 @@ const Step3: React.FC<Step3Props> = ({
           ) : documents.length > 0 ? (
               <TableContainer
                 component={Paper}
-                sx={{ boxShadow: 'none', border: '1px solid #E5E7EB' }}
+                sx={{ boxShadow: 'none', border: `1px solid ${tableCellBorder}`, backgroundColor: isDarkMode ? 'transparent' : undefined }}
               >
                 <Table>
                   <TableHead>
-                    <TableRow sx={{ backgroundColor: '#F9FAFB' }}>
+                    <TableRow sx={{ backgroundColor: tableHeaderBg }}>
                       <TableCell
                         sx={{
                           fontFamily: 'Outfit, sans-serif',
                           fontWeight: 600,
                           fontSize: '14px',
-                          color: '#374151',
-                          borderBottom: '1px solid #E5E7EB',
+                          color: tableCellColor,
+                          borderBottom: `1px solid ${tableCellBorder}`,
                         }}
                       >
                         Name
@@ -686,8 +637,8 @@ const Step3: React.FC<Step3Props> = ({
                           fontFamily: 'Outfit, sans-serif',
                           fontWeight: 600,
                           fontSize: '14px',
-                          color: '#374151',
-                          borderBottom: '1px solid #E5E7EB',
+                          color: tableCellColor,
+                          borderBottom: `1px solid ${tableCellBorder}`,
                         }}
                       >
                         Date
@@ -697,8 +648,8 @@ const Step3: React.FC<Step3Props> = ({
                           fontFamily: 'Outfit, sans-serif',
                           fontWeight: 600,
                           fontSize: '14px',
-                          color: '#374151',
-                          borderBottom: '1px solid #E5E7EB',
+                          color: tableCellColor,
+                          borderBottom: `1px solid ${tableCellBorder}`,
                         }}
                       >
                         Type
@@ -709,14 +660,14 @@ const Step3: React.FC<Step3Props> = ({
                     {documents.map((doc, index) => (
                       <TableRow
                         key={doc.id || index}
-                        sx={{ '&:hover': { backgroundColor: '#F9FAFB' } }}
+                        sx={{ '&:hover': { backgroundColor: tableRowHoverBg } }}
                       >
                         <TableCell
                           sx={{
                             fontFamily: 'Outfit, sans-serif',
                             fontSize: '14px',
-                            color: '#374151',
-                            borderBottom: '1px solid #E5E7EB',
+                            color: tableCellColor,
+                            borderBottom: `1px solid ${tableCellBorder}`,
                           }}
                         >
                           {doc.name || '-'}
@@ -725,8 +676,8 @@ const Step3: React.FC<Step3Props> = ({
                           sx={{
                             fontFamily: 'Outfit, sans-serif',
                             fontSize: '14px',
-                            color: '#374151',
-                            borderBottom: '1px solid #E5E7EB',
+                            color: tableCellColor,
+                            borderBottom: `1px solid ${tableCellBorder}`,
                           }}
                         >
                           {doc.uploadDate ? new Date(doc.uploadDate).toLocaleDateString('en-GB') : '-'}
@@ -735,8 +686,8 @@ const Step3: React.FC<Step3Props> = ({
                           sx={{
                             fontFamily: 'Outfit, sans-serif',
                             fontSize: '14px',
-                            color: '#374151',
-                            borderBottom: '1px solid #E5E7EB',
+                            color: tableCellColor,
+                            borderBottom: `1px solid ${tableCellBorder}`,
                           }}
                         >
                           {doc.classification || '-'}

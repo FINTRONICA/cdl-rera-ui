@@ -101,6 +101,12 @@ export interface LabelsState {
   budgetLabelsError: string | null;
   budgetLabelsLastFetched: number | null;
 
+  // Budget management firm labels
+  budgetManagementFirmLabels: ProcessedLabels | null;
+  budgetManagementFirmLabelsLoading: boolean;
+  budgetManagementFirmLabelsError: string | null;
+  budgetManagementFirmLabelsLastFetched: number | null;
+
   // Global loading state for all labels
   allLabelsLoading: boolean;
   allLabelsError: string | null;
@@ -172,6 +178,11 @@ export interface LabelsActions {
   setBudgetLabelsLoading: (loading: boolean) => void;
   setBudgetLabelsError: (error: string | null) => void;
 
+  // Budget management firm labels actions
+  setBudgetManagementFirmLabels: (labels: ProcessedLabels) => void;
+  setBudgetManagementFirmLabelsLoading: (loading: boolean) => void;
+  setBudgetManagementFirmLabelsError: (error: string | null) => void;
+
   // Global actions
   setAllLabelsLoading: (loading: boolean) => void;
   setAllLabelsError: (error: string | null) => void;
@@ -192,7 +203,8 @@ export interface LabelsActions {
       | "workflowRequested"
       | "pendingTransaction"
       | "discardedTransaction"
-      | "budget",
+      | "budget"
+      | "budgetManagementFirm",
     configId: string,
     language: string,
     fallback: string,
@@ -213,7 +225,8 @@ export interface LabelsActions {
       | "workflowRequested"
       | "pendingTransaction"
       | "discardedTransaction"
-      | "budget",
+      | "budget"
+      | "budgetManagementFirm"
   ) => boolean;
   getAvailableLanguages: (
     type:
@@ -229,7 +242,8 @@ export interface LabelsActions {
       | "workflowRequested"
       | "pendingTransaction"
       | "discardedTransaction"
-      | "budget",
+      | "budget"
+      | "budgetManagementFirm"
   ) => string[];
 
   // Status helpers
@@ -247,7 +261,7 @@ export interface LabelsActions {
     pendingTransaction: boolean;
     discardedTransaction: boolean;
     budget: boolean;
-
+    budgetManagementFirm: boolean;
     any: boolean;
     all: boolean;
   };
@@ -324,6 +338,12 @@ export const labelsSlice: StateCreator<LabelsSlice> = (set, get) => ({
   budgetLabelsLoading: false,
   budgetLabelsError: null,
   budgetLabelsLastFetched: null,
+
+  // Budget management firm labels
+  budgetManagementFirmLabels: null,
+  budgetManagementFirmLabelsLoading: false,
+  budgetManagementFirmLabelsError: null,
+  budgetManagementFirmLabelsLastFetched: null,
 
   allLabelsLoading: false,
   allLabelsError: null,
@@ -569,6 +589,22 @@ export const labelsSlice: StateCreator<LabelsSlice> = (set, get) => ({
     }
     set({ budgetLabelsError: error });
   },
+
+  // Budget management firm labels actions
+  setBudgetManagementFirmLabels: (labels) => {
+    set({
+      budgetManagementFirmLabels: labels,
+      budgetManagementFirmLabelsLastFetched: Date.now(),
+      budgetManagementFirmLabelsError: null,
+    });
+  },
+  setBudgetManagementFirmLabelsLoading: (loading) => set({ budgetManagementFirmLabelsLoading: loading }),
+  setBudgetManagementFirmLabelsError: (error) => {
+    if (error) {
+      console.error("Error fetching budget management firm labels:", error);
+    }
+    set({ budgetManagementFirmLabelsError: error });
+  },
   // Global actions
   setAllLabelsLoading: (loading) => set({ allLabelsLoading: loading }),
 
@@ -595,6 +631,7 @@ export const labelsSlice: StateCreator<LabelsSlice> = (set, get) => ({
       workflowAmountRuleLabels: null,
       workflowAmountStageOverrideLabels: null,
       workflowRequestedLabels: null,
+      budgetManagementFirmLabels: null,
       buildPartnerLabelsLastFetched: null,
       capitalPartnerLabelsLastFetched: null,
       buildPartnerAssetLabelsLastFetched: null,
@@ -606,6 +643,7 @@ export const labelsSlice: StateCreator<LabelsSlice> = (set, get) => ({
       workflowRequestedLabelsLastFetched: null,
       pendingTransactionLabelsLastFetched: null,
       discardedTransactionLabelsLastFetched: null,
+      budgetManagementFirmLabelsLastFetched: null,
       sidebarLabelsError: null,
       buildPartnerLabelsError: null,
       capitalPartnerLabelsError: null,
@@ -622,6 +660,7 @@ export const labelsSlice: StateCreator<LabelsSlice> = (set, get) => ({
       budgetLabelsLastFetched: null,
       budgetLabelsLoading: false,
       budgetLabels: null,
+      budgetManagementFirmLabelsError: null,
       allLabelsError: null,
     });
   },
@@ -669,6 +708,9 @@ export const labelsSlice: StateCreator<LabelsSlice> = (set, get) => ({
         break;
       case "budget":
         labels = state.budgetLabels;
+        break;
+      case "budgetManagementFirm":
+        labels = state.budgetManagementFirmLabels;
         break;
       default:
         console.warn("⚠️ [COMPLIANCE] Unknown label type:", type);
@@ -752,6 +794,11 @@ export const labelsSlice: StateCreator<LabelsSlice> = (set, get) => ({
         return !!(
           state.budgetLabels && Object.keys(state.budgetLabels).length > 0
         );
+      case "budgetManagementFirm":
+        return !!(
+          state.budgetManagementFirmLabels &&
+          Object.keys(state.budgetManagementFirmLabels).length > 0
+        );
       default:
         return false;
     }
@@ -801,6 +848,9 @@ export const labelsSlice: StateCreator<LabelsSlice> = (set, get) => ({
       case "budget":
         labels = state.budgetLabels;
         break;
+      case "budgetManagementFirm":
+        labels = state.budgetManagementFirmLabels;
+        break;
       default:
         return ["EN"];
     }
@@ -838,7 +888,7 @@ export const labelsSlice: StateCreator<LabelsSlice> = (set, get) => ({
       pendingTransaction: state.pendingTransactionLabelsLoading,
       discardedTransaction: state.discardedTransactionLabelsLoading,
       budget: state.budgetLabelsLoading,
-
+      budgetManagementFirm: state.budgetManagementFirmLabelsLoading,
       any:
         state.sidebarLabelsLoading ||
         state.buildPartnerLabelsLoading ||
@@ -853,6 +903,7 @@ export const labelsSlice: StateCreator<LabelsSlice> = (set, get) => ({
         state.pendingTransactionLabelsLoading ||
         state.discardedTransactionLabelsLoading ||
         state.budgetLabelsLoading ||
+        state.budgetManagementFirmLabelsLoading ||
         state.allLabelsLoading,
         all: state.allLabelsLoading,
     };

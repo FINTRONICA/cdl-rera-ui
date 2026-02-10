@@ -1,20 +1,238 @@
+import type { MasterBudgetData } from '@/types/budget'
+import { budgetCategoryService, BudgetCategoryService, type BudgetCategoryResponse } from './budgetCategoryService'
+import { BudgetItemRequest, BudgetItemResponse } from '@/utils/budgetMapper'
+
+// Master Budget Service - uses BUDGET_CATEGORY endpoints
+// Maps Master Budget UI structure to Budget Category API structure
+class MasterBudgetService {
+  /**
+   * List all master budgets (using budget category endpoint)
+   */
+  async listBudgets(): Promise<MasterBudgetData[]> {
+    try {
+      const response = await BudgetCategoryService.getBudgetCategories(0, 1000)
+      const mappedData = response.content.map(this.mapToMasterBudgetData)
+      return mappedData
+    } catch (error) {
+      throw error
+    }
+  }
+
+  /**
+   * Get master budget by ID
+   */
+  async getBudgetById(id: string): Promise<MasterBudgetData> {
+    try {
+      const numericId = Number(id)
+      const response = await budgetCategoryService.getBudgetCategoryById(numericId)
+      return this.mapToMasterBudgetData(response)
+    } catch (error) {
+      throw error
+    }
+  }
+
+  /**
+   * Create a new master budget
+   */
+  async createBudget(payload: any): Promise<{ id: string }> {
+    try {
+      const response = await budgetCategoryService.createBudgetCategory(payload)
+      return { id: response.id.toString() }
+    } catch (error) {
+      throw error
+    }
+  }
+
+  /**
+   * Update an existing master budget
+   */
+  async updateBudget(id: string, payload: any): Promise<void> {
+    try {
+      await budgetCategoryService.updateBudgetCategory(Number(id), payload)
+    } catch (error) {
+      throw error
+    }
+  }
+
+  /**
+   * Delete a master budget
+   */
+  async deleteBudget(id: string): Promise<void> {
+    try {
+      await BudgetCategoryService.deleteBudgetCategory(Number(id))
+    } catch (error) {
+      throw error
+    }
+  }
+
+  /**
+   * Map Budget Category API response to Master Budget UI data
+   */
+  private mapToMasterBudgetData(bc: BudgetCategoryResponse): MasterBudgetData {
+    return {
+      id: bc.id.toString(),
+      chargeTypeId: bc.chargeTypeId,
+      chargeType: bc.chargeType || '-',
+      groupName: bc.serviceChargeGroupName || '-',
+      categoryCode: bc.categoryCode || '-',
+      categoryName: bc.categoryName || '-',
+      categorySubCode: bc.categorySubCode || '-',
+      categorySubName: bc.categorySubName || '-',
+      categorySubToSubCode: bc.categorySubToSubCode || '-',
+      categorySubToSubName: bc.categorySubToSubName || '-',
+      serviceCode: bc.serviceCode || '-',
+      serviceName: bc.serviceName || '-',
+      provisionalBudgetCode: bc.provisionalBudgetCode || '-',
+    }
+  }
+}
+
+// Export singleton instance
+export const masterBudgetService = new MasterBudgetService()
+export { MasterBudgetService }
+
+
+
+
 import { apiClient } from '@/lib/apiClient'
 import { buildApiUrl, API_ENDPOINTS } from '@/constants/apiEndpoints'
-import { BudgetItemRequest, BudgetItemResponse } from '@/utils/budgetMapper'
 import type { PaginatedResponse } from '@/types'
+import { 
+  mapBudget, 
+  BudgetResponse, 
+  BudgetRequest 
+} from '@/utils/budgetMapper'
+import { BudgetCategoryUIData } from './budgetCategoryService'
 
 // Re-export types from mapper
-export type { BudgetItemRequest, BudgetItemResponse } from '@/utils/budgetMapper'
+export type { BudgetResponse, BudgetRequest } from '@/utils/budgetMapper'
+
+// ---------- UI Model ----------
+export interface BudgetManagementUIData extends Record<string, unknown> {
+  id: number
+  budgetId: string
+  budgetName: string
+  isActive: boolean
+  budgetPeriodCode: string
+  propertyGroupId: number
+  propertyManagerEmail: string
+  masterCommunityName: string
+  masterCommunityNameLocale: string
+  createdBy: string
+  enabled: boolean
+  deleted: boolean
+  assetRegisterDTO: any
+  managementFirmDTO: any
+  budgetCategoriesDTOS: BudgetCategoryUIData[]
+  // UI display fields
+  managementFirmGroupName?: string
+  managementCompanyName?: string
+  budgetPeriodTitle?: string
+  budgetPeriodRange?: string
+  serviceChargeGroupName?: string
+  totalCostDisplay?: number
+}
 
 // ---------- Service ----------
-class BudgetItemsService {
+class BudgetManagementService {
+  static async getBudgetManagements(
+    page = 0,
+    size = 20
+  ): Promise<PaginatedResponse<BudgetManagementUIData>> {
+    try {
+      const baseUrl = buildApiUrl(API_ENDPOINTS.BUDGET.GET_ALL)
+      const url = `${baseUrl}&page=${page}&size=${size}`
+
+      const data =
+        await apiClient.get<PaginatedResponse<BudgetResponse>>(url)
+
+      // Handle different response formats
+      if ((data as any).content && Array.isArray((data as any).content)) {
+        // Spring Boot style pagination response
+        const content = (data as any).content.map(
+          mapBudget
+        )
+        const pageInfo = (data as any).page || {}
+
+        const result = {
+          content,
+          page: {
+            size: pageInfo.size || size,
+            number: pageInfo.number || page,
+            totalElements: pageInfo.totalElements || content.length,
+            totalPages:
+              pageInfo.totalPages ||
+              Math.ceil((pageInfo.totalElements || content.length) / size),
+          },
+        }
+
+        return result
+      } else if (Array.isArray(data)) {
+        // Simple array response (fallback)
+        const mappedData = (data as any).map(mapBudget)
+        return {
+          content: mappedData,
+          page: {
+            size: mappedData.length,
+            number: 0,
+            totalElements: mappedData.length,
+            totalPages: 1,
+          },
+        }
+      }
+
+      // Empty response
+      return {
+        content: [],
+        page: {
+          size: size,
+          number: page,
+          totalElements: 0,
+          totalPages: 0,
+        },
+      }
+    } catch (error) {
+      throw error
+    }
+  }
+
+  async getBudgetManagementById(id: number): Promise<BudgetManagementUIData> {
+    const url = buildApiUrl(
+      API_ENDPOINTS.BUDGET.GET_BY_ID(id.toString())
+    )
+    const data = await apiClient.get<BudgetResponse>(url)
+    return mapBudget(data) as BudgetManagementUIData
+  }
+
+  async updateBudgetManagement(
+    id: number,
+    payload: Partial<BudgetRequest>
+  ): Promise<BudgetManagementUIData> {
+    const url = buildApiUrl(API_ENDPOINTS.BUDGET.UPDATE(id.toString()))
+    const response = await apiClient.put<BudgetResponse>(url, payload)
+    return mapBudget(response) as BudgetManagementUIData
+  }
+
+  static async deleteBudgetManagement(id: number): Promise<void> {
+    const url = buildApiUrl(
+      API_ENDPOINTS.BUDGET.SOFT_DELETE(id.toString())
+    )
+    await apiClient.delete(url)
+  }
+
+  async createBudgetManagement(payload: BudgetRequest): Promise<BudgetManagementUIData> {
+    const url = buildApiUrl(API_ENDPOINTS.BUDGET.SAVE)
+    const response = await apiClient.post<BudgetResponse>(url, payload)
+    return mapBudget(response) as BudgetManagementUIData
+  }
+
   async getBudgetItemsById(
     id: number
   ): Promise<BudgetItemResponse> {
     try {
       // Validate input
       if (!id || isNaN(id) || id <= 0) {
-        console.error('[BudgetItemsService] ❌ Invalid id:', id)
+        console.error('[BudgetItemsService]  Invalid id:', id)
         throw new Error(`Invalid budget item id: ${id}`)
       }
 
@@ -58,7 +276,7 @@ class BudgetItemsService {
         budgetItem = data as BudgetItemResponse
       }
       
-      console.log('[BudgetItemsService] ✅ Budget item fetched:', {
+      console.log('[BudgetItemsService]  Budget item fetched:', {
         id: budgetItem.id,
         subCategoryCode: budgetItem.subCategoryCode,
         serviceCode: budgetItem.serviceCode,
@@ -66,7 +284,7 @@ class BudgetItemsService {
       
       return budgetItem
     } catch (error) {
-      console.error('[BudgetItemsService] ❌ ERROR in getBudgetItemsById')
+      console.error('[BudgetItemsService]  ERROR in getBudgetItemsById')
       console.error('[BudgetItemsService] id:', id)
       console.error('[BudgetItemsService] Error:', error)
       throw error
@@ -80,12 +298,12 @@ class BudgetItemsService {
     try {
       // Validate input
       if (!id || isNaN(id) || id <= 0) {
-        console.error('[BudgetItemsService] ❌ Invalid id:', id)
+        console.error('[BudgetItemsService]  Invalid id:', id)
         throw new Error(`Invalid budget item id: ${id}`)
       }
 
       if (!payload) {
-        console.error('[BudgetItemsService] ❌ Payload is required')
+        console.error('[BudgetItemsService]  Payload is required')
         throw new Error('Payload is required for update')
       }
 
@@ -100,7 +318,7 @@ class BudgetItemsService {
       
       const response = await apiClient.put<BudgetItemResponse>(url, payload)
       
-      console.log('[BudgetItemsService] ✅ Budget item updated:', {
+      console.log('[BudgetItemsService]  Budget item updated:', {
         id: response.id,
         subCategoryCode: response.subCategoryCode,
         serviceCode: response.serviceCode,
@@ -108,7 +326,7 @@ class BudgetItemsService {
       
       return response
     } catch (error) {
-      console.error('[BudgetItemsService] ❌ ERROR in updateBudgetItems')
+      console.error('[BudgetItemsService]  ERROR in updateBudgetItems')
       console.error('[BudgetItemsService] id:', id)
       console.error('[BudgetItemsService] payload:', payload)
       console.error('[BudgetItemsService] Error:', error)
@@ -127,7 +345,7 @@ class BudgetItemsService {
     try {
       // Validate input
       if (!id || isNaN(id) || id <= 0) {
-        console.error('[BudgetItemsService] ❌ Invalid id:', id)
+        console.error('[BudgetItemsService]  Invalid id:', id)
         throw new Error(`Invalid budget item id: ${id}`)
       }
 
@@ -141,9 +359,9 @@ class BudgetItemsService {
       
       await apiClient.delete(url)
       
-      console.log('[BudgetItemsService] ✅ Budget item deleted:', id)
+      console.log('[BudgetItemsService]  Budget item deleted:', id)
     } catch (error) {
-      console.error('[BudgetItemsService] ❌ ERROR in deleteBudgetItems')
+      console.error('[BudgetItemsService]  ERROR in deleteBudgetItems')
       console.error('[BudgetItemsService] id:', id)
       console.error('[BudgetItemsService] Error:', error)
       
@@ -163,13 +381,13 @@ class BudgetItemsService {
     try {
       // Validate input
       if (!payload) {
-        console.error('[BudgetItemsService] ❌ Payload is required')
+        console.error('[BudgetItemsService]  Payload is required')
         throw new Error('Payload is required for create')
       }
 
       // Validate required fields
       if (!payload.subCategoryCode || !payload.serviceCode || !payload.budgetCategoryDTO?.id) {
-        console.error('[BudgetItemsService] ❌ Missing required fields in payload')
+        console.error('[BudgetItemsService]  Missing required fields in payload')
         throw new Error('Missing required fields: subCategoryCode, serviceCode, or budgetCategoryDTO.id')
       }
 
@@ -181,7 +399,7 @@ class BudgetItemsService {
       
       const response = await apiClient.post<BudgetItemResponse>(url, payload)
       
-      console.log('[BudgetItemsService] ✅ Budget item created:', {
+      console.log('[BudgetItemsService]  Budget item created:', {
         id: response.id,
         subCategoryCode: response.subCategoryCode,
         serviceCode: response.serviceCode,
@@ -191,7 +409,7 @@ class BudgetItemsService {
       
       return response
     } catch (error) {
-      console.error('[BudgetItemsService] ❌ ERROR in createBudgetItems')
+      console.error('[BudgetItemsService]  ERROR in createBudgetItems')
       console.error('[BudgetItemsService] payload:', payload)
       console.error('[BudgetItemsService] Error:', error)
       
@@ -212,20 +430,20 @@ class BudgetItemsService {
     budgetId?: number
   ): Promise<PaginatedResponse<BudgetItemResponse>> {
     try {
-      // ✅ FIX: budgetId is now required for filtering (not budgetCategoryId)
+      //  FIX: budgetId is now required for filtering (not budgetCategoryId)
       if (!budgetId || isNaN(budgetId) || budgetId <= 0) {
-        console.error('[BudgetItemsService] ❌ Invalid budgetId:', budgetId)
+        console.error('[BudgetItemsService]  Invalid budgetId:', budgetId)
         throw new Error(`Invalid budgetId: ${budgetId}`)
       }
 
-      // ✅ FIX: Use base endpoint without query params, then construct full query string properly
+      //  FIX: Use base endpoint without query params, then construct full query string properly
       const baseEndpoint = '/budget-item'
       
-      // ✅ FIX: Build query parameters - Use budgetId.equals (NOT budgetDTO.id.equals or budgetCategoryDTO.id.equals)
+      //  FIX: Build query parameters - Use budgetId.equals (NOT budgetDTO.id.equals or budgetCategoryDTO.id.equals)
       const queryParams = new URLSearchParams()
       queryParams.append('enabled.equals', 'true')
       queryParams.append('deleted.equals', 'false')
-      queryParams.append('budgetId.equals', budgetId.toString()) // ✅ Correct parameter name
+      queryParams.append('budgetId.equals', budgetId.toString()) //  Correct parameter name
       queryParams.append('page', page.toString())
       queryParams.append('size', size.toString())
       
@@ -263,7 +481,7 @@ class BudgetItemsService {
         const content = responseData.content
         const pageInfo = responseData.page || {}
         
-        console.log('[BudgetItemsService] ✅ Extracted content array from paginated response')
+        console.log('[BudgetItemsService]  Extracted content array from paginated response')
         console.log('[BudgetItemsService] Content length:', content.length)
         console.log('[BudgetItemsService] Page info:', pageInfo)
         console.log('[BudgetItemsService] Total elements:', pageInfo.totalElements)
@@ -282,7 +500,7 @@ class BudgetItemsService {
             } : null
           })
         } else {
-          console.log('[BudgetItemsService] ⚠️ No items found for categoryId:', budgetCategoryId)
+          console.log('[BudgetItemsService] No items found for categoryId:', budgetCategoryId)
         }
         
         const result: PaginatedResponse<BudgetItemResponse> = {
@@ -301,7 +519,7 @@ class BudgetItemsService {
       } else if (Array.isArray(data)) {
         // Simple array response (fallback)
         const arrayResponse = data as BudgetItemResponse[]
-        console.log('[BudgetItemsService] ⚠️ Response is direct array (unexpected format)')
+        console.log('[BudgetItemsService] Response is direct array (unexpected format)')
         console.log('[BudgetItemsService] Array length:', arrayResponse.length)
         
         // Validate items match the requested category
@@ -310,7 +528,7 @@ class BudgetItemsService {
         )
         
         if (filteredItems.length !== arrayResponse.length) {
-          console.warn('[BudgetItemsService] ⚠️ Some items in array response do not match categoryId')
+          console.warn('[BudgetItemsService] Some items in array response do not match categoryId')
         }
         
         return {
@@ -325,7 +543,7 @@ class BudgetItemsService {
       }
       
       // Empty response
-      console.warn('[BudgetItemsService] ❌ Unexpected response format')
+      console.warn('[BudgetItemsService]  Unexpected response format')
       console.warn('[BudgetItemsService] Response:', data)
       console.warn('[BudgetItemsService] Response keys:', data && typeof data === 'object' ? Object.keys(data) : 'N/A')
       
@@ -339,7 +557,7 @@ class BudgetItemsService {
         },
       }
     } catch (error) {
-      console.error('[BudgetItemsService] ❌ ERROR in getBudgetItemsByBudgetCategoryId')
+      console.error('[BudgetItemsService]  ERROR in getBudgetItemsByBudgetCategoryId')
       console.error('[BudgetItemsService] budgetCategoryId:', budgetCategoryId)
       console.error('[BudgetItemsService] Error type:', error instanceof Error ? error.constructor.name : typeof error)
       console.error('[BudgetItemsService] Error message:', error instanceof Error ? error.message : String(error))
@@ -365,7 +583,7 @@ class BudgetItemsService {
     filters?: Record<string, string>
   ): Promise<{ content: BudgetItemResponse[]; page: { size: number; number: number; totalElements: number; totalPages: number } }> {
     try {
-      // ✅ FIX: Use base endpoint without query params, then construct full query string properly
+      //  FIX: Use base endpoint without query params, then construct full query string properly
       const baseEndpoint = '/budget-item'
       const queryParams = new URLSearchParams({
         'deleted.equals': 'false',
@@ -446,5 +664,47 @@ class BudgetItemsService {
 }
 
 // Export service instance
-export const budgetItemsService = new BudgetItemsService()
-export { BudgetItemsService }
+export const budgetManagementService = new BudgetManagementService()
+export { BudgetManagementService }
+
+// Alias for list page: BudgetService / budgetService / BudgetUIData (BUDGET API)
+export type BudgetUIData = BudgetManagementUIData
+
+class BudgetService {
+  static async getBudgets(
+    page = 0,
+    size = 20
+  ): Promise<PaginatedResponse<BudgetUIData>> {
+    return BudgetManagementService.getBudgetManagements(page, size)
+  }
+
+  static async deleteBudget(id: number): Promise<void> {
+    return BudgetManagementService.deleteBudgetManagement(id)
+  }
+
+  async getBudgetById(id: number): Promise<BudgetUIData> {
+    return budgetManagementService.getBudgetManagementById(id)
+  }
+
+  /**
+   * Update existing budget (BUDGET API)
+   * Thin wrapper around BudgetManagementService.updateBudgetManagement
+   */
+  async updateBudget(
+    id: number,
+    payload: Partial<BudgetRequest>
+  ): Promise<BudgetUIData> {
+    return budgetManagementService.updateBudgetManagement(id, payload)
+  }
+
+  /**
+   * Create new budget (BUDGET API)
+   * Thin wrapper around BudgetManagementService.createBudgetManagement
+   */
+  async createBudget(payload: BudgetRequest): Promise<BudgetUIData> {
+    return budgetManagementService.createBudgetManagement(payload)
+  }
+}
+
+export const budgetService = new BudgetService()
+export { BudgetService }

@@ -4,9 +4,9 @@ import { Suspense, useEffect, useState } from 'react'
 import { useParams, useSearchParams, useRouter } from 'next/navigation'
 import BudgetMasterStepperWrapper from '@/components/organisms/BudgetStepper/Budget'
 import { DashboardLayout } from '@/components/templates/DashboardLayout'
-import { useBudgetLabelsWithCache } from '@/hooks/budget/useBudgetLabelsWithCache'
+import { useBudgetLabelsWithCache } from '@/hooks/budget/useBudgetCategoryLabelsWithCache'
 import { MASTER_BUDGET_LABELS } from '@/constants/mappings/budgetLabels'
-import { masterBudgetService } from '@/services/api/budgetApi/budgetTEstService'
+import { masterBudgetService } from '@/services/api/budgetApi/budgetManagementService'
 import { GlobalLoading } from '@/components/atoms'
 import type { MasterBudgetData } from '@/types/budget'
 
@@ -14,7 +14,7 @@ function BudgetMasterStepPageContent() {
   const params = useParams()
   const searchParams = useSearchParams()
   const router = useRouter()
-  const { getLabel } = useBudgetLabelsWithCache('EN')
+  const { getLabel } = useBudgetLabelsWithCache()
 
   const budgetId = params.id as string
   const stepNumber = params.stepNumber as string
@@ -130,4 +130,3 @@ export default function BudgetStepPage() {
     </Suspense>
   )
 }
-

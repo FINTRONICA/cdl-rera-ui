@@ -13,7 +13,7 @@ import {
   budgetCategoryService,
   type BudgetCategoryResponse,
 } from '@/services/api/budgetApi/budgetCategoryService'
-import { useBudgetLabelsWithCache } from '@/hooks/budget/useBudgetLabelsWithCache'
+import { useBudgetLabelsWithCache } from '@/hooks/budget/useBudgetCategoryLabelsWithCache'
 import { useAppStore } from '@/store'
 import { MASTER_BUDGET_LABELS, getBudgetLabel } from '@/constants/mappings/budgetLabels'
 import { budgetMasterStep1Schema } from '@/lib/validation/budgetSchemas'
@@ -65,7 +65,7 @@ const Step1 = forwardRef<Step1Ref, Step1Props>(
     const [isGeneratingId, setIsGeneratingId] = React.useState(false)
 
     // Get labels from API
-    const { getLabel } = useBudgetLabelsWithCache('EN')
+    const { getLabel } = useBudgetLabelsWithCache()
     const currentLanguage = useAppStore((state) => state.language)
 
     const { data: existingBudgetData, isLoading: isLoadingExistingData } =

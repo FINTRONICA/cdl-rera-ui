@@ -1,6 +1,6 @@
 'use client'
 
-import { useBudgetLabelsWithCache } from '@/hooks/budget/useBudgetLabelsWithCache'
+import { useBudgetLabelsWithCache } from '@/hooks/budget/useBudgetCategoryLabelsWithCache'
 import { useAppStore } from '@/store'
 import React, { useMemo } from 'react'
 import {
@@ -114,7 +114,7 @@ const Step2: React.FC<Step2Props> = ({
   const params = useParams()
   const theme = useTheme()
   const isDark = theme.palette.mode === 'dark'
-  const { getLabel } = useBudgetLabelsWithCache('EN')
+  const { getLabel } = useBudgetLabelsWithCache()
   const currentLanguage = useAppStore((state) => state.language)
 
   // Match Build Partner Details (DeveloperStepper Step5): label = lighter grey, value = brighter white + bolder

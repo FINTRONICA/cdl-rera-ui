@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useEffect, useCallback } from 'react'
+import { useState, useRef, useEffect, useCallback, useMemo } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import {
   Stepper,
@@ -32,21 +32,25 @@ import Step3 from './steps/Step3'
 import DocumentUploadFactory from '../../DocumentUpload/DocumentUploadFactory'
 import { DocumentItem } from '../../DeveloperStepper/developerTypes'
 
+import { useBudgetManagementLabelsWithCache as useBudgetManagementFirmLabelsApi } from '@/hooks/budget/useBudgetManagementLabelsWithCache'
+import { useAppStore } from '@/store'
+import { BUDGET_MANAGEMENT_FIRM_LABELS } from '@/constants/mappings/budgetLabels'
+import { useIsDarkMode } from '@/hooks/useIsDarkMode'
+import { useCreateWorkflowRequest } from '@/hooks/workflow'
+
 type BudgetFormData = BudgetStep1Data &
   BudgetStep2Data & {
     documents?: DocumentItem[]
   }
 
-import { useBudgetManagementFirmLabelsApi } from '@/hooks/useBudgetManagementFirmLabelsWithCache'
-import { useAppStore } from '@/store'
-import { BUDGET_LABELS } from '@/constants/mappings/budgetLabels'
+const BUDGET_FIRM_STEP_STORAGE_KEY = 'budget_management_firm_max_step'
+const BASE_PATH = '/budgets/budge-firm'
 
-// Step configuration with config IDs for dynamic labels
 const stepConfigs = [
-  { key: 'details', configId: BUDGET_LABELS.STEPS.DETAILS },
-  { key: 'documents', configId: BUDGET_LABELS.STEPS.DOCUMENTS },
-  { key: 'items', configId: 'CDL_BDG_STEP_ITEMS' },
-  { key: 'review', configId: BUDGET_LABELS.STEPS.REVIEW },
+  { key: 'details', configId: BUDGET_MANAGEMENT_FIRM_LABELS.STEPS.DETAILS },
+  { key: 'documents', configId: BUDGET_MANAGEMENT_FIRM_LABELS.STEPS.DOCUMENTS },
+  { key: 'items', configId: BUDGET_MANAGEMENT_FIRM_LABELS.STEPS.BUDGET_ITEMS },
+  { key: 'review', configId: BUDGET_MANAGEMENT_FIRM_LABELS.STEPS.REVIEW },
 ]
 
 // Fallback step labels
@@ -70,8 +74,8 @@ export default function BudgetManagementFirmStepperWrapper({
 }: BudgetManagementFirmStepperWrapperProps = {}) {
   const router = useRouter()
   const params = useParams()
+  const isDarkMode = useIsDarkMode()
 
-  // Get labels from API
   const { getLabel } = useBudgetManagementFirmLabelsApi()
   const currentLanguage = useAppStore((state) => state.language)
 
@@ -81,16 +85,53 @@ export default function BudgetManagementFirmStepperWrapper({
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [successMessage, setSuccessMessage] = useState<string | null>(null)
 
-  // Create dynamic step labels
-  const steps = stepConfigs.map((config, index) =>
-    getLabel(config.configId, currentLanguage, fallbackSteps[index])
+  const steps = useMemo(
+    () =>
+      stepConfigs.map((config, index) =>
+        getLabel(
+          config.configId,
+          currentLanguage ?? 'EN',
+          fallbackSteps[index] ?? 'Step'
+        )
+      ),
+    [getLabel, currentLanguage]
   )
 
   const isEditMode = Boolean(budgetId)
   const step1Ref = useRef<Step1Ref>(null)
   const step2Ref = useRef<Step2Ref>(null)
 
-  // Keep active step in a ref so the resolver can react to step changes without remounting the form
+  const createWorkflowRequest = useCreateWorkflowRequest()
+
+  const getMaxAllowedStepIndex = useCallback(
+    (id: number | null): number => {
+      if (id == null) return 0
+      const stored =
+        typeof window !== 'undefined'
+          ? window.sessionStorage.getItem(
+            `${BUDGET_FIRM_STEP_STORAGE_KEY}_${id}`
+          )
+          : null
+      const step1Based = Math.min(
+        steps.length,
+        parseInt(stored || '2', 10)
+      )
+      return Math.max(0, step1Based - 1)
+    },
+    [steps.length]
+  )
+
+  const setMaxAllowedStep = useCallback(
+    (id: number, step1Based: number) => {
+      if (typeof window === 'undefined') return
+      window.sessionStorage.setItem(
+        `${BUDGET_FIRM_STEP_STORAGE_KEY}_${id}`,
+        String(step1Based)
+      )
+    },
+    []
+  )
+
   const activeStepRef = useRef(activeStep)
   useEffect(() => {
     activeStepRef.current = activeStep
@@ -126,35 +167,77 @@ export default function BudgetManagementFirmStepperWrapper({
     []
   )
 
-  const updateURL = (step: number, id?: number | null) => {
-    if (id && step >= 0) {
-      const queryParam = isViewMode ? '?mode=view' : '?editing=true'
-      router.push(`/budget/budget-management-firm/${id}/step/${step + 1}${queryParam}`)
-    } else if (step === 0) {
-      router.push('/budget/budget-management-firm/new')
-    }
-  }
-
-  useEffect(() => {
-    // Read step from path params (stepNumber) instead of query params
-    const stepFromPath = params.stepNumber as string | undefined
-    if (stepFromPath) {
-      const stepNumber = parseInt(stepFromPath) - 1
-      if (
-        stepNumber !== activeStep &&
-        stepNumber >= 0 &&
-        stepNumber < steps.length
-      ) {
-        setActiveStep(stepNumber)
+  const updateURL = useCallback(
+    (step: number, id?: number | null) => {
+      if (id != null && step >= 0) {
+        const queryParam = isViewMode ? '?mode=view' : '?editing=true'
+        router.push(`${BASE_PATH}/${id}/step/${step + 1}${queryParam}`)
+      } else if (step === 0) {
+        router.push(`${BASE_PATH}/new`)
       }
-    }
-  }, [params.stepNumber, activeStep, steps.length])
+    },
+    [router, isViewMode]
+  )
 
   useEffect(() => {
-    if (params.id && !budgetId) {
-      setBudgetId(parseInt(params.id as string))
+    const idParam = params?.id as string | undefined
+    const stepNumberParam = params?.stepNumber as string | undefined
+    const id = idParam ? parseInt(idParam, 10) : null
+    if (!Number.isNaN(id as number) && id != null) {
+      setBudgetId(id)
+      if (
+        typeof window !== 'undefined' &&
+        initialBudgetId != null &&
+        id === initialBudgetId
+      ) {
+        window.sessionStorage.setItem(
+          `${BUDGET_FIRM_STEP_STORAGE_KEY}_${id}`,
+          String(steps.length)
+        )
+      }
+    } else {
+      setBudgetId(null)
     }
-  }, [params.id, budgetId])
+
+    const maxAllowed = getMaxAllowedStepIndex(id ?? null)
+    let stepIndex: number
+    if (stepNumberParam) {
+      const parsed = parseInt(stepNumberParam, 10)
+      if (
+        !Number.isNaN(parsed) &&
+        parsed >= 1 &&
+        parsed <= steps.length
+      ) {
+        stepIndex = parsed - 1
+        if (
+          !isViewMode &&
+          id != null &&
+          !Number.isNaN(id) &&
+          stepIndex > maxAllowed
+        ) {
+          stepIndex = maxAllowed
+          const queryParam = isViewMode ? '?mode=view' : '?editing=true'
+          router.replace(
+            `${BASE_PATH}/${id}/step/${stepIndex + 1}${queryParam}`
+          )
+        }
+      } else {
+        stepIndex = initialStep
+      }
+    } else {
+      stepIndex = initialStep
+    }
+    setActiveStep(stepIndex)
+  }, [
+    params?.id,
+    params?.stepNumber,
+    initialStep,
+    initialBudgetId,
+    steps.length,
+    getMaxAllowedStepIndex,
+    isViewMode,
+    router,
+  ])
 
   const methods = useForm<BudgetFormData>({
     resolver: dynamicResolver,
@@ -200,9 +283,12 @@ export default function BudgetManagementFirmStepperWrapper({
 
   const navigateToNextStep = () => {
     const nextStep = activeStep + 1
-    if (nextStep < steps.length) {
+    const id = budgetId
+    if (nextStep < steps.length && id != null) {
+      if (activeStep === 1) setMaxAllowedStep(id, 3)
+      if (activeStep === 2) setMaxAllowedStep(id, 4)
       setActiveStep(nextStep)
-      updateURL(nextStep, budgetId)
+      updateURL(nextStep, id)
     }
   }
 
@@ -250,23 +336,26 @@ export default function BudgetManagementFirmStepperWrapper({
   }
 
   const handleReset = () => {
+    setErrorMessage(null)
+    setSuccessMessage(null)
     setActiveStep(0)
     setBudgetId(null)
     setIsSaving(false)
-    setErrorMessage(null)
-    setSuccessMessage(null)
     methods.reset()
-    router.push('/budget/budget-management-firm')
+    router.push(BASE_PATH)
   }
 
-  const onSubmit = () => {}
+  const onSubmit = () => { }
 
   const handleStep1SaveAndNext = (data: { id: number }) => {
-    if (data && data.id) {
-      const nextStep = activeStep + 1
+    if (data?.id) {
       setBudgetId(data.id)
-      setActiveStep(nextStep)
-      updateURL(nextStep, data.id)
+      setMaxAllowedStep(data.id, 2)
+      const nextStep = activeStep + 1
+      if (nextStep < steps.length) {
+        setActiveStep(nextStep)
+        updateURL(nextStep, data.id)
+      }
     }
   }
 
@@ -291,7 +380,7 @@ export default function BudgetManagementFirmStepperWrapper({
       setErrorMessage(null)
       setSuccessMessage(null)
       setIsSaving(true)
-      
+
       if (!budgetId) {
         setErrorMessage(
           'Budget ID not found. Please complete Step 1 first.'
@@ -300,10 +389,24 @@ export default function BudgetManagementFirmStepperWrapper({
         return
       }
 
+      const payload = methods.getValues() as unknown as Record<string, unknown>
+      await createWorkflowRequest.mutateAsync({
+        referenceId: String(budgetId),
+        referenceType: 'BUDGET',
+        moduleName: 'BUDGET',
+        actionKey: 'CREATE',
+        amount: 0,
+        currency: 'USD',
+        payloadJson: payload,
+      })
+
       setSuccessMessage(
-        'Budget submitted successfully!'
+        'Budget submitted successfully! Workflow request created.'
       )
-      router.push('/budget/budget-management-firm')
+
+      setTimeout(() => {
+        router.push(BASE_PATH)
+      }, 1500)
     } catch (error) {
       const errorData = error as {
         response?: { data?: { message?: string } }
@@ -312,7 +415,7 @@ export default function BudgetManagementFirmStepperWrapper({
       const errorMessage =
         errorData?.response?.data?.message ||
         errorData?.message ||
-        'Failed to submit budget. Please try again.'
+        'Failed to submit workflow request. Please try again.'
       setErrorMessage(errorMessage)
     } finally {
       setIsSaving(false)
@@ -361,7 +464,7 @@ export default function BudgetManagementFirmStepperWrapper({
               // Navigate to the specified step with editing=true
               if (budgetId) {
                 const step = stepNumber + 1 // Step numbers are 0-indexed in component, but 1-indexed in URL
-                router.push(`/budget/budget-management-firm/${budgetId}/step/${step}?editing=true`)
+                router.push(`${BASE_PATH}/${budgetId}/step/${step}?editing=true`)
               }
             }}
           />
@@ -377,10 +480,10 @@ export default function BudgetManagementFirmStepperWrapper({
         <Box
           sx={{
             width: '100%',
-            backgroundColor: '#FFFFFFBF',
+            backgroundColor: isDarkMode ? '#101828' : 'rgba(255, 255, 255, 0.75)',
             borderRadius: '16px',
             paddingTop: '16px',
-            border: '1px solid #FFFFFF',
+            border: isDarkMode ? '1px solid rgba(51, 65, 85, 1)' : '1px solid rgba(226, 232, 240, 1)',
           }}
         >
           <Stepper activeStep={activeStep} alternativeLabel>
@@ -399,6 +502,7 @@ export default function BudgetManagementFirmStepperWrapper({
                       textAlign: 'center',
                       verticalAlign: 'middle',
                       textTransform: 'uppercase',
+                      color: isDarkMode ? '#CBD5E1' : '#4A5565',
                     }}
                   >
                     {label}
@@ -410,24 +514,42 @@ export default function BudgetManagementFirmStepperWrapper({
 
           <Box
             key={`step-${activeStep}-${budgetId}`}
-            sx={{ my: 4, backgroundColor: '#FFFFFFBF', boxShadow: 'none' }}
+            sx={{
+              my: 4,
+              boxShadow: 'none',
+              backgroundColor: isDarkMode ? '#101828' : 'rgba(255, 255, 255, 0.75)',
+            }}
           >
             {getStepContent(activeStep)}
 
             <Box
               display="flex"
               justifyContent="space-between"
-              sx={{ backgroundColor: '#FFFFFFBF', mt: 3, mx: 6, mb: 2 }}
+              sx={{
+                mt: 3,
+                mx: 6,
+                mb: 2,
+                backgroundColor: isDarkMode ? '#101828' : 'rgba(255, 255, 255, 0.75)',
+              }}
             >
               <Button
+                type="button"
+                variant="outlined"
                 onClick={handleReset}
                 sx={{
                   fontFamily: 'Outfit, sans-serif',
                   fontWeight: 500,
-                  fontStyle: 'normal',
                   fontSize: '14px',
                   lineHeight: '20px',
                   letterSpacing: 0,
+                  color: isDarkMode ? '#93C5FD' : '#155DFC',
+                  borderColor: isDarkMode ? '#334155' : '#CAD5E2',
+                  '&:hover': {
+                    borderColor: isDarkMode ? '#475569' : '#93C5FD',
+                    backgroundColor: isDarkMode
+                      ? 'rgba(51, 65, 85, 0.3)'
+                      : 'rgba(219, 234, 254, 0.3)',
+                  },
                 }}
               >
                 Cancel
@@ -435,75 +557,73 @@ export default function BudgetManagementFirmStepperWrapper({
               <Box>
                 {activeStep !== 0 && (
                   <Button
+                    type="button"
                     onClick={handleBack}
+                    variant="outlined"
                     sx={{
                       width: '114px',
                       height: '36px',
-                      gap: '6px',
-                      opacity: 1,
-                      paddingTop: '2px',
-                      paddingRight: '3px',
-                      paddingBottom: '2px',
-                      paddingLeft: '3px',
                       borderRadius: '6px',
-                      backgroundColor: '#DBEAFE',
-                      color: '#155DFC',
+                      backgroundColor: isDarkMode
+                        ? 'rgba(30, 58, 138, 0.5)'
+                        : '#DBEAFE',
+                      color: isDarkMode ? '#93C5FD' : '#155DFC',
                       border: 'none',
                       mr: 2,
                       fontFamily: 'Outfit, sans-serif',
                       fontWeight: 500,
-                      fontStyle: 'normal',
                       fontSize: '14px',
                       lineHeight: '20px',
-                      letterSpacing: 0,
+                      '&:hover': {
+                        backgroundColor: isDarkMode
+                          ? 'rgba(30, 58, 138, 0.7)'
+                          : '#BFDBFE',
+                      },
                     }}
-                    variant="outlined"
                   >
                     Back
                   </Button>
                 )}
                 <Button
+                  type="button"
                   onClick={
                     activeStep === steps.length - 1
                       ? isViewMode
-                        ? () => router.push('/budget/budget-management-firm')
+                        ? () => router.push(BASE_PATH)
                         : handleSubmit
                       : handleNext
                   }
                   variant="contained"
                   disabled={isSaving}
                   sx={{
-                    width: '114px',
+                    width: isSaving ? '140px' : '114px',
                     height: '36px',
-                    gap: '6px',
-                    opacity: 1,
-                    paddingTop: '2px',
-                    paddingRight: '3px',
-                    paddingBottom: '2px',
-                    paddingLeft: '3px',
                     borderRadius: '6px',
-                    backgroundColor: '#2563EB',
+                    backgroundColor: isDarkMode ? '#2563EB' : '#2563EB',
                     color: '#FFFFFF',
                     boxShadow: 'none',
                     fontFamily: 'Outfit, sans-serif',
                     fontWeight: 500,
-                    fontStyle: 'normal',
                     fontSize: '14px',
                     lineHeight: '20px',
-                    letterSpacing: 0,
+                    '&.Mui-disabled': {
+                      backgroundColor: isDarkMode ? '#1E3A5F' : '#93C5FD',
+                      color: '#FFFFFF',
+                    },
+                    '&:hover': {
+                      backgroundColor: isDarkMode ? '#1D4ED8' : '#1E40AF',
+                    },
                   }}
                 >
                   {isSaving
-                    ? activeStep === steps.length - 1
-                      ? 'Submitting...'
-                      : 'Saving...'
-                    : activeStep === steps.length - 1
-                      ? isViewMode
-                        ? 'Close'
-                        : 'Submit'
-                      : isViewMode
-                        ? 'Next'
-                        : 'Save and Next'}
+                    ? 'Saving...'
+                    : isViewMode
+                      ? activeStep === steps.length - 1
+                        ? 'Done'
+                        : 'Next'
+                      : activeStep === steps.length - 1
+                        ? 'Complete'
+                        : 'Save & Next'}
                 </Button>
               </Box>
             </Box>

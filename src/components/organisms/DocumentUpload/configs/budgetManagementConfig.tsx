@@ -18,10 +18,10 @@ export const budgetDocumentService: DocumentService<
   DocumentItem,
   ApiDocumentResponse
 > = {
-  getDocuments: async (investorId: string, page = 0, size = 20) => {
+  getDocuments: async (managementFirmId: string, page = 0, size = 20) => {
     return buildPartnerService.getBuildPartnerDocuments(
-      investorId,
-      'BUDGET',
+      managementFirmId,
+      'BUDGET_MANAGEMENT',
       page,
       size
     )
@@ -29,13 +29,13 @@ export const budgetDocumentService: DocumentService<
 
   uploadDocument: async (
     file: File,
-    investorId: string,
+    managementFirmId: string,
     documentType?: string
   ) => {
     return buildPartnerService.uploadBuildPartnerDocument(
       file,
-      investorId,
-      'BUDGET',
+      managementFirmId,
+      'BUDGET_MANAGEMENT',
       documentType
     )
   },
@@ -43,7 +43,7 @@ export const budgetDocumentService: DocumentService<
 
 
 
-export const mapApiToDocumentItem = (
+export const mapApiToBudgetManagementDocumentItem = (
   apiResponse: ApiDocumentResponse
 ): DocumentItem => {
   const getFileTypeFromName = (filename: string): string => {
@@ -158,11 +158,11 @@ export const investorActions: DocumentAction<DocumentItem>[] = [
     requiresConfirmation: true,
     confirmationMessage:
       'Are you sure you want to delete this document? This action cannot be undone.',
-    onClick: async (_document: DocumentItem) => {},
+    onClick: async () => {},
   },
 ]
 
-export const createBudgetDocumentConfig = (
+export const createBudgetManagementDocumentConfig = (
   investorId: string,
   options?: {
     title?: string
@@ -192,14 +192,14 @@ export const createBudgetDocumentConfig = (
 
   const config: DocumentUploadConfig<DocumentItem, ApiDocumentResponse> = {
     entityId: investorId,
-    entityType: 'BUDGET',
+    entityType: 'BUDGET_MANAGEMENT',
     documentService: budgetDocumentService,
-    mapApiToDocument: mapApiToDocumentItem,
+    mapApiToDocument: mapApiToBudgetManagementDocumentItem,
     documentTypeSettingKey: 'INVESTOR_ID_TYPE', // Using INVESTOR_ID_TYPE as document types are shared
-    title: options?.title || 'Budget Documents',
+    title: options?.title || 'Budget Management Documents',
     description:
       options?.description ||
-      'This step is optional. You can upload budget-related documents or skip to continue.',
+      'This step is optional. You can upload budget management-related documents or skip to continue.',
     isOptional: options?.isOptional ?? true,
     isReadOnly: options?.isReadOnly ?? false,
     columns: budgetColumns,
@@ -218,3 +218,5 @@ export const createBudgetDocumentConfig = (
 
   return config
 }
+
+export const mapApiToDocumentItem = mapApiToBudgetManagementDocumentItem

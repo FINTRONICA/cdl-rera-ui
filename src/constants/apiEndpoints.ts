@@ -55,6 +55,7 @@ export const API_ENDPOINTS = {
     CAPITAL_PARTNER: '/app-language-translation/capital-partner',
     WORKFLOW_ACTIONS: '/app-language-translation/workflow',
     BUDGET: '/app-language-translation/budget',
+    BUDGET_MANAGEMENT_FIRM: '/app-language-translation/budget-management-firm',
     WORKFLOW_DEFINITION: '/app-language-translation/workflow',
     WORKFLOW_STAGE_TEMPLATE:
       '/app-language-translation/workflow-stage-template',
@@ -100,6 +101,19 @@ export const API_ENDPOINTS = {
     GET_DATA: (id: string) => `/budget-item/data/${id}`,
     UPLOAD: '/budget-item/upload',
   },
+  
+  BUDGET_CATEGORY: {
+    GET_ALL: '/budget-category?deleted.equals=false&enabled.equals=true',
+    SAVE: '/budget-category',
+    GET_BY_ID: (id: string) => `/budget-category/${id}`,
+    UPDATE: (id: string) => `/budget-category/${id}`,
+    DELETE: (id: string) => `/budget-category/${id}`,
+    SOFT_DELETE: (id: string) => `/budget-category/soft/${id}`,
+    FIND_ALL: '/budget-category/find-all',
+    GET_DATA: (id: string) => `/budget-category/data/${id}`,
+    UPLOAD: '/budget-category/upload',
+  },
+
 
   BUDGET_EVENT: { 
     GET_ALL: '/budget-event?deleted.equals=false&enabled.equals=true',
@@ -111,18 +125,6 @@ export const API_ENDPOINTS = {
     FIND_ALL: '/budget-event/find-all',
     GET_DATA: (id: string) => `/budget-event/data/${id}`,
     UPLOAD: '/budget-event/upload',
-  },
-
-  BUDGET_CATEGORY: {
-    GET_ALL: '/budget-category?deleted.equals=false&enabled.equals=true',
-    SAVE: '/budget-category',
-    GET_BY_ID: (id: string) => `/budget-category/${id}`,
-    UPDATE: (id: string) => `/budget-category/${id}`,
-    DELETE: (id: string) => `/budget-category/${id}`,
-    SOFT_DELETE: (id: string) => `/budget-category/soft/${id}`,
-    FIND_ALL: '/budget-category/find-all',
-    GET_DATA: (id: string) => `/budget-category/data/${id}`,
-    UPLOAD: '/budget-category/upload',
   },
 
 

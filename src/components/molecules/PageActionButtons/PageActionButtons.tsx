@@ -23,6 +23,7 @@ export type EntityType =
   | 'developerBeneficiary'
   | 'pendingPayment'
   | 'budget'
+  | 'budgetFirm'
 
 interface ActionButton {
   label: string
@@ -208,6 +209,13 @@ const PageActionButtonsComponent: React.FC<PageActionButtonsProps> = ({
       label: 'Add New Budget',
       route: '/budget/new',
       permissions: ['budget_create'], // Only users with budget_create permission
+      downloadPermission: ['data_export'], // Unified download permission
+      uploadPermission: ['bulk_upload'], // Unified upload permission
+    },
+    budgetFirm: {
+      label: 'Add New Budget Firm',
+      route: '/budgets/budge-firm/new',
+      permissions: ['budget_firm_create'], // Only users with budget_firm_create permission
       downloadPermission: ['data_export'], // Unified download permission
       uploadPermission: ['bulk_upload'], // Unified upload permission
     },

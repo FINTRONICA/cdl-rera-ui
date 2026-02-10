@@ -2,18 +2,20 @@
 
 import { Suspense, useEffect, useState } from 'react'
 import { useParams, useSearchParams, useRouter } from 'next/navigation'
-import BudgetManagementFirmStepperWrapper from '@/components/organisms/BudgetStepper/ManagementFirmBudget'
+import BudgetManagementFirmStepperWrapper from '@/components/organisms/BudgetStepper/BudgetFirm'
 import { DashboardLayout } from '@/components/templates/DashboardLayout'
-import {
-  budgetService,
-  type BudgetUIData,
-} from '@/services/api/budgetApi/budgetTEstService'
+import { budgetService, type BudgetUIData } from '@/services/api/budgetApi/budgetManagementService'
+import { useBudgetManagementLabelsWithCache as useBudgetManagementFirmLabelsApi } from '@/hooks/budget/useBudgetManagementLabelsWithCache'
+import { BUDGET_MANAGEMENT_FIRM_LABELS } from '@/constants/mappings/budgetLabels'
 import { GlobalLoading } from '@/components/atoms'
+import { useAppStore } from '@/store'
 
 function BudgetStepPageContent() {
   const params = useParams()
   const searchParams = useSearchParams()
   const router = useRouter()
+  const currentLanguage = useAppStore((state) => state.language) ?? 'EN'
+  const { getLabel } = useBudgetManagementFirmLabelsApi()
 
   const budgetId = params.id as string
   const stepNumber = params.stepNumber as string
@@ -21,6 +23,22 @@ function BudgetStepPageContent() {
   const editing = searchParams.get('editing')
   const isViewMode = mode === 'view'
   const isEditingMode = editing === 'true'
+
+  const pageTitle = getLabel(
+    BUDGET_MANAGEMENT_FIRM_LABELS.PAGE_TITLE,
+    currentLanguage,
+    BUDGET_MANAGEMENT_FIRM_LABELS.FALLBACKS.PAGE_TITLE
+  )
+  const budgetNameLabel = getLabel(
+    BUDGET_MANAGEMENT_FIRM_LABELS.FORM_FIELDS.BUDGET_NAME,
+    currentLanguage,
+    BUDGET_MANAGEMENT_FIRM_LABELS.FALLBACKS.FORM_FIELDS.BUDGET_NAME
+  )
+  const budgetIdLabel = getLabel(
+    BUDGET_MANAGEMENT_FIRM_LABELS.FORM_FIELDS.BUDGET_ID,
+    currentLanguage,
+    BUDGET_MANAGEMENT_FIRM_LABELS.FALLBACKS.FORM_FIELDS.BUDGET_ID
+  )
 
   const [budgetData, setBudgetData] = useState<BudgetUIData | null>(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -50,11 +68,8 @@ function BudgetStepPageContent() {
   // Show loading state
   if (isLoading) {
     return (
-      <DashboardLayout
-        title="Budget Management Firm Details"
-        subtitle=""
-      >
-        <div className="bg-[#FFFFFFBF] rounded-2xl flex flex-col h-full">
+      <DashboardLayout title={pageTitle} subtitle="">
+        <div className="bg-[#FFFFFFBF] dark:bg-gray-800/80 rounded-2xl flex flex-col h-full">
           <GlobalLoading fullHeight />
         </div>
       </DashboardLayout>
@@ -64,14 +79,11 @@ function BudgetStepPageContent() {
   // Show error state
   if (error) {
     return (
-      <DashboardLayout
-        title="Budget Management Firm Details"
-        subtitle="Error loading budget management firm details"
-      >
-        <div className="p-6 text-red-600">
+      <DashboardLayout title={pageTitle} subtitle="Error loading budget management firm details">
+        <div className="p-6 text-red-600 dark:text-red-400">
           <p>Error: {error}</p>
           <button
-            onClick={() => router.push('/budget/budget-management-firm')}
+            onClick={() => router.push('/budgets/budge-firm')}
             className="px-4 py-2 mt-4 text-white bg-blue-500 rounded hover:bg-blue-600"
           >
             Back to Budgets
@@ -83,7 +95,7 @@ function BudgetStepPageContent() {
 
   return (
     <DashboardLayout
-      title="Budget Management Firm Details"
+      title={pageTitle}
       subtitle={
         isViewMode
           ? 'View budget management firm details and configuration (Read-only)'
@@ -94,18 +106,18 @@ function BudgetStepPageContent() {
     >
       <div className="flex items-start py-2 gap-7 px-7">
         <div className="flex flex-col min-w-[200px] gap-1">
-          <label className="font-sans font-normal text-[12px] leading-[1] tracking-normal text-[#4A5565]">
-            Budget Name
+          <label className="font-sans font-normal text-[12px] leading-[1] tracking-normal text-gray-600 dark:text-slate-300">
+            {budgetNameLabel}
           </label>
-          <span className="font-outfit font-normal text-[16px] leading-[1] tracking-normal align-middle text-[#1E2939]">
+          <span className="font-outfit font-normal text-[16px] leading-[1] tracking-normal align-middle text-gray-900 dark:text-white">
             {budgetData?.budgetName || 'N/A'}
           </span>
         </div>
         <div className="flex flex-col min-w-[200px] gap-1">
-          <label className="font-sans font-normal text-[12px] leading-[1] tracking-normal text-[#4A5565]">
-            Budget ID
+          <label className="font-sans font-normal text-[12px] leading-[1] tracking-normal text-gray-600 dark:text-slate-300">
+            {budgetIdLabel}
           </label>
-          <span className="font-outfit font-normal text-[16px] leading-[1] tracking-normal align-middle text-[#1E2939]">
+          <span className="font-outfit font-normal text-[16px] leading-[1] tracking-normal align-middle text-gray-900 dark:text-white">
             {budgetData?.budgetId || 'N/A'}
           </span>
         </div>
@@ -127,8 +139,8 @@ export default function BudgetStepPage() {
   return (
     <Suspense
       fallback={
-        <DashboardLayout title="Budget Management Firm Details" subtitle="">
-          <div className="bg-[#FFFFFFBF] rounded-2xl flex flex-col h-full">
+        <DashboardLayout title={BUDGET_MANAGEMENT_FIRM_LABELS.FALLBACKS.PAGE_TITLE} subtitle="">
+          <div className="bg-[#FFFFFFBF] dark:bg-gray-800/80 rounded-2xl flex flex-col h-full">
             <GlobalLoading fullHeight />
           </div>
         </DashboardLayout>

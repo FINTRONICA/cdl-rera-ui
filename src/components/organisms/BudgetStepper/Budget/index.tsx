@@ -22,7 +22,7 @@ import Step2 from './steps/Step2'
 
 import { MASTER_BUDGET_LABELS } from '@/constants/mappings/budgetLabels'
 import DocumentUploadFactory from '@/components/organisms/DocumentUpload/DocumentUploadFactory'
-import { useBudgetLabelsWithCache } from '@/hooks/budget/useBudgetLabelsWithCache'
+import { useBudgetLabelsWithCache } from '@/hooks/budget/useBudgetCategoryLabelsWithCache'
 
 import {
   budgetMasterStep1Schema,
@@ -91,7 +91,7 @@ function MasterBudgetStepperContent({
 }: MasterBudgetStepperWrapperProps) {
   const router = useRouter()
   const params = useParams()
-  const { getLabel } = useBudgetLabelsWithCache('EN')
+  const { getLabel } = useBudgetLabelsWithCache()
   const isDarkMode = useIsDarkMode()
 
   const [activeStep, setActiveStep] = useState(initialStep)
@@ -609,7 +609,7 @@ function MasterBudgetStepperContent({
                         : 'Next'
                       : activeStep === steps.length - 1
                         ? 'Complete'
-                        : 'Save and Next'}
+                        : 'Save & Next'}
                 </Button>
               </Box>
             </Box>

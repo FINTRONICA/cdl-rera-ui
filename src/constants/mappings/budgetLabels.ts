@@ -144,6 +144,82 @@ export const MASTER_BUDGET_LABELS = {
   },
 };
 
+// Budget Management Firm (budge-firm) - list/table and form label keys + fallbacks
+export const BUDGET_MANAGEMENT_FIRM_LABELS = {
+  PAGE_TITLE: 'CDL_BDG_MF_PAGE_TITLE',
+  PAGE_SUBTITLE: 'CDL_BDG_MF_PAGE_SUBTITLE',
+  LIST: {
+    'NEW_BUTTON': 'CDL_BDG_MF_LIST_NEW_BUTTON',
+    'EMPTY_STATE': 'CDL_BDG_MF_LIST_EMPTY_STATE',
+    TABLE_HEADERS: {
+      'MANAGEMENT_FIRM': 'CDL_BDG_MF_LIST_TABLE_MANAGEMENT_FIRM',
+      'BUDGET_PERIOD': 'CDL_BDG_MF_LIST_TABLE_BUDGET_PERIOD',
+      'TOTAL_COST': 'CDL_BDG_MF_LIST_TABLE_TOTAL_COST',
+      'ACTIONS': 'CDL_BDG_MF_LIST_TABLE_ACTIONS',
+    },
+  },
+  FORM_FIELDS: {
+    'ASSET_REGISTER': 'CDL_BDG_MF_FORM_ASSET_REGISTER',
+    'MANAGEMENT_FIRM_GROUP_NAME': 'CDL_BDG_MF_FORM_MANAGEMENT_FIRM_GROUP_NAME',
+    'MANAGEMENT_COMPANY_NAME': 'CDL_BDG_MF_FORM_MANAGEMENT_COMPANY_NAME',
+    'BUDGET_ID': 'CDL_BDG_MF_FORM_BUDGET_ID',
+    'BUDGET_NAME': 'CDL_BDG_MF_FORM_BUDGET_NAME',
+    'BUDGET_PERIOD_CODE': 'CDL_BDG_MF_FORM_BUDGET_PERIOD_CODE',
+    'BUDGET_PERIOD_TITLE': 'CDL_BDG_MF_FORM_BUDGET_PERIOD_TITLE',
+    'MANAGEMENT_FIRM_GROUP_ID': 'CDL_BDG_MF_FORM_MANAGEMENT_FIRM_GROUP_ID',
+    'MANAGEMENT_FIRM_MANAGER_EMAIL': 'CDL_BDG_MF_FORM_MANAGEMENT_FIRM_MANAGER_EMAIL',
+    'MASTER_COMMUNITY_NAME': 'CDL_BDG_MF_FORM_MASTER_COMMUNITY_NAME',
+    'MASTER_COMMUNITY_LOCAL_NAME': 'CDL_BDG_MF_FORM_MASTER_COMMUNITY_LOCAL_NAME',
+    'SERVICE_CHARGE_GROUP_NAME': 'CDL_BDG_MF_FORM_SERVICE_CHARGE_GROUP_NAME',
+  },
+  SECTION_TITLES: {
+    'GENERAL': 'CDL_BDG_MF_SECTION_GENERAL',
+  },
+  STEPS: {
+    'DETAILS': 'CDL_BDG_MF_STEP_DETAILS',
+    'DOCUMENTS': 'CDL_BDG_MF_STEP_DOCUMENTS',
+    'BUDGET_ITEMS': 'CDL_BDG_MF_STEP_BUDGET_ITEMS',
+    'REVIEW': 'CDL_BDG_MF_STEP_REVIEW',
+  },
+  FALLBACKS: {
+    'PAGE_TITLE': 'Budget Management Firm',
+    'PAGE_SUBTITLE': 'Manage budgets by management firm.',
+    LIST: {
+      'NEW_BUTTON': 'New Budget Firm',
+      'EMPTY_STATE': 'No budgets yet. Add one to get started.',
+      'TABLE_HEADERS': {
+        'MANAGEMENT_FIRM': 'Management Firm',
+        'BUDGET_PERIOD': 'Budget Period',
+        'TOTAL_COST': 'Total Cost',
+        'ACTIONS': 'Actions',
+      },
+    },
+    FORM_FIELDS: {
+      'ASSET_REGISTER': 'Asset Register',
+      'MANAGEMENT_FIRM_GROUP_NAME': 'Management Firm Group Name',
+      'MANAGEMENT_COMPANY_NAME': 'Management Company Name',
+      'BUDGET_ID': 'Budget ID',
+      'BUDGET_NAME': 'Budget Name',
+      'BUDGET_PERIOD_CODE': 'Budget Period Code',
+      'BUDGET_PERIOD_TITLE': 'Budget Period Title',
+      'MANAGEMENT_FIRM_GROUP_ID': 'Property Group ID',
+      'MANAGEMENT_FIRM_MANAGER_EMAIL': 'Property Manager Email',
+      'MASTER_COMMUNITY_NAME': 'Master Community Name',
+      'MASTER_COMMUNITY_LOCAL_NAME': 'Master Community Name (Local)',
+      'SERVICE_CHARGE_GROUP_NAME': 'Service Charge Group Name',
+    },
+    SECTION_TITLES: {
+      'GENERAL': 'General Information',
+    },
+    STEPS: {
+      'DETAILS': 'Details',
+      'DOCUMENTS': 'Documents',
+      'BUDGET_ITEMS': 'Budget Items',
+      'REVIEW': 'Review',
+    },
+  },
+}
+
 export function getBudgetLabel(configId: string): string {
   return BUDGET_LABELS[configId as keyof typeof BUDGET_LABELS] ?? configId;
 }

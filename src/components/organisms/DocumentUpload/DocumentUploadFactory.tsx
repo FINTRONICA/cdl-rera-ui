@@ -7,7 +7,7 @@ import { createInvestorDocumentConfig } from "./configs/investorConfig";
 import { createPaymentDocumentConfig } from "./configs/paymentConfig";
 import { createSuretyBondDocumentConfig } from "./configs/suretyBondConfig";
 import { DocumentItem } from "../DeveloperStepper/developerTypes";
-import { createBudgetDocumentConfig } from "./configs/budgetConfig";
+import { createBudgetManagementDocumentConfig } from "./configs/budgetManagementConfig";
 import { createBudgetCategoryDocumentConfig } from "./configs/budgerCategoryConfig";
 export type DocumentUploadType =
   | "BUILD_PARTNER"
@@ -26,7 +26,9 @@ export type DocumentUploadType =
   | "ROLES"
   | "PERMISSIONS"
   | "SURETY_BOND"
-  | "BUDGET_CATEGORY";
+  | "BUDGET_CATEGORY"
+  | "BUDGET_MANAGEMENT"
+  | "BUDGET";
 
 interface DocumentUploadFactoryProps {
   type: DocumentUploadType;
@@ -183,6 +185,15 @@ const DocumentUploadFactory: React.FC<DocumentUploadFactoryProps> = ({
         return createBudgetCategoryDocumentConfig(entityId, {
           ...baseOptions,
           title: "Budget Category Documents",
+          description:
+            "This step is optional. You can upload supporting documents or skip to complete the process.",
+        });
+
+      case "BUDGET_MANAGEMENT":
+      case "BUDGET":
+        return createBudgetManagementDocumentConfig(entityId, {
+          ...baseOptions,
+          title: "Budget Management Documents",
           description:
             "This step is optional. You can upload supporting documents or skip to complete the process.",
         });
