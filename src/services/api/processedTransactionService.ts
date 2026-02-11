@@ -46,7 +46,7 @@ export interface ProcessedTransaction {
     reaId?: string
     reaCif?: string
     reaUnitNumber?: string
-    reaDeveloperName?: string
+    reaassetRegisterName?: string
     reaOqoodFormat?: string
   } | null
   capitalPartnerUnitDTO: any | null
@@ -70,9 +70,9 @@ export interface ProcessedTransactionFilters {
   unitRefNumber?: string
   fromDate?: string
   toDate?: string
-  projectName?: string
-  developerName?: string
-  projectRegulatorId?: string
+  managerFundName?: string
+  assetRegisterName?: string
+  managerFundRegulatorId?: string
   unitNumber?: string
 }
 
@@ -80,10 +80,10 @@ export interface ProcessedTransactionUIData {
   id: string
   date: string
   transId: string
-  projectAccountId: string
-  developerName: string
-  projectName: string
-  projectRegulatorId: string
+  assetRegisterAccountId: string
+  assetRegisterName: string
+  managerFundName: string
+  managerFundRegulatorId: string
   unitNo: string
   receivableCategory: string
   tasCbsMatch: string
@@ -149,13 +149,13 @@ export const mapProcessedTransactionToUIData = (
     id: String(apiData.id),
     date: formatDate(apiData.pfiTransactionDate),
     transId: apiData.pfiTransactionId || '—',
-    projectAccountId: apiData.realEstateAssestDTO?.reaCif || '—',
-    developerName:
-      apiData.realEstateAssestDTO?.reaDeveloperName ||
+    assetRegisterAccountId: apiData.realEstateAssestDTO?.reaCif || '—',
+    assetRegisterName:
+      apiData.realEstateAssestDTO?.reaassetRegisterName ||
       apiData.pfiPrimaryUnitHolderName ||
       '—',
-    projectName: apiData.realEstateAssestDTO?.reaName || '—',
-    projectRegulatorId: apiData.realEstateAssestDTO?.reaId || '—',
+    managerFundName: apiData.realEstateAssestDTO?.reaName || '—',
+    managerFundRegulatorId: apiData.realEstateAssestDTO?.reaId || '—',
     unitNo:
       apiData.realEstateAssestDTO?.reaUnitNumber ||
       apiData.realEstateAssestDTO?.reaOqoodFormat ||

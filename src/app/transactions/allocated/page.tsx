@@ -87,29 +87,29 @@ const AllocatedTransactionPage: React.FC = () => {
       sortable: true,
     },
     {
-      key: 'projectAccountId',
-      label: getTransactionLabelDynamic('CDL_TRANS_BP_CIF'),
+      key: 'assetRegisterAccountId',
+      label: getTransactionLabelDynamic('CDL_TRANS_ASSET_REGISTER_CIF'),
       type: 'text' as const,
       width: 'w-48',
       sortable: true,
     },
     {
-      key: 'developerName',
-      label: getTransactionLabelDynamic('CDL_TRANS_BP_NAME'),
+      key: 'assetRegisterName',
+      label: getTransactionLabelDynamic('CDL_ASSET_REGISTER_NAME'),
       type: 'text' as const,
       width: 'w-48',
       sortable: true,
     },
     {
-      key: 'projectName',
-      label: getTransactionLabelDynamic('CDL_TRANS_BPA_NAME'),
+      key: 'managerFundName',
+      label: getTransactionLabelDynamic('CDL_MF_NAME'),
       type: 'text' as const,
       width: 'w-48',
       sortable: true,
     },
     {
-      key: 'projectRegulatorId',
-      label: getTransactionLabelDynamic('CDL_TRANS_BPA_REGULATOR'),
+      key: 'managerFundRegulatorId',
+      label: getTransactionLabelDynamic('CDL_MF_REGULATOR_ID'),
       type: 'text' as const,
       width: 'w-40',
       sortable: true,
@@ -192,10 +192,10 @@ const AllocatedTransactionPage: React.FC = () => {
     searchFields: [
       'date',
       'transId',
-      'projectAccountId',
-      'developerName',
-      'projectName',
-      'projectRegulatorId',
+      'assetRegisterAccountId',
+      'assetRegisterName',
+      'managerFundName',
+      'managerFundRegulatorId',
       'unitNo',
       'receivableCategory',
       'narration',
@@ -265,7 +265,7 @@ const AllocatedTransactionPage: React.FC = () => {
   const renderExpandedContent = (row: TransactionTableData) => (
     <div className="grid grid-cols-2 gap-8">
       <div className="space-y-4">
-        <h4 className="text-sm font-semibold text-gray-900 mb-4">
+        <h4 className="mb-4 text-sm font-semibold text-gray-900">
           Transaction Information
         </h4>
         <div className="grid grid-cols-2 gap-4 text-sm">
@@ -273,59 +273,59 @@ const AllocatedTransactionPage: React.FC = () => {
             <span className="text-gray-600">
               {getTransactionLabelDynamic('CDL_TRAN_DATE')}:
             </span>
-            <span className="ml-2 text-gray-800 font-medium">{row.date}</span>
+            <span className="ml-2 font-medium text-gray-800">{row.date}</span>
           </div>
           <div>
             <span className="text-gray-600">
               {getTransactionLabelDynamic('CDL_TRAN_REFNO')}:
             </span>
-            <span className="ml-2 text-gray-800 font-medium">
+            <span className="ml-2 font-medium text-gray-800">
               {row.transId}
             </span>
           </div>
           <div>
             <span className="text-gray-600">
-              {getTransactionLabelDynamic('CDL_TRANS_BP_CIF')}:
+              {getTransactionLabelDynamic('CDL_TRANS_ASSET_REGISTER_CIF')}:
             </span>
-            <span className="ml-2 text-gray-800 font-medium">
-              {row.projectAccountId}
-            </span>
-          </div>
-          <div>
-            <span className="text-gray-600">
-              {getTransactionLabelDynamic('CDL_TRANS_BP_NAME')}:
-            </span>
-            <span className="ml-2 text-gray-800 font-medium">
-              {row.developerName}
+            <span className="ml-2 font-medium text-gray-800">
+              {row.assetRegisterAccountId}
             </span>
           </div>
           <div>
             <span className="text-gray-600">
-              {getTransactionLabelDynamic('CDL_TRANS_BPA_NAME')}:
+              {getTransactionLabelDynamic('CDL_TRANS_ASSET_REGISTER_NAME')}:
             </span>
-            <span className="ml-2 text-gray-800 font-medium">
-              {row.projectName}
+            <span className="ml-2 font-medium text-gray-800">
+              {row.assetRegisterName}
             </span>
           </div>
           <div>
             <span className="text-gray-600">
-              {getTransactionLabelDynamic('CDL_TRANS_BPA_REGULATOR')}:
+              {getTransactionLabelDynamic('CDL_MF_NAME')}:
             </span>
-            <span className="ml-2 text-gray-800 font-medium">
-              {row.projectRegulatorId}
+            <span className="ml-2 font-medium text-gray-800">
+              {row.managerFundName}
+            </span>
+          </div>
+          <div>
+            <span className="text-gray-600">
+              {getTransactionLabelDynamic('CDL_MF_REGULATOR_ID')}:
+            </span>
+            <span className="ml-2 font-medium text-gray-800">
+              {row.managerFundRegulatorId}
             </span>
           </div>
           <div>
             <span className="text-gray-600">
               {getTransactionLabelDynamic('CDL_TRANS_UNIT_HOLDER')}:
             </span>
-            <span className="ml-2 text-gray-800 font-medium">{row.unitNo}</span>
+            <span className="ml-2 font-medium text-gray-800">{row.unitNo}</span>
           </div>
           <div>
             <span className="text-gray-600">
               {getTransactionLabelDynamic('CDL_TRAN_RECEIVABLE_CATEGORY')}:
             </span>
-            <span className="ml-2 text-gray-800 font-medium">
+            <span className="ml-2 font-medium text-gray-800">
               {row.receivableCategory}
             </span>
           </div>
@@ -333,7 +333,7 @@ const AllocatedTransactionPage: React.FC = () => {
             <span className="text-gray-600">
               {getTransactionLabelDynamic('CDL_TRAN_MATCHING_STATUS')}:
             </span>
-            <span className="ml-2 text-gray-800 font-medium">
+            <span className="ml-2 font-medium text-gray-800">
               {row.tasCbsMatch}
             </span>
           </div>
@@ -341,7 +341,7 @@ const AllocatedTransactionPage: React.FC = () => {
             <span className="text-gray-600">
               {getTransactionLabelDynamic('CDL_TRAN_AMOUNT')}:
             </span>
-            <span className="ml-2 text-gray-800 font-medium">
+            <span className="ml-2 font-medium text-gray-800">
               {row.amount} {row.currency}
             </span>
           </div>
@@ -349,7 +349,7 @@ const AllocatedTransactionPage: React.FC = () => {
             <span className="text-gray-600">
               {getTransactionLabelDynamic('CDL_TRAN_NOTES')}:
             </span>
-            <span className="ml-2 text-gray-800 font-medium">
+            <span className="ml-2 font-medium text-gray-800">
               {row.narration}
             </span>
           </div>
@@ -357,7 +357,7 @@ const AllocatedTransactionPage: React.FC = () => {
             <span className="text-gray-600">
               {getTransactionLabelDynamic('CDL_TRANS_APPROVAL_STATUS')}:
             </span>
-            <span className="ml-2 text-gray-800 font-medium">
+            <span className="ml-2 font-medium text-gray-800">
               {row.paymentStatus}
             </span>
           </div>
@@ -365,33 +365,33 @@ const AllocatedTransactionPage: React.FC = () => {
             <span className="text-gray-600">
               {getTransactionLabelDynamic('CDL_TRAN_TOTAL_AMT')}:
             </span>
-            <span className="ml-2 text-gray-800 font-medium">
+            <span className="ml-2 font-medium text-gray-800">
               {row.totalAmount} {row.currency}
             </span>
           </div>
         </div>
       </div>
       <div className="space-y-4">
-        <h4 className="text-sm font-semibold text-gray-900 mb-4">
+        <h4 className="mb-4 text-sm font-semibold text-gray-900">
           Transaction Actions
         </h4>
         <div className="space-y-3">
-          <button className="w-full text-left p-3 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors text-sm text-gray-700 shadow-sm">
+          <button className="w-full p-3 text-sm text-left text-gray-700 transition-colors bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-50">
             {getTransactionLabelDynamic('CDL_TRAN_ACTION')} - View Details
           </button>
-          <button className="w-full text-left p-3 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors text-sm text-gray-700 shadow-sm">
+          <button className="w-full p-3 text-sm text-left text-gray-700 transition-colors bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-50">
             {getTransactionLabelDynamic('CDL_TRAN_TEMPLATE_DOWNLOAD')} - Report
           </button>
-          <button className="w-full text-left p-3 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors text-sm text-gray-700 shadow-sm">
+          <button className="w-full p-3 text-sm text-left text-gray-700 transition-colors bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-50">
             {getTransactionLabelDynamic('CDL_TRAN_ROLLBACK')} - Deallocate
           </button>
-          <button className="w-full text-left p-3 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors text-sm text-gray-700 shadow-sm">
+          <button className="w-full p-3 text-sm text-left text-gray-700 transition-colors bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-50">
             Export Transaction Data
           </button>
         </div>
 
-        <div className="mt-4 pt-4 border-t border-gray-200">
-          <h5 className="text-xs font-semibold text-gray-700 mb-2">
+        <div className="pt-4 mt-4 border-t border-gray-200">
+          <h5 className="mb-2 text-xs font-semibold text-gray-700">
             Additional Details
           </h5>
           <div className="grid grid-cols-1 gap-2 text-xs">
@@ -424,7 +424,7 @@ const AllocatedTransactionPage: React.FC = () => {
   if (transactionsLoading || labelsLoading) {
     return (
       <DashboardLayout title={allocatedTitle}>
-        <div className="bg-white/75 dark:bg-gray-800/80 rounded-2xl flex flex-col h-full">
+        <div className="flex flex-col h-full bg-white/75 dark:bg-gray-800/80 rounded-2xl">
           <GlobalLoading fullHeight />
         </div>
       </DashboardLayout>
@@ -434,7 +434,7 @@ const AllocatedTransactionPage: React.FC = () => {
   if (transactionsError || labelsError) {
     return (
       <DashboardLayout title={allocatedTitle}>
-        <div className="bg-white/75 dark:bg-gray-800/80 rounded-2xl flex flex-col h-full">
+        <div className="flex flex-col h-full bg-white/75 dark:bg-gray-800/80 rounded-2xl">
           <GlobalError
             error={transactionsError || labelsError || 'Unknown error'}
             onRetry={() => window.location.reload()}
@@ -456,8 +456,8 @@ const AllocatedTransactionPage: React.FC = () => {
       )}
 
       <DashboardLayout title={allocatedTitle}>
-        <div className="bg-white/75 dark:bg-gray-800/80 rounded-xl flex flex-col h-full rounded-t-2xl">
-          <div className="flex-1 flex flex-col min-h-0 rounded-t-2xl">
+        <div className="flex flex-col h-full bg-white/75 dark:bg-gray-800/80 rounded-xl rounded-t-2xl">
+          <div className="flex flex-col flex-1 min-h-0 rounded-t-2xl">
             <div className="flex-1 overflow-auto rounded-t-2xl">
               <PermissionAwareDataTable<TransactionTableData>
                 data={paginated}
