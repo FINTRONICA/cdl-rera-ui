@@ -19,8 +19,8 @@ import { GlobalLoading, GlobalError } from '@/components/atoms'
 
 interface TransactionData extends Record<string, unknown> {
   id: number
-  projectName: string
-  projectRegulatorId: string
+  managerFundName: string
+  managerFundRegulatorId: string
   tranReference: string
   tranDesc: string
   tranAmount: number
@@ -37,7 +37,6 @@ const usePendingRows = (page: number, size: number) => {
     size,
     filters
   )
-
   const rows: TransactionData[] = useMemo(() => {
     if (!data?.content) {
       return []
@@ -48,8 +47,8 @@ const usePendingRows = (page: number, size: number) => {
     return items.map((ui: any) => {
       return {
         id: Number(ui.id),
-        projectName: ui.projectName || '—',
-        projectRegulatorId: ui.projectRegulatorId || '—',
+        managerFundName: ui.managerFundName || '—',
+        managerFundRegulatorId: ui.managerFundRegulatorId || '—',
         tranReference: ui.referenceId || '—',
         tranDesc: ui.description || 'TRANSFER',
         tranAmount: Number(ui.amount || '0'),
@@ -167,8 +166,8 @@ const UnallocatedTransactionPage: React.FC = () => {
   } = useTableState({
     data: apiRows,
     searchFields: [
-      'projectName',
-      'projectRegulatorId',
+      'managerFundName',
+      'managerFundRegulatorId',
       'tranReference',
       'tranDesc',
       'narration',
@@ -208,15 +207,15 @@ const UnallocatedTransactionPage: React.FC = () => {
 
   const tableColumns = [
     {
-      key: 'projectName',
-      label: getTransactionLabelDynamic('CDL_TRANS_BPA_NAME'),
+      key: 'managerFundName',
+      label: getTransactionLabelDynamic('CDL_TRANS_MF_NAME'),
       type: 'text' as const,
       width: 'w-48',
       sortable: true,
     },
     {
-      key: 'projectRegulatorId',
-      label: getTransactionLabelDynamic('CDL_TRANS_BPA_REGULATOR'),
+      key: 'managerFundRegulatorId',
+      label: getTransactionLabelDynamic('CDL_TRANS_MF_REGULATOR'),
       type: 'text' as const,
       width: 'w-40',
       sortable: true,
@@ -330,81 +329,81 @@ const UnallocatedTransactionPage: React.FC = () => {
   const renderExpandedContent = (row: TransactionData) => (
     <div className="grid grid-cols-2 gap-8">
       <div className="space-y-4">
-        <h4 className="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-4">
+        <h4 className="mb-4 text-sm font-semibold text-gray-900 dark:text-gray-100">
           Transaction Information
         </h4>
         <div className="grid grid-cols-2 gap-4 text-sm">
           <div>
             <span className="text-gray-600 dark:text-gray-400">Project Name:</span>
-            <span className="ml-2 text-gray-800 dark:text-gray-200 font-medium">
-              {row.projectName}
+            <span className="ml-2 font-medium text-gray-800 dark:text-gray-200">
+              {row.managerFundName}
             </span>
           </div>
           <div>
             <span className="text-gray-600 dark:text-gray-400">Project Regulator ID:</span>
-            <span className="ml-2 text-gray-800 dark:text-gray-200 font-medium">
-              {row.projectRegulatorId}
+            <span className="ml-2 font-medium text-gray-800 dark:text-gray-200">
+              {row.managerFundRegulatorId}
             </span>
           </div>
           <div>
             <span className="text-gray-600 dark:text-gray-400">Transaction Reference:</span>
-            <span className="ml-2 text-gray-800 dark:text-gray-200 font-medium">
+            <span className="ml-2 font-medium text-gray-800 dark:text-gray-200">
               {row.tranReference}
             </span>
           </div>
           <div>
             <span className="text-gray-600 dark:text-gray-400">Transaction Description:</span>
-            <span className="ml-2 text-gray-800 dark:text-gray-200 font-medium">
+            <span className="ml-2 font-medium text-gray-800 dark:text-gray-200">
               {row.tranDesc}
             </span>
           </div>
           <div>
             <span className="text-gray-600 dark:text-gray-400">Transaction Amount:</span>
-            <span className="ml-2 text-gray-800 dark:text-gray-200 font-medium">
+            <span className="ml-2 font-medium text-gray-800 dark:text-gray-200">
               {formatNumber(row.tranAmount)}
             </span>
           </div>
           <div>
             <span className="text-gray-600 dark:text-gray-400">Transaction Date:</span>
-            <span className="ml-2 text-gray-800 dark:text-gray-200 font-medium">
+            <span className="ml-2 font-medium text-gray-800 dark:text-gray-200">
               {row.tranDate}
             </span>
           </div>
           <div>
             <span className="text-gray-600 dark:text-gray-400">Narration:</span>
-            <span className="ml-2 text-gray-800 dark:text-gray-200 font-medium">
+            <span className="ml-2 font-medium text-gray-800 dark:text-gray-200">
               {row.narration}
             </span>
           </div>
           <div>
             <span className="text-gray-600 dark:text-gray-400">TAS Match:</span>
-            <span className="ml-2 text-gray-800 dark:text-gray-200 font-medium">
+            <span className="ml-2 font-medium text-gray-800 dark:text-gray-200">
               {row.tasMatch}
             </span>
           </div>
           <div>
             <span className="text-gray-600 dark:text-gray-400">Approval Status:</span>
-            <span className="ml-2 text-gray-800 dark:text-gray-200 font-medium">
+            <span className="ml-2 font-medium text-gray-800 dark:text-gray-200">
               {row.approvalStatus}
             </span>
           </div>
         </div>
       </div>
       <div className="space-y-4">
-        <h4 className="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-4">
+        <h4 className="mb-4 text-sm font-semibold text-gray-900 dark:text-gray-100">
           Transaction Actions
         </h4>
         <div className="space-y-3">
-          <button className="w-full text-left p-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-sm text-gray-700 dark:text-gray-200 shadow-sm">
+          <button className="w-full p-3 text-sm text-left text-gray-700 transition-colors bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 dark:text-gray-200">
             View Transaction Details
           </button>
-          <button className="w-full text-left p-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-sm text-gray-700 dark:text-gray-200 shadow-sm">
+          <button className="w-full p-3 text-sm text-left text-gray-700 transition-colors bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 dark:text-gray-200">
             Allocate Transaction
           </button>
-          <button className="w-full text-left p-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-sm text-gray-700 dark:text-gray-200 shadow-sm">
+          <button className="w-full p-3 text-sm text-left text-gray-700 transition-colors bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 dark:text-gray-200">
             Download Transaction Report
           </button>
-          <button className="w-full text-left p-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-sm text-gray-700 dark:text-gray-200 shadow-sm">
+          <button className="w-full p-3 text-sm text-left text-gray-700 transition-colors bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 dark:text-gray-200">
             Export Transaction Data
           </button>
         </div>
@@ -415,7 +414,7 @@ const UnallocatedTransactionPage: React.FC = () => {
   if (isLoading || labelsLoading) {
     return (
       <DashboardLayout title={unallocatedTitle}>
-        <div className="bg-white/75 dark:bg-gray-800/80 rounded-2xl flex flex-col h-full">
+        <div className="flex flex-col h-full bg-white/75 dark:bg-gray-800/80 rounded-2xl">
           <GlobalLoading fullHeight />
         </div>
       </DashboardLayout>
@@ -425,7 +424,7 @@ const UnallocatedTransactionPage: React.FC = () => {
   if (error || labelsError) {
     return (
       <DashboardLayout title={unallocatedTitle}>
-        <div className="bg-white/75 dark:bg-gray-800/80 rounded-2xl flex flex-col h-full">
+        <div className="flex flex-col h-full bg-white/75 dark:bg-gray-800/80 rounded-2xl">
           <GlobalError 
             error={error?.message || labelsError || 'Unknown error'} 
             onRetry={() => window.location.reload()}
@@ -447,8 +446,8 @@ const UnallocatedTransactionPage: React.FC = () => {
       )}
 
       <DashboardLayout title={unallocatedTitle}>
-        <div className="bg-white/75 dark:bg-gray-800/80 rounded-2xl flex flex-col h-full">
-          <div className="sticky top-0 z-10 bg-white/75 dark:bg-gray-800/80 border-b border-gray-200 dark:border-gray-700 rounded-t-2xl">
+        <div className="flex flex-col h-full bg-white/75 dark:bg-gray-800/80 rounded-2xl">
+          <div className="sticky top-0 z-10 border-b border-gray-200 bg-white/75 dark:bg-gray-800/80 dark:border-gray-700 rounded-t-2xl">
             <div className="flex justify-end gap-2 py-3.5 px-4">
               <PageActionButtons
                 entityType="pendingPayment"

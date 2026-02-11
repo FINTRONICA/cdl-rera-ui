@@ -76,8 +76,8 @@ export interface PendingTransactionUIData {
   allocated: string
   discard: string
   tasUpdate: string
-  projectName?: string
-  projectRegulatorId?: string
+  managerFundName?: string
+  managerFundRegulatorId?: string
   developerName?: string
   taskStatusDTO?: any | null
 }
@@ -147,8 +147,8 @@ export const mapPendingTransactionToUIData = (
     allocated: apiData.ptfiIsAllocated ? 'Yes' : 'No',
     discard: apiData.ptfiDiscard ? 'Yes' : 'No',
     tasUpdate: String(apiData.ptfiTasUpdate),
-    projectName: apiData?.realEstateAssestDTO?.reaName || '—',
-    projectRegulatorId: apiData?.realEstateAssestDTO?.reaId || '—',
+    managerFundName: apiData?.realEstateAssestDTO?.reaName || '—',
+    managerFundRegulatorId: apiData?.realEstateAssestDTO?.reaId || '—',
     developerName: apiData.ptfiPrimaryUnitHolderName || '—',
     taskStatusDTO: apiData.taskStatusDTO || null,
   }

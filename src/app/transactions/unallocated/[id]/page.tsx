@@ -14,7 +14,8 @@ import { GlobalLoading } from '@/components/atoms'
 interface TransactionData {
   id: number
   tranReference: string
-  projectName: string
+  managerFundName: string
+  managerFundRegulatorId: string
   developerName: string
   narration: string
   tranDate: string
@@ -50,7 +51,8 @@ const mapApiToTransactionData = (
     id: apiData.id,
     tranReference:
       apiData.ptfiTransactionRefId || apiData.ptfiTransactionId || '—',
-    projectName: apiData.realEstateAssestDTO?.reaName || '—',
+    managerFundName: apiData.realEstateAssestDTO?.reaName || '—',
+    managerFundRegulatorId: apiData.realEstateAssestDTO?.reaId ?? '—',
     developerName: apiData.realEstateAssestDTO?.reaManagedBy || '—',
     narration: apiData.ptfiNarration || '—',
     tranDate: apiData.ptfiTransactionDate
@@ -294,18 +296,30 @@ const UnallocatedTransactionDetailsPage: React.FC<{
               <div className="flex flex-col gap-1">
                 <div className="h-[17px]">
                   <p className="font-sans font-normal text-xs leading-none tracking-[0%] text-gray-600 dark:text-slate-400">
-                    Project Name
+                    Manager Fund Name
                   </p>
                 </div>
                 <div className="h-[25px]">
                   <p className="font-sans font-normal text-xl leading-none tracking-[0%] align-middle text-gray-900 dark:text-slate-100">
-                    {transaction.projectName}
+                    {transaction.managerFundName}
                   </p>
                 </div>
               </div>
             </div>
             <div className="flex flex-col gap-2">
               <div className="py-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="flex flex-col gap-1">
+                  <div className="h-[17px]">
+                    <p className="font-sans font-normal text-xs leading-none tracking-[0%] text-gray-600 dark:text-slate-400">
+                      Manager Fund Regulator ID:
+                    </p>
+                  </div>
+                  <div className="h-[25px]">
+                    <p className="font-sans font-normal text-[16px] leading-none tracking-[0%] align-middle text-gray-900 dark:text-slate-100">
+                      {transaction.managerFundRegulatorId}
+                    </p>
+                  </div>
+                </div>
                 <div className="flex flex-col gap-1">
                   <div className="h-[17px]">
                     <p className="font-sans font-normal text-xs leading-none tracking-[0%] text-gray-600 dark:text-slate-400">

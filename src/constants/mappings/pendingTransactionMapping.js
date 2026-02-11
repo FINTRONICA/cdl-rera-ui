@@ -72,6 +72,10 @@ export const PENDING_TRANSACTION_LABELS = {
   CDL_PFI_ACTIONS: 'Actions',
   CDL_PFI_ALLOCATE_ACTION: 'Allocate',
   CDL_PFI_DISCARD_ACTION: 'Discard',
+
+  // Manager Fund (replacing projectName / projectRegulatorId)
+  CDL_TRANS_MF_NAME: 'Manager Fund Name',
+  CDL_TRANS_MF_REGULATOR: 'Manager Fund Regulator ID',
 }
 
 // Utility function to get label by configId

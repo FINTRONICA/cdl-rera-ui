@@ -14,7 +14,8 @@ export const ALLOCATED_TRANSACTION_LABELS = {
   CDL_TRANS_BP_CIF: 'Project Account (CIF)',
   CDL_TRANS_BP_NAME: 'Developer Name',
   CDL_TRANS_BPA_NAME: 'Project Name',
-  CDL_TRANS_BPA_REGULATOR: 'Project Regulator ID',
+  CDL_TRANS_MF_NAME: 'Manager Fund Name',
+  CDL_TRANS_MF_REGULATOR: 'Manager Fund Regulator ID',
   CDL_TRANS_UNIT_HOLDER: 'Unit No. Oqood Format',
   CDL_TRAN_ACTION: 'Action',
 
