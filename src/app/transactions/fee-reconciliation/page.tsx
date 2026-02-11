@@ -84,8 +84,8 @@ const FeeRepushPage: React.FC = () => {
 
   const tableColumns = [
     {
-      key: 'projectName',
-      label: getFeeRepushLabelDynamic('CDL_FEE_BPA_NAME'),
+      key: 'managerFundName',
+      label: getFeeRepushLabelDynamic('CDL_FEE_MF_NAME'),
       type: 'text' as const,
       width: 'w-48',
       sortable: true,
@@ -176,7 +176,7 @@ const FeeRepushPage: React.FC = () => {
   } = useTableState({
     data: tableData,
     searchFields: [
-      'projectName',
+      'managerFundName',
       'feeType',
       'amount',
       'transactionDate',
@@ -193,7 +193,7 @@ const FeeRepushPage: React.FC = () => {
       await retryPayment(row.id)
       showSuccess(
         'Payment Retry Initiated',
-        `${row.projectName} - ${row.feeType}`
+        `${row.managerFundName} - ${row.feeType}`
       )
     } catch (error) {
       showError(
@@ -211,7 +211,7 @@ const FeeRepushPage: React.FC = () => {
 
     try {
       await feeRepush(row.id)
-      showSuccess('Fee Repush Initiated', `${row.projectName} - ${row.feeType}`)
+      showSuccess('Fee Repush Initiated', `${row.managerFundName} - ${row.feeType}`)
     } catch (error) {
       showError(
         'Fee Repush Failed',
@@ -233,86 +233,86 @@ const FeeRepushPage: React.FC = () => {
   const renderExpandedContent = (row: FeeRepushTableData) => (
     <div className="grid grid-cols-2 gap-8">
       <div className="space-y-4">
-        <h4 className="text-sm font-semibold text-gray-900 mb-4">
+        <h4 className="mb-4 text-sm font-semibold text-gray-900">
           Fee Information
         </h4>
         <div className="grid grid-cols-2 gap-4 text-sm">
           <div>
             <span className="text-gray-600">Project Name:</span>
-            <span className="ml-2 text-gray-800 font-medium">
-              {row.projectName}
+            <span className="ml-2 font-medium text-gray-800">
+              {row.managerFundName}
             </span>
           </div>
           <div>
             <span className="text-gray-600">Fee Type:</span>
-            <span className="ml-2 text-gray-800 font-medium">
+            <span className="ml-2 font-medium text-gray-800">
               {row.feeType}
             </span>
           </div>
           <div>
             <span className="text-gray-600">Amount:</span>
-            <span className="ml-2 text-gray-800 font-medium">
+            <span className="ml-2 font-medium text-gray-800">
               {row.amount} {row.currency}
             </span>
           </div>
           <div>
             <span className="text-gray-600">Total Amount:</span>
-            <span className="ml-2 text-gray-800 font-medium">
+            <span className="ml-2 font-medium text-gray-800">
               {row.totalAmount} {row.currency}
             </span>
           </div>
           <div>
             <span className="text-gray-600">VAT Percentage:</span>
-            <span className="ml-2 text-gray-800 font-medium">
+            <span className="ml-2 font-medium text-gray-800">
               {row.specialField1 || '10%'}
             </span>
           </div>
           <div>
             <span className="text-gray-600">Transaction Date:</span>
-            <span className="ml-2 text-gray-800 font-medium">
+            <span className="ml-2 font-medium text-gray-800">
               {row.transactionDate}
             </span>
           </div>
           <div>
             <span className="text-gray-600">Response Status:</span>
-            <span className="ml-2 text-gray-800 font-medium">
+            <span className="ml-2 font-medium text-gray-800">
               {row.approvalStatus}
             </span>
           </div>
           <div>
             <span className="text-gray-600">Payment Type:</span>
-            <span className="ml-2 text-gray-800 font-medium">
+            <span className="ml-2 font-medium text-gray-800">
               {row.paymentType}
             </span>
           </div>
           <div>
             <span className="text-gray-600">Fee Response:</span>
-            <span className="ml-2 text-gray-800 font-medium">
+            <span className="ml-2 font-medium text-gray-800">
               {row.description}
             </span>
           </div>
           <div>
             <span className="text-gray-600">Request Body:</span>
-            <span className="ml-2 text-gray-800 font-medium">
+            <span className="ml-2 font-medium text-gray-800">
               {row.specialField2 || '—'}
             </span>
           </div>
           <div>
             <span className="text-gray-600">Remarks:</span>
-            <span className="ml-2 text-gray-800 font-medium">
+            <span className="ml-2 font-medium text-gray-800">
               {row.narration}
             </span>
           </div>
           <div>
             <span className="text-gray-600">Status:</span>
-            <span className="ml-2 text-gray-800 font-medium">
+            <span className="ml-2 font-medium text-gray-800">
               {row.isActive}
             </span>
           </div>
         </div>
         {row.failureReason && row.failureReason !== '—' && (
-          <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg">
-            <h5 className="text-sm font-semibold text-red-900 mb-2">
+          <div className="p-3 mt-4 border border-red-200 rounded-lg bg-red-50">
+            <h5 className="mb-2 text-sm font-semibold text-red-900">
               Failure Reason
             </h5>
             <p className="text-sm text-red-700">{row.failureReason}</p>
@@ -320,29 +320,29 @@ const FeeRepushPage: React.FC = () => {
         )}
       </div>
       <div className="space-y-4">
-        <h4 className="text-sm font-semibold text-gray-900 mb-4">
+        <h4 className="mb-4 text-sm font-semibold text-gray-900">
           Fee Details & Actions
         </h4>
         <div className="space-y-3">
-          <button className="w-full text-left p-3 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors text-sm text-gray-700 shadow-sm">
+          <button className="w-full p-3 text-sm text-left text-gray-700 transition-colors bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-50">
             Fee Invoice
           </button>
-          <button className="w-full text-left p-3 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors text-sm text-gray-700 shadow-sm">
+          <button className="w-full p-3 text-sm text-left text-gray-700 transition-colors bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-50">
             Transaction History
           </button>
           <button
             onClick={() => handleRetryPayment(row)}
-            className="w-full text-left p-3 bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100 transition-colors text-sm text-blue-700 shadow-sm"
+            className="w-full p-3 text-sm text-left text-blue-700 transition-colors border border-blue-200 rounded-lg shadow-sm bg-blue-50 hover:bg-blue-100"
           >
             Retry Payment
           </button>
-          <button className="w-full text-left p-3 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors text-sm text-gray-700 shadow-sm">
+          <button className="w-full p-3 text-sm text-left text-gray-700 transition-colors bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-50">
             View Error Details
           </button>
         </div>
         {/* Additional tracking info */}
-        <div className="mt-4 pt-4 border-t border-gray-200">
-          <h5 className="text-xs font-semibold text-gray-700 mb-2">
+        <div className="pt-4 mt-4 border-t border-gray-200">
+          <h5 className="mb-2 text-xs font-semibold text-gray-700">
             Tracking Information
           </h5>
           <div className="grid grid-cols-1 gap-2 text-xs">
@@ -382,10 +382,10 @@ const FeeRepushPage: React.FC = () => {
       )}
 
       <DashboardLayout title={feeRepushTitle}>
-        <div className="bg-white/75 dark:bg-gray-800/80 rounded-2xl flex flex-col h-full rounded-t-2xl">
+        <div className="flex flex-col h-full bg-white/75 dark:bg-gray-800/80 rounded-2xl rounded-t-2xl">
           {/* Sticky Header Section */}
           {/* Action Buttons */}
-          {/* <div className="sticky top-0 z-10 bg-white/75 dark:bg-gray-800/80 border-b border-gray-200 dark:border-gray-700 rounded-t-2xl">
+          {/* <div className="sticky top-0 z-10 border-b border-gray-200 bg-white/75 dark:bg-gray-800/80 dark:border-gray-700 rounded-t-2xl">
             <PageActionButtons
               entityType="feeRepush"
               showButtons={{ addNew: true }}
@@ -394,13 +394,13 @@ const FeeRepushPage: React.FC = () => {
 
           {/* Loading and Error States */}
           {(feeRepushLoading || labelsLoading) && (
-            <div className="flex-1 flex items-center justify-center rounded-t-2xl">
+            <div className="flex items-center justify-center flex-1 rounded-t-2xl">
               <GlobalLoading fullHeight />
             </div>
           )}
 
           {(feeRepushError || labelsError) && (
-            <div className="flex-1 flex items-center justify-center rounded-t-2xl">
+            <div className="flex items-center justify-center flex-1 rounded-t-2xl">
               <GlobalError
                 error={feeRepushError || labelsError || 'Unknown error'}
                 onRetry={refetchFeeRepush}
@@ -415,7 +415,7 @@ const FeeRepushPage: React.FC = () => {
             !labelsLoading &&
             !feeRepushError &&
             !labelsError && (
-              <div className="flex-1 flex flex-col min-h-0">
+              <div className="flex flex-col flex-1 min-h-0">
                 <div className="flex-1 overflow-auto rounded-t-2xl">
                   <PermissionAwareDataTable<FeeRepushTableData>
                     data={paginated}

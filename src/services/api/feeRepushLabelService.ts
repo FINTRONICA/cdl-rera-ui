@@ -186,7 +186,7 @@ export const getFeeRepushLabelMap = async (
 // Mapping from API configIds to our component usage
 export const FEE_REPUSH_CONFIG_ID_MAPPING = {
   // Table Column Headers (from API response)
-  PROJECT_NAME: 'CDL_FEE_BPA_NAME', // "Build Partner Assets Name"
+  MANAGER_FUND_NAME: 'CDL_FEE_MF_NAME', // "Manager Fund Name"
   FEE_TYPE: 'CDL_FEE_TYPE', // "Fee Type"
   AMOUNT: 'CDL_FEE_AMOUNT', // "Amount"
   TRANSACTION_DATE: 'CDL_FEE_TRAN_DATE', // "Transaction Date"

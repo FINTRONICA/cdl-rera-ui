@@ -112,7 +112,7 @@ export const useFeeRepushLabelsEnhanced = (languageCode: string = 'EN') => {
 
   // Specific label getters for common Fee Repush labels
   const getProjectNameLabel = useCallback(
-    () => getLabel('CDL_FEE_BPA_NAME', 'Project Name'),
+    () => getLabel('CDL_FEE_MF_NAME', 'Manager Fund Name'),
     [getLabel]
   )
 

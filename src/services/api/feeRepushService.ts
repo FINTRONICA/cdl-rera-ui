@@ -67,7 +67,7 @@ export interface FeeRepushRecord {
 }
 
 export interface FeeRepushFilters {
-  projectName?: string
+  managerFundName?: string
   feeType?: string
   amount?: number
   minAmount?: number
@@ -99,7 +99,7 @@ export interface FeeRepushResponse extends FeeRepushRecord {
 
 export interface FeeRepushUIData {
   id: string
-  projectName: string
+  managerFundName: string
   feeType: string
   amount: string
   transactionDate: string
@@ -219,7 +219,7 @@ export const mapFeeRepushToUIData = (
 
   return {
     id: String(apiData.id),
-    projectName: apiData.realEstateAssestDTO?.reaName || '—',
+    managerFundName: apiData.realEstateAssestDTO?.reaName || '—',
     feeType: 'Fee Processing', // Default since feeType not in API response
     amount: apiData.reafhAmount ? formatAmount(apiData.reafhAmount) : '—',
     transactionDate: formatDate(apiData.reafhTransactionDate),
@@ -298,7 +298,7 @@ export class FeeRepushService {
     const apiFilters: Record<string, any> = {}
     if (filters) {
       // Map filters to actual API field names
-      if (filters.projectName) {
+      if (filters.managerFundName) {
         // Since project name is nested in realEstateAssestDTO.reaName, we might need a different approach
         // For now, we'll skip project name filtering until we know the correct API parameter
       }
