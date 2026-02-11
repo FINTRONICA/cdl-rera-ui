@@ -18,9 +18,9 @@ export const discardedTransactionLabelMapping = {
   CDL_TRAN_ACTION: 'Actions',
 
   // Project Information
-  CDL_PROJECT_NAME: 'Project Name',
-  CDL_PROJECT_REGULATOR_ID: 'Project Regulator ID',
-  CDL_DEVELOPER_NAME: 'Developer Name',
+  CDL_MF_NAME: 'Manager Fund Name',
+  CDL_MF_REGULATOR_ID: 'Manager Fund Regulator ID',
+  CDL_ASSET_REGISTER_NAME: 'Asset Register Name',
 
   // Transaction Specific
   CDL_TRAN_CURRENCY: 'Currency',

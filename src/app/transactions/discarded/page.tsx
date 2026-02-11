@@ -14,9 +14,9 @@ import { GlobalLoading, GlobalError } from '@/components/atoms'
 
 // Define the transaction data structure to match UI
 interface TransactionData extends Record<string, unknown> {
-  developerName: string
-  projectName: string
-  projectRegulatorId: string
+  assetRegisterName: string
+  managerFundName: string
+  managerFundRegulatorId: string
   tranReference: string
   tranDesc: string
   tranAmount: number
@@ -42,9 +42,9 @@ const useDiscardedRows = (page: number, size: number) => {
 
     return items.map((ui: any) => {
       return {
-        developerName: ui.developerName || '—',
-        projectName: ui.projectName || '—',
-        projectRegulatorId: ui.projectRegulatorId || '—',
+        assetRegisterName: ui.assetRegisterName || '—',
+        managerFundName: ui.managerFundName || '—',
+        managerFundRegulatorId: ui.managerFundRegulatorId || '—',
         tranReference: ui.referenceId || '—',
         tranDesc: ui.description || 'TRANSFER',
         tranAmount: Number(ui.amount || '0'),
@@ -121,9 +121,9 @@ const DiscardedTransactionPage: React.FC = () => {
   } = useTableState({
     data: apiRows,
     searchFields: [
-      'developerName',
-      'projectName',
-      'projectRegulatorId',
+      'assetRegisterName',
+      'managerFundName',
+      'managerFundRegulatorId',
       'tranReference',
       'tranDesc',
       'narration',
@@ -170,22 +170,22 @@ const DiscardedTransactionPage: React.FC = () => {
   // Define table columns with dynamic labels
   const tableColumns = [
     {
-      key: 'developerName',
-      label: getTransactionLabelDynamic('CDL_TRANS_BP_NAME'),
+      key: 'assetRegisterName',
+      label: getTransactionLabelDynamic('CDL_ASSET_REGISTER_NAME'),
       type: 'text' as const,
       width: 'w-48',
       sortable: true,
     },
     {
-      key: 'projectName',
-      label: getTransactionLabelDynamic('CDL_TRANS_BPA_NAME'),
+      key: 'managerFundName',
+      label: getTransactionLabelDynamic('CDL_MF_NAME'),
       type: 'text' as const,
       width: 'w-48',
       sortable: true,
     },
     {
-      key: 'projectRegulatorId',
-      label: 'Project Regulator ID',
+      key: 'managerFundRegulatorId',
+      label: getTransactionLabelDynamic('CDL_MF_REGULATOR_ID'),
       type: 'text' as const,
       width: 'w-40',
       sortable: true,
@@ -246,75 +246,75 @@ const DiscardedTransactionPage: React.FC = () => {
   const renderExpandedContent = (row: TransactionData) => (
     <div className="grid grid-cols-2 gap-8">
       <div className="space-y-4">
-        <h4 className="text-sm font-semibold text-gray-900 mb-4">
+        <h4 className="mb-4 text-sm font-semibold text-gray-900">
           Transaction Information
         </h4>
         <div className="grid grid-cols-2 gap-4 text-sm">
           <div>
-            <span className="text-gray-600">Developer Name:</span>
-            <span className="ml-2 text-gray-800 font-medium">
-              {row.developerName}
+            <span className="text-gray-600">Asset Register Name:</span>
+            <span className="ml-2 font-medium text-gray-800">
+              {row.assetRegisterName}
             </span>
           </div>
           <div>
-            <span className="text-gray-600">Project Name:</span>
-            <span className="ml-2 text-gray-800 font-medium">
-              {row.projectName}
+            <span className="text-gray-600">Manager Fund Name:</span>
+            <span className="ml-2 font-medium text-gray-800">
+              {row.managerFundName}
             </span>
           </div>
           <div>
-            <span className="text-gray-600">Project Regulator ID:</span>
-            <span className="ml-2 text-gray-800 font-medium">
-              {row.projectRegulatorId}
+            <span className="text-gray-600">Manager Fund Regulator ID:</span>
+            <span className="ml-2 font-medium text-gray-800">
+              {row.managerFundRegulatorId}
             </span>
           </div>
           <div>
             <span className="text-gray-600">Transaction Reference:</span>
-            <span className="ml-2 text-gray-800 font-medium">
+            <span className="ml-2 font-medium text-gray-800">
               {row.tranReference}
             </span>
           </div>
           <div>
             <span className="text-gray-600">Transaction Description:</span>
-            <span className="ml-2 text-gray-800 font-medium">
+            <span className="ml-2 font-medium text-gray-800">
               {row.tranDesc}
             </span>
           </div>
           <div>
             <span className="text-gray-600">Transaction Amount:</span>
-            <span className="ml-2 text-gray-800 font-medium">
+            <span className="ml-2 font-medium text-gray-800">
               {formatNumber(row.tranAmount)}
             </span>
           </div>
           <div>
             <span className="text-gray-600">Transaction Date:</span>
-            <span className="ml-2 text-gray-800 font-medium">
+            <span className="ml-2 font-medium text-gray-800">
               {row.tranDate}
             </span>
           </div>
           <div>
             <span className="text-gray-600">Narration:</span>
-            <span className="ml-2 text-gray-800 font-medium">
+            <span className="ml-2 font-medium text-gray-800">
               {row.narration}
             </span>
           </div>
         </div>
       </div>
       <div className="space-y-4">
-        <h4 className="text-sm font-semibold text-gray-900 mb-4">
+        <h4 className="mb-4 text-sm font-semibold text-gray-900">
           Transaction Actions
         </h4>
         <div className="space-y-3">
-          <button className="w-full text-left p-3 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors text-sm text-gray-700 shadow-sm">
+          <button className="w-full p-3 text-sm text-left text-gray-700 transition-colors bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-50">
             View Transaction Details
           </button>
-          <button className="w-full text-left p-3 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors text-sm text-gray-700 shadow-sm">
+          <button className="w-full p-3 text-sm text-left text-gray-700 transition-colors bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-50">
             Download Transaction Report
           </button>
-          <button className="w-full text-left p-3 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors text-sm text-gray-700 shadow-sm">
+          <button className="w-full p-3 text-sm text-left text-gray-700 transition-colors bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-50">
             Reallocate Transaction
           </button>
-          <button className="w-full text-left p-3 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors text-sm text-gray-700 shadow-sm">
+          <button className="w-full p-3 text-sm text-left text-gray-700 transition-colors bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-50">
             Export Transaction Data
           </button>
         </div>
@@ -325,7 +325,7 @@ const DiscardedTransactionPage: React.FC = () => {
   if (isLoading || labelsLoading) {
     return (
       <DashboardLayout title={discardedTitle}>
-        <div className="bg-white/75 dark:bg-gray-800/80 rounded-2xl flex flex-col h-full">
+        <div className="flex flex-col h-full bg-white/75 dark:bg-gray-800/80 rounded-2xl">
           <GlobalLoading fullHeight />
         </div>
       </DashboardLayout>
@@ -335,7 +335,7 @@ const DiscardedTransactionPage: React.FC = () => {
   if (error || labelsError) {
     return (
       <DashboardLayout title={discardedTitle}>
-        <div className="bg-white/75 dark:bg-gray-800/80 rounded-2xl flex flex-col h-full">
+        <div className="flex flex-col h-full bg-white/75 dark:bg-gray-800/80 rounded-2xl">
           <GlobalError
             error={error?.message || labelsError || 'Unknown error'}
             onRetry={() => window.location.reload()}
@@ -357,9 +357,9 @@ const DiscardedTransactionPage: React.FC = () => {
       )}
 
       <DashboardLayout title={discardedTitle}>
-        <div className="bg-white/75 dark:bg-gray-800/80 rounded-xl flex flex-col h-full pt-2">
+        <div className="flex flex-col h-full pt-2 bg-white/75 dark:bg-gray-800/80 rounded-xl">
           {/* Table Container with Fixed Pagination */}
-          <div className="bg-white/75 dark:bg-gray-800/80 flex-1 flex flex-col min-h-0">
+          <div className="flex flex-col flex-1 min-h-0 bg-white/75 dark:bg-gray-800/80">
             <div className="flex-1 overflow-auto">
               <ExpandableDataTable<TransactionData>
                 data={paginated}

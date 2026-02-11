@@ -78,7 +78,7 @@ export interface PendingTransactionUIData {
   tasUpdate: string
   managerFundName?: string
   managerFundRegulatorId?: string
-  developerName?: string
+  assetRegisterName?: string
   taskStatusDTO?: any | null
 }
 
@@ -149,7 +149,7 @@ export const mapPendingTransactionToUIData = (
     tasUpdate: String(apiData.ptfiTasUpdate),
     managerFundName: apiData?.realEstateAssestDTO?.reaName || '—',
     managerFundRegulatorId: apiData?.realEstateAssestDTO?.reaId || '—',
-    developerName: apiData.ptfiPrimaryUnitHolderName || '—',
+    assetRegisterName: apiData.ptfiPrimaryUnitHolderName || '—',
     taskStatusDTO: apiData.taskStatusDTO || null,
   }
 }
