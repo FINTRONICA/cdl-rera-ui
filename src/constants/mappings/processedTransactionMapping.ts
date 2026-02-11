@@ -16,7 +16,7 @@ export const PROCESSED_TRANSACTION_LABELS = {
   CDL_TRAN_STATUS: 'Processing Status',
   CDL_TRAN_ACTION: 'Action',
 
-  // Asset Register & Manager Fund (replacing Build Partner / Project keys)
+  // Asset Register & Management Firm (replacing Build Partner / Project keys)
   CDL_ASSET_REGISTER_NAME: 'Asset Register Name',
   CDL_TRANS_ASSET_REGISTER_NAME: 'Asset Register Name',
   CDL_TRANS_ASSET_REGISTER_ID: 'Asset Register ID',
@@ -25,10 +25,10 @@ export const PROCESSED_TRANSACTION_LABELS = {
   CDL_TRANS_BP_CIF: 'Asset Register CIF',
   CDL_TRANS_BPA_NAME: 'Build Partner Assets Name',
   CDL_TRANS_BPA_CIF: 'Build Partner Assets CIF',
-  CDL_TRANS_MF_NAME: 'Manager Fund Name',
-  CDL_TRANS_MF_REGULATOR: 'Manager Fund Regulator ID',
-  CDL_MF_NAME: 'Manager Fund Name',
-  CDL_MF_REGULATOR_ID: 'Manager Fund Regulator ID',
+  CDL_TRANS_MF_NAME: 'Management Firm Name',
+  CDL_TRANS_MF_REGULATOR: 'Management Firm Regulator ID',
+  CDL_MF_NAME: 'Management Firm Name',
+  CDL_MF_REGULATOR_ID: 'Management Firm Regulator ID',
 
   // Transaction Details
   CDL_TRANS_UNIT_HOLDER: 'Unit Holder',

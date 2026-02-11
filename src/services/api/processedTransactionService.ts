@@ -70,9 +70,9 @@ export interface ProcessedTransactionFilters {
   unitRefNumber?: string
   fromDate?: string
   toDate?: string
-  managerFundName?: string
+  managementFirmName?: string
   assetRegisterName?: string
-  managerFundRegulatorId?: string
+  managementFirmRegulatorId?: string
   unitNumber?: string
 }
 
@@ -82,8 +82,8 @@ export interface ProcessedTransactionUIData {
   transId: string
   assetRegisterAccountId: string
   assetRegisterName: string
-  managerFundName: string
-  managerFundRegulatorId: string
+  managementFirmName: string
+  managementFirmRegulatorId: string
   unitNo: string
   receivableCategory: string
   tasCbsMatch: string
@@ -154,8 +154,8 @@ export const mapProcessedTransactionToUIData = (
       apiData.realEstateAssestDTO?.reaassetRegisterName ||
       apiData.pfiPrimaryUnitHolderName ||
       '—',
-    managerFundName: apiData.realEstateAssestDTO?.reaName || '—',
-    managerFundRegulatorId: apiData.realEstateAssestDTO?.reaId || '—',
+    managementFirmName: apiData.realEstateAssestDTO?.reaName || '—',
+    managementFirmRegulatorId: apiData.realEstateAssestDTO?.reaId || '—',
     unitNo:
       apiData.realEstateAssestDTO?.reaUnitNumber ||
       apiData.realEstateAssestDTO?.reaOqoodFormat ||

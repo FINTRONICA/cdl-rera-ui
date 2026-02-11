@@ -14,9 +14,9 @@ import { GlobalLoading } from '@/components/atoms'
 interface TransactionData {
   id: number
   tranReference: string
-  managerFundName: string
-  managerFundRegulatorId: string
-  developerName: string
+  managementFirmName: string
+  managementFirmRegulatorId: string
+  assetRegisterName: string
   narration: string
   tranDate: string
   unitNoOqoodFormat: string
@@ -51,9 +51,9 @@ const mapApiToTransactionData = (
     id: apiData.id,
     tranReference:
       apiData.ptfiTransactionRefId || apiData.ptfiTransactionId || '—',
-    managerFundName: apiData.realEstateAssestDTO?.reaName || '—',
-    managerFundRegulatorId: apiData.realEstateAssestDTO?.reaId ?? '—',
-    developerName: apiData.realEstateAssestDTO?.reaManagedBy || '—',
+    managementFirmName: apiData.realEstateAssestDTO?.reaName || '—',
+    managementFirmRegulatorId: apiData.realEstateAssestDTO?.reaId ?? '—',
+    assetRegisterName: apiData.realEstateAssestDTO?.reaManagedBy || '—',
     narration: apiData.ptfiNarration || '—',
     tranDate: apiData.ptfiTransactionDate
       ? new Date(apiData.ptfiTransactionDate).toLocaleDateString('en-GB')
@@ -205,7 +205,7 @@ const UnallocatedTransactionDetailsPage: React.FC<{
   if (isLoading) {
     return (
       <DashboardLayout title="Transaction Details">
-        <div className="bg-white/75 dark:bg-gray-800/80 rounded-2xl flex flex-col h-full">
+        <div className="flex flex-col h-full bg-white/75 dark:bg-gray-800/80 rounded-2xl">
           <GlobalLoading fullHeight />
         </div>
       </DashboardLayout>
@@ -217,7 +217,7 @@ const UnallocatedTransactionDetailsPage: React.FC<{
     return (
       <DashboardLayout title="Transaction Error">
         <div className="flex flex-col items-center justify-center min-h-[400px]">
-          <div className="text-red-600 mb-4">
+          <div className="mb-4 text-red-600">
             <svg
               className="w-12 h-12 mx-auto"
               fill="none"
@@ -232,10 +232,10 @@ const UnallocatedTransactionDetailsPage: React.FC<{
               />
             </svg>
           </div>
-          <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+          <h2 className="mb-4 text-2xl font-semibold text-gray-900">
             Error Loading...
           </h2>
-          <p className="text-gray-600 mb-6">
+          <p className="mb-6 text-gray-600">
             {error.message || 'Unable to load transaction details'}
           </p>
           <Button
@@ -254,10 +254,10 @@ const UnallocatedTransactionDetailsPage: React.FC<{
     return (
       <DashboardLayout title="Transaction Not Found">
         <div className="flex flex-col items-center justify-center min-h-[400px]">
-          <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+          <h2 className="mb-4 text-2xl font-semibold text-gray-900">
             Transaction Not Found
           </h2>
-          <p className="text-gray-600 mb-6">
+          <p className="mb-6 text-gray-600">
             The transaction you&apos;re looking for doesn&apos;t exist.
           </p>
           <Button
@@ -277,10 +277,10 @@ const UnallocatedTransactionDetailsPage: React.FC<{
 
   return (
     <DashboardLayout title="Pending Transaction">
-      <div className="bg-white/75 dark:bg-slate-900/70 py-4 px-6 rounded-2xl">
-        <div className=" flex flex-col gap-12">
+      <div className="px-6 py-4 bg-white/75 dark:bg-slate-900/70 rounded-2xl">
+        <div className="flex flex-col gap-12 ">
           <div className="flex flex-col gap-6">
-            <div className="mt-5 pt-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 ">
+            <div className="grid grid-cols-1 gap-6 pt-2 mt-5 sm:grid-cols-2 lg:grid-cols-4 ">
               <div className="flex flex-col gap-1">
                 <div className="h-[17px]">
                   <p className="font-sans font-normal text-xs leading-none tracking-[0%] text-gray-600 dark:text-slate-400">
@@ -296,39 +296,39 @@ const UnallocatedTransactionDetailsPage: React.FC<{
               <div className="flex flex-col gap-1">
                 <div className="h-[17px]">
                   <p className="font-sans font-normal text-xs leading-none tracking-[0%] text-gray-600 dark:text-slate-400">
-                    Manager Fund Name
+                    Management Firm Name
                   </p>
                 </div>
                 <div className="h-[25px]">
                   <p className="font-sans font-normal text-xl leading-none tracking-[0%] align-middle text-gray-900 dark:text-slate-100">
-                    {transaction.managerFundName}
+                    {transaction.managementFirmName}
                   </p>
                 </div>
               </div>
             </div>
             <div className="flex flex-col gap-2">
-              <div className="py-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 gap-6 py-2 sm:grid-cols-2 lg:grid-cols-4">
                 <div className="flex flex-col gap-1">
                   <div className="h-[17px]">
                     <p className="font-sans font-normal text-xs leading-none tracking-[0%] text-gray-600 dark:text-slate-400">
-                      Manager Fund Regulator ID:
+                      Management Firm Regulator ID:
                     </p>
                   </div>
                   <div className="h-[25px]">
                     <p className="font-sans font-normal text-[16px] leading-none tracking-[0%] align-middle text-gray-900 dark:text-slate-100">
-                      {transaction.managerFundRegulatorId}
+                      {transaction.managementFirmRegulatorId}
                     </p>
                   </div>
                 </div>
                 <div className="flex flex-col gap-1">
                   <div className="h-[17px]">
                     <p className="font-sans font-normal text-xs leading-none tracking-[0%] text-gray-600 dark:text-slate-400">
-                      Developer Name:
+                      Asset Register Name:
                     </p>
                   </div>
                   <div className="h-[25px]">
                     <p className="font-sans font-normal text-[16px] leading-none tracking-[0%] align-middle text-gray-900 dark:text-slate-100">
-                      {transaction.developerName}
+                      {transaction.assetRegisterName}
                     </p>
                   </div>
                 </div>
@@ -369,7 +369,7 @@ const UnallocatedTransactionDetailsPage: React.FC<{
                   </div>
                 </div>
               </div>
-              <div className="py-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 gap-6 py-2 sm:grid-cols-2 lg:grid-cols-4">
                 <div className="flex flex-col gap-1">
                   <div className="h-[17px]">
                     <p className="font-sans font-normal text-xs leading-none tracking-[0%] text-gray-600 dark:text-gray-400">
@@ -421,7 +421,7 @@ const UnallocatedTransactionDetailsPage: React.FC<{
                   </div>
                 </div>
               </div>
-              <div className="py-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 gap-6 py-2 sm:grid-cols-2 lg:grid-cols-4">
                 <div className="flex flex-col gap-1">
                   <div className="h-[17px]">
                     <p className="font-sans font-normal text-xs leading-none tracking-[0%] text-gray-600 dark:text-gray-400">
@@ -473,8 +473,8 @@ const UnallocatedTransactionDetailsPage: React.FC<{
               </div>
             </div>
           </div>
-          <div className="gap-4 flex flex-col">
-            <div className="px-4 flex items-center justify-end">
+          <div className="flex flex-col gap-4">
+            <div className="flex items-center justify-end px-4">
               <button
                 onClick={addPaymentPlanRow}
                 className="w-[161px] h-8 gap-1.5 opacity-100 py-1.5 px-2.5 rounded-md border border-blue-600 dark:border-blue-500 flex text-blue-600 dark:text-blue-300 font-sans text-sm font-medium leading-5 tracking-[0%] hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
@@ -519,7 +519,7 @@ const UnallocatedTransactionDetailsPage: React.FC<{
                 {splitAmountData.map((item, index) => (
                   <div
                     key={index}
-                    className="grid grid-cols-9 gap-4 px-4 py-3 hover:bg-gray-50 dark:hover:bg-slate-800/60 transition-colors"
+                    className="grid grid-cols-9 gap-4 px-4 py-3 transition-colors hover:bg-gray-50 dark:hover:bg-slate-800/60"
                   >
                     <div className="text-sm text-gray-900 dark:text-slate-100">
                       <Input
@@ -617,7 +617,7 @@ const UnallocatedTransactionDetailsPage: React.FC<{
                     <div className="flex items-center">
                       <button
                         onClick={() => removePaymentPlanRow(index)}
-                        className="w-8 h-8 rounded-full bg-red-100 dark:bg-red-500/20 flex items-center justify-center hover:bg-red-200 dark:hover:bg-red-500/30 transition-colors"
+                        className="flex items-center justify-center w-8 h-8 transition-colors bg-red-100 rounded-full dark:bg-red-500/20 hover:bg-red-200 dark:hover:bg-red-500/30"
                         disabled={splitAmountData.length === 1}
                       >
                         <img
@@ -630,12 +630,12 @@ const UnallocatedTransactionDetailsPage: React.FC<{
                   </div>
                 ))}
               </div>
-              <div className="bg-gray-50 dark:bg-slate-900/60 border-t border-gray-200 dark:border-slate-700 px-4 py-3">
+              <div className="px-4 py-3 border-t border-gray-200 bg-gray-50 dark:bg-slate-900/60 dark:border-slate-700">
                 <div className="text-sm font-medium text-gray-900 dark:text-slate-100">
                   Total Split Amount: {formatNumber(totalSplitAmount)}
                 </div>
                 {!isValidationPassed && (
-                  <div className="mt-2 text-sm text-red-600 dark:text-red-400 font-medium">
+                  <div className="mt-2 text-sm font-medium text-red-600 dark:text-red-400">
                     {validationError}
                   </div>
                 )}

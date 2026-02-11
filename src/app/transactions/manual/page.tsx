@@ -20,8 +20,8 @@ interface ManualPaymentData extends Record<string, unknown> {
   id: number
   date: string
   takermsPaymentRefNo: string
-  developerName: string
-  projectName: string
+  assetRegisterName: string
+  managementFirmName: string
   paymentType: string
   paymentSubType: string
   invoiceNumber: string
@@ -57,8 +57,8 @@ const transformFundEgressToManualPayment = (
     id: fundEgress.id || 0,
     date: new Date(fundEgress.fePaymentDate).toLocaleDateString('en-GB'),
     takermsPaymentRefNo: fundEgress.fePaymentRefNumber || '',
-    developerName: fundEgress.buildPartnerDTO?.bpName || 'N/A',
-    projectName: fundEgress.realEstateAssestDTO?.reaName || 'N/A',
+    assetRegisterName: fundEgress.buildPartnerDTO?.bpName || 'N/A',
+    managementFirmName: fundEgress.realEstateAssestDTO?.reaName || 'N/A',
     paymentType:
       fundEgress.expenseTypeDTO?.languageTranslationId?.configValue ||
       'Manual Payment',
@@ -120,15 +120,15 @@ const createExpandedContentLabels = (
       'EN',
       MANUAL_PAYMENT_LABELS.FALLBACKS.EXPANDED_FIELDS.EMS_REF
     ),
-    developerName: getLabel(
-      MANUAL_PAYMENT_LABELS.EXPANDED_FIELDS.DEVELOPER_NAME,
+    assetRegisterName: getLabel(
+      MANUAL_PAYMENT_LABELS.EXPANDED_FIELDS.ASSET_REGISTER_NAME,
       'EN',
-      MANUAL_PAYMENT_LABELS.FALLBACKS.EXPANDED_FIELDS.DEVELOPER_NAME
+      MANUAL_PAYMENT_LABELS.FALLBACKS.EXPANDED_FIELDS.ASSET_REGISTER_NAME
     ),
-    projectName: getLabel(
-      MANUAL_PAYMENT_LABELS.EXPANDED_FIELDS.PROJECT_NAME,
+    managementFirmName: getLabel(
+      MANUAL_PAYMENT_LABELS.EXPANDED_FIELDS.MANAGEMENT_FIRM_NAME,
       'EN',
-      MANUAL_PAYMENT_LABELS.FALLBACKS.EXPANDED_FIELDS.PROJECT_NAME
+      MANUAL_PAYMENT_LABELS.FALLBACKS.EXPANDED_FIELDS.MANAGEMENT_FIRM_NAME
     ),
     paymentType: getLabel(
       MANUAL_PAYMENT_LABELS.EXPANDED_FIELDS.PAYMENT_TYPE,
@@ -236,22 +236,22 @@ const createTableColumns = (
     sortable: true,
   },
   {
-    key: 'developerName',
+    key: 'assetRegisterName',
     label: getLabel(
-      MANUAL_PAYMENT_LABELS.TABLE_COLUMNS.DEVELOPER_NAME,
+      MANUAL_PAYMENT_LABELS.TABLE_COLUMNS.ASSET_REGISTER_NAME,
       'EN',
-      MANUAL_PAYMENT_LABELS.FALLBACKS.TABLE_COLUMNS.DEVELOPER_NAME
+      MANUAL_PAYMENT_LABELS.FALLBACKS.TABLE_COLUMNS.ASSET_REGISTER_NAME  
     ),
     type: 'text' as const,
     width: 'w-48',
     sortable: true,
   },
   {
-    key: 'projectName',
+    key: 'managementFirmName',
     label: getLabel(
-      MANUAL_PAYMENT_LABELS.TABLE_COLUMNS.PROJECT_NAME,
+      MANUAL_PAYMENT_LABELS.TABLE_COLUMNS.MANAGEMENT_FIRM_NAME,
       'EN',
-      MANUAL_PAYMENT_LABELS.FALLBACKS.TABLE_COLUMNS.PROJECT_NAME
+      MANUAL_PAYMENT_LABELS.FALLBACKS.TABLE_COLUMNS.MANAGEMENT_FIRM_NAME
     ),
     type: 'text' as const,
     width: 'w-48',
@@ -446,8 +446,8 @@ const ManualPaymentPage: React.FC = () => {
     searchFields: [
       'date',
       'takermsPaymentRefNo',
-      'developerName',
-      'projectName',
+      'assetRegisterName',
+      'managementFirmName',
       'paymentType',
       'paymentSubType',
       'invoiceNumber',
@@ -539,7 +539,7 @@ const ManualPaymentPage: React.FC = () => {
     (row: ManualPaymentData) => (
       <div className="grid grid-cols-3 gap-8">
         <div className="space-y-4">
-          <h4 className="text-sm font-semibold text-gray-900 mb-4">
+          <h4 className="mb-4 text-sm font-semibold text-gray-900">
             {expandedLabels.sections.paymentInfo}
           </h4>
           <div className="grid grid-cols-1 gap-3 text-sm">
@@ -547,7 +547,7 @@ const ManualPaymentPage: React.FC = () => {
               <span className="text-gray-600">
                 {expandedLabels.fields.date}:
               </span>
-              <span className="ml-2 text-gray-800 font-medium">
+              <span className="ml-2 font-medium text-gray-800">
                 {row.date as string}
               </span>
             </div>
@@ -555,31 +555,31 @@ const ManualPaymentPage: React.FC = () => {
               <span className="text-gray-600">
                 {expandedLabels.fields.tasEmsRef}:
               </span>
-              <span className="ml-2 text-gray-800 font-medium">
+              <span className="ml-2 font-medium text-gray-800">
                 {row.takermsPaymentRefNo as string}
               </span>
             </div>
             <div>
               <span className="text-gray-600">
-                {expandedLabels.fields.developerName}:
+                {expandedLabels.fields.assetRegisterName}:
               </span>
-              <span className="ml-2 text-gray-800 font-medium">
-                {row.developerName as string}
+              <span className="ml-2 font-medium text-gray-800">
+                {row.assetRegisterName as string}
               </span>
             </div>
             <div>
               <span className="text-gray-600">
-                {expandedLabels.fields.projectName}:
+                {expandedLabels.fields.managementFirmName}:
               </span>
-              <span className="ml-2 text-gray-800 font-medium">
-                {row.projectName as string}
+              <span className="ml-2 font-medium text-gray-800">
+                {row.managementFirmName as string}
               </span>
             </div>
             <div>
               <span className="text-gray-600">
                 {expandedLabels.fields.paymentType}:
               </span>
-              <span className="ml-2 text-gray-800 font-medium">
+              <span className="ml-2 font-medium text-gray-800">
                 {row.paymentType as string}
               </span>
             </div>
@@ -587,7 +587,7 @@ const ManualPaymentPage: React.FC = () => {
               <span className="text-gray-600">
                 {expandedLabels.fields.paymentSubType}:
               </span>
-              <span className="ml-2 text-gray-800 font-medium">
+              <span className="ml-2 font-medium text-gray-800">
                 {row.paymentSubType as string}
               </span>
             </div>
@@ -595,14 +595,14 @@ const ManualPaymentPage: React.FC = () => {
               <span className="text-gray-600">
                 {expandedLabels.fields.invoiceNumber}:
               </span>
-              <span className="ml-2 text-gray-800 font-medium">
+              <span className="ml-2 font-medium text-gray-800">
                 {row.invoiceNumber as string}
               </span>
             </div>
           </div>
         </div>
         <div className="space-y-4">
-          <h4 className="text-sm font-semibold text-gray-900 mb-4">
+          <h4 className="mb-4 text-sm font-semibold text-gray-900">
             {expandedLabels.sections.paymentStatus}
           </h4>
           <div className="grid grid-cols-1 gap-3 text-sm">
@@ -610,7 +610,7 @@ const ManualPaymentPage: React.FC = () => {
               <span className="text-gray-600">
                 {expandedLabels.fields.corporatePayment}:
               </span>
-              <span className="ml-2 text-gray-800 font-medium">
+              <span className="ml-2 font-medium text-gray-800">
                 {row.corporatePayment as string}
               </span>
             </div>
@@ -618,7 +618,7 @@ const ManualPaymentPage: React.FC = () => {
               <span className="text-gray-600">
                 {expandedLabels.fields.beneficiaryName}:
               </span>
-              <span className="ml-2 text-gray-800 font-medium">
+              <span className="ml-2 font-medium text-gray-800">
                 {row.beneficiaryName as string}
               </span>
             </div>
@@ -626,7 +626,7 @@ const ManualPaymentPage: React.FC = () => {
               <span className="text-gray-600">
                 {expandedLabels.fields.responseRef}:
               </span>
-              <span className="ml-2 text-gray-800 font-medium">
+              <span className="ml-2 font-medium text-gray-800">
                 {row.responsePaymentRefNo as string}
               </span>
             </div>
@@ -634,7 +634,7 @@ const ManualPaymentPage: React.FC = () => {
               <span className="text-gray-600">
                 {expandedLabels.fields.timestamp}:
               </span>
-              <span className="ml-2 text-gray-800 font-medium">
+              <span className="ml-2 font-medium text-gray-800">
                 {row.timestamp as string}
               </span>
             </div>
@@ -642,7 +642,7 @@ const ManualPaymentPage: React.FC = () => {
               <span className="text-gray-600">
                 {expandedLabels.fields.phFinacleStatus}:
               </span>
-              <span className="ml-2 text-gray-800 font-medium">
+              <span className="ml-2 font-medium text-gray-800">
                 {row.phFinacleStatus as string}
               </span>
             </div>
@@ -650,7 +650,7 @@ const ManualPaymentPage: React.FC = () => {
               <span className="text-gray-600">
                 {expandedLabels.fields.errorDescription}:
               </span>
-              <span className="ml-2 text-gray-800 font-medium">
+              <span className="ml-2 font-medium text-gray-800">
                 {row.errorDescription as string}
               </span>
             </div>
@@ -658,7 +658,7 @@ const ManualPaymentPage: React.FC = () => {
               <span className="text-gray-600">
                 {expandedLabels.fields.discardedTransaction}:
               </span>
-              <span className="ml-2 text-gray-800 font-medium">
+              <span className="ml-2 font-medium text-gray-800">
                 {row.discardedTransaction as string}
               </span>
             </div>
@@ -666,27 +666,27 @@ const ManualPaymentPage: React.FC = () => {
               <span className="text-gray-600">
                 {expandedLabels.fields.approvalStatus}:
               </span>
-              <span className="ml-2 text-gray-800 font-medium">
+              <span className="ml-2 font-medium text-gray-800">
                 {row.approvalStatus as string}
               </span>
             </div>
           </div>
         </div>
         <div className="space-y-4">
-          <h4 className="text-sm font-semibold text-gray-900 mb-4">
+          <h4 className="mb-4 text-sm font-semibold text-gray-900">
             {expandedLabels.sections.paymentDocuments}
           </h4>
           <div className="space-y-3">
-            <button className="w-full text-left p-3 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors text-sm text-gray-700 shadow-sm">
+            <button className="w-full p-3 text-sm text-left text-gray-700 transition-colors bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-50">
               {expandedLabels.documents.invoice}
             </button>
-            <button className="w-full text-left p-3 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors text-sm text-gray-700 shadow-sm">
+            <button className="w-full p-3 text-sm text-left text-gray-700 transition-colors bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-50">
               {expandedLabels.documents.constructionProgress}
             </button>
-            <button className="w-full text-left p-3 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors text-sm text-gray-700 shadow-sm">
+            <button className="w-full p-3 text-sm text-left text-gray-700 transition-colors bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-50">
               {expandedLabels.documents.approval}
             </button>
-            <button className="w-full text-left p-3 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors text-sm text-gray-700 shadow-sm">
+            <button className="w-full p-3 text-sm text-left text-gray-700 transition-colors bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-50">
               {expandedLabels.documents.history}
             </button>
           </div>
@@ -706,19 +706,19 @@ const ManualPaymentPage: React.FC = () => {
       )}
 
       <DashboardLayout title={manualPaymentTitle}>
-        <div className="bg-white/75 dark:bg-gray-800/80 rounded-2xl flex flex-col h-full">
+        <div className="flex flex-col h-full bg-white/75 dark:bg-gray-800/80 rounded-2xl">
           {paymentsLoading ? (
             <GlobalLoading fullHeight />
           ) : (
             <>
-              <div className="sticky top-0 z-10 bg-white/75 dark:bg-gray-800/80 border-b border-gray-200 dark:border-gray-700 rounded-t-2xl">
+              <div className="sticky top-0 z-10 border-b border-gray-200 bg-white/75 dark:bg-gray-800/80 dark:border-gray-700 rounded-t-2xl">
                 <PageActionButtons
                   entityType="manualPayment"
                   showButtons={{ addNew: true }}
                 />
               </div>
 
-              <div className="flex-1 flex flex-col min-h-0">
+              <div className="flex flex-col flex-1 min-h-0">
                 <div className="flex-1 overflow-auto">
                   <PermissionAwareDataTable<ManualPaymentData>
                     data={paginated}

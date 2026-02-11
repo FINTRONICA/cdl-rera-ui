@@ -84,7 +84,7 @@ const FeeRepushPage: React.FC = () => {
 
   const tableColumns = [
     {
-      key: 'managerFundName',
+      key: 'managementFirmName',
       label: getFeeRepushLabelDynamic('CDL_FEE_MF_NAME'),
       type: 'text' as const,
       width: 'w-48',
@@ -176,7 +176,7 @@ const FeeRepushPage: React.FC = () => {
   } = useTableState({
     data: tableData,
     searchFields: [
-      'managerFundName',
+      'managementFirmName',
       'feeType',
       'amount',
       'transactionDate',
@@ -193,7 +193,7 @@ const FeeRepushPage: React.FC = () => {
       await retryPayment(row.id)
       showSuccess(
         'Payment Retry Initiated',
-        `${row.managerFundName} - ${row.feeType}`
+        `${row.managementFirmName} - ${row.feeType}`
       )
     } catch (error) {
       showError(
@@ -211,7 +211,7 @@ const FeeRepushPage: React.FC = () => {
 
     try {
       await feeRepush(row.id)
-      showSuccess('Fee Repush Initiated', `${row.managerFundName} - ${row.feeType}`)
+      showSuccess('Fee Repush Initiated', `${row.managementFirmName} - ${row.feeType}`)
     } catch (error) {
       showError(
         'Fee Repush Failed',
@@ -240,7 +240,7 @@ const FeeRepushPage: React.FC = () => {
           <div>
             <span className="text-gray-600">Project Name:</span>
             <span className="ml-2 font-medium text-gray-800">
-              {row.managerFundName}
+              {row.managementFirmName}
             </span>
           </div>
           <div>

@@ -15,8 +15,8 @@ import { GlobalLoading, GlobalError } from '@/components/atoms'
 // Define the transaction data structure to match UI
 interface TransactionData extends Record<string, unknown> {
   assetRegisterName: string
-  managerFundName: string
-  managerFundRegulatorId: string
+  managementFirmName: string
+  managementFirmRegulatorId: string
   tranReference: string
   tranDesc: string
   tranAmount: number
@@ -43,8 +43,8 @@ const useDiscardedRows = (page: number, size: number) => {
     return items.map((ui: any) => {
       return {
         assetRegisterName: ui.assetRegisterName || '—',
-        managerFundName: ui.managerFundName || '—',
-        managerFundRegulatorId: ui.managerFundRegulatorId || '—',
+        managementFirmName: ui.managementFirmName || '—',
+        managementFirmRegulatorId: ui.managementFirmRegulatorId || '—',
         tranReference: ui.referenceId || '—',
         tranDesc: ui.description || 'TRANSFER',
         tranAmount: Number(ui.amount || '0'),
@@ -122,8 +122,8 @@ const DiscardedTransactionPage: React.FC = () => {
     data: apiRows,
     searchFields: [
       'assetRegisterName',
-      'managerFundName',
-      'managerFundRegulatorId',
+      'managementFirmName',
+      'managementFirmRegulatorId',
       'tranReference',
       'tranDesc',
       'narration',
@@ -177,14 +177,14 @@ const DiscardedTransactionPage: React.FC = () => {
       sortable: true,
     },
     {
-      key: 'managerFundName',
+      key: 'managementFirmName',
       label: getTransactionLabelDynamic('CDL_MF_NAME'),
       type: 'text' as const,
       width: 'w-48',
       sortable: true,
     },
     {
-      key: 'managerFundRegulatorId',
+      key: 'managementFirmRegulatorId',
       label: getTransactionLabelDynamic('CDL_MF_REGULATOR_ID'),
       type: 'text' as const,
       width: 'w-40',
@@ -259,13 +259,13 @@ const DiscardedTransactionPage: React.FC = () => {
           <div>
             <span className="text-gray-600">Manager Fund Name:</span>
             <span className="ml-2 font-medium text-gray-800">
-              {row.managerFundName}
+              {row.managementFirmName}
             </span>
           </div>
           <div>
             <span className="text-gray-600">Manager Fund Regulator ID:</span>
             <span className="ml-2 font-medium text-gray-800">
-              {row.managerFundRegulatorId}
+              {row.managementFirmRegulatorId}
             </span>
           </div>
           <div>

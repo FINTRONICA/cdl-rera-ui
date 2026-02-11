@@ -101,14 +101,14 @@ const AllocatedTransactionPage: React.FC = () => {
       sortable: true,
     },
     {
-      key: 'managerFundName',
+      key: 'managementFirmName',
       label: getTransactionLabelDynamic('CDL_MF_NAME'),
       type: 'text' as const,
       width: 'w-48',
       sortable: true,
     },
     {
-      key: 'managerFundRegulatorId',
+      key: 'managementFirmRegulatorId',
       label: getTransactionLabelDynamic('CDL_MF_REGULATOR_ID'),
       type: 'text' as const,
       width: 'w-40',
@@ -194,8 +194,8 @@ const AllocatedTransactionPage: React.FC = () => {
       'transId',
       'assetRegisterAccountId',
       'assetRegisterName',
-      'managerFundName',
-      'managerFundRegulatorId',
+      'managementFirmName',
+      'managementFirmRegulatorId',
       'unitNo',
       'receivableCategory',
       'narration',
@@ -304,7 +304,7 @@ const AllocatedTransactionPage: React.FC = () => {
               {getTransactionLabelDynamic('CDL_MF_NAME')}:
             </span>
             <span className="ml-2 font-medium text-gray-800">
-              {row.managerFundName}
+              {row.managementFirmName}
             </span>
           </div>
           <div>
@@ -312,7 +312,7 @@ const AllocatedTransactionPage: React.FC = () => {
               {getTransactionLabelDynamic('CDL_MF_REGULATOR_ID')}:
             </span>
             <span className="ml-2 font-medium text-gray-800">
-              {row.managerFundRegulatorId}
+              {row.managementFirmRegulatorId}
             </span>
           </div>
           <div>

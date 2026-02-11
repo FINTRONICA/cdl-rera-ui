@@ -26,10 +26,10 @@ export const MANUAL_PAYMENT_LABELS = {
   // Form Field Labels
   FORM_FIELDS: {
     TAS_REFERENCE: 'CDL_PAYMENTS_EMS_REFNO', // "EMS Payment Reference Number"
-    DEVELOPER_NAME: 'CDL_TRAN_BP_NAME', // "Build Partner Name"
-    DEVELOPER_ID: 'CDL_TRAN_BP_ID', // "Build Partner Name"
-    PROJECT_NAME: 'CDL_TRAN_BPA_NAME', // "Build Partner Assets Name"
-    PROJECT_ID: 'CDL_TRAN_BPA_CIF', // "Build Partner Assets Name"
+    ASSET_REGISTER_NAME: 'CDL_ASSET_REGISTER_NAME', // "Asset Register Name"
+    DEVELOPER_ID: 'CDL_TRAN_BP_ID', // "Build Partner ID"
+    MANAGEMENT_FIRM_NAME: 'CDL_MF_NAME', // "Management Firm Name"
+    PROJECT_ID: 'CDL_TRAN_BPA_CIF', // "Project Account CIF"
     PROJECT_STATUS: 'CDL_TRAN_BP_ACC_STATUS', // "Approval Status"
     ESCROW_ACCOUNT: 'CDL_PAYMENTS_ESCROW_BAL', // "Escrow Account Current Balance"
     SUB_CONSTRUCTION_ACCOUNT: 'CDL_PAYMENTS_CONS_BAL', // "Construction Account Current Balance"
@@ -91,8 +91,8 @@ export const MANUAL_PAYMENT_LABELS = {
   TABLE_COLUMNS: {
     DATE: 'CDL_PAYMENTS_PAYMENT_DATE', // "Payment Execution Date"
     EMS_REF: 'CDL_PAYMENTS_EMS_REFNO', // "EMS Payment Reference Number"
-    DEVELOPER_NAME: 'CDL_TRANS_BP_NAME', // "Build Partner Name"
-    PROJECT_NAME: 'CDL_TRANS_BPA_NAME', // "Build Partner Assets Name"
+    ASSET_REGISTER_NAME: 'CDL_TRANS_ASSET_REGISTER_NAME', // "Asset Register Name"
+    MANAGEMENT_FIRM_NAME: 'CDL_TRANS_MF_NAME', // "Management Firm Name"
     PAYMENT_TYPE: 'CDL_PAYMENTS_PAYMENT_TYPE', // "Payment Type"
     PAYMENT_SUB_TYPE: 'CDL_PAYMENTS_PAYMENT_SUB_TYPE', // "Payment Sub-Type"
     INVOICE_NUMBER: 'CDL_PAYMENTS_INVOICE_REFNO', // "Invoice Reference Number"
@@ -124,8 +124,8 @@ export const MANUAL_PAYMENT_LABELS = {
   EXPANDED_FIELDS: {
     DATE: 'CDL_PAYMENTS_PAYMENT_DATE', // "Payment Execution Date"
     EMS_REF: 'CDL_PAYMENTS_EMS_REFNO', // "EMS Payment Reference Number"
-    DEVELOPER_NAME: 'CDL_TRANS_BP_NAME', // "Build Partner Name"
-    PROJECT_NAME: 'CDL_TRANS_BPA_NAME', // "Build Partner Assets Name"
+    ASSET_REGISTER_NAME: 'CDL_TRANS_ASSET_REGISTER_NAME', // "Asset Register Name"
+    MANAGEMENT_FIRM_NAME: 'CDL_TRANS_MF_NAME', // "Management Firm Name"
     PAYMENT_TYPE: 'CDL_PAYMENTS_PAYMENT_TYPE', // "Payment Type"
     PAYMENT_SUB_TYPE: 'CDL_PAYMENTS_PAYMENT_SUB_TYPE', // "Payment Sub-Type"
     INVOICE_NUMBER: 'CDL_PAYMENTS_INVOICE_REFNO', // "Invoice Reference Number"
@@ -226,8 +226,8 @@ export const MANUAL_PAYMENT_LABELS = {
 
   // Loading Labels for Dynamic Dropdowns
   LOADING_LABELS: {
-    DEVELOPER_NAME: 'Loading Developer...',
-    PROJECT_NAME: 'Loading Project...',
+    ASSET_REGISTER_NAME: 'Loading Asset Register...',
+    MANAGEMENT_FIRM_NAME: 'Loading Management Firm...',
     PAYMENT_TYPE: 'Loading Payment Type...',
     PAYMENT_SUB_TYPE: 'Loading Payment Sub Type...',
     INVOICE_CURRENCY: 'Loading Currency...',
@@ -259,9 +259,9 @@ export const MANUAL_PAYMENT_LABELS = {
     },
     FORM_FIELDS: {
       TAS_REFERENCE: 'Tas/EMS Payment Ref no.',
-      DEVELOPER_NAME: 'Developer Name',
+      ASSET_REGISTER_NAME: 'Asset Register Name',
       DEVELOPER_ID: 'Developer ID',
-      PROJECT_NAME: 'Project Name',
+      MANAGEMENT_FIRM_NAME: 'Management Firm Name',
       PROJECT_ID: 'Project ID',
       PROJECT_STATUS: 'Project Account Status',
       ESCROW_ACCOUNT: 'Escrow Account Current Balance',
@@ -322,8 +322,8 @@ export const MANUAL_PAYMENT_LABELS = {
     TABLE_COLUMNS: {
       DATE: 'Date',
       EMS_REF: 'EMS Payment Ref. No.',
-      DEVELOPER_NAME: 'Build Partner',
-      PROJECT_NAME: 'Build Partner Assets',
+      ASSET_REGISTER_NAME: 'Asset Register Name',
+      MANAGEMENT_FIRM_NAME: 'Management Firm Name',
       PAYMENT_TYPE: 'Payment Type',
       PAYMENT_SUB_TYPE: 'Payment Sub Type',
       INVOICE_NUMBER: 'Invoice Number',
@@ -349,8 +349,8 @@ export const MANUAL_PAYMENT_LABELS = {
     EXPANDED_FIELDS: {
       DATE: 'Date',
       EMS_REF: 'EMS Payment Ref. No.',
-      DEVELOPER_NAME: 'Developer Name',
-      PROJECT_NAME: 'Project Name',
+      ASSET_REGISTER_NAME: 'Asset Register Name',
+      MANAGEMENT_FIRM_NAME: 'Management Firm Name',
       PAYMENT_TYPE: 'Payment Type',
       PAYMENT_SUB_TYPE: 'Payment Sub Type',
       INVOICE_NUMBER: 'Invoice Number',
@@ -424,8 +424,8 @@ export const getManualPaymentFallback = (
 export const getManualPaymentLoadingLabel = (fieldName: string, originalLabel?: string): string => {
   const loadingLabels: Record<string, string> = {
     // Form field names (lowercase)
-    developerName: MANUAL_PAYMENT_LABELS.LOADING_LABELS.DEVELOPER_NAME,
-    projectName: MANUAL_PAYMENT_LABELS.LOADING_LABELS.PROJECT_NAME,
+    assetRegisterName: MANUAL_PAYMENT_LABELS.LOADING_LABELS.ASSET_REGISTER_NAME,
+    managementFirmName: MANUAL_PAYMENT_LABELS.LOADING_LABELS.MANAGEMENT_FIRM_NAME,
     paymentType: MANUAL_PAYMENT_LABELS.LOADING_LABELS.PAYMENT_TYPE,
     paymentSubType: MANUAL_PAYMENT_LABELS.LOADING_LABELS.PAYMENT_SUB_TYPE,
     invoiceCurrency: MANUAL_PAYMENT_LABELS.LOADING_LABELS.INVOICE_CURRENCY,
@@ -440,8 +440,8 @@ export const getManualPaymentLoadingLabel = (fieldName: string, originalLabel?: 
     totalAmountPaid: MANUAL_PAYMENT_LABELS.LOADING_LABELS.TOTAL_AMOUNT_PAID,
     
     // API config ID names (uppercase)
-    DEVELOPER_NAME: MANUAL_PAYMENT_LABELS.LOADING_LABELS.DEVELOPER_NAME,
-    PROJECT_NAME: MANUAL_PAYMENT_LABELS.LOADING_LABELS.PROJECT_NAME,
+    ASSET_REGISTER_NAME: MANUAL_PAYMENT_LABELS.LOADING_LABELS.ASSET_REGISTER_NAME,
+    MANAGEMENT_FIRM_NAME: MANUAL_PAYMENT_LABELS.LOADING_LABELS.MANAGEMENT_FIRM_NAME,
     PAYMENT_TYPE: MANUAL_PAYMENT_LABELS.LOADING_LABELS.PAYMENT_TYPE,
     PAYMENT_SUB_TYPE: MANUAL_PAYMENT_LABELS.LOADING_LABELS.PAYMENT_SUB_TYPE,
     INVOICE_CURRENCY: MANUAL_PAYMENT_LABELS.LOADING_LABELS.INVOICE_CURRENCY,

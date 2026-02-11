@@ -19,8 +19,8 @@ import { GlobalLoading, GlobalError } from '@/components/atoms'
 
 interface TransactionData extends Record<string, unknown> {
   id: number
-  managerFundName: string
-  managerFundRegulatorId: string
+  managementFirmName: string
+  managementFirmRegulatorId: string
   tranReference: string
   tranDesc: string
   tranAmount: number
@@ -47,8 +47,8 @@ const usePendingRows = (page: number, size: number) => {
     return items.map((ui: any) => {
       return {
         id: Number(ui.id),
-        managerFundName: ui.managerFundName || '—',
-        managerFundRegulatorId: ui.managerFundRegulatorId || '—',
+        managementFirmName: ui.managementFirmName || '—',
+        managementFirmRegulatorId: ui.managementFirmRegulatorId || '—',
         tranReference: ui.referenceId || '—',
         tranDesc: ui.description || 'TRANSFER',
         tranAmount: Number(ui.amount || '0'),
@@ -166,8 +166,8 @@ const UnallocatedTransactionPage: React.FC = () => {
   } = useTableState({
     data: apiRows,
     searchFields: [
-      'managerFundName',
-      'managerFundRegulatorId',
+      'managementFirmName',
+      'managementFirmRegulatorId',
       'tranReference',
       'tranDesc',
       'narration',
@@ -207,14 +207,14 @@ const UnallocatedTransactionPage: React.FC = () => {
 
   const tableColumns = [
     {
-      key: 'managerFundName',
+      key: 'managementFirmName',
       label: getTransactionLabelDynamic('CDL_TRANS_MF_NAME'),
       type: 'text' as const,
       width: 'w-48',
       sortable: true,
     },
     {
-      key: 'managerFundRegulatorId',
+      key: 'managementFirmRegulatorId',
       label: getTransactionLabelDynamic('CDL_TRANS_MF_REGULATOR'),
       type: 'text' as const,
       width: 'w-40',
@@ -336,13 +336,13 @@ const UnallocatedTransactionPage: React.FC = () => {
           <div>
             <span className="text-gray-600 dark:text-gray-400">Project Name:</span>
             <span className="ml-2 font-medium text-gray-800 dark:text-gray-200">
-              {row.managerFundName}
+              {row.managementFirmName}
             </span>
           </div>
           <div>
             <span className="text-gray-600 dark:text-gray-400">Project Regulator ID:</span>
             <span className="ml-2 font-medium text-gray-800 dark:text-gray-200">
-              {row.managerFundRegulatorId}
+              {row.managementFirmRegulatorId}
             </span>
           </div>
           <div>

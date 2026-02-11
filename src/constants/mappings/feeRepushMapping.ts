@@ -8,7 +8,7 @@ export const FEE_REPUSH_LABELS = {
   CDL_FRP_LIST: 'Fee Repush / Failed Transactions',
   CDL_FRP_FAILED_TITLE: 'Failed Fee Transactions',
 
-  // Column Labels - Core Table Fields (projectName → managerFundName)
+  // Column Labels - Core Table Fields (projectName → managementFirmName)
   CDL_FRP_PROJECT_NAME: 'Project Name',
   CDL_FRP_FEE_TYPE: 'Fee Type',
   CDL_FRP_AMOUNT: 'Amount',
@@ -271,7 +271,7 @@ export const getFeeRepushTableColumns = () => {
   return [
     {
       configId: 'CDL_FEE_MF_NAME',
-      key: 'managerFundName',
+      key: 'managementFirmName',
       label: getFeeRepushLabel('CDL_FEE_MF_NAME'),
       type: 'text',
       width: 'w-48',

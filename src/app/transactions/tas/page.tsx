@@ -18,8 +18,8 @@ interface ManualPaymentData extends Record<string, unknown> {
   id: number
   date: string
   takermsPaymentRefNo: string
-  developerName: string
-  projectName: string
+  assetRegisterName: string
+  managementFirmName: string
   paymentType: string
   approvalStatus: string
 }
@@ -43,8 +43,8 @@ const transformFundEgressToTasPayment = (
       ? new Date(fundEgress.fePaymentDate).toLocaleDateString('en-GB')
       : 'N/A',
     takermsPaymentRefNo: fundEgress.fePaymentRefNumber || 'N/A',
-    developerName: fundEgress.buildPartnerDTO?.bpName || 'N/A',
-    projectName: fundEgress.realEstateAssestDTO?.reaName || 'N/A',
+    assetRegisterName: fundEgress.buildPartnerDTO?.bpName || 'N/A',
+    managementFirmName: fundEgress.realEstateAssestDTO?.reaName || 'N/A',
     paymentType: fundEgress.voucherPaymentTypeDTO?.name || 'N/A',
     approvalStatus: mapApiStatus(fundEgress.taskStatusDTO),
   }
@@ -85,22 +85,22 @@ const createTableColumns = (
     sortable: true,
   },
   {
-    key: 'developerName',
+    key: 'assetRegisterName',
     label: getLabel(
-      MANUAL_PAYMENT_LABELS.TABLE_COLUMNS.DEVELOPER_NAME,
+      MANUAL_PAYMENT_LABELS.TABLE_COLUMNS.ASSET_REGISTER_NAME,
       'EN',
-      MANUAL_PAYMENT_LABELS.FALLBACKS.TABLE_COLUMNS.DEVELOPER_NAME
+      MANUAL_PAYMENT_LABELS.FALLBACKS.TABLE_COLUMNS.ASSET_REGISTER_NAME
     ),
     type: 'text' as const,
     width: 'w-48',
     sortable: true,
   },
   {
-    key: 'projectName',
+    key: 'managementFirmName',
     label: getLabel(
-      MANUAL_PAYMENT_LABELS.TABLE_COLUMNS.PROJECT_NAME,
+      MANUAL_PAYMENT_LABELS.TABLE_COLUMNS.MANAGEMENT_FIRM_NAME,
       'EN',
-      MANUAL_PAYMENT_LABELS.FALLBACKS.TABLE_COLUMNS.PROJECT_NAME
+      MANUAL_PAYMENT_LABELS.FALLBACKS.TABLE_COLUMNS.MANAGEMENT_FIRM_NAME
     ),
     type: 'text' as const,
     width: 'w-48',
@@ -200,8 +200,8 @@ const TASPaymentPage: React.FC = () => {
     searchFields: [
       'date',
       'takermsPaymentRefNo',
-      'developerName',
-      'projectName',
+      'assetRegisterName',
+      'managementFirmName',
       'paymentType',
       'approvalStatus',
     ],
@@ -289,7 +289,7 @@ const TASPaymentPage: React.FC = () => {
   const renderExpandedContent = (row: ManualPaymentData) => (
     <div className="grid grid-cols-2 gap-8">
       <div className="space-y-4">
-        <h4 className="text-sm font-semibold text-gray-900 mb-4">
+        <h4 className="mb-4 text-sm font-semibold text-gray-900">
           {getLabel(
             MANUAL_PAYMENT_LABELS.EXPANDED_SECTIONS.PAYMENT_INFO,
             'EN',
@@ -306,7 +306,7 @@ const TASPaymentPage: React.FC = () => {
               )}
               :
             </span>
-            <span className="ml-2 text-gray-800 font-medium">
+            <span className="ml-2 font-medium text-gray-800">
               {row.date as string}
             </span>
           </div>
@@ -319,34 +319,34 @@ const TASPaymentPage: React.FC = () => {
               )}
               :
             </span>
-            <span className="ml-2 text-gray-800 font-medium">
+            <span className="ml-2 font-medium text-gray-800">
               {row.takermsPaymentRefNo as string}
             </span>
           </div>
           <div>
             <span className="text-gray-600">
               {getLabel(
-                MANUAL_PAYMENT_LABELS.EXPANDED_FIELDS.DEVELOPER_NAME,
+                MANUAL_PAYMENT_LABELS.EXPANDED_FIELDS.ASSET_REGISTER_NAME,
                 'EN',
-                MANUAL_PAYMENT_LABELS.FALLBACKS.EXPANDED_FIELDS.DEVELOPER_NAME
+                MANUAL_PAYMENT_LABELS.FALLBACKS.EXPANDED_FIELDS.ASSET_REGISTER_NAME
               )}
               :
             </span>
-            <span className="ml-2 text-gray-800 font-medium">
-              {row.developerName as string}
+            <span className="ml-2 font-medium text-gray-800">
+              {row.assetRegisterName as string}
             </span>
           </div>
           <div>
             <span className="text-gray-600">
               {getLabel(
-                MANUAL_PAYMENT_LABELS.EXPANDED_FIELDS.PROJECT_NAME,
+                MANUAL_PAYMENT_LABELS.EXPANDED_FIELDS.MANAGEMENT_FIRM_NAME,
                 'EN',
-                MANUAL_PAYMENT_LABELS.FALLBACKS.EXPANDED_FIELDS.PROJECT_NAME
+                MANUAL_PAYMENT_LABELS.FALLBACKS.EXPANDED_FIELDS.MANAGEMENT_FIRM_NAME
               )}
               :
             </span>
-            <span className="ml-2 text-gray-800 font-medium">
-              {row.projectName as string}
+            <span className="ml-2 font-medium text-gray-800">
+              {row.managementFirmName as string}
             </span>
           </div>
           <div>
@@ -358,7 +358,7 @@ const TASPaymentPage: React.FC = () => {
               )}
               :
             </span>
-            <span className="ml-2 text-gray-800 font-medium">
+            <span className="ml-2 font-medium text-gray-800">
               {row.paymentType as string}
             </span>
           </div>
@@ -371,14 +371,14 @@ const TASPaymentPage: React.FC = () => {
               )}
               :
             </span>
-            <span className="ml-2 text-gray-800 font-medium">
+            <span className="ml-2 font-medium text-gray-800">
               {row.approvalStatus as string}
             </span>
           </div>
         </div>
       </div>
       <div className="space-y-4">
-        <h4 className="text-sm font-semibold text-gray-900 mb-4">
+        <h4 className="mb-4 text-sm font-semibold text-gray-900">
           {getLabel(
             MANUAL_PAYMENT_LABELS.EXPANDED_SECTIONS.PAYMENT_DOCUMENTS,
             'EN',
@@ -386,28 +386,28 @@ const TASPaymentPage: React.FC = () => {
           )}
         </h4>
         <div className="space-y-3">
-          <button className="w-full text-left p-3 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors text-sm text-gray-700 shadow-sm">
+          <button className="w-full p-3 text-sm text-left text-gray-700 transition-colors bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-50">
             {getLabel(
               MANUAL_PAYMENT_LABELS.DOCUMENTS.INVOICE,
               'EN',
               MANUAL_PAYMENT_LABELS.FALLBACKS.DOCUMENTS.INVOICE
             )}
           </button>
-          <button className="w-full text-left p-3 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors text-sm text-gray-700 shadow-sm">
+          <button className="w-full p-3 text-sm text-left text-gray-700 transition-colors bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-50">
             {getLabel(
               MANUAL_PAYMENT_LABELS.DOCUMENTS.CONSTRUCTION_PROGRESS,
               'EN',
               MANUAL_PAYMENT_LABELS.FALLBACKS.DOCUMENTS.CONSTRUCTION_PROGRESS
             )}
           </button>
-          <button className="w-full text-left p-3 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors text-sm text-gray-700 shadow-sm">
+          <button className="w-full p-3 text-sm text-left text-gray-700 transition-colors bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-50">
             {getLabel(
               MANUAL_PAYMENT_LABELS.DOCUMENTS.APPROVAL,
               'EN',
               MANUAL_PAYMENT_LABELS.FALLBACKS.DOCUMENTS.APPROVAL
             )}
           </button>
-          <button className="w-full text-left p-3 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors text-sm text-gray-700 shadow-sm">
+          <button className="w-full p-3 text-sm text-left text-gray-700 transition-colors bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-50">
             {getLabel(
               MANUAL_PAYMENT_LABELS.DOCUMENTS.HISTORY,
               'EN',
@@ -431,7 +431,7 @@ const TASPaymentPage: React.FC = () => {
         )}
 
         <DashboardLayout title={tasPaymentTitle}>
-          <div className="bg-white/75 dark:bg-gray-800/80 rounded-2xl flex flex-col h-full rounded-t-2xl">
+          <div className="flex flex-col h-full bg-white/75 dark:bg-gray-800/80 rounded-2xl rounded-t-2xl">
             <GlobalLoading fullHeight />
           </div>
         </DashboardLayout>
@@ -451,7 +451,7 @@ const TASPaymentPage: React.FC = () => {
         )}
 
         <DashboardLayout title={tasPaymentTitle}>
-          <div className="bg-white/75 dark:bg-gray-800/80 rounded-2xl flex flex-col h-full rounded-t-2xl">
+          <div className="flex flex-col h-full bg-white/75 dark:bg-gray-800/80 rounded-2xl rounded-t-2xl">
             <GlobalError
               error={apiError}
               onRetry={() => window.location.reload()}
@@ -474,14 +474,14 @@ const TASPaymentPage: React.FC = () => {
       )}
 
       <DashboardLayout title={tasPaymentTitle}>
-        <div className="bg-white/75 dark:bg-gray-800/80 rounded-2xl flex flex-col h-full rounded-t-2xl">
+        <div className="flex flex-col h-full bg-white/75 dark:bg-gray-800/80 rounded-2xl rounded-t-2xl">
           {/* Sticky Header Section */}
-          <div className="sticky top-0 z-10 bg-white/75 dark:bg-gray-800/80  rounded-t-2xl">
+          <div className="sticky top-0 z-10 bg-white/75 dark:bg-gray-800/80 rounded-t-2xl">
             {/* Action Buttons */}
           </div>
 
           {/* Table Container with Fixed Pagination */}
-          <div className="flex-1 flex flex-col min-h-0">
+          <div className="flex flex-col flex-1 min-h-0">
             <div className="flex-1 overflow-auto rounded-t-2xl">
               <PermissionAwareDataTable<ManualPaymentData>
                 data={paginated}
@@ -506,17 +506,15 @@ const TASPaymentPage: React.FC = () => {
                 statusOptions={statusOptions}
                 onRowView={handleViewPayment}
                 onRowDelete={handleDeletePayment}
-                // showViewAction={true}
-                // showDeleteAction={true}
                 onSort={handleSort}
                 sortConfig={sortConfig}
                 deletePermissions={['tas_payment_delete']}
                 viewPermissions={['tas_payment_view']}
                 editPermissions={['tas_payment_update']}
-                // updatePermissions={['tas_payment_update']}
-                // showDeleteAction={true}
+                updatePermissions={['tas_payment_update']}
                 // showViewAction={true}
                 // showEditAction={true}
+                // showDeleteAction={true}
               />
             </div>
           </div>
