@@ -131,7 +131,7 @@ export const useReactivePermissionsStore = create<ReactivePermissionsState>()(
           set({ isLoading: false })          
         } catch (error) {
           const errorMessage = error instanceof Error ? error.message : 'Failed to fetch permissions'
-          console.error('❌ [Reactive Permissions] Error fetching permissions:', error)
+          console.error(' [Reactive Permissions] Error fetching permissions:', error)
           
           set({ 
             isLoading: false, 
@@ -366,7 +366,7 @@ export const triggerPermissionRefresh = async (userId: string) => {
     
     return permissions
   } catch (error) {
-    console.error('❌ [Permission Trigger] Failed to refresh permissions:', error)
+    console.error(' [Permission Trigger] Failed to refresh permissions:', error)
     throw error
   }
 }

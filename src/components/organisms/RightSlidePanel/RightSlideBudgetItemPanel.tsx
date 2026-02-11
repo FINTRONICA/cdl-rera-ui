@@ -347,7 +347,7 @@ export const RightSlideBudgetItemPanel: React.FC<RightSlideBudgetItemPanelProps>
       }
 
       // Construct payload with only required fields
-      // ✅ IMPORTANT: budgetDTO should ONLY contain { id: budgetId } - no other fields
+      //  IMPORTANT: budgetDTO should ONLY contain { id: budgetId } - no other fields
       const payload: BudgetItemRequest = {
         ...(isEditing && budgetItemData?.id && { id: budgetItemData.id }),
         subCategoryCode: data.subCategoryCode || '',
@@ -372,13 +372,13 @@ export const RightSlideBudgetItemPanel: React.FC<RightSlideBudgetItemPanelProps>
           id: categoryId,
             enabled: true,
         },
-        // ✅ CRITICAL: Only pass id in budgetDTO - create fresh object with ONLY id field
+        //  CRITICAL: Only pass id in budgetDTO - create fresh object with ONLY id field
         budgetDTO: {
           id: budgetId,
         },
       }
 
-      // ✅ Double-check: Ensure budgetDTO only contains id (explicitly reassign to prevent any field leakage)
+      //  Double-check: Ensure budgetDTO only contains id (explicitly reassign to prevent any field leakage)
       payload.budgetDTO = {
         id: budgetId,
       }
@@ -394,7 +394,7 @@ export const RightSlideBudgetItemPanel: React.FC<RightSlideBudgetItemPanelProps>
       console.log('[RightSlideBudgetItemPanel] Final payload to send:', JSON.stringify(payloadToSend, null, 2))
       console.log('[RightSlideBudgetItemPanel] budgetDTO (should ONLY have id):', JSON.stringify(payloadToSend.budgetDTO, null, 2))
 
-      // ✅ Use React Query mutations (they handle cache invalidation automatically)
+      //  Use React Query mutations (they handle cache invalidation automatically)
       let response: BudgetItemResponse
       if (isEditing && budgetItemData?.id) {
         response = await updateMutation.mutateAsync({
@@ -405,7 +405,7 @@ export const RightSlideBudgetItemPanel: React.FC<RightSlideBudgetItemPanelProps>
         response = await createMutation.mutateAsync(payloadToSend)
       }
 
-      console.log('[RightSlideBudgetItemPanel] ✅ Mutation completed')
+      console.log('[RightSlideBudgetItemPanel]  Mutation completed')
       console.log('[RightSlideBudgetItemPanel] Response:', response)
       console.log('[RightSlideBudgetItemPanel] isEditing:', isEditing)
       console.log('[RightSlideBudgetItemPanel] onBudgetItemAdded:', !!onBudgetItemAdded)

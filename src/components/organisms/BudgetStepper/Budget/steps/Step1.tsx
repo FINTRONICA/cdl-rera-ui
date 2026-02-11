@@ -29,6 +29,7 @@ import {
   useTheme,
   alpha,
 } from '@mui/material'
+import type { Theme } from '@mui/material/styles'
 import {
   commonFieldStyles as sharedCommonFieldStyles,
   labelSx as sharedLabelSx,
@@ -82,7 +83,7 @@ const Step1 = forwardRef<Step1Ref, Step1Props>(
           refetchOnWindowFocus: false,
         }
       )
-    // ✅ FIX: Initialize generatedId from form value (following DeveloperStepper pattern)
+    // FIX: Initialize generatedId from form value (following DeveloperStepper pattern)
     useEffect(() => {
       const subscription = watch((value, { name }) => {
         if (name === 'chargeTypeId' && value.chargeTypeId) {
@@ -92,7 +93,7 @@ const Step1 = forwardRef<Step1Ref, Step1Props>(
       return () => subscription.unsubscribe()
     }, [watch])
 
-    // ✅ FIX: Also watch chargeTypeId directly to ensure generatedId stays in sync (following DeveloperStepper pattern)
+    // FIX: Also watch chargeTypeId directly to ensure generatedId stays in sync (following DeveloperStepper pattern)
     const chargeTypeIdValue = watch('chargeTypeId')
     useEffect(() => {
       if (chargeTypeIdValue && chargeTypeIdValue !== generatedId) {
@@ -104,7 +105,7 @@ const Step1 = forwardRef<Step1Ref, Step1Props>(
     const handleGenerateNewId = async () => {
       try {
         setIsGeneratingId(true)
-        // ✅ FIX: Generate a numeric ID for chargeTypeId (API expects number, not string)
+        // FIX: Generate a numeric ID for chargeTypeId (API expects number, not string)
         // Use timestamp + random component to ensure uniqueness
         const numericId = Date.now() + Math.floor(Math.random() * 1000) // Timestamp + random 0-999
         const idString = numericId.toString()
@@ -126,17 +127,17 @@ const Step1 = forwardRef<Step1Ref, Step1Props>(
       },
       [currentLanguage, getLabel]
     )
-    // ✅ FIX: Pre-populate form when existing data is loaded (following DeveloperStepper pattern)
+    // FIX: Pre-populate form when existing data is loaded (following DeveloperStepper pattern)
     useEffect(() => {
       if (isEditMode && existingBudgetData && !isLoadingExistingData) {
-        // ✅ FIX: Handle null chargeTypeId - if null, try to generate one or leave empty
+        // FIX: Handle null chargeTypeId - if null, try to generate one or leave empty
         // The API returns chargeTypeId as null, so we need to handle this case
         const chargeTypeIdValue =
           existingBudgetData.chargeTypeId?.toString() || ''
 
         // If chargeTypeId is null from API, we should still try to display it if it exists in the form
         // But since API returns null, we'll leave it empty and let user generate if needed
-        // ✅ FIX: Set generatedId first, then set form value (following DeveloperStepper pattern)
+        // FIX: Set generatedId first, then set form value (following DeveloperStepper pattern)
         setGeneratedId(chargeTypeIdValue)
         // Use setValue with shouldValidate and shouldDirty to ensure the field updates properly
         setValue('chargeTypeId', chargeTypeIdValue, {
@@ -171,26 +172,26 @@ const Step1 = forwardRef<Step1Ref, Step1Props>(
     }, [existingBudgetData, isLoadingExistingData, isEditMode, setValue])
     const handleSaveAndNext = useCallback(async (): Promise<void> => {
       try {
-        // ✅ FIX: Get fresh form values
+        // FIX: Get fresh form values
         let formValues = watch()
 
-        // ✅ FIX: Get chargeTypeId from multiple sources (form value, generatedId state, or watch again)
+        // FIX: Get chargeTypeId from multiple sources (form value, generatedId state, or watch again)
         // Check all possible sources to ensure we capture the ID
         const chargeTypeIdFromForm = formValues.chargeTypeId
         const chargeTypeIdFromState = generatedId
         const chargeTypeIdFromWatch = watch('chargeTypeId')
 
-        // ✅ FIX: Use the first available value
+        // FIX: Use the first available value
         let finalChargeTypeId =
           chargeTypeIdFromForm ||
           chargeTypeIdFromState ||
           chargeTypeIdFromWatch ||
           ''
 
-        // ✅ FIX: Ensure chargeTypeId is generated before saving (if not in edit mode)
+        // FIX: Ensure chargeTypeId is generated before saving (if not in edit mode)
         if (!isEditMode && !finalChargeTypeId) {
           try {
-            // ✅ FIX: Generate a numeric ID for chargeTypeId (API expects number, not string)
+            // FIX: Generate a numeric ID for chargeTypeId (API expects number, not string)
             // Use timestamp + random component to ensure uniqueness
             const numericId = Date.now() + Math.floor(Math.random() * 1000) // Timestamp + random 0-999
             const newId = numericId.toString()
@@ -273,7 +274,7 @@ const Step1 = forwardRef<Step1Ref, Step1Props>(
 
         await trigger()
 
-        // ✅ FIX: Use finalChargeTypeId which was set above (either from form, generatedId, or auto-generated)
+        // FIX: Use finalChargeTypeId which was set above (either from form, generatedId, or auto-generated)
         // Re-check all sources one more time to ensure we have the ID
         const chargeTypeIdToSend =
           finalChargeTypeId ||
@@ -282,7 +283,7 @@ const Step1 = forwardRef<Step1Ref, Step1Props>(
           watch('chargeTypeId') ||
           ''
 
-        // ✅ FIX: Keep as string (API expects string, not number)
+        // FIX: Keep as string (API expects string, not number)
         // Ensure it's a valid non-empty string
         const chargeTypeIdString =
           chargeTypeIdToSend &&
@@ -379,10 +380,25 @@ const Step1 = forwardRef<Step1Ref, Step1Props>(
     const theme = useTheme()
     const isDark = theme.palette.mode === 'dark'
 
-    const labelStyles = useMemo(() => sharedLabelSx(theme), [theme])
-    const valueStyles = useMemo(() => sharedValueSx(theme), [theme])
+    const labelStyles = useMemo(
+      () =>
+        typeof sharedLabelSx === 'function'
+          ? (sharedLabelSx as (t: Theme) => Record<string, unknown>)(theme)
+          : (sharedLabelSx ?? {}),
+      [theme]
+    )
+    const valueStyles = useMemo(
+      () =>
+        typeof sharedValueSx === 'function'
+          ? (sharedValueSx as (t: Theme) => Record<string, unknown>)(theme)
+          : (sharedValueSx ?? {}),
+      [theme]
+    )
     const commonFieldStyles = useMemo(
-      () => sharedCommonFieldStyles(theme),
+      () =>
+        typeof sharedCommonFieldStyles === 'function'
+          ? (sharedCommonFieldStyles as (t: Theme) => Record<string, unknown>)(theme)
+          : (sharedCommonFieldStyles ?? {}),
       [theme]
     )
 
@@ -419,12 +435,12 @@ const Step1 = forwardRef<Step1Ref, Step1Props>(
               {...field}
               fullWidth
               label={label}
-              // ✅ FIX: Use field.value || generatedId (following DeveloperStepper pattern exactly)
+              // FIX: Use field.value || generatedId (following DeveloperStepper pattern exactly)
               value={field.value || generatedId}
               error={!!fieldState.error}
               helperText={fieldState.error?.message?.toString()}
               onChange={(e) => {
-                // ✅ FIX: Update both generatedId and field value (following DeveloperStepper pattern)
+                // FIX: Update both generatedId and field value (following DeveloperStepper pattern)
                 setGeneratedId(e.target.value)
                 field.onChange(e)
               }}

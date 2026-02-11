@@ -413,7 +413,7 @@ const ExpandableDataTableComponent = <T extends Record<string, unknown>>({
                       
                       // Debug: Log rendered value (only in development)
                       if (process.env.NODE_ENV === 'development' && index === 0) {
-                        console.log(`✅ [TABLE DEBUG] Column "${column.key}" rendered:`, {
+                        console.log(` [TABLE DEBUG] Column "${column.key}" rendered:`, {
                           'renderedValue type': typeof renderedValue,
                           'renderedValue is React element': React.isValidElement(renderedValue),
                         })
@@ -509,7 +509,7 @@ const ExpandableDataTableComponent = <T extends Record<string, unknown>>({
                           className={`${column.width || 'w-auto'} px-4 py-3.5 text-sm text-gray-900 dark:text-gray-100`}
                         >
                           <button
-                            className="text-blue-600 dark:text-blue-400 underline hover:text-blue-800 dark:hover:text-blue-300"
+                            className="text-blue-600 underline dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300"
                             onClick={() => {
                               // Handle comment click
                             }}
@@ -555,7 +555,7 @@ const ExpandableDataTableComponent = <T extends Record<string, unknown>>({
       </div>
 
       {/* Pagination */}
-      <div className="flex items-center justify-between px-4 py-3 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+      <div className="flex items-center justify-between px-4 py-3 bg-white border-t border-gray-200 dark:bg-gray-800 dark:border-gray-700">
         <div className="flex items-center gap-2">
           <span className="text-sm text-gray-700 dark:text-gray-300">
             {startItem}-{endItem} of {totalRows} row(s)
@@ -579,7 +579,7 @@ const ExpandableDataTableComponent = <T extends Record<string, unknown>>({
         <div className="flex items-center gap-1">
           <button
             onClick={() => onPageChange(1)}
-            className="p-2 text-gray-600 dark:text-gray-400 transition-colors border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm hover:text-gray-800 dark:hover:text-gray-200 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-gray-100 dark:hover:bg-gray-700"
+            className="p-2 text-gray-600 transition-colors border border-gray-300 rounded-lg shadow-sm dark:text-gray-400 dark:border-gray-600 hover:text-gray-800 dark:hover:text-gray-200 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-gray-100 dark:hover:bg-gray-700"
             title="First page"
           >
             <ChevronsLeft className="w-4 h-4" />
@@ -587,7 +587,7 @@ const ExpandableDataTableComponent = <T extends Record<string, unknown>>({
           <button
             onClick={() => onPageChange(Math.max(1, page - 1))}
             disabled={page === 1}
-            className="p-2 text-gray-600 dark:text-gray-400 transition-colors border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm hover:text-gray-800 dark:hover:text-gray-200 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-gray-100 dark:hover:bg-gray-700"
+            className="p-2 text-gray-600 transition-colors border border-gray-300 rounded-lg shadow-sm dark:text-gray-400 dark:border-gray-600 hover:text-gray-800 dark:hover:text-gray-200 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-gray-100 dark:hover:bg-gray-700"
             title="Previous page"
           >
             <ChevronLeft className="w-4 h-4" />
@@ -610,21 +610,21 @@ const ExpandableDataTableComponent = <T extends Record<string, unknown>>({
           <button
             onClick={() => onPageChange(Math.min(totalPages, page + 1))}
             disabled={page === totalPages}
-            className="p-2 text-gray-600 dark:text-gray-400 transition-colors border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm hover:text-gray-800 dark:hover:text-gray-200 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-gray-100 dark:hover:bg-gray-700"
+            className="p-2 text-gray-600 transition-colors border border-gray-300 rounded-lg shadow-sm dark:text-gray-400 dark:border-gray-600 hover:text-gray-800 dark:hover:text-gray-200 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-gray-100 dark:hover:bg-gray-700"
             title="Next page"
           >
             <ChevronRight className="w-4 h-4" />
           </button>
           <button
             onClick={() => onPageChange(totalPages)}
-            className="p-2 text-gray-600 dark:text-gray-400 transition-colors border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm hover:text-gray-800 dark:hover:text-gray-200 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-gray-100 dark:hover:bg-gray-700"
+            className="p-2 text-gray-600 transition-colors border border-gray-300 rounded-lg shadow-sm dark:text-gray-400 dark:border-gray-600 hover:text-gray-800 dark:hover:text-gray-200 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-gray-100 dark:hover:bg-gray-700"
             title="Last page"
           >
             <ChevronsRight className="w-4 h-4" />
           </button>
           <div className="relative w-full">
             <select
-              className="block w-full py-2 pl-2 pr-6 font-sans text-sm text-gray-900 dark:text-gray-100 transition bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm appearance-none focus:border-blue-500 dark:focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
+              className="block w-full py-2 pl-2 pr-6 font-sans text-sm text-gray-900 transition bg-white border border-gray-300 rounded-md shadow-sm appearance-none dark:text-gray-100 dark:bg-gray-800 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
               value={rowsPerPage}
               onChange={(e) => onRowsPerPageChange(Number(e.target.value))}
             >
@@ -636,7 +636,7 @@ const ExpandableDataTableComponent = <T extends Record<string, unknown>>({
             </select>
 
             {/* Dropdown icon */}
-            <div className="absolute inset-y-0 flex items-center font-sans text-gray-500 dark:text-gray-400 pointer-events-none right-2">
+            <div className="absolute inset-y-0 flex items-center font-sans text-gray-500 pointer-events-none dark:text-gray-400 right-2">
               <svg
                 className="w-4 h-4"
                 fill="none"

@@ -280,7 +280,7 @@ export const RightSlideUserPanel: React.FC<RightSlideUserPanelProps> = ({
         },
         onError: (error) => {
           console.error(
-            `❌ [User Panel] Failed to ${checked ? 'assign' : 'unassign'} group:`,
+            `[User Panel] Failed to ${checked ? 'assign' : 'unassign'} group:`,
             error
           )
 
@@ -403,7 +403,7 @@ export const RightSlideUserPanel: React.FC<RightSlideUserPanelProps> = ({
           lastName: formData.lastName,
           email: formData.emailId,
           enabled: formData.status === 'active',
-          emailVerified: true, // ✅ add this
+          emailVerified: true, //  add this
         },
       },
       {

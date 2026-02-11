@@ -44,7 +44,7 @@ export const ThemeSwitcher: React.FC = () => {
         void root.offsetHeight
       }
     } catch (error) {
-      console.error('❌ [ThemeSwitcher] Error toggling theme:', error)
+      console.error(' [ThemeSwitcher] Error toggling theme:', error)
     }
   }
 

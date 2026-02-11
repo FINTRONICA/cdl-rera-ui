@@ -67,7 +67,7 @@ const Step2 = forwardRef<Step2Ref, Step2Props>(
     const { getLabel } = useBudgetManagementFirmLabelsApi()
     const currentLanguage = useAppStore((state) => state.language) || 'EN'
 
-    // ✅ FIX: Only budgetId is needed for filtering (budgetCategoryId is deprecated for API, but still needed for form)
+    //  FIX: Only budgetId is needed for filtering (budgetCategoryId is deprecated for API, but still needed for form)
     const effectiveBudgetId = budgetId
     const budgetCategoryId = watch('budgetCategoryId') // Still needed for RightSlideBudgetItemPanel form
 
@@ -93,7 +93,7 @@ const Step2 = forwardRef<Step2Ref, Step2Props>(
       console.log('[Step2] error:', budgetItemsError)
     }, [budgetCategoryId, effectiveBudgetId, isLoadingBudgetItems, isFetchingBudgetItems, apiBudgetItemsResponse, budgetItemsError])
 
-    // ✅ FIX: Force refetch when budgetId becomes available or changes (budgetCategoryId is no longer needed)
+    //  FIX: Force refetch when budgetId becomes available or changes (budgetCategoryId is no longer needed)
     useEffect(() => {
       const isValid = effectiveBudgetId && !isNaN(effectiveBudgetId) && effectiveBudgetId > 0
       
@@ -106,29 +106,29 @@ const Step2 = forwardRef<Step2Ref, Step2Props>(
       if (isValid) {
         // Always refetch when budgetId is valid to ensure we have latest data
         // This is especially important after POST/PUT/DELETE operations
-        console.log('[Step2] ✅ budgetId is valid, triggering refetch to get latest data...')
+        console.log('[Step2]  budgetId is valid, triggering refetch to get latest data...')
         const timer = setTimeout(() => {
           refetchBudgetItems().then((result) => {
-            console.log('[Step2] ✅ Refetch completed:', result.data?.content?.length || 0, 'items')
+            console.log('[Step2]  Refetch completed:', result.data?.content?.length || 0, 'items')
             console.log('[Step2] Refetch result:', result.data)
           }).catch((error) => {
-            console.error('[Step2] ❌ Refetch error:', error)
+            console.error('[Step2]  Refetch error:', error)
           })
         }, 300) // Increased delay to ensure backend has processed
         return () => clearTimeout(timer)
       }
-      console.log('[Step2] ⚠️ budgetId is not valid, query will not run')
+      console.log('[Step2]budgetId is not valid, query will not run')
       return undefined
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [effectiveBudgetId, refetchBudgetItems])
 
-    // ✅ FIX: Extract items from API response (budgetCategoryId is no longer needed for filtering)
+    //  FIX: Extract items from API response (budgetCategoryId is no longer needed for filtering)
     const items: BudgetItemResponse[] = useMemo(() => {
       console.log('[Step2] ===== Extracting Items =====')
       console.log('[Step2] apiBudgetItemsResponse:', apiBudgetItemsResponse)
       
       if (apiBudgetItemsResponse?.content && apiBudgetItemsResponse.content.length > 0) {
-        console.log('[Step2] ✅ Using API response data:', apiBudgetItemsResponse.content.length, 'items')
+        console.log('[Step2]  Using API response data:', apiBudgetItemsResponse.content.length, 'items')
         
         // Update form with fetched items
         setValue('budgetItems', apiBudgetItemsResponse.content)
@@ -136,7 +136,7 @@ const Step2 = forwardRef<Step2Ref, Step2Props>(
       }
       // Fallback to form data if no API response
       const formItems = watch('budgetItems') || []
-      console.log('[Step2] ⚠️ Using form data (fallback):', formItems.length, 'items')
+      console.log('[Step2]Using form data (fallback):', formItems.length, 'items')
       return formItems
     }, [apiBudgetItemsResponse, setValue, watch])
 
@@ -232,14 +232,14 @@ const Step2 = forwardRef<Step2Ref, Step2Props>(
       console.log('[Step2] New item budgetId:', newItem.budgetDTO?.id)
       console.log('[Step2] effectiveBudgetId:', effectiveBudgetId)
       
-      // ✅ FIX: Get budgetId from response (now the primary filter)
+      //  FIX: Get budgetId from response (now the primary filter)
       const responseBudgetId = newItem.budgetDTO?.id
       const budgetIdToUse = responseBudgetId || effectiveBudgetId
       
       console.log('[Step2] budgetIdToUse (final):', budgetIdToUse)
       
       if (budgetIdToUse) {
-        console.log('[Step2] ✅ Refetching budget items after POST...')
+        console.log('[Step2]  Refetching budget items after POST...')
         // Wait for backend to process and mutation to invalidate cache
         await new Promise(resolve => setTimeout(resolve, 1200))
         
@@ -247,15 +247,15 @@ const Step2 = forwardRef<Step2Ref, Step2Props>(
         try {
           // First try React Query refetch
           const result = await refetchBudgetItems()
-          console.log('[Step2] ✅ React Query refetch completed:', result.data?.content?.length || 0, 'items')
+          console.log('[Step2]  React Query refetch completed:', result.data?.content?.length || 0, 'items')
           console.log('[Step2] Refetch result data:', result.data)
           
           // If refetch didn't work or returned empty, try direct API call
           if (!result.data || !result.data.content || result.data.content.length === 0) {
-            console.log('[Step2] ⚠️ React Query refetch returned empty, trying direct API call...')
+            console.log('[Step2]React Query refetch returned empty, trying direct API call...')
             await new Promise(resolve => setTimeout(resolve, 500))
             
-            // ✅ FIX: Direct API call using budgetId (not categoryId)
+            //  FIX: Direct API call using budgetId (not categoryId)
             const budgetIdNum = typeof budgetIdToUse === 'string' 
               ? parseInt(budgetIdToUse) 
               : budgetIdToUse
@@ -265,29 +265,29 @@ const Step2 = forwardRef<Step2Ref, Step2Props>(
               1000,
               budgetIdNum
             )
-            console.log('[Step2] ✅ Direct API call completed:', directResult.content?.length || 0, 'items')
+            console.log('[Step2]  Direct API call completed:', directResult.content?.length || 0, 'items')
             
             if (directResult.content && directResult.content.length > 0) {
               // Update form with direct API result
               setValue('budgetItems', directResult.content)
-              console.log('[Step2] ✅ Updated form with direct API result')
+              console.log('[Step2]  Updated form with direct API result')
             } else {
               // If still empty, try React Query refetch one more time
-              console.log('[Step2] ⚠️ Direct API also returned empty, trying React Query refetch again...')
+              console.log('[Step2]Direct API also returned empty, trying React Query refetch again...')
               await new Promise(resolve => setTimeout(resolve, 1000))
               const retryResult = await refetchBudgetItems()
-              console.log('[Step2] ✅ Retry refetch completed:', retryResult.data?.content?.length || 0, 'items')
+              console.log('[Step2]  Retry refetch completed:', retryResult.data?.content?.length || 0, 'items')
             }
           }
         } catch (error) {
-          console.error('[Step2] ❌ Refetch error:', error)
+          console.error('[Step2]  Refetch error:', error)
           // Fallback: add item to local state
           const existing = items || []
           const updatedItems = [...existing, newItem]
           setValue('budgetItems', updatedItems)
         }
       } else {
-        console.log('[Step2] ⚠️ No budgetId available, updating form state (fallback)')
+        console.log('[Step2]No budgetId available, updating form state (fallback)')
         // If no budgetId, update form state
         const existing = items || []
         const existingIndex = existing.findIndex((item) => item.id === newItem.id)
@@ -300,7 +300,7 @@ const Step2 = forwardRef<Step2Ref, Step2Props>(
     }
 
     const handleBudgetItemUpdated = async (updatedItem: BudgetItemResponse, index: number) => {
-      // ✅ FIX: Refetch budget items from API using React Query (using budgetId, not budgetCategoryId)
+      //  FIX: Refetch budget items from API using React Query (using budgetId, not budgetCategoryId)
       // The mutation hook already invalidates the cache, but we can also manually refetch
       if (effectiveBudgetId) {
         // Small delay to ensure backend has processed the update

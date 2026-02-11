@@ -314,7 +314,7 @@ const Step1 = forwardRef<Step1Ref, Step1Props>(
       loadBudgetData()
     }, [isEditMode, budgetId, isFormInitialized, setValue])
 
-    // ✅ FIX: Set budgetCategoryId separately when both budget data and options are available
+    // FIX: Set budgetCategoryId separately when both budget data and options are available
     useEffect(() => {
       if (
         isEditMode &&
@@ -348,9 +348,9 @@ const Step1 = forwardRef<Step1Ref, Step1Props>(
                 const optionExists = budgetCategoryOptions.some(opt => opt.id === categoryId)
                 if (optionExists) {
                   setValue('budgetCategoryId', categoryIdString, { shouldValidate: false, shouldDirty: false })
-                  console.log('[Step1] ✅ Successfully set budgetCategoryId')
+                  console.log('[Step1] Successfully set budgetCategoryId')
                 } else {
-                  console.warn('[Step1] ⚠️ Budget category option not found in loaded options')
+                  console.warn('[Step1]  Budget category option not found in loaded options')
                   console.warn('[Step1] Looking for categoryId:', categoryId)
                   console.warn('[Step1] Available option IDs:', budgetCategoryOptions.map(opt => opt.id))
                 }

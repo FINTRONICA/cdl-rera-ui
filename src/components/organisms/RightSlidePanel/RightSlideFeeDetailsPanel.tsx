@@ -240,7 +240,7 @@ export const RightSlideFeeDetailsPanel: React.FC<RightSlidePanelProps> = ({
 
         reset(formValues)
       } catch (error) {
-        console.error('❌ Error populating fee form:', error)
+        console.error('Error populating fee form:', error)
       }
     } else if (isOpen && mode === 'add') {
       reset({

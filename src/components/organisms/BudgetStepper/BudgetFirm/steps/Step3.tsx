@@ -106,21 +106,21 @@ const Step3: React.FC<Step3Props> = ({
           setError(null)
           const data = await budgetService.getBudgetById(budgetId)
           setBudgetData(data)
-          
-          // ✅ FIX: Load budget items using budgetId (not budgetCategoryId)
+
+          //  FIX: Load budget items using budgetId (not budgetCategoryId)
           console.log('[Step3] Budget data loaded:', {
             budgetId: data.id,
             budgetCategoriesDTOS: data.budgetCategoriesDTOS,
             budgetCategoriesDTOSLength: data.budgetCategoriesDTOS?.length,
           })
-          
+
           // Fetch budget items using budgetId directly
           if (data.id) {
             setIsLoadingItems(true)
             try {
               console.log('[Step3] ===== Fetching budget items =====')
               console.log('[Step3] Budget ID:', data.id, 'Type:', typeof data.id)
-              // ✅ FIX: Use budgetId instead of categoryId (pass 0 as dummy categoryId)
+              //  FIX: Use budgetId instead of categoryId (pass 0 as dummy categoryId)
               const response = await budgetManagementService.getBudgetItemsByBudgetCategoryId(
                 0, // categoryId is deprecated, pass dummy value
                 0, // page
@@ -128,7 +128,7 @@ const Step3: React.FC<Step3Props> = ({
                 data.id // budgetId is required
               )
               const items = response.content
-              console.log('[Step3] ✅ Fetch completed')
+              console.log('[Step3]  Fetch completed')
               console.log('[Step3] Budget items count:', items.length)
               console.log('[Step3] Total elements:', response.page.totalElements)
               console.log('[Step3] Budget items:', items)
@@ -163,7 +163,7 @@ const Step3: React.FC<Step3Props> = ({
                 100
               )
               console.log('[Step3] Documents response:', docsResponse)
-              
+
               // Map API response to DocumentItem format using the mapper from budgetConfig
               const mappedDocuments: DocumentItem[] = docsResponse.content.map((doc: ApiDocumentResponse) =>
                 mapApiToDocumentItem(doc)
@@ -424,119 +424,119 @@ const Step3: React.FC<Step3Props> = ({
             )}
           </Box>
           <Divider sx={{ mb: 3, borderColor: tableCellBorder }} />
-          
+
           {isLoadingItems ? (
             <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
               <GlobalLoading />
             </Box>
           ) : budgetItems.length > 0 ? (
-              <TableContainer
-                component={Paper}
-                sx={{ boxShadow: 'none', border: `1px solid ${tableCellBorder}`, backgroundColor: isDarkMode ? 'transparent' : undefined }}
-              >
-                <Table>
-                  <TableHead>
-                    <TableRow sx={{ backgroundColor: tableHeaderBg }}>
-                      <TableCell sx={{ fontFamily: 'Outfit, sans-serif', fontWeight: 600, fontSize: '14px', color: tableCellColor, borderBottom: `1px solid ${tableCellBorder}` }}>
-                        Sub-Category Name
+            <TableContainer
+              component={Paper}
+              sx={{ boxShadow: 'none', border: `1px solid ${tableCellBorder}`, backgroundColor: isDarkMode ? 'transparent' : undefined }}
+            >
+              <Table>
+                <TableHead>
+                  <TableRow sx={{ backgroundColor: tableHeaderBg }}>
+                    <TableCell sx={{ fontFamily: 'Outfit, sans-serif', fontWeight: 600, fontSize: '14px', color: tableCellColor, borderBottom: `1px solid ${tableCellBorder}` }}>
+                      Sub-Category Name
+                    </TableCell>
+                    <TableCell sx={{ fontFamily: 'Outfit, sans-serif', fontWeight: 600, fontSize: '14px', color: tableCellColor, borderBottom: `1px solid ${tableCellBorder}` }}>
+                      Sub-Category Name (Local)
+                    </TableCell>
+                    <TableCell sx={{ fontFamily: 'Outfit, sans-serif', fontWeight: 600, fontSize: '14px', color: tableCellColor, borderBottom: `1px solid ${tableCellBorder}` }}>
+                      Service Code
+                    </TableCell>
+                    <TableCell sx={{ fontFamily: 'Outfit, sans-serif', fontWeight: 600, fontSize: '14px', color: tableCellColor, borderBottom: `1px solid ${tableCellBorder}` }}>
+                      Service Name
+                    </TableCell>
+                    <TableCell sx={{ fontFamily: 'Outfit, sans-serif', fontWeight: 600, fontSize: '14px', color: tableCellColor, borderBottom: `1px solid ${tableCellBorder}` }} align="right">
+                      Total Budget
+                    </TableCell>
+                    <TableCell sx={{ fontFamily: 'Outfit, sans-serif', fontWeight: 600, fontSize: '14px', color: tableCellColor, borderBottom: `1px solid ${tableCellBorder}` }} align="right">
+                      Available Budget
+                    </TableCell>
+                    <TableCell sx={{ fontFamily: 'Outfit, sans-serif', fontWeight: 600, fontSize: '14px', color: tableCellColor, borderBottom: `1px solid ${tableCellBorder}` }} align="right">
+                      Utilized Budget
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {budgetItems.map((item, index) => (
+                    <TableRow
+                      key={item.id || index}
+                      sx={{ '&:hover': { backgroundColor: tableRowHoverBg } }}
+                    >
+                      <TableCell sx={{ fontFamily: 'Outfit, sans-serif', fontSize: '14px', color: tableCellColor, borderBottom: `1px solid ${tableCellBorder}` }}>
+                        {item.subCategoryName || '-'}
                       </TableCell>
-                      <TableCell sx={{ fontFamily: 'Outfit, sans-serif', fontWeight: 600, fontSize: '14px', color: tableCellColor, borderBottom: `1px solid ${tableCellBorder}` }}>
-                        Sub-Category Name (Local)
+                      <TableCell
+                        sx={{
+                          fontFamily: 'Outfit, sans-serif',
+                          fontSize: '14px',
+                          color: tableCellColor,
+                          borderBottom: `1px solid ${tableCellBorder}`,
+                        }}
+                      >
+                        {item.subCategoryNameLocale || '-'}
                       </TableCell>
-                      <TableCell sx={{ fontFamily: 'Outfit, sans-serif', fontWeight: 600, fontSize: '14px', color: tableCellColor, borderBottom: `1px solid ${tableCellBorder}` }}>
-                        Service Code
+                      <TableCell
+                        sx={{
+                          fontFamily: 'Outfit, sans-serif',
+                          fontSize: '14px',
+                          color: tableCellColor,
+                          borderBottom: `1px solid ${tableCellBorder}`,
+                        }}
+                      >
+                        {item.serviceCode || '-'}
                       </TableCell>
-                      <TableCell sx={{ fontFamily: 'Outfit, sans-serif', fontWeight: 600, fontSize: '14px', color: tableCellColor, borderBottom: `1px solid ${tableCellBorder}` }}>
-                        Service Name
+                      <TableCell
+                        sx={{
+                          fontFamily: 'Outfit, sans-serif',
+                          fontSize: '14px',
+                          color: tableCellColor,
+                          borderBottom: `1px solid ${tableCellBorder}`,
+                        }}
+                      >
+                        {item.serviceName || '-'}
                       </TableCell>
-                      <TableCell sx={{ fontFamily: 'Outfit, sans-serif', fontWeight: 600, fontSize: '14px', color: tableCellColor, borderBottom: `1px solid ${tableCellBorder}` }} align="right">
-                        Total Budget
+                      <TableCell
+                        sx={{
+                          fontFamily: 'Outfit, sans-serif',
+                          fontSize: '14px',
+                          color: tableCellColor,
+                          borderBottom: `1px solid ${tableCellBorder}`,
+                        }}
+                        align="right"
+                      >
+                        {item.totalBudget ?? 0}
                       </TableCell>
-                      <TableCell sx={{ fontFamily: 'Outfit, sans-serif', fontWeight: 600, fontSize: '14px', color: tableCellColor, borderBottom: `1px solid ${tableCellBorder}` }} align="right">
-                        Available Budget
+                      <TableCell
+                        sx={{
+                          fontFamily: 'Outfit, sans-serif',
+                          fontSize: '14px',
+                          color: tableCellColor,
+                          borderBottom: `1px solid ${tableCellBorder}`,
+                        }}
+                        align="right"
+                      >
+                        {item.availableBudget ?? 0}
                       </TableCell>
-                      <TableCell sx={{ fontFamily: 'Outfit, sans-serif', fontWeight: 600, fontSize: '14px', color: tableCellColor, borderBottom: `1px solid ${tableCellBorder}` }} align="right">
-                        Utilized Budget
+                      <TableCell
+                        sx={{
+                          fontFamily: 'Outfit, sans-serif',
+                          fontSize: '14px',
+                          color: tableCellColor,
+                          borderBottom: `1px solid ${tableCellBorder}`,
+                        }}
+                        align="right"
+                      >
+                        {item.utilizedBudget ?? 0}
                       </TableCell>
                     </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {budgetItems.map((item, index) => (
-                      <TableRow
-                        key={item.id || index}
-                        sx={{ '&:hover': { backgroundColor: tableRowHoverBg } }}
-                      >
-                        <TableCell sx={{ fontFamily: 'Outfit, sans-serif', fontSize: '14px', color: tableCellColor, borderBottom: `1px solid ${tableCellBorder}` }}>
-                          {item.subCategoryName || '-'}
-                        </TableCell>
-                        <TableCell
-                          sx={{
-                            fontFamily: 'Outfit, sans-serif',
-                            fontSize: '14px',
-                            color: tableCellColor,
-                            borderBottom: `1px solid ${tableCellBorder}`,
-                          }}
-                        >
-                          {item.subCategoryNameLocale || '-'}
-                        </TableCell>
-                        <TableCell
-                          sx={{
-                            fontFamily: 'Outfit, sans-serif',
-                            fontSize: '14px',
-                            color: tableCellColor,
-                            borderBottom: `1px solid ${tableCellBorder}`,
-                          }}
-                        >
-                          {item.serviceCode || '-'}
-                        </TableCell>
-                        <TableCell
-                          sx={{
-                            fontFamily: 'Outfit, sans-serif',
-                            fontSize: '14px',
-                            color: tableCellColor,
-                            borderBottom: `1px solid ${tableCellBorder}`,
-                          }}
-                        >
-                          {item.serviceName || '-'}
-                        </TableCell>
-                        <TableCell
-                          sx={{
-                            fontFamily: 'Outfit, sans-serif',
-                            fontSize: '14px',
-                            color: tableCellColor,
-                            borderBottom: `1px solid ${tableCellBorder}`,
-                          }}
-                          align="right"
-                        >
-                          {item.totalBudget ?? 0}
-                        </TableCell>
-                        <TableCell
-                          sx={{
-                            fontFamily: 'Outfit, sans-serif',
-                            fontSize: '14px',
-                            color: tableCellColor,
-                            borderBottom: `1px solid ${tableCellBorder}`,
-                          }}
-                          align="right"
-                        >
-                          {item.availableBudget ?? 0}
-                        </TableCell>
-                        <TableCell
-                          sx={{
-                            fontFamily: 'Outfit, sans-serif',
-                            fontSize: '14px',
-                            color: tableCellColor,
-                            borderBottom: `1px solid ${tableCellBorder}`,
-                          }}
-                          align="right"
-                        >
-                          {item.utilizedBudget ?? 0}
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
           ) : (
             <Box sx={{ py: 4, textAlign: 'center' }}>
               <Typography
@@ -608,95 +608,95 @@ const Step3: React.FC<Step3Props> = ({
             )}
           </Box>
           <Divider sx={{ mb: 3, borderColor: tableCellBorder }} />
-          
+
           {isLoadingDocuments ? (
             <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
               <GlobalLoading />
             </Box>
           ) : documents.length > 0 ? (
-              <TableContainer
-                component={Paper}
-                sx={{ boxShadow: 'none', border: `1px solid ${tableCellBorder}`, backgroundColor: isDarkMode ? 'transparent' : undefined }}
-              >
-                <Table>
-                  <TableHead>
-                    <TableRow sx={{ backgroundColor: tableHeaderBg }}>
+            <TableContainer
+              component={Paper}
+              sx={{ boxShadow: 'none', border: `1px solid ${tableCellBorder}`, backgroundColor: isDarkMode ? 'transparent' : undefined }}
+            >
+              <Table>
+                <TableHead>
+                  <TableRow sx={{ backgroundColor: tableHeaderBg }}>
+                    <TableCell
+                      sx={{
+                        fontFamily: 'Outfit, sans-serif',
+                        fontWeight: 600,
+                        fontSize: '14px',
+                        color: tableCellColor,
+                        borderBottom: `1px solid ${tableCellBorder}`,
+                      }}
+                    >
+                      Name
+                    </TableCell>
+                    <TableCell
+                      sx={{
+                        fontFamily: 'Outfit, sans-serif',
+                        fontWeight: 600,
+                        fontSize: '14px',
+                        color: tableCellColor,
+                        borderBottom: `1px solid ${tableCellBorder}`,
+                      }}
+                    >
+                      Date
+                    </TableCell>
+                    <TableCell
+                      sx={{
+                        fontFamily: 'Outfit, sans-serif',
+                        fontWeight: 600,
+                        fontSize: '14px',
+                        color: tableCellColor,
+                        borderBottom: `1px solid ${tableCellBorder}`,
+                      }}
+                    >
+                      Type
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {documents.map((doc, index) => (
+                    <TableRow
+                      key={doc.id || index}
+                      sx={{ '&:hover': { backgroundColor: tableRowHoverBg } }}
+                    >
                       <TableCell
                         sx={{
                           fontFamily: 'Outfit, sans-serif',
-                          fontWeight: 600,
                           fontSize: '14px',
                           color: tableCellColor,
                           borderBottom: `1px solid ${tableCellBorder}`,
                         }}
                       >
-                        Name
+                        {doc.name || '-'}
                       </TableCell>
                       <TableCell
                         sx={{
                           fontFamily: 'Outfit, sans-serif',
-                          fontWeight: 600,
                           fontSize: '14px',
                           color: tableCellColor,
                           borderBottom: `1px solid ${tableCellBorder}`,
                         }}
                       >
-                        Date
+                        {doc.uploadDate ? new Date(doc.uploadDate).toLocaleDateString('en-GB') : '-'}
                       </TableCell>
                       <TableCell
                         sx={{
                           fontFamily: 'Outfit, sans-serif',
-                          fontWeight: 600,
                           fontSize: '14px',
                           color: tableCellColor,
                           borderBottom: `1px solid ${tableCellBorder}`,
                         }}
                       >
-                        Type
+                        {doc.classification || '-'}
                       </TableCell>
                     </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {documents.map((doc, index) => (
-                      <TableRow
-                        key={doc.id || index}
-                        sx={{ '&:hover': { backgroundColor: tableRowHoverBg } }}
-                      >
-                        <TableCell
-                          sx={{
-                            fontFamily: 'Outfit, sans-serif',
-                            fontSize: '14px',
-                            color: tableCellColor,
-                            borderBottom: `1px solid ${tableCellBorder}`,
-                          }}
-                        >
-                          {doc.name || '-'}
-                        </TableCell>
-                        <TableCell
-                          sx={{
-                            fontFamily: 'Outfit, sans-serif',
-                            fontSize: '14px',
-                            color: tableCellColor,
-                            borderBottom: `1px solid ${tableCellBorder}`,
-                          }}
-                        >
-                          {doc.uploadDate ? new Date(doc.uploadDate).toLocaleDateString('en-GB') : '-'}
-                        </TableCell>
-                        <TableCell
-                          sx={{
-                            fontFamily: 'Outfit, sans-serif',
-                            fontSize: '14px',
-                            color: tableCellColor,
-                            borderBottom: `1px solid ${tableCellBorder}`,
-                          }}
-                        >
-                          {doc.classification || '-'}
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
           ) : (
             <Box sx={{ py: 4, textAlign: 'center' }}>
               <Typography

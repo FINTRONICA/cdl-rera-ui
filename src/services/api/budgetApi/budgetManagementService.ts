@@ -449,21 +449,10 @@ class BudgetManagementService {
       
       const fullUrl = `${buildApiUrl(baseEndpoint)}?${queryParams.toString()}`
       
-      console.log('[BudgetItemsService] ===== getBudgetItemsByBudgetCategoryId =====')
-      console.log('[BudgetItemsService] Base endpoint:', baseEndpoint)
-      console.log('[BudgetItemsService] Full URL:', fullUrl)
-      console.log('[BudgetItemsService] Query params:', queryParams.toString())
-      console.log('[BudgetItemsService] budgetCategoryId (deprecated, not used):', budgetCategoryId)
-      console.log('[BudgetItemsService] budgetId (used for filtering):', budgetId, 'Type:', typeof budgetId)
-      console.log('[BudgetItemsService] page:', page, 'size:', size)
+     
       
       const data = await apiClient.get<PaginatedResponse<BudgetItemResponse>>(fullUrl)
-      
-      console.log('[BudgetItemsService] Raw Response received')
-      console.log('[BudgetItemsService] Response type:', typeof data)
-      console.log('[BudgetItemsService] Is Array?', Array.isArray(data))
-      console.log('[BudgetItemsService] Has content property?', data && typeof data === 'object' && 'content' in data)
-      
+     
       // Handle different response formats
       interface ResponseWithContent {
         content?: BudgetItemResponse[]
@@ -480,12 +469,7 @@ class BudgetManagementService {
         // Spring Boot style pagination response
         const content = responseData.content
         const pageInfo = responseData.page || {}
-        
-        console.log('[BudgetItemsService]  Extracted content array from paginated response')
-        console.log('[BudgetItemsService] Content length:', content.length)
-        console.log('[BudgetItemsService] Page info:', pageInfo)
-        console.log('[BudgetItemsService] Total elements:', pageInfo.totalElements)
-        
+
         // Log first item sample for debugging
         if (content.length > 0 && content[0]) {
           const firstItem = content[0]

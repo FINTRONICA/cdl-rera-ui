@@ -55,7 +55,7 @@ export const useAppStore = create<AppStore>()(
         language: state.language,
         // 🔥 CRITICAL: Do NOT persist labels for banking compliance
         // Labels are session-only and always fetched fresh on app load
-        // labels: state.labels, // ❌ Excluded for banking compliance
+        // labels: state.labels, // Excluded for banking compliance
       }),
     }
   )

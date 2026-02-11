@@ -361,7 +361,7 @@ export const labelsSlice: StateCreator<LabelsSlice> = (set, get) => ({
 
   setSidebarLabelsError: (error) => {
     if (error) {
-      console.error("❌ [COMPLIANCE] Sidebar labels error:", error);
+      console.error("[COMPLIANCE] Sidebar labels error:", error);
     }
     set({ sidebarLabelsError: error });
   },
@@ -380,7 +380,7 @@ export const labelsSlice: StateCreator<LabelsSlice> = (set, get) => ({
 
   setBuildPartnerLabelsError: (error) => {
     if (error) {
-      console.error("❌ [COMPLIANCE] Build partner labels error:", error);
+      console.error("[COMPLIANCE] Build partner labels error:", error);
     }
     set({ buildPartnerLabelsError: error });
   },
@@ -399,7 +399,7 @@ export const labelsSlice: StateCreator<LabelsSlice> = (set, get) => ({
 
   setCapitalPartnerLabelsError: (error) => {
     if (error) {
-      console.error("❌ [COMPLIANCE] Capital partner labels error:", error);
+      console.error("[COMPLIANCE] Capital partner labels error:", error);
     }
     set({ capitalPartnerLabelsError: error });
   },
@@ -418,7 +418,7 @@ export const labelsSlice: StateCreator<LabelsSlice> = (set, get) => ({
 
   setBuildPartnerAssetLabelsError: (error) => {
     if (error) {
-      console.error("❌ [COMPLIANCE] Build partner asset labels error:", error);
+      console.error("[COMPLIANCE] Build partner asset labels error:", error);
     }
     set({ buildPartnerAssetLabelsError: error });
   },
@@ -434,7 +434,7 @@ export const labelsSlice: StateCreator<LabelsSlice> = (set, get) => ({
     set({ workflowActionLabelsLoading: loading }),
   setWorkflowActionLabelsError: (error) => {
     if (error) {
-      console.error("❌ [COMPLIANCE] workflow action labels error:", error);
+      console.error("[COMPLIANCE] workflow action labels error:", error);
     }
     set({ workflowActionLabelsError: error });
   },
@@ -451,7 +451,7 @@ export const labelsSlice: StateCreator<LabelsSlice> = (set, get) => ({
     set({ workflowDefinitionLabelsLoading: loading }),
   setWorkflowDefinitionLabelsError: (error) => {
     if (error) {
-      console.error("❌ [COMPLIANCE] workflow definition labels error:", error);
+      console.error("[COMPLIANCE] workflow definition labels error:", error);
     }
     set({ workflowDefinitionLabelsError: error });
   },
@@ -469,7 +469,7 @@ export const labelsSlice: StateCreator<LabelsSlice> = (set, get) => ({
   setWorkflowStageTemplateLabelsError: (error) => {
     if (error) {
       console.error(
-        "❌ [COMPLIANCE] workflow-stage-template labels error:",
+        "[COMPLIANCE] workflow-stage-template labels error:",
         error,
       );
     }
@@ -489,7 +489,7 @@ export const labelsSlice: StateCreator<LabelsSlice> = (set, get) => ({
   setWorkflowAmountRuleLabelsError: (error) => {
     if (error) {
       console.error(
-        "❌ [COMPLIANCE] workflow-amount-rule labels error:",
+        "[COMPLIANCE] workflow-amount-rule labels error:",
         error,
       );
     }
@@ -509,7 +509,7 @@ export const labelsSlice: StateCreator<LabelsSlice> = (set, get) => ({
   setWorkflowAmountStageOverrideLabelsError: (error) => {
     if (error) {
       console.error(
-        "❌ [COMPLIANCE] workflow-amount-stage-override labels error:",
+        "[COMPLIANCE] workflow-amount-stage-override labels error:",
         error,
       );
     }
@@ -528,7 +528,7 @@ export const labelsSlice: StateCreator<LabelsSlice> = (set, get) => ({
     set({ workflowRequestedLabelsLoading: loading }),
   setWorkflowRequestedLabelsError: (error) => {
     if (error) {
-      console.error("❌ [COMPLIANCE] workflow-requested labels error:", error);
+      console.error("[COMPLIANCE] workflow-requested labels error:", error);
     }
     set({ workflowRequestedLabelsError: error });
   },
@@ -547,7 +547,7 @@ export const labelsSlice: StateCreator<LabelsSlice> = (set, get) => ({
 
   setPendingTransactionLabelsError: (error) => {
     if (error) {
-      console.error("❌ [COMPLIANCE] Pending transaction labels error:", error);
+      console.error("[COMPLIANCE] Pending transaction labels error:", error);
     }
     set({ pendingTransactionLabelsError: error });
   },
@@ -567,7 +567,7 @@ export const labelsSlice: StateCreator<LabelsSlice> = (set, get) => ({
   setDiscardedTransactionLabelsError: (error) => {
     if (error) {
       console.error(
-        "❌ [COMPLIANCE] Discarded transaction labels error:",
+        "[COMPLIANCE] Discarded transaction labels error:",
         error,
       );
     }
@@ -610,7 +610,7 @@ export const labelsSlice: StateCreator<LabelsSlice> = (set, get) => ({
 
   setAllLabelsError: (error) => {
     if (error) {
-      console.error("❌ [COMPLIANCE] All labels error:", error);
+      console.error("[COMPLIANCE] All labels error:", error);
     }
     set({ allLabelsError: error });
   },
