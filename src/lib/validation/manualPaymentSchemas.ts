@@ -147,6 +147,22 @@ export const manualPaymentStep1Schema = z.object({
   engineerFeePayment2: z.coerce.number().optional().nullable(), 
   uploadDocuments2: ManualPaymentPrimitives.backendDropdownRequired, 
   'reviewNote*': z.coerce.boolean().optional().nullable(),
+
+  // Budget details (optional)
+  budgetDetails: ManualPaymentPrimitives.idOptional,
+  budgetItems: ManualPaymentPrimitives.idOptional,
+  budgetCategory: ManualPaymentPrimitives.idOptional,
+  budgetSubCategory: z.string().optional().nullable(),
+  budgetServiceName: z.string().optional().nullable(),
+  categoryCode: z.string().optional().nullable(),
+  subCategoryCode: z.string().optional().nullable(),
+  serviceCode: z.string().optional().nullable(),
+  provisionalBudgetId: z.string().optional().nullable(),
+  availableBudgetAmount: z.string().optional().nullable(),
+  utilizedBudgetAmount: z.string().optional().nullable(),
+  invoiceBudgetAmount: z.string().optional().nullable(),
+  provisionalBudget: z.union([z.boolean(), z.string()]).optional().nullable(),
+  hoaExemption: z.union([z.boolean(), z.string()]).optional().nullable(),
 })
 
 export type ManualPaymentStep1Data = z.infer<typeof manualPaymentStep1Schema>

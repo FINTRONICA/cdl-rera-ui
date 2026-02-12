@@ -235,6 +235,24 @@ export interface FundEgressRequest {
   // Note: backend expects 'fBbankCharges' (capital B). Keep both for compatibility.
   fbbankCharges?: string | number
   fBbankCharges?: string | number
+  // Optional budget (manual payment)
+  budgetDTO?: { id: number; [key: string]: any } | null
+  budgetCategoryDTO?: { id: number; [key: string]: any } | null
+  budgetItemDTO?: { id: number; [key: string]: any } | null
+  feBudgetDetails?: string
+  feBudgetCategory?: string
+  feBudgetItems?: string
+  feBudgetSubCategory?: string
+  feBudgetServiceName?: string
+  feCategoryCode?: string
+  feSubCategoryCode?: string
+  feServiceCode?: string
+  feProvisionalBudgetId?: string
+  feAvailableBudgetAmount?: number
+  feUtilizedBudgetAmount?: number
+  feInvoiceBudgetAmount?: number
+  feProvisionalBudget?: boolean
+  feHoaException?: boolean
 }
 
 export interface FundEgressResponse {
@@ -384,6 +402,24 @@ export interface FundEgressData {
     name: string
   }
   taskStatusDTO?: any | null
+  // Optional budget (from API when present)
+  budgetDTO?: { id: number; [key: string]: any } | null
+  budgetCategoryDTO?: { id: number; [key: string]: any } | null
+  budgetItemDTO?: { id: number; [key: string]: any } | null
+  feBudgetDetails?: string
+  feBudgetCategory?: string
+  feBudgetItems?: string
+  feBudgetSubCategory?: string
+  feBudgetServiceName?: string
+  feCategoryCode?: string
+  feSubCategoryCode?: string
+  feServiceCode?: string
+  feProvisionalBudgetId?: string
+  feAvailableBudgetAmount?: number
+  feUtilizedBudgetAmount?: number
+  feInvoiceBudgetAmount?: number
+  feProvisionalBudget?: boolean
+  feHoaException?: boolean
 }
 
 export class FundEgressService {

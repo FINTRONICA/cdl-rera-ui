@@ -53,6 +53,28 @@ export interface FormData {
   vatCapExceeded2?: string // Payment Sub Type
   vatCapExceeded3?: string // Indicative Rate
   vatCapExceeded4?: string // Corporate Certification Engineer's Fees
+
+
+
+  // Budget details
+  budgetDetails?: string
+  budgetItems?: string
+  budgetCategory?: string
+  budgetSubCategory?: string
+  budgetServiceName?: string
+  categoryCode?: string
+  subCategoryCode?: string
+  serviceCode?: string
+  provisionalBudgetId?: string
+  availableBudgetAmount?: string
+  utilizedBudgetAmount?: string
+  invoiceBudgetAmount?: string
+  provisionalBudget?: string
+  hoaExemption?: string
+  // Store full DTO objects for API payload
+  budgetDTO?: any // Full BudgetDTO object
+  budgetCategoryDTO?: any // Full BudgetCategoryDTO object
+  budgetItemDTO?: any // Full BudgetItemDTO object
   
   // Checkbox fields
   specialRate?: boolean
@@ -457,13 +479,36 @@ export function mapFormDataToFundEgress(
     realEstateAssestBeneficiaryDTO: null,
     suretyBondDTO: null,
     taskStatusDTO: null,
-    deleted: false
+    deleted: false,
+
+    // Budget details (optional) – send DTOs and display fields if present
+    ...(formData.budgetDTO != null && { budgetDTO: formData.budgetDTO }),
+    ...(formData.budgetCategoryDTO != null && { budgetCategoryDTO: formData.budgetCategoryDTO }),
+    ...(formData.budgetItemDTO != null && { budgetItemDTO: formData.budgetItemDTO }),
+    ...(formData.budgetDetails != null && formData.budgetDetails !== '' && { feBudgetDetails: formData.budgetDetails }),
+    ...(formData.budgetCategory != null && formData.budgetCategory !== '' && { feBudgetCategory: formData.budgetCategory }),
+    ...(formData.budgetItems != null && formData.budgetItems !== '' && { feBudgetItems: formData.budgetItems }),
+    ...(formData.budgetSubCategory != null && formData.budgetSubCategory !== '' && { feBudgetSubCategory: formData.budgetSubCategory }),
+    ...(formData.budgetServiceName != null && formData.budgetServiceName !== '' && { feBudgetServiceName: formData.budgetServiceName }),
+    ...(formData.categoryCode != null && formData.categoryCode !== '' && { feCategoryCode: formData.categoryCode }),
+    ...(formData.subCategoryCode != null && formData.subCategoryCode !== '' && { feSubCategoryCode: formData.subCategoryCode }),
+    ...(formData.serviceCode != null && formData.serviceCode !== '' && { feServiceCode: formData.serviceCode }),
+    ...(formData.provisionalBudgetId != null && formData.provisionalBudgetId !== '' && { feProvisionalBudgetId: formData.provisionalBudgetId }),
+    ...(formData.availableBudgetAmount != null && formData.availableBudgetAmount !== '' && { feAvailableBudgetAmount: parseFloat(formData.availableBudgetAmount) }),
+    ...(formData.utilizedBudgetAmount != null && formData.utilizedBudgetAmount !== '' && { feUtilizedBudgetAmount: parseFloat(formData.utilizedBudgetAmount) }),
+    ...(formData.invoiceBudgetAmount != null && formData.invoiceBudgetAmount !== '' && { feInvoiceBudgetAmount: parseFloat(formData.invoiceBudgetAmount) }),
+    ...(formData.provisionalBudget != null && formData.provisionalBudget !== '' && {
+      feProvisionalBudget: String(formData.provisionalBudget) === 'true',
+    }),
+    ...(formData.hoaExemption != null && formData.hoaExemption !== '' && {
+      feHoaException: String(formData.hoaExemption) === 'true',
+    }),
   };
 
   // Log the request for debugging
 
 
-  return request;
+  return request as FundEgressRequest;
 }
 
 /**
@@ -724,8 +769,31 @@ export function mapFormDataToFundEgressSimplified(
       ? { id: parseInt(formData.uploadDocuments2) }
       : null,
 
-    deleted: false
+    deleted: false,
+
+    // Budget details (optional) – same as full mapper for CRUD
+    ...(formData.budgetDTO != null && { budgetDTO: formData.budgetDTO }),
+    ...(formData.budgetCategoryDTO != null && { budgetCategoryDTO: formData.budgetCategoryDTO }),
+    ...(formData.budgetItemDTO != null && { budgetItemDTO: formData.budgetItemDTO }),
+    ...(formData.budgetDetails != null && formData.budgetDetails !== '' && { feBudgetDetails: formData.budgetDetails }),
+    ...(formData.budgetCategory != null && formData.budgetCategory !== '' && { feBudgetCategory: formData.budgetCategory }),
+    ...(formData.budgetItems != null && formData.budgetItems !== '' && { feBudgetItems: formData.budgetItems }),
+    ...(formData.budgetSubCategory != null && formData.budgetSubCategory !== '' && { feBudgetSubCategory: formData.budgetSubCategory }),
+    ...(formData.budgetServiceName != null && formData.budgetServiceName !== '' && { feBudgetServiceName: formData.budgetServiceName }),
+    ...(formData.categoryCode != null && formData.categoryCode !== '' && { feCategoryCode: formData.categoryCode }),
+    ...(formData.subCategoryCode != null && formData.subCategoryCode !== '' && { feSubCategoryCode: formData.subCategoryCode }),
+    ...(formData.serviceCode != null && formData.serviceCode !== '' && { feServiceCode: formData.serviceCode }),
+    ...(formData.provisionalBudgetId != null && formData.provisionalBudgetId !== '' && { feProvisionalBudgetId: formData.provisionalBudgetId }),
+    ...(formData.availableBudgetAmount != null && formData.availableBudgetAmount !== '' && { feAvailableBudgetAmount: parseFloat(formData.availableBudgetAmount) }),
+    ...(formData.utilizedBudgetAmount != null && formData.utilizedBudgetAmount !== '' && { feUtilizedBudgetAmount: parseFloat(formData.utilizedBudgetAmount) }),
+    ...(formData.invoiceBudgetAmount != null && formData.invoiceBudgetAmount !== '' && { feInvoiceBudgetAmount: parseFloat(formData.invoiceBudgetAmount) }),
+    ...(formData.provisionalBudget != null && formData.provisionalBudget !== '' && {
+      feProvisionalBudget: String(formData.provisionalBudget) === 'true',
+    }),
+    ...(formData.hoaExemption != null && formData.hoaExemption !== '' && {
+      feHoaException: String(formData.hoaExemption) === 'true',
+    }),
   };
 
-  return request;
+  return request as FundEgressRequest;
 }

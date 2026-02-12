@@ -11,7 +11,7 @@ export const ALLOCATED_TRANSACTION_LABELS = {
   // Column Labels (using API configIds from transaction labels response)
   CDL_TRAN_DATE: 'Date',
   CDL_TRAN_REFNO: 'Tran Id',
-  CDL_TRANS_BP_CIF: 'Project Account (CIF)',
+  CDL_TRANS_BP_CIF: 'Asset Register CIF',
   CDL_TRANS_ASSET_REGISTER_NAME: 'Asset Register Name',
   CDL_TRANS_MF_NAME: 'Management Firm Name',
   CDL_MF_NAME: 'Management Firm Name',

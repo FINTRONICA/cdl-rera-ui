@@ -169,9 +169,9 @@ function ManualPaymentWithIdContent() {
             <div className="flex flex-col min-w-[200px] gap-1">
               <label className="font-sans font-normal text-[12px] leading-[1] tracking-normal text-gray-600 dark:text-gray-400">
                 {getLabel(
-                  MANUAL_PAYMENT_LABELS.FORM_FIELDS.DEVELOPER_NAME,
+                  MANUAL_PAYMENT_LABELS.FORM_FIELDS.ASSET_REGISTER_NAME,
                   'EN',
-                  MANUAL_PAYMENT_LABELS.FALLBACKS.FORM_FIELDS.DEVELOPER_NAME
+                  MANUAL_PAYMENT_LABELS.FALLBACKS.FORM_FIELDS.ASSET_REGISTER_NAME
                 )}
               </label>
               <span className="font-outfit font-normal text-[16px] leading-[1] tracking-normal align-middle text-gray-900 dark:text-gray-100">

@@ -33,6 +33,8 @@ import { Controller, useFormContext } from 'react-hook-form'
 import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { fundEgressService } from '../../../../services/api/fundEgressService'
+import { BudgetService, budgetManagementService } from '@/services/api/budgetApi/budgetManagementService'
+import { BudgetCategoryService } from '@/services/api/budgetApi/budgetCategoryService'
 // import { toast } from 'react-hot-toast' // Not used in this component
 import { FormError } from '../../../atoms/FormError'
 import { getFieldMaxLength } from '@/lib/validation'
@@ -117,6 +119,21 @@ const Step1 = ({
   const [additionalProjectAssets, setAdditionalProjectAssets] = useState<
     { id: number; reaName: string; reaId: string }[]
   >([])
+
+  // Budget Details state
+  const [budgetOptions, setBudgetOptions] = useState<
+    { id: number; displayName: string; dto?: unknown }[]
+  >([])
+  const [budgetCategoryOptions, setBudgetCategoryOptions] = useState<
+    { id: number; displayName: string; dto?: unknown }[]
+  >([])
+  const [budgetDetailsOptions, setBudgetDetailsOptions] = useState<
+    { id: number; displayName: string; dto?: unknown }[]
+  >([])
+  const [budgetItemsData, setBudgetItemsData] = useState<any[]>([])
+  const [loadingBudgets, setLoadingBudgets] = useState(false)
+  const [loadingBudgetCategories, setLoadingBudgetCategories] = useState(false)
+  const [loadingBudgetDetails, setLoadingBudgetDetails] = useState(false)
 
   // Build partners - fetch all at once (no pagination needed)
   // Remove pagination logic since we're fetching 1000 items in one call
@@ -232,6 +249,181 @@ const Step1 = ({
     selectedBuildPartnerId,
     isEditMode,
   ])
+
+  // Fetch budgets on mount
+  useEffect(() => {
+    let cancelled = false
+    setLoadingBudgets(true)
+    BudgetService.getBudgets(0, 100)
+      .then((res) => {
+        if (cancelled || !res?.content) return
+        setBudgetOptions(
+          res.content.map((x: { id: number; budgetName: string }) => ({
+            id: x.id,
+            displayName: x.budgetName ?? String(x.id),
+            settingValue: String(x.id),
+            dto: x,
+          }))
+        )
+      })
+      .catch(() => {
+        if (!cancelled) setBudgetOptions([])
+      })
+      .finally(() => {
+        if (!cancelled) setLoadingBudgets(false)
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
+  // Fetch budget categories on mount
+  useEffect(() => {
+    let cancelled = false
+    setLoadingBudgetCategories(true)
+    BudgetCategoryService.getBudgetCategories(0, 1000)
+      .then((res) => {
+        if (cancelled || !res?.content) return
+        setBudgetCategoryOptions(
+          res.content.map((x: { id: number; serviceName?: string; categoryName?: string }) => ({
+            id: x.id,
+            displayName: (x.serviceName || x.categoryName) ?? String(x.id),
+            settingValue: String(x.id),
+            dto: x,
+          }))
+        )
+      })
+      .catch(() => {
+        if (!cancelled) setBudgetCategoryOptions([])
+      })
+      .finally(() => {
+        if (!cancelled) setLoadingBudgetCategories(false)
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
+  const selectedBudgetId = watch('budgetDetails')
+
+  // Fetch budget items when budget (budgetDetails) is selected
+  useEffect(() => {
+    if (!selectedBudgetId) {
+      setBudgetDetailsOptions([])
+      setBudgetItemsData([])
+      return
+    }
+    const budgetId =
+      typeof selectedBudgetId === 'string'
+        ? parseInt(selectedBudgetId, 10)
+        : Number(selectedBudgetId)
+    if (isNaN(budgetId) || budgetId <= 0) {
+      setBudgetDetailsOptions([])
+      setBudgetItemsData([])
+      return
+    }
+    let cancelled = false
+    setLoadingBudgetDetails(true)
+    // Primary: getBudgetItemsByBudgetCategoryId (uses budgetId.equals); fallback: getAllBudgetItems with filter
+    const fetchItems = (): Promise<{ content: unknown[] }> =>
+      budgetManagementService
+        .getBudgetItemsByBudgetCategoryId(0, 0, 1000, budgetId)
+        .then((res) => {
+          if (cancelled) return { content: [] }
+          const raw = res as { content?: unknown[] }
+          const content = Array.isArray(raw?.content) ? raw.content : []
+          return { content }
+        })
+        .catch(() => {
+          if (cancelled) return { content: [] }
+          return budgetManagementService
+            .getAllBudgetItems(0, 1000, { 'budgetId.equals': String(budgetId) })
+            .then((r) => {
+              const raw = r as { content?: unknown[] }
+              const content = Array.isArray(raw?.content) ? raw.content : []
+              return { content }
+            })
+        })
+
+    fetchItems().then(({ content }) => {
+      if (cancelled || !Array.isArray(content)) {
+        setBudgetDetailsOptions([])
+        setBudgetItemsData([])
+        return
+      }
+      setBudgetItemsData(content)
+      setBudgetDetailsOptions(
+        content.map((x: unknown) => {
+          const item = x as Record<string, unknown>
+          const id = Number(item.id)
+          const displayName =
+            [item.serviceName, item.subCategoryName, item.serviceNameLocale, item.serviceCode]
+              .find((v) => v != null && String(v).trim() !== '') as string | undefined
+            || `Item ${id}`
+          return {
+            id,
+            displayName: String(displayName).trim(),
+            settingValue: String(id),
+            dto: item,
+          }
+        })
+      )
+    }).finally(() => {
+      if (!cancelled) setLoadingBudgetDetails(false)
+    })
+
+    return () => {
+      cancelled = true
+    }
+  }, [selectedBudgetId])
+
+  // When budget is cleared, clear budget items and dependent fields
+  useEffect(() => {
+    if (!selectedBudgetId) {
+      setValue('budgetItems', '')
+      setValue('budgetSubCategory', '')
+      setValue('budgetServiceName', '')
+      setValue('categoryCode', '')
+      setValue('subCategoryCode', '')
+      setValue('serviceCode', '')
+      setValue('provisionalBudgetId', '')
+      setValue('availableBudgetAmount', '')
+      setValue('utilizedBudgetAmount', '')
+      setValue('invoiceBudgetAmount', '')
+      setValue('budgetItemDTO', undefined)
+      setValue('budgetCategoryDTO', undefined)
+      setValue('budgetDTO', undefined)
+    }
+  }, [selectedBudgetId, setValue])
+
+  const selectedBudgetItemId = watch('budgetItems')
+
+  // Auto-fill budget fields when a budget item is selected
+  useEffect(() => {
+    if (!selectedBudgetItemId || !budgetItemsData.length) return
+    const itemId =
+      typeof selectedBudgetItemId === 'string'
+        ? parseInt(selectedBudgetItemId, 10)
+        : Number(selectedBudgetItemId)
+    if (isNaN(itemId)) return
+    const item = budgetItemsData.find((i: { id: number }) => i.id === itemId)
+    if (!item) return
+
+    const bc = item.budgetCategoryDTO
+    const bd = item.budgetDTO
+    setValue('budgetSubCategory', item.subCategoryName ?? '')
+    setValue('budgetServiceName', item.serviceName ?? '')
+    setValue('categoryCode', bc?.categoryCode ?? '')
+    setValue('subCategoryCode', item.subCategoryCode ?? '')
+    setValue('serviceCode', item.serviceCode ?? '')
+    setValue('provisionalBudgetId', item.provisionalServiceCode ?? '')
+    setValue('availableBudgetAmount', String(item.availableBudget ?? ''))
+    setValue('utilizedBudgetAmount', String(item.utilizedBudget ?? ''))
+    setValue('invoiceBudgetAmount', String(item.totalBudget ?? ''))
+    setValue('budgetItemDTO', item)
+    setValue('budgetCategoryDTO', bc ? { id: bc.id } : undefined)
+    setValue('budgetDTO', bd ? { id: bd.id } : undefined)
+  }, [selectedBudgetItemId, budgetItemsData, setValue])
 
   // Memoize developer names from all build partners data + any additional names
   const developerNames = useMemo(() => {
@@ -594,6 +786,51 @@ const Step1 = ({
             corporateAccount: savedData.constructionAccountNumber || '',
             corporateAccount1: savedData.corporateAccountNumber || '',
             corporateAccount2: savedData.retentionAccountNumber || '',
+
+            // Budget details (from API response; keys may exist even if not on FundEgressData type)
+            budgetDetails:
+              (savedData as any).budgetDTO?.id?.toString() ??
+              (savedData as any).feBudgetDetails ??
+              '',
+            budgetCategory:
+              (savedData as any).budgetCategoryDTO?.id?.toString() ??
+              (savedData as any).feBudgetCategory ??
+              '',
+            budgetItems:
+              (savedData as any).budgetItemDTO?.id?.toString() ??
+              (savedData as any).feBudgetItems ??
+              '',
+            budgetSubCategory: (savedData as any).feBudgetSubCategory ?? '',
+            budgetServiceName: (savedData as any).feBudgetServiceName ?? '',
+            categoryCode: (savedData as any).feCategoryCode ?? '',
+            subCategoryCode: (savedData as any).feSubCategoryCode ?? '',
+            serviceCode: (savedData as any).feServiceCode ?? '',
+            provisionalBudgetId: (savedData as any).feProvisionalBudgetId ?? '',
+            availableBudgetAmount:
+              (savedData as any).feAvailableBudgetAmount != null
+                ? String((savedData as any).feAvailableBudgetAmount)
+                : '',
+            utilizedBudgetAmount:
+              (savedData as any).feUtilizedBudgetAmount != null
+                ? String((savedData as any).feUtilizedBudgetAmount)
+                : '',
+            invoiceBudgetAmount:
+              (savedData as any).feInvoiceBudgetAmount != null
+                ? String((savedData as any).feInvoiceBudgetAmount)
+                : '',
+            provisionalBudget:
+              (savedData as any).feProvisionalBudget === true ||
+              (savedData as any).feProvisionalBudget === 'true'
+                ? true
+                : '',
+            hoaExemption:
+              (savedData as any).feHoaException === true ||
+              (savedData as any).feHoaException === 'true'
+                ? true
+                : '',
+            budgetDTO: (savedData as any).budgetDTO ?? undefined,
+            budgetCategoryDTO: (savedData as any).budgetCategoryDTO ?? undefined,
+            budgetItemDTO: (savedData as any).budgetItemDTO ?? undefined,
           }
 
           // Pre-populate Build Partner/Project Account Status
@@ -690,6 +927,23 @@ const Step1 = ({
                 setPaymentRefId(value)
               }
             }
+          })
+
+          // Always set budget-related fields (including empty) so edit mode reflects saved data
+          const budgetKeys = [
+            'budgetDetails', 'budgetCategory', 'budgetItems', 'budgetSubCategory', 'budgetServiceName',
+            'categoryCode', 'subCategoryCode', 'serviceCode', 'provisionalBudgetId',
+            'availableBudgetAmount', 'utilizedBudgetAmount', 'invoiceBudgetAmount',
+            'provisionalBudget', 'hoaExemption', 'budgetDTO', 'budgetCategoryDTO', 'budgetItemDTO',
+          ] as const
+          budgetKeys.forEach((key) => {
+            const val = formData[key as keyof typeof formData]
+            const isDto = key === 'budgetDTO' || key === 'budgetCategoryDTO' || key === 'budgetItemDTO'
+            setValue(key, isDto ? val : (val ?? ''), {
+              shouldDirty: false,
+              shouldTouch: false,
+              shouldValidate: false,
+            })
           })
 
           // Debug: Log payment date values
@@ -1241,9 +1495,9 @@ const Step1 = ({
 
   const renderDeveloperNameField = () => {
     const label = getLabel(
-      MANUAL_PAYMENT_LABELS.FORM_FIELDS.DEVELOPER_NAME,
+      MANUAL_PAYMENT_LABELS.FORM_FIELDS.ASSET_REGISTER_NAME,
       'EN',
-      MANUAL_PAYMENT_LABELS.FALLBACKS.FORM_FIELDS.DEVELOPER_NAME
+      MANUAL_PAYMENT_LABELS.FALLBACKS.FORM_FIELDS.ASSET_REGISTER_NAME
     )
 
     return (
@@ -1522,6 +1776,7 @@ const Step1 = ({
               <Select
                 {...field}
                 label={label}
+                value={field.value ?? ''}
                 sx={{
                   ...selectStyles,
                   ...valueSx,
@@ -1580,35 +1835,42 @@ const Step1 = ({
                 <MenuItem value="" disabled>
                   -- Select --
                 </MenuItem>
-                {options.map((option, index) => (
-                  <MenuItem
-                    key={option.id || option || `option-${index}`}
-                    value={option.id || option || ''}
-                    sx={{
-                      fontSize: '14px',
-                      fontFamily:
-                        'Outfit, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-                      color: '#374151',
-                      transition: 'all 0.2s ease-in-out',
-                      '&:hover': {
-                        backgroundColor: '#F3F4F6',
-                        color: '#111827',
-                      },
-                      '&.Mui-selected': {
-                        backgroundColor: '#EBF4FF',
-                        color: '#2563EB',
-                        fontWeight: 500,
+                {options.map((option, index) => {
+                  const optionValue = String(
+                    option.settingValue ?? option.id ?? option.value ?? ''
+                  )
+                  const optionLabel =
+                    option.displayName ??
+                    option.name ??
+                    (typeof option === 'string' ? option : optionValue || `Option ${index + 1}`)
+                  return (
+                    <MenuItem
+                      key={option.id ?? option.value ?? `option-${index}`}
+                      value={optionValue}
+                      sx={{
+                        fontSize: '14px',
+                        fontFamily:
+                          'Outfit, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+                        color: '#374151',
+                        transition: 'all 0.2s ease-in-out',
                         '&:hover': {
-                          backgroundColor: '#DBEAFE',
+                          backgroundColor: '#F3F4F6',
+                          color: '#111827',
                         },
-                      },
-                    }}
-                  >
-                    {option.displayName ||
-                      option.name ||
-                      (typeof option === 'string' ? option : '')}
-                  </MenuItem>
-                ))}
+                        '&.Mui-selected': {
+                          backgroundColor: '#EBF4FF',
+                          color: '#2563EB',
+                          fontWeight: 500,
+                          '&:hover': {
+                            backgroundColor: '#DBEAFE',
+                          },
+                        },
+                      }}
+                    >
+                      {optionLabel}
+                    </MenuItem>
+                  )
+                })}
               </Select>
               <FormError error={error?.message || ''} touched={true} />
             </FormControl>
@@ -1620,9 +1882,9 @@ const Step1 = ({
 
   const renderProjectNameField = () => {
     const label = getLabel(
-      MANUAL_PAYMENT_LABELS.FORM_FIELDS.PROJECT_NAME,
+      MANUAL_PAYMENT_LABELS.FORM_FIELDS.MANAGEMENT_FIRM_NAME,
       'EN',
-      MANUAL_PAYMENT_LABELS.FALLBACKS.FORM_FIELDS.PROJECT_NAME
+      MANUAL_PAYMENT_LABELS.FALLBACKS.FORM_FIELDS.MANAGEMENT_FIRM_NAME
     )
 
     return (
@@ -2825,10 +3087,195 @@ const Step1 = ({
               6,
               true
             )}
+            {/* BUDGET DETAILS START */}
+            <Grid size={{ xs: 12 }}>
+              <Typography
+                variant="h6"
+                sx={{
+                  color: isDarkMode ? '#F9FAFB' : '#1E2939',
+                  fontFamily: 'Outfit, sans-serif',
+                  fontWeight: 500,
+                  fontStyle: 'normal',
+                  fontSize: '18px',
+                  lineHeight: '28px',
+                  letterSpacing: '0.15px',
+                  verticalAlign: 'middle',
+                }}
+              >
+                {getLabel(
+                  MANUAL_PAYMENT_LABELS.SECTION_TITLES.BUDGET_DETAILS,
+                  'EN',
+                  MANUAL_PAYMENT_LABELS.FALLBACKS.SECTION_TITLES.BUDGET_DETAILS
+                )}
+              </Typography>
+            </Grid>
+            {renderSelectField(
+              'budgetDetails',
+              getLabel(
+                MANUAL_PAYMENT_LABELS.FORM_FIELDS.BUDGET_DETAILS,
+                'EN',
+                MANUAL_PAYMENT_LABELS.FALLBACKS.FORM_FIELDS.BUDGET_DETAILS
+              ),
+              budgetOptions,
+              6,
+              false,
+              loadingBudgets
+            )}
+            {renderSelectField(
+              'budgetCategory',
+              getLabel(
+                MANUAL_PAYMENT_LABELS.FORM_FIELDS.BUDGET_CATEGORY,
+                'EN',
+                MANUAL_PAYMENT_LABELS.FALLBACKS.FORM_FIELDS.BUDGET_CATEGORY
+              ),
+              budgetCategoryOptions,
+              6,
+              false,
+              loadingBudgetCategories
+            )}
+            {renderSelectField(
+              'budgetItems',
+              getLabel(
+                MANUAL_PAYMENT_LABELS.FORM_FIELDS.BUDGET_ITEMS,
+                'EN',
+                MANUAL_PAYMENT_LABELS.FALLBACKS.FORM_FIELDS.BUDGET_ITEMS
+              ),
+              budgetDetailsOptions,
+              6,
+              false,
+              loadingBudgetDetails
+            )}
+            {renderTextField(
+              'budgetSubCategory',
+              getLabel(
+                MANUAL_PAYMENT_LABELS.FORM_FIELDS.BUDGET_SUB_CATEGORY,
+                'EN',
+                MANUAL_PAYMENT_LABELS.FALLBACKS.FORM_FIELDS.BUDGET_SUB_CATEGORY
+              ),
+              6,
+              '',
+              false,
+              true
+            )}
+            {renderTextField(
+              'budgetServiceName',
+              getLabel(
+                MANUAL_PAYMENT_LABELS.FORM_FIELDS.BUDGET_SERVICE_NAME,
+                'EN',
+                MANUAL_PAYMENT_LABELS.FALLBACKS.FORM_FIELDS.BUDGET_SERVICE_NAME
+              ),
+              6,
+              '',
+              false,
+              true
+            )}
+            {renderTextField(
+              'categoryCode',
+              getLabel(
+                MANUAL_PAYMENT_LABELS.FORM_FIELDS.CATEGORY_CODE,
+                'EN',
+                MANUAL_PAYMENT_LABELS.FALLBACKS.FORM_FIELDS.CATEGORY_CODE
+              ),
+              6,
+              '',
+              false,
+              true
+            )}
+            {renderTextField(
+              'subCategoryCode',
+              getLabel(
+                MANUAL_PAYMENT_LABELS.FORM_FIELDS.SUB_CATEGORY_CODE,
+                'EN',
+                MANUAL_PAYMENT_LABELS.FALLBACKS.FORM_FIELDS.SUB_CATEGORY_CODE
+              ),
+              6,
+              '',
+              false,
+              true
+            )}
+            {renderTextField(
+              'serviceCode',
+              getLabel(
+                MANUAL_PAYMENT_LABELS.FORM_FIELDS.SERVICE_CODE,
+                'EN',
+                MANUAL_PAYMENT_LABELS.FALLBACKS.FORM_FIELDS.SERVICE_CODE
+              ),
+              6,
+              '',
+              false,
+              true
+            )}
+            {renderTextField(
+              'provisionalBudgetId',
+              getLabel(
+                MANUAL_PAYMENT_LABELS.FORM_FIELDS.PROVISIONAL_BUDGET_CODE,
+                'EN',
+                MANUAL_PAYMENT_LABELS.FALLBACKS.FORM_FIELDS.PROVISIONAL_BUDGET_CODE
+              ),
+              6,
+              '',
+              false,
+              true
+            )}
+            {renderTextField(
+              'availableBudgetAmount',
+              getLabel(
+                MANUAL_PAYMENT_LABELS.FORM_FIELDS.AVAILABLE_BUDGET_AMOUNT,
+                'EN',
+                MANUAL_PAYMENT_LABELS.FALLBACKS.FORM_FIELDS.AVAILABLE_BUDGET_AMOUNT
+              ),
+              6,
+              '',
+              false,
+              true
+            )}
+            {renderTextField(
+              'utilizedBudgetAmount',
+              getLabel(
+                MANUAL_PAYMENT_LABELS.FORM_FIELDS.UTILIZED_BUDGET_AMOUNT,
+                'EN',
+                MANUAL_PAYMENT_LABELS.FALLBACKS.FORM_FIELDS.UTILIZED_BUDGET_AMOUNT
+              ),
+              6,
+              '',
+              false,
+              true
+            )}
+            {renderTextField(
+              'invoiceBudgetAmount',
+              getLabel(
+                MANUAL_PAYMENT_LABELS.FORM_FIELDS.INVOICE_BUDGET_AMOUNT,
+                'EN',
+                MANUAL_PAYMENT_LABELS.FALLBACKS.FORM_FIELDS.INVOICE_BUDGET_AMOUNT
+              ),
+              6,
+              '',
+              false,
+              true
+            )}
+            {renderCheckboxField(
+              'provisionalBudget',
+              getLabel(
+                MANUAL_PAYMENT_LABELS.FORM_FIELDS.PROVISIONAL_BUDGET,
+                'EN',
+                MANUAL_PAYMENT_LABELS.FALLBACKS.FORM_FIELDS.PROVISIONAL_BUDGET
+              ),
+              3
+            )}
+            {renderCheckboxField(
+              'hoaExemption',
+              getLabel(
+                MANUAL_PAYMENT_LABELS.FORM_FIELDS.HOA_EXEMPTION,
+                'EN',
+                MANUAL_PAYMENT_LABELS.FALLBACKS.FORM_FIELDS.HOA_EXEMPTION
+              ),
+              3
+            )}
+            {/* BUDGET DETAILS END */}
             {renderCheckboxField(
               'feDocVerified',
               'Please review the Surety Bond details and documents before submitting the payment. *',
-              12
+              6
             )}
           </Grid>
         </CardContent>

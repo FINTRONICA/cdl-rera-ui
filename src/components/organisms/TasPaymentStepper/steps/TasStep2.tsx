@@ -311,9 +311,9 @@ const TasStep2: React.FC = () => {
       gridSize: 6,
       label:
         getLabel(
-          MANUAL_PAYMENT_LABELS.FORM_FIELDS.DEVELOPER_NAME,
+          MANUAL_PAYMENT_LABELS.FORM_FIELDS.ASSET_REGISTER_NAME,
           'EN',
-          MANUAL_PAYMENT_LABELS.FALLBACKS.FORM_FIELDS.DEVELOPER_NAME
+          MANUAL_PAYMENT_LABELS.FALLBACKS.FORM_FIELDS.ASSET_REGISTER_NAME
         ) + '*',
       value: fundEgressData?.buildPartnerDTO?.bpName || '-',
     },
@@ -331,9 +331,9 @@ const TasStep2: React.FC = () => {
       gridSize: 6,
       label:
         getLabel(
-          MANUAL_PAYMENT_LABELS.FORM_FIELDS.PROJECT_NAME,
+          MANUAL_PAYMENT_LABELS.FORM_FIELDS.MANAGEMENT_FIRM_NAME,
           'EN',
-          MANUAL_PAYMENT_LABELS.FALLBACKS.FORM_FIELDS.PROJECT_NAME
+          MANUAL_PAYMENT_LABELS.FALLBACKS.FORM_FIELDS.MANAGEMENT_FIRM_NAME
         ) + '*',
       value: fundEgressData?.realEstateAssestDTO?.reaName || '-',
     },

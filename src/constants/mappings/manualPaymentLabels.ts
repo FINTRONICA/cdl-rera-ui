@@ -21,6 +21,7 @@ export const MANUAL_PAYMENT_LABELS = {
     AMOUNT_DETAILS: 'CDL_PAYMENTS_AMOUNT_INFO', // "Amount & Eligibility Summary"
     NARRATION: 'CDL_PAYMENTS_NARRATION', // "Payment Narration"
     UNIT_CANCELLATION: 'CDL_PAYMENTS_UNIT_CAN_DETAILS', // "Unit Cancellation & Adjustment Details"
+    BUDGET_DETAILS: 'CDL_TRAN_BUDGET_DETAILS', // "Budget Details"
   },
 
   // Form Field Labels
@@ -85,6 +86,23 @@ export const MANUAL_PAYMENT_LABELS = {
     BANK_CHARGES: 'CDL_PAYMENTS_BANK_CHARGES', // "Bank Charges"
     PAYMENT_FROM_CBS: 'CDL_PAYMENTS_PAYOUT_CBS', // "Payout via CBS"
     REVIEW_NOTE: 'CDL_PAYMENTS_REVIEW', // "Review Guarantee Details & Documents Prior to Submission"
+    //Budget Details
+    BUDGET_DETAILS: 'CDL_TRAN_BUDGET_DETAILS', // "Budget Details"
+    BUDGET_ITEMS: 'CDL_TRAN_BUDGET_ITEMS', // "Budget Items"
+    BUDGET_CATEGORY: 'CDL_TRAN_CATEGORY', // "Budget Category"
+    BUDGET_SUB_CATEGORY: 'CDL_TRAN_SUBCATEGORY', // "Budget Sub Category"
+    BUDGET_SERVICE_NAME: 'CDL_TRAN_SERVICE_NAME', // "Budget Service Name"
+    PROVISIONAL_BUDGET: 'CDL_TRAN_PROVISIONAL_BUDGET', // "Provisional Budget"
+    HOA_EXEMPTION: 'CDL_HOA_EXEMPTION', // "HOA Exemption"
+    CATEGORY_CODE: 'CDL_TRAN_CATEGORY_CODE', // "Category Code"
+    SUB_CATEGORY_CODE: 'CDL_TRAN_SUBCATEGORY_CODE', // "Sub Category Code"
+    SERVICE_CODE: 'CDL_TRAN_SERVICE_CODE', // "Service Code"
+    PROVISIONAL_BUDGET_CODE: 'CDL_TRAN_PROVISIONAL_BUDGET_CODE', // "Provisional Budget Code"
+    AVAILABLE_BUDGET_AMOUNT: 'CDL_TRAN_AVAILABLE_BUDGET_AMOUNT', // "Available Budget Amount"
+    UTILIZED_BUDGET_AMOUNT: 'CDL_TRAN_UTILIZED_BUDGET_AMOUNT', // "Utilized Budget Amount"
+    INVOICE_BUDGET_AMOUNT: 'CDL_INVOICE_BUDGET_AMOUNT', // "Invoice Budget Amount"
+    ROUTINF_SORTCODE: 'CDL_ROUTINF_SORTCODE', // "Routing Sort Code"
+    CDL_TRAN_RERA_EXCEPTION: 'CDL_TRAN_RERA_EXCEPTION', // "RERA Exception"
   },
 
   // Table Column Labels
@@ -256,6 +274,7 @@ export const MANUAL_PAYMENT_LABELS = {
       AMOUNT_DETAILS: 'Amount Details',
       NARRATION: 'Narration',
       UNIT_CANCELLATION: 'Unit Cancellation Details',
+      BUDGET_DETAILS: 'Budget Details',
     },
     FORM_FIELDS: {
       TAS_REFERENCE: 'Tas/EMS Payment Ref no.',
@@ -318,6 +337,20 @@ export const MANUAL_PAYMENT_LABELS = {
       BANK_CHARGES: 'Bank Charges',
       PAYMENT_FROM_CBS: 'Payment to be made from CBS',
       REVIEW_NOTE: 'Please review the Guarantee details and Documents before submitting the payment',
+      BUDGET_DETAILS: 'Budget Details',
+      BUDGET_ITEMS: 'Budget Items',
+      BUDGET_CATEGORY: 'Budget Category',
+      BUDGET_SUB_CATEGORY: 'Budget Sub Category',
+      BUDGET_SERVICE_NAME: 'Budget Service Name',
+      PROVISIONAL_BUDGET: 'Provisional Budget',
+      HOA_EXEMPTION: 'HOA Exemption',
+      CATEGORY_CODE: 'Category Code',
+      SUB_CATEGORY_CODE: 'Sub Category Code',
+      SERVICE_CODE: 'Service Code',
+      PROVISIONAL_BUDGET_CODE: 'Provisional Budget Code',
+      AVAILABLE_BUDGET_AMOUNT: 'Available Budget Amount',
+      UTILIZED_BUDGET_AMOUNT: 'Utilized Budget Amount',
+      INVOICE_BUDGET_AMOUNT: 'Invoice Budget Amount',
     },
     TABLE_COLUMNS: {
       DATE: 'Date',

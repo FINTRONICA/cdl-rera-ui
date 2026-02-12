@@ -9,7 +9,7 @@ export const FEE_REPUSH_LABELS = {
   CDL_FRP_FAILED_TITLE: 'Failed Fee Transactions',
 
   // Column Labels - Core Table Fields (projectName → managementFirmName)
-  CDL_FRP_PROJECT_NAME: 'Project Name',
+  CDL_FRP_PROJECT_NAME: 'Management Firm Name',
   CDL_FRP_FEE_TYPE: 'Fee Type',
   CDL_FRP_AMOUNT: 'Amount',
   CDL_FRP_TRANSACTION_DATE: 'Transaction Date',

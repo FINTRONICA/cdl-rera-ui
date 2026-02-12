@@ -321,9 +321,9 @@ const Step2 = ({ onEdit, onEditDocuments, isReadOnly = false }: Step2Props) => {
       gridSize: 6,
       label:
         getLabel(
-          MANUAL_PAYMENT_LABELS.FORM_FIELDS.DEVELOPER_NAME,
+          MANUAL_PAYMENT_LABELS.FORM_FIELDS.ASSET_REGISTER_NAME,
           'EN',
-          MANUAL_PAYMENT_LABELS.FALLBACKS.FORM_FIELDS.DEVELOPER_NAME
+          MANUAL_PAYMENT_LABELS.FALLBACKS.FORM_FIELDS.ASSET_REGISTER_NAME
         ) + '*',
       value: fundEgressData?.buildPartnerDTO?.bpName || '-',
     },
@@ -341,9 +341,9 @@ const Step2 = ({ onEdit, onEditDocuments, isReadOnly = false }: Step2Props) => {
       gridSize: 6,
       label:
         getLabel(
-          MANUAL_PAYMENT_LABELS.FORM_FIELDS.PROJECT_NAME,
+          MANUAL_PAYMENT_LABELS.FORM_FIELDS.MANAGEMENT_FIRM_NAME,
           'EN',
-          MANUAL_PAYMENT_LABELS.FALLBACKS.FORM_FIELDS.PROJECT_NAME
+          MANUAL_PAYMENT_LABELS.FALLBACKS.FORM_FIELDS.MANAGEMENT_FIRM_NAME
         ) + '*',
       value: fundEgressData?.realEstateAssestDTO?.reaName || '-',
     },
@@ -856,6 +856,169 @@ const Step2 = ({ onEdit, onEditDocuments, isReadOnly = false }: Step2Props) => {
     },
   ]
 
+  const feData = fundEgressData as any
+  const budgetDetails = [
+    {
+      gridSize: 6,
+      label:
+        getLabel(
+          MANUAL_PAYMENT_LABELS.FORM_FIELDS.BUDGET_DETAILS,
+          'EN',
+          MANUAL_PAYMENT_LABELS.FALLBACKS.FORM_FIELDS.BUDGET_DETAILS
+        ),
+      value:
+        feData?.budgetDTO?.budgetName ||
+        feData?.feBudgetDetails ||
+        '-',
+    },
+    {
+      gridSize: 6,
+      label:
+        getLabel(
+          MANUAL_PAYMENT_LABELS.FORM_FIELDS.BUDGET_CATEGORY,
+          'EN',
+          MANUAL_PAYMENT_LABELS.FALLBACKS.FORM_FIELDS.BUDGET_CATEGORY
+        ),
+      value:
+        feData?.budgetCategoryDTO?.categoryName ||
+        feData?.feBudgetCategory ||
+        '-',
+    },
+    {
+      gridSize: 6,
+      label:
+        getLabel(
+          MANUAL_PAYMENT_LABELS.FORM_FIELDS.BUDGET_ITEMS,
+          'EN',
+          MANUAL_PAYMENT_LABELS.FALLBACKS.FORM_FIELDS.BUDGET_ITEMS
+        ),
+      value:
+        feData?.budgetItemDTO?.serviceName ||
+        feData?.budgetItemDTO?.subCategoryName ||
+        feData?.feBudgetItems ||
+        '-',
+    },
+    {
+      gridSize: 6,
+      label:
+        getLabel(
+          MANUAL_PAYMENT_LABELS.FORM_FIELDS.BUDGET_SUB_CATEGORY,
+          'EN',
+          MANUAL_PAYMENT_LABELS.FALLBACKS.FORM_FIELDS.BUDGET_SUB_CATEGORY
+        ),
+      value: feData?.feBudgetSubCategory || '-',
+    },
+    {
+      gridSize: 6,
+      label:
+        getLabel(
+          MANUAL_PAYMENT_LABELS.FORM_FIELDS.BUDGET_SERVICE_NAME,
+          'EN',
+          MANUAL_PAYMENT_LABELS.FALLBACKS.FORM_FIELDS.BUDGET_SERVICE_NAME
+        ),
+      value: feData?.feBudgetServiceName || '-',
+    },
+    {
+      gridSize: 6,
+      label:
+        getLabel(
+          MANUAL_PAYMENT_LABELS.FORM_FIELDS.CATEGORY_CODE,
+          'EN',
+          MANUAL_PAYMENT_LABELS.FALLBACKS.FORM_FIELDS.CATEGORY_CODE
+        ),
+      value: feData?.feCategoryCode || '-',
+    },
+    {
+      gridSize: 6,
+      label:
+        getLabel(
+          MANUAL_PAYMENT_LABELS.FORM_FIELDS.SUB_CATEGORY_CODE,
+          'EN',
+          MANUAL_PAYMENT_LABELS.FALLBACKS.FORM_FIELDS.SUB_CATEGORY_CODE
+        ),
+      value: feData?.feSubCategoryCode || '-',
+    },
+    {
+      gridSize: 6,
+      label:
+        getLabel(
+          MANUAL_PAYMENT_LABELS.FORM_FIELDS.SERVICE_CODE,
+          'EN',
+          MANUAL_PAYMENT_LABELS.FALLBACKS.FORM_FIELDS.SERVICE_CODE
+        ),
+      value: feData?.feServiceCode || '-',
+    },
+    {
+      gridSize: 6,
+      label:
+        getLabel(
+          MANUAL_PAYMENT_LABELS.FORM_FIELDS.PROVISIONAL_BUDGET_CODE,
+          'EN',
+          MANUAL_PAYMENT_LABELS.FALLBACKS.FORM_FIELDS.PROVISIONAL_BUDGET_CODE
+        ),
+      value: feData?.feProvisionalBudgetId ?? '-',
+    },
+    {
+      gridSize: 6,
+      label:
+        getLabel(
+          MANUAL_PAYMENT_LABELS.FORM_FIELDS.AVAILABLE_BUDGET_AMOUNT,
+          'EN',
+          MANUAL_PAYMENT_LABELS.FALLBACKS.FORM_FIELDS.AVAILABLE_BUDGET_AMOUNT
+        ),
+      value:
+        feData?.feAvailableBudgetAmount != null
+          ? String(feData.feAvailableBudgetAmount)
+          : '-',
+    },
+    {
+      gridSize: 6,
+      label:
+        getLabel(
+          MANUAL_PAYMENT_LABELS.FORM_FIELDS.UTILIZED_BUDGET_AMOUNT,
+          'EN',
+          MANUAL_PAYMENT_LABELS.FALLBACKS.FORM_FIELDS.UTILIZED_BUDGET_AMOUNT
+        ),
+      value:
+        feData?.feUtilizedBudgetAmount != null
+          ? String(feData.feUtilizedBudgetAmount)
+          : '-',
+    },
+    {
+      gridSize: 6,
+      label:
+        getLabel(
+          MANUAL_PAYMENT_LABELS.FORM_FIELDS.INVOICE_BUDGET_AMOUNT,
+          'EN',
+          MANUAL_PAYMENT_LABELS.FALLBACKS.FORM_FIELDS.INVOICE_BUDGET_AMOUNT
+        ),
+      value:
+        feData?.feInvoiceBudgetAmount != null
+          ? String(feData.feInvoiceBudgetAmount)
+          : '-',
+    },
+    {
+      gridSize: 6,
+      label:
+        getLabel(
+          MANUAL_PAYMENT_LABELS.FORM_FIELDS.PROVISIONAL_BUDGET,
+          'EN',
+          MANUAL_PAYMENT_LABELS.FALLBACKS.FORM_FIELDS.PROVISIONAL_BUDGET
+        ),
+      value: feData?.feProvisionalBudget === true || feData?.feProvisionalBudget === 'true',
+    },
+    {
+      gridSize: 6,
+      label:
+        getLabel(
+          MANUAL_PAYMENT_LABELS.FORM_FIELDS.HOA_EXEMPTION,
+          'EN',
+          MANUAL_PAYMENT_LABELS.FALLBACKS.FORM_FIELDS.HOA_EXEMPTION
+        ),
+      value: feData?.feHoaException === true || feData?.feHoaException === 'true',
+    },
+  ]
+
   const unitCancellation = [
     // Commented out: Unit Number
     // {
@@ -1051,6 +1214,15 @@ const Step2 = ({ onEdit, onEditDocuments, isReadOnly = false }: Step2Props) => {
             MANUAL_PAYMENT_LABELS.FALLBACKS.SECTION_TITLES.NARRATION
           )}
           fields={narrationDetails}
+          isDarkMode={isDarkMode}
+        />
+        <Section
+          title={getLabel(
+            MANUAL_PAYMENT_LABELS.SECTION_TITLES.BUDGET_DETAILS,
+            'EN',
+            MANUAL_PAYMENT_LABELS.FALLBACKS.SECTION_TITLES.BUDGET_DETAILS
+          )}
+          fields={budgetDetails}
           isDarkMode={isDarkMode}
         />
         <Section
