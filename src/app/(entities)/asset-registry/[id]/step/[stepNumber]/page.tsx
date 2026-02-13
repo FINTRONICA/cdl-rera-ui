@@ -34,7 +34,7 @@ function DeveloperStepPageContent() {
   // Validate step number and fetch build partner data
   useEffect(() => {
     if (isNaN(stepNumber) || stepNumber < 1 || stepNumber > 6) {
-      router.push('/asset-register')
+      router.push('/asset-registry')
       return
     }
     setIsValidating(false)

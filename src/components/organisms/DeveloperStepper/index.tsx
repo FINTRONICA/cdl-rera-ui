@@ -194,10 +194,10 @@ export default function DeveloperStepperWrapper({
         if (nextStep < steps.length) {
           const nextUrlStep = nextStep + 1
           router.push(
-            `/asset-register/${developerId}/step/${nextUrlStep}?mode=view`
+            `/asset-registry/${developerId}/step/${nextUrlStep}?mode=view`
           )
         } else {
-          router.push('/asset-register')
+          router.push('/asset-registry')
         }
         return
       }
@@ -218,12 +218,12 @@ export default function DeveloperStepperWrapper({
           // Preserve editing mode when navigating back to Review
           const modeParam = getModeParam()
           router.push(
-            `/asset-register/${developerId}/step/${nextUrlStep}${modeParam}`
+            `/asset-registry/${developerId}/step/${nextUrlStep}${modeParam}`
           )
           // Update local state to match navigation
           setActiveStep(nextStep)
         } else {
-          router.push('/asset-register')
+          router.push('/asset-registry')
         }
         return
       }
@@ -271,7 +271,7 @@ export default function DeveloperStepperWrapper({
           notifications.showSuccess(
             'Build Partner registration submitted successfully! Workflow request created.'
           )
-          router.push('/asset-register')
+          router.push('/asset-registry')
         } catch (error) {
           console.error(error)
           const errorData = error as {
@@ -352,7 +352,7 @@ export default function DeveloperStepperWrapper({
           if (savedDeveloperId) {
             // Navigate to Step 2 using the dynamic route with the Build Partner ID from backend
             router.push(
-              `/asset-register/${savedDeveloperId}/step/2${getModeParam()}`
+              `/asset-registry/${savedDeveloperId}/step/2${getModeParam()}`
             )
           } else {
             // Fallback to local state if no Build Partner ID
@@ -362,7 +362,7 @@ export default function DeveloperStepperWrapper({
           // For other steps, use the existing Build Partner ID
           const nextStep = activeStep + 1
           router.push(
-            `/asset-register/${developerId}/step/${nextStep + 1}${getModeParam()}`
+            `/asset-registry/${developerId}/step/${nextStep + 1}${getModeParam()}`
           )
         } else {
           // Fallback to local state if no Build Partner ID
@@ -370,7 +370,7 @@ export default function DeveloperStepperWrapper({
         }
       } else {
         // If this is the last step, redirect to build-partner list
-        router.push('/asset-register')
+        router.push('/asset-registry')
         notifications.showSuccess('All steps completed successfully!')
       }
     } catch (error: unknown) {
@@ -396,7 +396,7 @@ export default function DeveloperStepperWrapper({
       setActiveStep(previousStep)
       // Navigate to the previous step URL with mode parameter
       router.push(
-        `/asset-register/${developerId}/step/${previousStep + 1}${getModeParam()}`
+        `/asset-registry/${developerId}/step/${previousStep + 1}${getModeParam()}`
       )
     }
   }
@@ -462,7 +462,7 @@ export default function DeveloperStepperWrapper({
           >
             <Button
               variant="outlined"
-              onClick={() => router.push('/asset-register')}
+              onClick={() => router.push('/asset-registry')}
               sx={{
                 fontFamily: 'Outfit, sans-serif',
                 fontWeight: 500,

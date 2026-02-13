@@ -17,7 +17,7 @@ export const ROUTES = {
   reports: '/reports',
   admin: '/admin',
   investors: '/capital-partner',
-  developers: '/asset-register',
+  developers: '/asset-registry',
   payments: '/transactions',
   workflowAction: '/admin/workflow/action',
   workfloDifinition: '/admin/workflow/definition',

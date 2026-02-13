@@ -308,11 +308,11 @@ const DevelopersPageImpl: React.FC = () => {
   }
 
   const handleRowView = (row: DeveloperData) => {
-    router.push(`/asset-register/${row.id}/step/1?mode=view`)
+    router.push(`/asset-registry/${row.id}/step/1?mode=view`)
   }
 
   const handleRowEdit = (row: DeveloperData) => {
-    router.push(`/asset-register/${row.id}/step/1?editing=true`)
+    router.push(`/asset-registry/${row.id}/step/1?editing=true`)
   }
 
   const handleDownloadTemplate = async () => {

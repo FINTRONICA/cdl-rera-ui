@@ -338,10 +338,10 @@ export const BUSINESS_REPORTS_CONFIG: Record<string, ReportConfiguration> = {
       }
     ],
     api: {
-      endpoint: '/business-objects/build-partner',
+      endpoint: '/business-objects/asset-registry',
       method: 'POST',
       payloadFields: ['fromDate', 'toDate', 'status'],
-      downloadEndpoint: '/business-objects/build-partner/download',
+      downloadEndpoint: '/business-objects/asset-registry/download',
       columns: [
         { key: 'serialNo', title: 'S.No', type: 'number' },
         { key: 'bpName', title: 'Name', type: 'text' },

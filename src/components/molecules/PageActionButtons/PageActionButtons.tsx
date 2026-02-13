@@ -107,7 +107,7 @@ const PageActionButtonsComponent: React.FC<PageActionButtonsProps> = ({
     },
     developer: {
       label: 'Add New Build Partner',
-      route: '/asset-register/new',
+      route: '/asset-registry/new',
       permissions: ['bp_create'], // Only users with bp_create permission
       downloadPermission: ['data_export'], // Unified download permission
       uploadPermission: ['bulk_upload'], // Unified upload permission
@@ -279,7 +279,7 @@ const PageActionButtonsComponent: React.FC<PageActionButtonsProps> = ({
       case 'investor':
         return '/capital-partner/upload'
       case 'developer':
-        return '/asset-register-beneficiary/upload'
+        return '/asset-registry-beneficiary/upload'
       case 'project':
         return '/real-estate-assest/upload'
       case 'suretyBond':
@@ -287,7 +287,7 @@ const PageActionButtonsComponent: React.FC<PageActionButtonsProps> = ({
       case 'manualPayment':
         return '/real-estate-document/upload'
       case 'developerBeneficiary':
-        return '/asset-register-beneficiary/upload'
+        return '/asset-registry-beneficiary/upload'
       case 'pendingPayment':
         return '/pending-fund-ingress/upload'
       default:
