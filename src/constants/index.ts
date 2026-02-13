@@ -16,7 +16,7 @@ export const ROUTES = {
   activities: '/activities',
   reports: '/reports',
   admin: '/admin',
-  investors: '/capital-partner',
+  investors: '/owner-registry',
   developers: '/asset-registry',
   payments: '/transactions',
   workflowAction: '/admin/workflow/action',
