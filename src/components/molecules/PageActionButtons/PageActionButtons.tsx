@@ -100,7 +100,7 @@ const PageActionButtonsComponent: React.FC<PageActionButtonsProps> = ({
     },
     investor: {
       label: 'Add New Capital Partner',
-      route: '/capital-partner/new',
+      route: '/owner-registry/new',
       permissions: ['cp_create'], // Only users with cp_create permission
       downloadPermission: ['data_export'], // Unified download permission
       uploadPermission: ['bulk_upload'], // Unified upload permission
@@ -277,7 +277,7 @@ const PageActionButtonsComponent: React.FC<PageActionButtonsProps> = ({
   const getDefaultUploadEndpoint = (entityType: EntityType): string => {
     switch (entityType) {
       case 'investor':
-        return '/capital-partner/upload'
+        return '/owner-registry/upload'
       case 'developer':
         return '/asset-registry-beneficiary/upload'
       case 'project':

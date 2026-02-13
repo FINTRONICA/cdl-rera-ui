@@ -70,8 +70,8 @@ function InvestorStepPageContent() {
         <div className="p-6 text-red-600">
           <p>Error: {error}</p>
           <button
-            onClick={() => router.push('/capital-partner')}
-            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+            onClick={() => router.push('/owner-registry')}
+            className="px-4 py-2 mt-4 text-white bg-blue-500 rounded hover:bg-blue-600"
           >
             Back to Investors
           </button>
@@ -91,7 +91,7 @@ function InvestorStepPageContent() {
             : 'Manage your capital partner details and configuration'
       }
     >
-      <div className="flex gap-7 items-start px-7 py-2">
+      <div className="flex items-start py-2 gap-7 px-7">
         <div className="flex flex-col min-w-[200px] gap-1">
           <label className="font-sans font-normal text-[12px] leading-[1] tracking-normal text-[#4A5565] dark:text-white">
             Capital Partner Name

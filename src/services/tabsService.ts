@@ -84,7 +84,7 @@ export function getNavigationPath(tabId: TabId, id: string | number): string {
   const navigationMap: Record<TabId, (id: string | number) => string> = {
     buildPartner: (id) => `/asset-registry/${id}/step/1?mode=view`,
     buildPartnerAsset: (id) => `/management-firms/${id}?mode=view`,
-    capitalPartner: (id) => `/capital-partner/${id}?mode=view`,
+    capitalPartner: (id) => `/owner-registry/${id}?mode=view`,
     suretyBond: (id) => `/surety_bond/new/${id}?step=0&mode=view`,
     payments: (id) => `/transactions/manual/new/${id}?step=0&mode=view`,
   }

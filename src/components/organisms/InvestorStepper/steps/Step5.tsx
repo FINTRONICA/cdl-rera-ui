@@ -288,25 +288,25 @@ const Step5: React.FC<Step5Props> = ({
 
   const handleEditBasicDetails = () => {
     if (capitalPartnerId) {
-      router.push(`/capital-partner/${capitalPartnerId}/step/1`)
+      router.push(`/owner-registry/${capitalPartnerId}/step/1`)
     }
   }
 
   const handleEditUnitDetails = () => {
     if (capitalPartnerId) {
-      router.push(`/capital-partner/${capitalPartnerId}/step/3`)
+      router.push(`/owner-registry/${capitalPartnerId}/step/3`)
     }
   }
 
   const handleEditPaymentPlan = () => {
     if (capitalPartnerId) {
-      router.push(`/capital-partner/${capitalPartnerId}/step/4`)
+      router.push(`/owner-registry/${capitalPartnerId}/step/4`)
     }
   }
 
   const handleEditBankDetails = () => {
     if (capitalPartnerId) {
-      router.push(`/capital-partner/${capitalPartnerId}/step/5`)
+      router.push(`/owner-registry/${capitalPartnerId}/step/5`)
     }
   }
 
@@ -1428,7 +1428,7 @@ const Step5: React.FC<Step5Props> = ({
             <Button
               startIcon={<EditIcon />}
               onClick={() =>
-                router.push(`/capital-partner/${capitalPartnerId}/step/2`)
+                router.push(`/owner-registry/${capitalPartnerId}/step/2`)
               }
               sx={editButtonSx}
             >

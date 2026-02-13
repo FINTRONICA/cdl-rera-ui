@@ -158,9 +158,9 @@ export default function InvestorsStepperWrapper({
   const updateURL = (step: number, id?: number | null) => {
     if (id && step >= 0) {
       const queryParam = isViewMode ? '?mode=view' : '?editing=true'
-      router.push(`/capital-partner/${id}/step/${step + 1}${queryParam}`)
+      router.push(`/owner-registry/${id}/step/${step + 1}${queryParam}`)
     } else if (step === 0) {
-      router.push('/capital-partner/new')
+      router.push('/owner-registry/new')
     }
   }
   const createCapitalPartnerWorkflowRequest =
@@ -296,7 +296,7 @@ export default function InvestorsStepperWrapper({
     setErrorMessage(null)
     setSuccessMessage(null)
     methods.reset()
-    router.push('/capital-partner')
+    router.push('/owner-registry')
   }
 
   const onSubmit = () => {}
@@ -372,7 +372,7 @@ export default function InvestorsStepperWrapper({
       setSuccessMessage(
         'Capital Partner registration submitted successfully! Workflow request created.'
       )
-      router.push('/capital-partner')
+      router.push('/owner-registry')
     } catch (error) {
       const errorData = error as {
         response?: { data?: { message?: string } }
@@ -507,7 +507,7 @@ export default function InvestorsStepperWrapper({
                   onClick={
                     activeStep === steps.length - 1
                       ? isViewMode
-                        ? () => router.push('/capital-partner')
+                        ? () => router.push('/owner-registry')
                         : handleSubmit
                       : handleNext
                   }

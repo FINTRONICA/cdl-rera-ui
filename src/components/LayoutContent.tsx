@@ -15,7 +15,7 @@ const AUTHENTICATED_ROUTES = [
   '/fee-reconciliation',
   '/reports',
   '/admin',
-  '/capital-partner',
+  '/owner-registry',
   '/management-firms',
   '/asset-registry',
   '/budgets',
@@ -56,10 +56,10 @@ const LayoutContentComponent = ({ children }: LayoutContentProps) => {
         return (
           pathname === '/asset-registry' ||
           pathname === '/management-firms' ||
-          pathname === '/capital-partner' ||
+          pathname === '/owner-registry' ||
           pathname?.startsWith('/asset-registry/') ||
           pathname?.startsWith('/management-firms/') ||
-          pathname?.startsWith('/capital-partner/')
+          pathname?.startsWith('/owner-registry/')
         )
       }
       if (route === '/transactions') {
@@ -114,10 +114,10 @@ const LayoutContentComponent = ({ children }: LayoutContentProps) => {
           pathname?.startsWith('/management-firms/')
         )
       }
-      if (route === '/capital-partner') {
+      if (route === '/owner-registry') {
         return (
-          pathname === '/capital-partner' ||
-          pathname?.startsWith('/capital-partner/')
+          pathname === '/owner-registry' ||
+          pathname?.startsWith('/owner-registry/')
         )
       }
       if (route === '/budgets') {

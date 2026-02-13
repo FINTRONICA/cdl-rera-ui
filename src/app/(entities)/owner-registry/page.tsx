@@ -306,7 +306,7 @@ const InvestorsPage: React.FC = () => {
   const handleRowView = (row: InvestorData) => {
     if (row.id) {
     
-      router.push(`/capital-partner/${row.id}?mode=view`)
+      router.push(`/owner-registry/${row.id}?mode=view`)
     } else {
       alert('Cannot view: No ID found for this investor')
     }
@@ -315,7 +315,7 @@ const InvestorsPage: React.FC = () => {
   const handleRowEdit = (row: InvestorData) => {
     if (row.id) {
       
-      router.push(`/capital-partner/${row.id}?editing=true`)
+      router.push(`/owner-registry/${row.id}?editing=true`)
     } else {
       alert('Cannot edit: No ID found for this investor')
     }
@@ -324,7 +324,7 @@ const InvestorsPage: React.FC = () => {
   const renderExpandedContent = (row: InvestorData) => (
     <div className="grid grid-cols-2 gap-8">
       <div className="space-y-4">
-        <h4 className="text-sm font-semibold text-gray-900 mb-4">
+        <h4 className="mb-4 text-sm font-semibold text-gray-900">
           {getCapitalPartnerLabelDynamic('CDL_CP_BASIC_INFO')}
         </h4>
         <div className="grid grid-cols-2 gap-4 text-sm">
@@ -355,7 +355,7 @@ const InvestorsPage: React.FC = () => {
         </div>
       </div>
       <div className="space-y-4">
-        <h4 className="text-sm font-semibold text-gray-900 mb-4">
+        <h4 className="mb-4 text-sm font-semibold text-gray-900">
           Build Partner Details
         </h4>
         <div className="grid grid-cols-2 gap-4 text-sm">
@@ -375,7 +375,7 @@ const InvestorsPage: React.FC = () => {
   if (loadingData) {
     return (
       <DashboardLayout title={investorsTitle}>
-        <div className="bg-white/75 dark:bg-gray-800/80 rounded-2xl flex flex-col h-full">
+        <div className="flex flex-col h-full bg-white/75 dark:bg-gray-800/80 rounded-2xl">
           <GlobalLoading fullHeight />
         </div>
       </DashboardLayout>
@@ -385,7 +385,7 @@ const InvestorsPage: React.FC = () => {
   if (errorData) {
     return (
       <DashboardLayout title={investorsTitle}>
-        <div className="bg-white/75 dark:bg-gray-800/80 rounded-2xl flex flex-col h-full">
+        <div className="flex flex-col h-full bg-white/75 dark:bg-gray-800/80 rounded-2xl">
           <GlobalError 
             error={errorData} 
             onRetry={() => fetchInvestors(currentPage, rowsPerPage)}
@@ -408,7 +408,7 @@ const InvestorsPage: React.FC = () => {
 
       {/* Download Error Alert */}
       {downloadErrorInvestor && (
-        <div className="fixed top-4 right-4 z-50 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded shadow-lg">
+        <div className="fixed z-50 px-4 py-3 text-red-700 bg-red-100 border border-red-400 rounded shadow-lg top-4 right-4">
           <div className="flex items-center justify-between">
             <span className="text-sm font-medium">
               Investor Template Error: {downloadErrorInvestor}
@@ -424,8 +424,8 @@ const InvestorsPage: React.FC = () => {
       )}
 
       <DashboardLayout title={investorsTitle}>
-        <div className="bg-white/75 dark:bg-gray-800/80 rounded-2xl flex flex-col h-full">
-          <div className="sticky top-0 z-10 bg-white/75 dark:bg-gray-800/80 border-b border-gray-200 dark:border-gray-700 rounded-t-2xl">
+        <div className="flex flex-col h-full bg-white/75 dark:bg-gray-800/80 rounded-2xl">
+          <div className="sticky top-0 z-10 border-b border-gray-200 bg-white/75 dark:bg-gray-800/80 dark:border-gray-700 rounded-t-2xl">
             <PageActionButtons
               entityType="investor"
               onDownloadTemplate={handleDownloadInvestorTemplate}
@@ -433,7 +433,7 @@ const InvestorsPage: React.FC = () => {
             />
           </div>
 
-          <div className="flex-1 flex flex-col min-h-0">
+          <div className="flex flex-col flex-1 min-h-0">
             <div className="flex-1 overflow-auto">
               <PermissionAwareDataTable<InvestorData>
                 key={`investors-table-${tableKey}`}

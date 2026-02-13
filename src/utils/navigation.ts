@@ -89,7 +89,7 @@ export class NavigationService {
     step?: number,
     mode?: 'view' | 'edit'
   ): void {
-    let path = `/capital-partner/${investorId}`
+    let path = `/owner-registry/${investorId}`
     const params = new URLSearchParams()
 
     if (step !== undefined) {
