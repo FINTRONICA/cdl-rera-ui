@@ -92,7 +92,7 @@ export const createSidebarConfig = (
         id: 'developers',
         label: getLabel('developers', 'Developers'),
         icon: SquareUserRound,
-        href: '/build-partner',
+        href: '/asset-register',
         permissions: ['nav_menu_bp', 'nav_menu_all'],
       },
       {
@@ -324,7 +324,7 @@ export const SIDEBAR_SECTIONS: SidebarSection[] = [
         id: 'developers',
         label: 'Developers',
         icon: SquareUserRound,
-        href: '/build-partner',
+        href: '/asset-register',
       },
       {
         id: 'projects',

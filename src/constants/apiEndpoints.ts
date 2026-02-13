@@ -1,8 +1,8 @@
 // API Base URL and Version
 export const API_CONFIG = {
   // BASE_URL: process.env.NEXT_PUBLIC_API_URL || 'https://103.181.200.143:2021',
-  // BASE_URL: process.env.NODE_ENV === 'production' ? '/hoa' : (process.env.NEXT_PUBLIC_API_URL || 'https://103.181.200.143:2021'),
-    BASE_URL: process.env.NODE_ENV === 'production' ? '/hoa' : (process.env.NEXT_PUBLIC_API_URL || 'https://103.181.200.143:2022'),
+  BASE_URL: process.env.NODE_ENV === 'production' ? '/hoa' : (process.env.NEXT_PUBLIC_API_URL || 'https://103.181.200.143:2021'),
+    // BASE_URL: process.env.NODE_ENV === 'production' ? '/hoa' : (process.env.NEXT_PUBLIC_API_URL || 'https://103.181.200.143:2022'),
 
   VERSION: 'v1',
   API_PREFIX: '/api/v1',
@@ -56,6 +56,9 @@ export const API_ENDPOINTS = {
     WORKFLOW_ACTIONS: '/app-language-translation/workflow',
     BUDGET: '/app-language-translation/budget',
     BUDGET_MANAGEMENT_FIRM: '/app-language-translation/budget-management-firm',
+    ASSET_REGISTER: '/app-language-translation/asset-registry',
+    MANAGEMENT_FIRMS: '/app-language-translation/management-firm',
+    OWNER_REGISTRY: '/app-language-translation/owner-registry',
     WORKFLOW_DEFINITION: '/app-language-translation/workflow',
     WORKFLOW_STAGE_TEMPLATE:
       '/app-language-translation/workflow-stage-template',
@@ -209,6 +212,8 @@ export const API_ENDPOINTS = {
       `/core-bank-get/sbi/apis/validate-swift?swiftCode=${swiftCode}`,
   },
 
+
+  // Build Partner Stepper APIs
   BUILD_PARTNER: {
     GET_BY_ID: (id: string) => `/build-partner/${id}`,
     UPDATE: (id: string) => `/build-partner/${id}`,
@@ -219,6 +224,124 @@ export const API_ENDPOINTS = {
     FIND_ALL:
       '/build-partner/find-all?deleted.equals=false&enabled.equals=true',
   },
+
+  BUILD_PARTNER_CREATE: {
+    DETAILS_SAVE: '/build-partner',
+    CONTACT_SAVE: '/build-partner-contact',
+    FEES_SAVE: '/build-partner-fees',
+    BENEFICIARY_SAVE: '/build-partner-beneficiary',
+    REVIEW_SAVE: '/build-partner-review',
+    GET_STEP_DATA: (step: number) => `/build-partner/create/${step}/data`,
+    VALIDATE_STEP: (step: number) => `/build-partner/create/${step}/validate`,
+  },
+
+  BUILD_PARTNER_CONTACT: {
+    GET_BY_ID: (id: string) =>
+      `/build-partner-contact?buildPartnerId.equals=${id}&deleted.equals=false&enabled.equals=true`,
+    UPDATE: (id: string) => `/build-partner-contact/${id}`,
+    DELETE: (id: string) => `/build-partner-contact/${id}`,
+    SOFT_DELETE: (id: string) => `/build-partner-contact/soft/${id}`,
+    SAVE: '/build-partner-contact',
+    FIND_ALL: '/build-partner-contact/find-all',
+  },
+   
+  BUILD_PARTNER_BENEFICIARY: {
+    GET_BY_ID: (id: string) =>
+      `/build-partner-beneficiary?buildPartnerId.equals=${id}&deleted.equals=false&enabled.equals=true`,
+    UPDATE: (id: string) => `/build-partner-beneficiary/${id}`,
+    DELETE: (id: string) => `/build-partner-beneficiary/${id}`,
+    SOFT_DELETE: (id: string) => `/build-partner-beneficiary/soft/${id}`,
+    SAVE: '/build-partner-beneficiary',
+    FIND_ALL: '/build-partner-beneficiary/find-all',
+    UPLOAD: '/build-partner-beneficiary/upload',
+  },
+
+  BUILD_PARTNER_FEES: {
+    GET_BY_ID: (id: string) =>
+      `/build-partner-fees?buildPartnerId.equals=${id}&deleted.equals=false&enabled.equals=true`,
+    GET_FEE_BY_ID: (feeId: string) => `/build-partner-fees/${feeId}`,
+    UPDATE: (id: string) => `/build-partner-fees/${id}`,
+    DELETE: (id: string) => `/build-partner-fees/${id}`,
+    SOFT_DELETE: (id: string) => `/build-partner-fees/soft/${id}`,
+    GET_ALL: '/build-partner-fees',
+    SAVE: '/build-partner-fees',
+    FIND_ALL: '/build-partner-fees/find-all',
+  },
+
+  BUILD_PARTNER_ACCOUNT: {
+    GET_BY_ID: (id: string) => `/build-partner-account/${id}`,
+    UPDATE: (id: string) => `/build-partner-account/${id}`,
+    DELETE: (id: string) => `/build-partner-account/${id}`,
+    SAVE: '/build-partner-account',
+    FIND_ALL: '/build-partner-account/find-all',
+  },
+
+
+  // ASSET REGISTER APIs
+    ASSET_REGISTER: {
+      GET_BY_ID: (id: string) => `/asset-register/${id}`,
+      UPDATE: (id: string) => `/asset-register/${id}`,
+      DELETE: (id: string) => `/asset-register/${id}`,
+      SOFT_DELETE: (id: string) => `/asset-register/soft/${id}`,
+      GET_ALL: '/asset-register?deleted.equals=false&enabled.equals=true',
+      SAVE: '/asset-register',
+      FIND_ALL:
+        '/asset-register/find-all?deleted.equals=false&enabled.equals=true',
+    },
+
+    ASSET_REGISTER_CREATE: {
+      DETAILS_SAVE: '/asset-register',
+      CONTACT_SAVE: '/asset-register-contact',
+      FEES_SAVE: '/asset-register-fees',
+      BENEFICIARY_SAVE: '/asset-register-beneficiary',
+      REVIEW_SAVE: '/asset-register-review',
+      GET_STEP_DATA: (step: number) => `/asset-register/create/${step}/data`,
+      VALIDATE_STEP: (step: number) => `/asset-register/create/${step}/validate`,
+    },
+
+    ASSET_REGISTER_CONTACT: {
+      GET_BY_ID: (id: string) =>
+        `/asset-register-contact?assetRegisterId.equals=${id}&deleted.equals=false&enabled.equals=true`,
+      UPDATE: (id: string) => `/asset-register-contact/${id}`,
+      DELETE: (id: string) => `/asset-register-contact/${id}`,
+      SOFT_DELETE: (id: string) => `/asset-register-contact/soft/${id}`,
+      SAVE: '/asset-register-contact',
+      FIND_ALL: '/asset-register-contact/find-all',
+    },
+
+    ASSET_REGISTER_BENEFICIARY: {
+      GET_BY_ID: (id: string) =>
+        `/asset-register-beneficiary?assetRegisterId.equals=${id}&deleted.equals=false&enabled.equals=true`,
+      UPDATE: (id: string) => `/asset-register-beneficiary/${id}`,
+      DELETE: (id: string) => `/asset-register-beneficiary/${id}`,
+      SOFT_DELETE: (id: string) => `/asset-register-beneficiary/soft/${id}`,
+      SAVE: '/asset-register-beneficiary',
+      FIND_ALL: '/asset-register-beneficiary/find-all',
+      UPLOAD: '/asset-register-beneficiary/upload',
+    },
+
+    ASSET_REGISTER_FEES: {
+      GET_BY_ID: (id: string) =>
+        `/asset-register-fees?assetRegisterId.equals=${id}&deleted.equals=false&enabled.equals=true`,
+      GET_FEE_BY_ID: (feeId: string) => `/asset-register-fees/${feeId}`,
+      UPDATE: (id: string) => `/asset-register-fees/${id}`,
+      DELETE: (id: string) => `/asset-register-fees/${id}`,
+      SOFT_DELETE: (id: string) => `/asset-register-fees/soft/${id}`,
+      GET_ALL: '/asset-register-fees',
+      SAVE: '/asset-register-fees',
+      FIND_ALL: '/asset-register-fees/find-all',
+    },
+  
+    ASSET_REGISTER_ACCOUNT: {
+      GET_BY_ID: (id: string) => `/asset-register-account/${id}`,
+      UPDATE: (id: string) => `/asset-register-account/${id}`,
+      DELETE: (id: string) => `/asset-register-account/${id}`,
+      SAVE: '/asset-register-account',
+      FIND_ALL: '/asset-register-account/find-all',
+    },
+    // END ASSET REGISTER APIs
+  
+
  
 
   APPLICATION_TABLE_DESIGN: {
@@ -290,48 +413,7 @@ export const API_ENDPOINTS = {
   },
 
   // Build Partner
-  BUILD_PARTNER_ACCOUNT: {
-    GET_BY_ID: (id: string) => `/build-partner-account/${id}`,
-    UPDATE: (id: string) => `/build-partner-account/${id}`,
-    DELETE: (id: string) => `/build-partner-account/${id}`,
-    SAVE: '/build-partner-account',
-    FIND_ALL: '/build-partner-account/find-all',
-  },
 
-  BUILD_PARTNER_BENEFICIARY: {
-    GET_BY_ID: (id: string) =>
-      `/build-partner-beneficiary?buildPartnerId.equals=${id}&deleted.equals=false&enabled.equals=true`,
-    UPDATE: (id: string) => `/build-partner-beneficiary/${id}`,
-    DELETE: (id: string) => `/build-partner-beneficiary/${id}`,
-    SOFT_DELETE: (id: string) => `/build-partner-beneficiary/soft/${id}`,
-    SAVE: '/build-partner-beneficiary',
-    FIND_ALL: '/build-partner-beneficiary/find-all',
-    UPLOAD: '/build-partner-beneficiary/upload',
-  },
-
-
-
-  BUILD_PARTNER_CONTACT: {
-    GET_BY_ID: (id: string) =>
-      `/build-partner-contact?buildPartnerId.equals=${id}&deleted.equals=false&enabled.equals=true`,
-    UPDATE: (id: string) => `/build-partner-contact/${id}`,
-    DELETE: (id: string) => `/build-partner-contact/${id}`,
-    SOFT_DELETE: (id: string) => `/build-partner-contact/soft/${id}`,
-    SAVE: '/build-partner-contact',
-    FIND_ALL: '/build-partner-contact/find-all',
-  },
-
-  BUILD_PARTNER_FEES: {
-    GET_BY_ID: (id: string) =>
-      `/build-partner-fees?buildPartnerId.equals=${id}&deleted.equals=false&enabled.equals=true`,
-    GET_FEE_BY_ID: (feeId: string) => `/build-partner-fees/${feeId}`,
-    UPDATE: (id: string) => `/build-partner-fees/${id}`,
-    DELETE: (id: string) => `/build-partner-fees/${id}`,
-    SOFT_DELETE: (id: string) => `/build-partner-fees/soft/${id}`,
-    GET_ALL: '/build-partner-fees',
-    SAVE: '/build-partner-fees',
-    FIND_ALL: '/build-partner-fees/find-all',
-  },
 
   // Capital Partner
   CAPITAL_PARTNER: {
@@ -794,17 +876,7 @@ export const API_ENDPOINTS = {
     FIND_ALL: '/workflow-instance/find-all',
   },
 
-  // Build Partner Stepper APIs
-  BUILD_PARTNER_CREATE: {
-    DETAILS_SAVE: '/build-partner',
-    CONTACT_SAVE: '/build-partner-contact',
-    FEES_SAVE: '/build-partner-fees',
-    BENEFICIARY_SAVE: '/build-partner-beneficiary',
-    REVIEW_SAVE: '/build-partner-review',
-    GET_STEP_DATA: (step: number) => `/build-partner/create/${step}/data`,
-    VALIDATE_STEP: (step: number) => `/build-partner/create/${step}/validate`,
-  },
-
+ 
   // Customer Details API
   CUSTOMER_DETAILS: {
     GET_BY_CIF: (cif: string) =>

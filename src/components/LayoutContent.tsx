@@ -17,7 +17,7 @@ const AUTHENTICATED_ROUTES = [
   '/admin',
   '/capital-partner',
   '/build-partner-assets',
-  '/build-partner',
+  '/asset-register',
   '/budgets',
   '/help',
 ]
@@ -54,10 +54,10 @@ const LayoutContentComponent = ({ children }: LayoutContentProps) => {
       }
       if (route === '/entities') {
         return (
-          pathname === '/build-partner' ||
+          pathname === '/asset-register' ||
           pathname === '/build-partner-assets' ||
           pathname === '/capital-partner' ||
-          pathname?.startsWith('/build-partner/') ||
+          pathname?.startsWith('/asset-register/') ||
           pathname?.startsWith('/build-partner-assets/') ||
           pathname?.startsWith('/capital-partner/')
         )
@@ -102,10 +102,10 @@ const LayoutContentComponent = ({ children }: LayoutContentProps) => {
           pathname?.startsWith('/admin/')
         )
       }
-      if (route === '/build-partner') {
+      if (route === '/asset-register') {
         return (
-          pathname === '/build-partner' ||
-          pathname?.startsWith('/build-partner/')
+          pathname === '/asset-register' ||
+          pathname?.startsWith('/asset-register/')
         )
       }
       if (route === '/build-partner-assets') {

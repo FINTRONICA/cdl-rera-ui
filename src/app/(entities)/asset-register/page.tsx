@@ -308,11 +308,11 @@ const DevelopersPageImpl: React.FC = () => {
   }
 
   const handleRowView = (row: DeveloperData) => {
-    router.push(`/build-partner/${row.id}/step/1?mode=view`)
+    router.push(`/asset-register/${row.id}/step/1?mode=view`)
   }
 
   const handleRowEdit = (row: DeveloperData) => {
-    router.push(`/build-partner/${row.id}/step/1?editing=true`)
+    router.push(`/asset-register/${row.id}/step/1?editing=true`)
   }
 
   const handleDownloadTemplate = async () => {
@@ -405,10 +405,10 @@ const DevelopersPageImpl: React.FC = () => {
                     onRowDelete={handleRowDelete}
                     onRowView={handleRowView}
                     onRowEdit={handleRowEdit}
-                    deletePermissions={['budget_delete']}
-                    viewPermissions={['budget_view']}
-                    editPermissions={['budget_update']}
-                    updatePermissions={['budget_update']}
+                    deletePermissions={['*']}
+                    viewPermissions={['*']}
+                    editPermissions={['*']}
+                    updatePermissions={['*']}
                     sortConfig={sortConfig}
                     onSort={handleSort}
                   />

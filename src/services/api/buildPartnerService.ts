@@ -732,7 +732,7 @@ export class BuildPartnerService {
   async getBuildPartnerContactById(
     contactId: string
   ): Promise<BuildPartnerContactResponse> {
-    const url = buildApiUrl(`/build-partner-contact/${contactId}`)
+    const url = buildApiUrl(`/asset-register-contact/${contactId}`)
     const response = await apiClient.get<BuildPartnerContactResponse>(url)
     return response
   }
@@ -996,7 +996,7 @@ export class BuildPartnerService {
   async getBuildPartnerBeneficiaryById(
     beneficiaryId: string | number
   ): Promise<unknown> {
-    const url = buildApiUrl(`/build-partner-beneficiary/${beneficiaryId}`)
+    const url = buildApiUrl(`/asset-register-beneficiary/${beneficiaryId}`)
     const response = await apiClient.get(url)
     return response
   }
