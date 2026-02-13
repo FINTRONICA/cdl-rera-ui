@@ -11,7 +11,7 @@ export const APP_CONFIG = {
 
 export const ROUTES = {
   dashboard: '/dashboard',
-  projects: '/build-partner-assets',
+  projects: '/management-firms',
   transactions: '/transactions',
   activities: '/activities',
   reports: '/reports',
@@ -47,11 +47,11 @@ export const LEGACY_API_ENDPOINTS = {
     delete: (id: string) => `/users/${id}`,
   },
   projects: {
-    list: '/build-partner-assets',
-    create: '/build-partner-assets',
-    update: (id: string) => `/build-partner-assets/${id}`,
-    delete: (id: string) => `/build-partner-assets/${id}`,
-    details: (id: string) => `/build-partner-assets/${id}`,
+    list: '/management-firms',
+    create: '/management-firms',
+    update: (id: string) => `/management-firms/${id}`,
+    delete: (id: string) => `/management-firms/${id}`,
+    details: (id: string) => `/management-firms/${id}`,
   },
   transactions: {
     list: '/transactions',

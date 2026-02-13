@@ -33,7 +33,7 @@ function ProjectDetailsPageContent() {
 
   useEffect(() => {
     if (!projectId || isNaN(parseInt(projectId))) {
-      router.push('/build-partner-assets')
+      router.push('/management-firms')
       return
     }
     setIsValidating(false)
@@ -75,7 +75,7 @@ function ProjectDetailsPageContent() {
         <div className="p-6 text-red-600">
           <p>Error: {error}</p>
           <button
-            onClick={() => router.push('/build-partner-assets')}
+            onClick={() => router.push('/management-firms')}
             className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
           >
             Back to Projects

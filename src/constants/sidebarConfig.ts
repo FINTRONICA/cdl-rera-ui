@@ -99,7 +99,7 @@ export const createSidebarConfig = (
         id: 'projects',
         label: getLabel('projects', 'Build Partner Assets'),
         icon: BriefcaseBusiness,
-        href: '/build-partner-assets',
+        href: '/management-firms',
         permissions: ['nav_menu_bpa', 'nav_menu_all'],
       },
       {
@@ -330,7 +330,7 @@ export const SIDEBAR_SECTIONS: SidebarSection[] = [
         id: 'projects',
         label: 'Build Partner Assets',
         icon: BriefcaseBusiness,
-        href: '/build-partner-assets',
+        href: '/management-firms',
       },
       {
         id: 'investors',

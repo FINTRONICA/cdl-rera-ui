@@ -252,12 +252,12 @@ const ProjectsPage: React.FC = () => {
 
   const handleRowView = (row: ProjectData) => {
     
-    router.push(`/build-partner-assets/${row.id}?mode=view`)
+    router.push(`/management-firms/${row.id}?mode=view`)
   }
 
   const handleRowEdit = (row: ProjectData) => {
    
-    router.push(`/build-partner-assets/${row.id}?editing=true`)
+    router.push(`/management-firms/${row.id}?editing=true`)
   }
 
  

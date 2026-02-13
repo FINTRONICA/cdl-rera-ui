@@ -1428,11 +1428,11 @@ export default function StepperWrapper({
       setActiveStep(nextStep)
 
       if (projectId) {
-        const targetUrl = `/build-partner-assets/${projectId}?step=${nextStep + 1}&mode=view`
+        const targetUrl = `/management-firms/${projectId}?step=${nextStep + 1}&mode=view`
         router.push(targetUrl)
       }
     } else {
-      router.push('/build-partner-assets')
+      router.push('/management-firms')
     }
   }, [activeStep, steps.length, projectId, router])
 
@@ -1442,7 +1442,7 @@ export default function StepperWrapper({
       setActiveStep(prevStep)
 
       if (projectId) {
-        const targetUrl = `/build-partner-assets/${projectId}?step=${prevStep + 1}&mode=view`
+        const targetUrl = `/management-firms/${projectId}?step=${prevStep + 1}&mode=view`
         router.push(targetUrl)
       }
     }
@@ -1489,7 +1489,7 @@ export default function StepperWrapper({
         setActiveStep(nextStep)
 
         if (projectId) {
-          const targetUrl = `/build-partner-assets/${projectId}?step=${nextStep + 1}${getModeParam()}`
+          const targetUrl = `/management-firms/${projectId}?step=${nextStep + 1}${getModeParam()}`
           router.push(targetUrl)
         }
         return
@@ -1519,7 +1519,7 @@ export default function StepperWrapper({
           setSuccessMessage(
             'Build partner asset registration submitted successfully! Workflow request created.'
           )
-          router.push('/build-partner-assets')
+          router.push('/management-firms')
           return
         } catch (error) {
           setErrorMessage(
@@ -1534,7 +1534,7 @@ export default function StepperWrapper({
         setActiveStep(nextStep)
 
         if (projectId) {
-          const targetUrl = `/build-partner-assets/${projectId}?step=${nextStep + 1}${getModeParam()}`
+          const targetUrl = `/management-firms/${projectId}?step=${nextStep + 1}${getModeParam()}`
           router.push(targetUrl)
         }
         return
@@ -1545,7 +1545,7 @@ export default function StepperWrapper({
         setActiveStep(nextStep)
 
         if (projectId) {
-          const targetUrl = `/build-partner-assets/${projectId}?step=${nextStep + 1}${getModeParam()}`
+          const targetUrl = `/management-firms/${projectId}?step=${nextStep + 1}${getModeParam()}`
           router.push(targetUrl)
         }
         return
@@ -1556,7 +1556,7 @@ export default function StepperWrapper({
         setActiveStep(nextStep)
 
         if (projectId) {
-          const targetUrl = `/build-partner-assets/${projectId}?step=${nextStep + 1}${getModeParam()}`
+          const targetUrl = `/management-firms/${projectId}?step=${nextStep + 1}${getModeParam()}`
           router.push(targetUrl)
         }
         return
@@ -1567,7 +1567,7 @@ export default function StepperWrapper({
         setActiveStep(nextStep)
 
         if (projectId) {
-          const targetUrl = `/build-partner-assets/${projectId}?step=${nextStep + 1}${getModeParam()}`
+          const targetUrl = `/management-firms/${projectId}?step=${nextStep + 1}${getModeParam()}`
           router.push(targetUrl)
         }
         return
@@ -1600,7 +1600,7 @@ export default function StepperWrapper({
             setActiveStep(nextStep)
 
             if (projectId) {
-              const targetUrl = `/build-partner-assets/${projectId}?step=${nextStep + 1}${getModeParam()}`
+              const targetUrl = `/management-firms/${projectId}?step=${nextStep + 1}${getModeParam()}`
               router.push(targetUrl)
             }
             return
@@ -1664,7 +1664,7 @@ export default function StepperWrapper({
           setActiveStep(nextStep)
 
           if (projectId) {
-            const targetUrl = `/build-partner-assets/${projectId}?step=${nextStep + 1}${getModeParam()}`
+            const targetUrl = `/management-firms/${projectId}?step=${nextStep + 1}${getModeParam()}`
             router.push(targetUrl)
           }
           return
@@ -1688,7 +1688,7 @@ export default function StepperWrapper({
         const nextStep = activeStep + 1
         setActiveStep(nextStep)
         if (projectId) {
-          const targetUrl = `/build-partner-assets/${projectId}?step=${nextStep + 1}${getModeParam()}`
+          const targetUrl = `/management-firms/${projectId}?step=${nextStep + 1}${getModeParam()}`
           router.push(targetUrl)
         }
         return
@@ -1716,7 +1716,7 @@ export default function StepperWrapper({
         const nextStep = 7
         setActiveStep(nextStep)
         if (projectId) {
-          const targetUrl = `/build-partner-assets/${projectId}?step=${nextStep + 1}${getModeParam()}`
+          const targetUrl = `/management-firms/${projectId}?step=${nextStep + 1}${getModeParam()}`
           router.push(targetUrl)
         }
         return
@@ -1740,7 +1740,7 @@ export default function StepperWrapper({
         const nextStep = 8
         setActiveStep(nextStep)
         if (projectId) {
-          const targetUrl = `/build-partner-assets/${projectId}?step=${nextStep + 1}${getModeParam()}`
+          const targetUrl = `/management-firms/${projectId}?step=${nextStep + 1}${getModeParam()}`
           router.push(targetUrl)
         }
         return
@@ -1774,7 +1774,7 @@ export default function StepperWrapper({
             : savedProjectId || projectId
 
           if (targetProjectId) {
-            const targetUrl = `/build-partner-assets/${targetProjectId}?step=2${getModeParam()}`
+            const targetUrl = `/management-firms/${targetProjectId}?step=2${getModeParam()}`
 
             setActiveStep(1)
             router.push(targetUrl)
@@ -1787,7 +1787,7 @@ export default function StepperWrapper({
           setActiveStep(nextStep)
 
           if (projectId) {
-            const targetUrl = `/build-partner-assets/${projectId}?step=${nextStep + 1}${getModeParam()}`
+            const targetUrl = `/management-firms/${projectId}?step=${nextStep + 1}${getModeParam()}`
 
             router.push(targetUrl)
           }
@@ -1816,13 +1816,13 @@ export default function StepperWrapper({
           setSuccessMessage(
             'Build Partner Asset registration submitted successfully! Workflow request created.'
           )
-          router.push('/build-partner-assets')
+          router.push('/management-firms')
         } catch (error) {
           setErrorMessage(
             'Failed to submit workflow request. Please try again.'
           )
         }
-        router.push('/build-partner-assets')
+        router.push('/management-firms')
         setSuccessMessage(SUCCESS_MESSAGES.ALL_STEPS_COMPLETED)
       }
     } catch (error: unknown) {
@@ -1849,14 +1849,14 @@ export default function StepperWrapper({
       setActiveStep(previousStep)
 
       if (projectId) {
-        const targetUrl = `/build-partner-assets/${projectId}?step=${previousStep + 1}${getModeParam()}`
+        const targetUrl = `/management-firms/${projectId}?step=${previousStep + 1}${getModeParam()}`
         router.push(targetUrl)
       }
     }
   }, [activeStep, projectId, router, isViewMode, handleViewBack, getModeParam])
 
   const handleReset = useCallback(() => {
-    router.push('/build-partner-assets')
+    router.push('/management-firms')
   }, [router])
 
   const handleEditStep = useCallback(
@@ -1867,7 +1867,7 @@ export default function StepperWrapper({
       setSuccessMessage(`Now editing step ${stepNumber + 1} data`)
 
       if (projectId) {
-        const targetUrl = `/build-partner-assets/${projectId}?step=${stepNumber + 1}${getModeParam()}`
+        const targetUrl = `/management-firms/${projectId}?step=${stepNumber + 1}${getModeParam()}`
         router.push(targetUrl)
       }
     },

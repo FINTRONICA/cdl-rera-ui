@@ -93,7 +93,7 @@ const PageActionButtonsComponent: React.FC<PageActionButtonsProps> = ({
   const entityConfig = {
     project: {
       label: 'Add New Build Partner Assest',
-      route: '/build-partner-assets/new',
+      route: '/management-firms/new',
       permissions: ['bpa_create'], // Only users with bpa_create permission
       downloadPermission: ['data_export'], // Unified download permission
       uploadPermission: ['bulk_upload'], // Unified upload permission
