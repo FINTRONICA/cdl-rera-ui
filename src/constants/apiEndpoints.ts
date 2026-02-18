@@ -214,67 +214,67 @@ export const API_ENDPOINTS = {
 
 
   // Build Partner Stepper APIs
-  BUILD_PARTNER: {
-    GET_BY_ID: (id: string) => `/build-partner/${id}`,
-    UPDATE: (id: string) => `/build-partner/${id}`,
-    DELETE: (id: string) => `/build-partner/${id}`,
-    SOFT_DELETE: (id: string) => `/build-partner/soft/${id}`,
-    GET_ALL: '/build-partner?deleted.equals=false&enabled.equals=true',
-    SAVE: '/build-partner',
-    FIND_ALL:
-      '/build-partner/find-all?deleted.equals=false&enabled.equals=true',
-  },
+  // BUILD_PARTNER: {
+  //   GET_BY_ID: (id: string) => `/build-partner/${id}`,
+  //   UPDATE: (id: string) => `/build-partner/${id}`,
+  //   DELETE: (id: string) => `/build-partner/${id}`,
+  //   SOFT_DELETE: (id: string) => `/build-partner/soft/${id}`,
+  //   GET_ALL: '/build-partner?deleted.equals=false&enabled.equals=true',
+  //   SAVE: '/build-partner',
+  //   FIND_ALL:
+  //     '/build-partner/find-all?deleted.equals=false&enabled.equals=true',
+  // },
 
-  BUILD_PARTNER_CREATE: {
-    DETAILS_SAVE: '/build-partner',
-    CONTACT_SAVE: '/build-partner-contact',
-    FEES_SAVE: '/build-partner-fees',
-    BENEFICIARY_SAVE: '/build-partner-beneficiary',
-    REVIEW_SAVE: '/build-partner-review',
-    GET_STEP_DATA: (step: number) => `/build-partner/create/${step}/data`,
-    VALIDATE_STEP: (step: number) => `/build-partner/create/${step}/validate`,
-  },
+  // BUILD_PARTNER_CREATE: {
+  //   DETAILS_SAVE: '/build-partner',
+  //   CONTACT_SAVE: '/build-partner-contact',
+  //   FEES_SAVE: '/build-partner-fees',
+  //   BENEFICIARY_SAVE: '/build-partner-beneficiary',
+  //   REVIEW_SAVE: '/build-partner-review',
+  //   GET_STEP_DATA: (step: number) => `/build-partner/create/${step}/data`,
+  //   VALIDATE_STEP: (step: number) => `/build-partner/create/${step}/validate`,
+  // },
 
-  BUILD_PARTNER_CONTACT: {
-    GET_BY_ID: (id: string) =>
-      `/build-partner-contact?buildPartnerId.equals=${id}&deleted.equals=false&enabled.equals=true`,
-    UPDATE: (id: string) => `/build-partner-contact/${id}`,
-    DELETE: (id: string) => `/build-partner-contact/${id}`,
-    SOFT_DELETE: (id: string) => `/build-partner-contact/soft/${id}`,
-    SAVE: '/build-partner-contact',
-    FIND_ALL: '/build-partner-contact/find-all',
-  },
+  // BUILD_PARTNER_CONTACT: {
+  //   GET_BY_ID: (id: string) =>
+  //     `/build-partner-contact?buildPartnerId.equals=${id}&deleted.equals=false&enabled.equals=true`,
+  //   UPDATE: (id: string) => `/build-partner-contact/${id}`,
+  //   DELETE: (id: string) => `/build-partner-contact/${id}`,
+  //   SOFT_DELETE: (id: string) => `/build-partner-contact/soft/${id}`,
+  //   SAVE: '/build-partner-contact',
+  //   FIND_ALL: '/build-partner-contact/find-all',
+  // },
    
-  BUILD_PARTNER_BENEFICIARY: {
-    GET_BY_ID: (id: string) =>
-      `/build-partner-beneficiary?buildPartnerId.equals=${id}&deleted.equals=false&enabled.equals=true`,
-    UPDATE: (id: string) => `/build-partner-beneficiary/${id}`,
-    DELETE: (id: string) => `/build-partner-beneficiary/${id}`,
-    SOFT_DELETE: (id: string) => `/build-partner-beneficiary/soft/${id}`,
-    SAVE: '/build-partner-beneficiary',
-    FIND_ALL: '/build-partner-beneficiary/find-all',
-    UPLOAD: '/build-partner-beneficiary/upload',
-  },
+  // BUILD_PARTNER_BENEFICIARY: {
+  //   GET_BY_ID: (id: string) =>
+  //     `/build-partner-beneficiary?buildPartnerId.equals=${id}&deleted.equals=false&enabled.equals=true`,
+  //   UPDATE: (id: string) => `/build-partner-beneficiary/${id}`,
+  //   DELETE: (id: string) => `/build-partner-beneficiary/${id}`,
+  //   SOFT_DELETE: (id: string) => `/build-partner-beneficiary/soft/${id}`,
+  //   SAVE: '/build-partner-beneficiary',
+  //   FIND_ALL: '/build-partner-beneficiary/find-all',
+  //   UPLOAD: '/build-partner-beneficiary/upload',
+  // },
 
-  BUILD_PARTNER_FEES: {
-    GET_BY_ID: (id: string) =>
-      `/build-partner-fees?buildPartnerId.equals=${id}&deleted.equals=false&enabled.equals=true`,
-    GET_FEE_BY_ID: (feeId: string) => `/build-partner-fees/${feeId}`,
-    UPDATE: (id: string) => `/build-partner-fees/${id}`,
-    DELETE: (id: string) => `/build-partner-fees/${id}`,
-    SOFT_DELETE: (id: string) => `/build-partner-fees/soft/${id}`,
-    GET_ALL: '/build-partner-fees',
-    SAVE: '/build-partner-fees',
-    FIND_ALL: '/build-partner-fees/find-all',
-  },
+  // BUILD_PARTNER_FEES: {
+  //   GET_BY_ID: (id: string) =>
+  //     `/build-partner-fees?buildPartnerId.equals=${id}&deleted.equals=false&enabled.equals=true`,
+  //   GET_FEE_BY_ID: (feeId: string) => `/build-partner-fees/${feeId}`,
+  //   UPDATE: (id: string) => `/build-partner-fees/${id}`,
+  //   DELETE: (id: string) => `/build-partner-fees/${id}`,
+  //   SOFT_DELETE: (id: string) => `/build-partner-fees/soft/${id}`,
+  //   GET_ALL: '/build-partner-fees',
+  //   SAVE: '/build-partner-fees',
+  //   FIND_ALL: '/build-partner-fees/find-all',
+  // },
 
-  BUILD_PARTNER_ACCOUNT: {
-    GET_BY_ID: (id: string) => `/build-partner-account/${id}`,
-    UPDATE: (id: string) => `/build-partner-account/${id}`,
-    DELETE: (id: string) => `/build-partner-account/${id}`,
-    SAVE: '/build-partner-account',
-    FIND_ALL: '/build-partner-account/find-all',
-  },
+  // BUILD_PARTNER_ACCOUNT: {
+  //   GET_BY_ID: (id: string) => `/build-partner-account/${id}`,
+  //   UPDATE: (id: string) => `/build-partner-account/${id}`,
+  //   DELETE: (id: string) => `/build-partner-account/${id}`,
+  //   SAVE: '/build-partner-account',
+  //   FIND_ALL: '/build-partner-account/find-all',
+  // },
 
 
   // ASSET REGISTER APIs

@@ -24,7 +24,6 @@ import { useParams } from 'next/navigation'
 import {
   buildPartnerService,
   type BuildPartner,
-  type BuildPartnerBeneficiaryResponse,
 } from '@/services/api/buildPartnerService'
 import { formatDate } from '@/utils'
 import { GlobalLoading } from '@/components/atoms'
@@ -84,28 +83,16 @@ const fieldBoxSx = {
 
 // Data interfaces
 interface ContactData {
-  bpcFirstName: string
-  bpcLastName: string
-  bpcContactEmail: string
-  bpcContactAddressLine1: string
-  bpcContactAddressLine2: string
-  bpcContactPoBox: string
-  bpcCountryMobCode: string
-  bpcContactTelNo: string
-  bpcContactMobNo: string
-  bpcContactFaxNo: string
-}
-
-interface FeeData {
-  bpFeeCategoryDTO?: { languageTranslationId?: { configValue?: string } }
-  bpFeeFrequencyDTO?: { languageTranslationId?: { configValue?: string } }
-  debitAmount?: number
-  feeCollectionDate?: string
-  feeNextRecoveryDate?: string
-  feePercentage?: number
-  totalAmount?: number
-  vatPercentage?: number
-  bpFeeCurrencyDTO?: { languageTranslationId?: { configValue?: string } }
+  arcFirstName: string
+  arcLastName: string
+  arcContactEmail: string
+  arcContactAddressLine1: string
+  arcContactAddressLine2: string
+  arcContactPoBox: string
+  arcCountryMobCode: string
+  arcContactTelNo: string
+  arcContactMobNo: string
+  arcContactFaxNo: string
 }
 
 interface DocumentData {
@@ -130,10 +117,7 @@ const Step3 = ({ developerId, onEditStep, isReadOnly = false }: Step3Props) => {
   const [buildPartnerDetails, setBuildPartnerDetails] =
     useState<BuildPartner | null>(null)
   const [contactData, setContactData] = useState<ContactData[]>([])
-  const [feeData, setFeeData] = useState<FeeData[]>([])
-  const [beneficiaryData, setBeneficiaryData] = useState<
-    BuildPartnerBeneficiaryResponse[]
-  >([])
+ 
   const [documentData, setDocumentData] = useState<DocumentData[]>([])
 
   const [loading, setLoading] = useState(true)
@@ -188,7 +172,7 @@ const Step3 = ({ developerId, onEditStep, isReadOnly = false }: Step3Props) => {
 
         // Fetch all data in parallel
 
-        const [details, contacts, fees, beneficiaries, documents] =
+        const [details, contacts, documents] =
           await Promise.allSettled([
             buildPartnerService.getBuildPartner(buildPartnerId),
             buildPartnerService.getBuildPartnerContact(buildPartnerId),
@@ -205,9 +189,7 @@ const Step3 = ({ developerId, onEditStep, isReadOnly = false }: Step3Props) => {
           details.status === 'fulfilled' ? details.value : null
         const contactsResult =
           contacts.status === 'fulfilled' ? contacts.value : null
-        const feesResult = fees.status === 'fulfilled' ? fees.value : null
-        const beneficiariesResult =
-          beneficiaries.status === 'fulfilled' ? beneficiaries.value : null
+      
         const documentsResult =
           documents.status === 'fulfilled' ? documents.value : null
 
@@ -228,46 +210,6 @@ const Step3 = ({ developerId, onEditStep, isReadOnly = false }: Step3Props) => {
         }
         setContactData(contactArray)
 
-        // Handle paginated responses for fees
-        let feeArray: FeeData[] = []
-        if (Array.isArray(feesResult)) {
-          feeArray = feesResult as FeeData[]
-        } else if (
-          feesResult &&
-          typeof feesResult === 'object' &&
-          'content' in feesResult
-        ) {
-          feeArray = Array.isArray((feesResult as any).content)
-            ? ((feesResult as any).content as FeeData[])
-            : []
-        }
-        setFeeData(feeArray)
-
-        // Handle different possible beneficiary response formats
-        let beneficiaryArray: BuildPartnerBeneficiaryResponse[] = []
-        if (Array.isArray(beneficiariesResult)) {
-          beneficiaryArray =
-            beneficiariesResult as BuildPartnerBeneficiaryResponse[]
-        } else if (
-          beneficiariesResult &&
-          typeof beneficiariesResult === 'object'
-        ) {
-          // If it's an object with a content property (paginated response)
-          const beneficiariesObj = beneficiariesResult as any
-          if (
-            beneficiariesObj.content &&
-            Array.isArray(beneficiariesObj.content)
-          ) {
-            beneficiaryArray =
-              beneficiariesObj.content as BuildPartnerBeneficiaryResponse[]
-          } else {
-            // If it's a single beneficiary object, wrap it in an array
-            beneficiaryArray = [
-              beneficiariesResult as BuildPartnerBeneficiaryResponse,
-            ]
-          }
-        }
-        setBeneficiaryData(beneficiaryArray)
 
         // Handle paginated responses for documents
         let documentArray: any[] = []
@@ -311,47 +253,47 @@ const Step3 = ({ developerId, onEditStep, isReadOnly = false }: Step3Props) => {
   ) => {
     const fields = [
       {
-        label: getBuildPartnerLabelDynamic('CDL_BP_AUTH_NAME'),
+        label: getBuildPartnerLabelDynamic('CDL_AR_AUTH_NAME'),
         value:
-          `${contact.bpcFirstName || ''} ${contact.bpcLastName || ''}`.trim() ||
+          `${contact.arcFirstName || ''} ${contact.arcLastName || ''}`.trim() ||
           '',
         gridSize: 6,
       },
       {
-        label: getBuildPartnerLabelDynamic('CDL_BP_EMAIL_ADDRESS'),
-        value: contact.bpcContactEmail || ' ',
+        label: getBuildPartnerLabelDynamic('CDL_AR_EMAIL_ADDRESS'),
+        value: contact.arcContactEmail || ' ',
         gridSize: 6,
       },
       {
-        label: getBuildPartnerLabelDynamic('CDL_BP_BUSINESS_ADDRESS'),
+        label: getBuildPartnerLabelDynamic('CDL_AR_BUSINESS_ADDRESS'),
         value:
-          `${contact.bpcContactAddressLine1 || ''} ${contact.bpcContactAddressLine2 || ''}`.trim() ||
+          `${contact.arcContactAddressLine1 || ''} ${contact.arcContactAddressLine2 || ''}`.trim() ||
           '',
         gridSize: 6,
       },
       {
-        label: getBuildPartnerLabelDynamic('CDL_BP_POBOX'),
-        value: contact.bpcContactPoBox || '',
+        label: getBuildPartnerLabelDynamic('CDL_AR_POBOX'),
+        value: contact.arcContactPoBox || '',
         gridSize: 6,
       },
       {
-        label: getBuildPartnerLabelDynamic('CDL_BP_COUNTRY_CODE'),
-        value: contact.bpcCountryMobCode || '',
+        label: getBuildPartnerLabelDynamic('CDL_AR_COUNTRY_CODE'),
+        value: contact.arcCountryMobCode || '',
         gridSize: 3,
       },
       {
-        label: getBuildPartnerLabelDynamic('CDL_BP_TELEPHONE_NUMBER'),
-        value: contact.bpcContactTelNo || '',
+        label: getBuildPartnerLabelDynamic('CDL_AR_TELEPHONE_NUMBER'),
+        value: contact.arcContactTelNo || '',
         gridSize: 3,
       },
       {
-        label: getBuildPartnerLabelDynamic('CDL_BP_MOBILE_NUMBER'),
-        value: contact.bpcContactMobNo || '',
+        label: getBuildPartnerLabelDynamic('CDL_AR_MOBILE_NUMBER'),
+        value: contact.arcContactMobNo || '',
         gridSize: 3,
       },
       {
-        label: getBuildPartnerLabelDynamic('CDL_BP_FAX_NUMBER'),
-        value: contact.bpcContactFaxNo || '',
+        label: getBuildPartnerLabelDynamic('CDL_AR_FAX_NUMBER'),
+        value: contact.arcContactFaxNo || '',
         gridSize: 3,
       },
     ]
@@ -398,198 +340,7 @@ const Step3 = ({ developerId, onEditStep, isReadOnly = false }: Step3Props) => {
     )
   }
 
-  // Render fee fields with actual API data
-  const renderFeeFields = (fee: FeeData, title: string, isLast: boolean) => {
-    const fields = [
-      {
-        label: getBuildPartnerLabelDynamic('CDL_BP_FEES_TYPE'),
-        value: fee.bpFeeCategoryDTO?.languageTranslationId?.configValue || '',
-        gridSize: 6,
-      },
-      {
-        label: getBuildPartnerLabelDynamic('CDL_BP_FEES_FREQUENCY'),
-        value: fee.bpFeeFrequencyDTO?.languageTranslationId?.configValue || '',
-        gridSize: 6,
-      },
-      {
-        label: getBuildPartnerLabelDynamic('CDL_BP_FEES_ACCOUNT'),
-        value:
-          (fee as any)?.bpAccountTypeDTO?.languageTranslationId?.configValue ||
-          (fee as any)?.bpAccountTypeDTO?.settingValue ||
-          '',
-        gridSize: 6,
-      },
-      {
-        label: getBuildPartnerLabelDynamic('CDL_BP_FEES_AMOUNT'),
-        value: fee.debitAmount?.toString() || '',
-        gridSize: 6,
-      },
-      {
-        label: getBuildPartnerLabelDynamic('CDL_BP_FEES_TOTAL'),
-        value: fee.feeCollectionDate
-          ? formatDate(fee.feeCollectionDate, 'DD/MM/YYYY')
-          : '',
-        gridSize: 6,
-      },
-      {
-        label: getBuildPartnerLabelDynamic('CDL_BP_FEES_DATE'),
-        value: fee.feeNextRecoveryDate
-          ? formatDate(fee.feeNextRecoveryDate, 'DD/MM/YYYY')
-          : '',
-        gridSize: 6,
-      },
-      {
-        label: getBuildPartnerLabelDynamic('CDL_BP_FEES_RATE'),
-        value: fee.feePercentage?.toString() || '',
-        gridSize: 6,
-      },
-      {
-        label: getBuildPartnerLabelDynamic('CDL_BP_FEES_TOTAL_AMOUNT'),
-        value: fee.totalAmount?.toString() || '',
-        gridSize: 6,
-      },
-      {
-        label: getBuildPartnerLabelDynamic('CDL_BP_FEES_VAT'),
-        value: fee.vatPercentage?.toString() || '',
-        gridSize: 6,
-      },
-      {
-        label: getBuildPartnerLabelDynamic('CDL_BP_FEES_CURRENCY'),
-        value: fee.bpFeeCurrencyDTO?.languageTranslationId?.configValue || '',
-        gridSize: 6,
-      },
-    ]
-    return (
-      <Box sx={{ mb: 0 }}>
-        <Typography
-          sx={{
-            fontFamily: 'Outfit, sans-serif',
-            fontWeight: 500,
-            fontStyle: 'normal',
-            fontSize: '16px',
-            lineHeight: '28px',
-            letterSpacing: '0.15px',
-            verticalAlign: 'middle',
-            mb: 2,
-            color: isDarkMode ? '#F9FAFB' : '#1E2939',
-          }}
-        >
-          {title}
-        </Typography>
-        <Grid container spacing={3}>
-          {fields.map((field, idx) => (
-            <Grid
-              size={{ xs: 12, md: field.gridSize || 6 }}
-              key={`${title}-${idx}`}
-            >
-              {renderDisplayField(
-                field.label,
-                field.value as string | number | null
-              )}
-            </Grid>
-          ))}
-        </Grid>
-        {!isLast && (
-          <Divider
-            sx={{
-              mb: 0,
-              mt: 4,
-              borderColor: isDarkMode ? '#334155' : '#E5E7EB',
-            }}
-          />
-        )}
-      </Box>
-    )
-  }
 
-  // Render beneficiary fields with actual API data
-  const renderBeneficiaryFields = (
-    beneficiary: BuildPartnerBeneficiaryResponse | any,
-    title: string,
-    isLast: boolean
-  ) => {
-    const fields = [
-      {
-        label: getBuildPartnerLabelDynamic('CDL_BP_BENE_PAYMODE'),
-        value:
-          beneficiary?.bpbTransferTypeDTO?.languageTranslationId?.configValue ||
-          beneficiary.bpbBeneficiaryType ||
-          '',
-        gridSize: 6,
-      },
-      {
-        label: getBuildPartnerLabelDynamic('CDL_BP_BENE_REF'),
-        value: beneficiary.bpbBeneficiaryId || '',
-        gridSize: 6,
-      },
-      {
-        label: getBuildPartnerLabelDynamic('CDL_BP_BENE_NAME'),
-        value: beneficiary.bpbName || '',
-        gridSize: 6,
-      },
-      {
-        label: getBuildPartnerLabelDynamic('CDL_BP_BENE_BANK'),
-        value: beneficiary.bpbBankName || '',
-        gridSize: 6,
-      },
-      {
-        label: getBuildPartnerLabelDynamic('CDL_BP_BENE_ACCOUNT'),
-        value: beneficiary.bpbAccountNumber || '',
-        gridSize: 6,
-      },
-      {
-        label: getBuildPartnerLabelDynamic('CDL_BP_BENE_BIC'),
-        value: beneficiary.bpbSwiftCode || '',
-        gridSize: 6,
-      },
-      {
-        label: getBuildPartnerLabelDynamic('CDL_BP_BENE_ROUTING'),
-        value: beneficiary.bpbRoutingCode || '',
-        gridSize: 6,
-      },
-    ]
-    return (
-      <Box sx={{ mb: 0 }}>
-        <Typography
-          sx={{
-            fontFamily: 'Outfit, sans-serif',
-            fontWeight: 500,
-            fontStyle: 'normal',
-            fontSize: '16px',
-            lineHeight: '28px',
-            letterSpacing: '0.15px',
-            verticalAlign: 'middle',
-            mb: 2,
-            color: isDarkMode ? '#F9FAFB' : '#1E2939',
-          }}
-        >
-          {title}
-        </Typography>
-        <Grid container spacing={3}>
-          {fields.map((field, idx) => (
-            <Grid
-              size={{ xs: 12, md: field.gridSize || 6 }}
-              key={`${title}-${idx}`}
-            >
-              {renderDisplayField(
-                field.label,
-                field.value as string | number | null
-              )}
-            </Grid>
-          ))}
-        </Grid>
-        {!isLast && (
-          <Divider
-            sx={{
-              mb: 0,
-              mt: 4,
-              borderColor: isDarkMode ? '#334155' : '#E5E7EB',
-            }}
-          />
-        )}
-      </Box>
-    )
-  }
 
   // Loading state
   if (loading) {
@@ -699,28 +450,28 @@ const Step3 = ({ developerId, onEditStep, isReadOnly = false }: Step3Props) => {
           <Grid container spacing={3}>
             <Grid size={{ xs: 12, md: 6 }}>
               {renderDisplayField(
-                getBuildPartnerLabelDynamic('CDL_BP_ID'),
-                buildPartnerDetails.bpDeveloperId
+                getBuildPartnerLabelDynamic('CDL_AR_ID'),
+                buildPartnerDetails.arDeveloperId
               )}
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
               {renderDisplayField(
-                getBuildPartnerLabelDynamic('CDL_BP_CIF'),
-                buildPartnerDetails.bpCifrera
+                getBuildPartnerLabelDynamic('CDL_AR_CIF'),
+                buildPartnerDetails.arCifrera
               )}
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
               {renderDisplayField(
-                getBuildPartnerLabelDynamic('CDL_BP_REGNO'),
-                buildPartnerDetails.bpDeveloperRegNo
+                getBuildPartnerLabelDynamic('CDL_AR_REGNO'),
+                buildPartnerDetails.arDeveloperRegNo
               )}
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
               {renderDisplayField(
-                getBuildPartnerLabelDynamic('CDL_BP_REGDATE'),
-                buildPartnerDetails.bpOnboardingDate
+                getBuildPartnerLabelDynamic('CDL_AR_REGDATE'),
+                buildPartnerDetails.arOnboardingDate
                   ? formatDate(
-                      buildPartnerDetails.bpOnboardingDate,
+                      buildPartnerDetails.arOnboardingDate,
                       'DD/MM/YYYY'
                     )
                   : ' '
@@ -728,65 +479,65 @@ const Step3 = ({ developerId, onEditStep, isReadOnly = false }: Step3Props) => {
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
               {renderDisplayField(
-                getBuildPartnerLabelDynamic('CDL_BP_NAME'),
-                buildPartnerDetails.bpName
+                getBuildPartnerLabelDynamic('CDL_AR_NAME'),
+                buildPartnerDetails.arName
               )}
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
               {renderDisplayField(
-                getBuildPartnerLabelDynamic('CDL_BP_NAME_LOCALE'),
-                buildPartnerDetails.bpNameLocal
+                getBuildPartnerLabelDynamic('CDL_AR_NAME_LOCALE'),
+                buildPartnerDetails.arNameLocal
               )}
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
               {renderDisplayField(
-                getBuildPartnerLabelDynamic('CDL_BP_MASTER'),
-                buildPartnerDetails.bpMasterName
+                getBuildPartnerLabelDynamic('CDL_AR_MASTER'),
+                buildPartnerDetails.arMasterName
               )}
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
               {renderDisplayField(
-                getBuildPartnerLabelDynamic('CDL_BP_REGULATORY_AUTHORITY'),
-                (buildPartnerDetails.bpRegulatorDTO as any)
+                getBuildPartnerLabelDynamic('CDL_AR_REGULATORY_AUTHORITY'),
+                (buildPartnerDetails.arRegulatorDTO as any)
                   ?.languageTranslationId?.configValue || null
               )}
             </Grid>
             <Grid size={{ xs: 12, md: 12 }}>
               {renderDisplayField(
-                getBuildPartnerLabelDynamic('CDL_BP_ADDRESS'),
-                buildPartnerDetails.bpContactAddress
+                getBuildPartnerLabelDynamic('CDL_AR_ADDRESS'),
+                buildPartnerDetails.arContactAddress
               )}
             </Grid>
             <Grid size={{ xs: 12, md: 3 }}>
               {renderDisplayField(
-                getBuildPartnerLabelDynamic('CDL_BP_MOBILE'),
-                buildPartnerDetails.bpMobile
+                getBuildPartnerLabelDynamic('CDL_AR_MOBILE'),
+                  buildPartnerDetails.arMobile
               )}
             </Grid>
             <Grid size={{ xs: 12, md: 3 }}>
               {renderDisplayField(
-                getBuildPartnerLabelDynamic('CDL_BP_EMAIL'),
-                buildPartnerDetails.bpEmail
+                getBuildPartnerLabelDynamic('CDL_AR_EMAIL'),
+                buildPartnerDetails.arEmail
               )}
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
               {renderDisplayField(
-                getBuildPartnerLabelDynamic('CDL_BP_FAX'),
-                buildPartnerDetails.bpFax
+                getBuildPartnerLabelDynamic('CDL_AR_FAX'),
+                buildPartnerDetails.arFax
               )}
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
               {renderDisplayField(
-                getBuildPartnerLabelDynamic('CDL_BP_LICENSE'),
-                buildPartnerDetails.bpLicenseNo
+                getBuildPartnerLabelDynamic('CDL_AR_LICENSE'),
+                buildPartnerDetails.arLicenseNo
               )}
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
               {renderDisplayField(
-                getBuildPartnerLabelDynamic('CDL_BP_LICENSE_VALID'),
-                buildPartnerDetails.bpLicenseExpDate
+                getBuildPartnerLabelDynamic('CDL_AR_LICENSE_VALID'),
+                  buildPartnerDetails.arLicenseExpDate
                   ? formatDate(
-                      buildPartnerDetails.bpLicenseExpDate,
+                      buildPartnerDetails.arLicenseExpDate,
                       'DD/MM/YYYY'
                     )
                   : ' '
@@ -794,32 +545,32 @@ const Step3 = ({ developerId, onEditStep, isReadOnly = false }: Step3Props) => {
             </Grid>
             <Grid size={{ xs: 12, md: 3 }}>
               {renderCheckboxField(
-                getBuildPartnerLabelDynamic('CDL_BP_WORLD_STATUS'),
-                buildPartnerDetails.bpWorldCheckFlag === 'true'
+                getBuildPartnerLabelDynamic('CDL_AR_WORLD_STATUS'),
+                buildPartnerDetails.arWorldCheckFlag === 'true'
               )}
             </Grid>
             <Grid size={{ xs: 12, md: 3 }}>
               {renderCheckboxField(
                 'Migrated Data',
-                buildPartnerDetails.bpMigratedData === true
+                buildPartnerDetails.arMigratedData === true
               )}
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
               {renderDisplayField(
-                getBuildPartnerLabelDynamic('CDL_BP_WORLD_REMARKS'),
-                buildPartnerDetails.bpWorldCheckRemarks
+                getBuildPartnerLabelDynamic('CDL_AR_WORLD_REMARKS'),
+                buildPartnerDetails.arWorldCheckRemarks
               )}
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
               {renderDisplayField(
-                getBuildPartnerLabelDynamic('CDL_BP_NOTES'),
-                buildPartnerDetails.bpremark
+                getBuildPartnerLabelDynamic('CDL_AR_NOTES'),
+                buildPartnerDetails.arRemark
               )}
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
               {renderDisplayField(
                 'Account Contact Number',
-                buildPartnerDetails.bpContactTel
+                  buildPartnerDetails.arContactTel
               )}
             </Grid>
           </Grid>
@@ -1068,166 +819,6 @@ const Step3 = ({ developerId, onEditStep, isReadOnly = false }: Step3Props) => {
                     contact,
                     `Contact ${index + 1}`,
                     index === contactData.length - 1
-                  )}
-                </Grid>
-              ))}
-            </Grid>
-          </CardContent>
-        </Card>
-      )}
-
-      {/* Fee Details Section */}
-      {feeData.length > 0 && (
-        <Card
-          sx={{
-            boxShadow: 'none',
-            backgroundColor: isDarkMode ? '#1E293B' : '#FFFFFF',
-            width: '100%',
-            margin: '0 auto',
-            mb: 3,
-            border: isDarkMode ? '1px solid #334155' : '1px solid #E5E7EB',
-          }}
-        >
-          <CardContent sx={{ p: 3 }}>
-            <Box
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center"
-              mb={3}
-            >
-              <Typography
-                variant="h6"
-                fontWeight={600}
-                sx={{
-                  fontFamily: 'Outfit, sans-serif',
-                  fontWeight: 600,
-                  fontSize: '18px',
-                  lineHeight: '24px',
-                  color: isDarkMode ? '#F9FAFB' : '#1E2939',
-                }}
-              >
-                {getBuildPartnerLabelDynamic('CDL_BP_FEES')}
-              </Typography>
-              {!isReadOnly && (
-                <Button
-                  startIcon={<EditIcon />}
-                  variant="outlined"
-                  onClick={() => {
-                    onEditStep?.(3)
-                  }}
-                  sx={{
-                    fontFamily: 'Outfit, sans-serif',
-                    fontWeight: 500,
-                    fontSize: '14px',
-                    lineHeight: '20px',
-                    color: isDarkMode ? '#93C5FD' : '#6B7280',
-                    borderColor: isDarkMode ? '#334155' : '#D1D5DB',
-                    textTransform: 'none',
-                    '&:hover': {
-                      borderColor: isDarkMode ? '#475569' : '#9CA3AF',
-                      backgroundColor: isDarkMode
-                        ? 'rgba(51, 65, 85, 0.3)'
-                        : '#F9FAFB',
-                    },
-                  }}
-                >
-                  Edit
-                </Button>
-              )}
-            </Box>
-            <Divider
-              sx={{
-                mb: 3,
-                borderColor: isDarkMode ? '#334155' : '#E5E7EB',
-              }}
-            />
-            <Grid container spacing={3}>
-              {feeData.map((fee, index) => (
-                <Grid size={{ xs: 12 }} key={index}>
-                  {renderFeeFields(
-                    fee,
-                    `Fee ${index + 1}`,
-                    index === feeData.length - 1
-                  )}
-                </Grid>
-              ))}
-            </Grid>
-          </CardContent>
-        </Card>
-      )}
-
-      {/* Beneficiary Details Section */}
-      {beneficiaryData.length > 0 && (
-        <Card
-          sx={{
-            boxShadow: 'none',
-            backgroundColor: isDarkMode ? '#1E293B' : '#FFFFFF',
-            width: '100%',
-            margin: '0 auto',
-            mb: 3,
-            border: isDarkMode ? '1px solid #334155' : '1px solid #E5E7EB',
-          }}
-        >
-          <CardContent sx={{ p: 3 }}>
-            <Box
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center"
-              mb={3}
-            >
-              <Typography
-                variant="h6"
-                fontWeight={600}
-                sx={{
-                  fontFamily: 'Outfit, sans-serif',
-                  fontWeight: 600,
-                  fontSize: '18px',
-                  lineHeight: '24px',
-                  color: isDarkMode ? '#F9FAFB' : '#1E2939',
-                }}
-              >
-                {getBuildPartnerLabelDynamic('CDL_BP_BENE_INFO')}
-              </Typography>
-              {!isReadOnly && (
-                <Button
-                  startIcon={<EditIcon />}
-                  variant="outlined"
-                  onClick={() => {
-                    onEditStep?.(4)
-                  }}
-                  sx={{
-                    fontFamily: 'Outfit, sans-serif',
-                    fontWeight: 500,
-                    fontSize: '14px',
-                    lineHeight: '20px',
-                    color: isDarkMode ? '#93C5FD' : '#6B7280',
-                    borderColor: isDarkMode ? '#334155' : '#D1D5DB',
-                    textTransform: 'none',
-                    '&:hover': {
-                      borderColor: isDarkMode ? '#475569' : '#9CA3AF',
-                      backgroundColor: isDarkMode
-                        ? 'rgba(51, 65, 85, 0.3)'
-                        : '#F9FAFB',
-                    },
-                  }}
-                >
-                  Edit
-                </Button>
-              )}
-            </Box>
-            <Divider
-              sx={{
-                mb: 3,
-                borderColor: isDarkMode ? '#334155' : '#E5E7EB',
-              }}
-            />
-            <Grid container spacing={3}>
-              {beneficiaryData.map((beneficiary, index) => (
-                <Grid size={{ xs: 12 }} key={beneficiary.id || index}>
-                  {renderBeneficiaryFields(
-                    beneficiary,
-                    `Beneficiary ${index + 1}`,
-                    index === beneficiaryData.length - 1
                   )}
                 </Grid>
               ))}

@@ -24,28 +24,58 @@ export interface TaskStatusDTO {
 
 // Build Partner types - Updated to match API response structure
 export interface BuildPartner {
-  id: number
-  bpDeveloperId: string
-  bpCifrera: string | null
-  bpDeveloperRegNo: string
-  bpName: string | null
-  bpMasterName: string | null
-  bpNameLocal: string | null
-  bpOnboardingDate: string | null
-  bpContactAddress: string | null
-  bpContactTel: string | null
-  bpPoBox: string | null
-  bpMobile: string | null
-  bpFax: string | null
-  bpEmail: string | null
-  bpLicenseNo: string | null
-  bpLicenseExpDate: string | null
-  bpWorldCheckFlag: string | null
-  bpWorldCheckRemarks: string | null
-  bpMigratedData: boolean | null
-  bpremark: string | null
-  bpRegulatorDTO: unknown | null
-  bpActiveStatusDTO: unknown | null
+  // id: number
+  // bpDeveloperId: string
+  // bpCifrera: string | null
+  // bpDeveloperRegNo: string
+  // bpName: string | null
+  // bpMasterName: string | null
+  // bpNameLocal: string | null
+  // bpOnboardingDate: string | null
+  // bpContactAddress: string | null
+  // bpContactTel: string | null
+  // bpPoBox: string | null
+  // bpMobile: string | null
+  // bpFax: string | null
+  // bpEmail: string | null
+  // bpLicenseNo: string | null
+  // bpLicenseExpDate: string | null
+  // bpWorldCheckFlag: string | null
+  // bpWorldCheckRemarks: string | null
+  // bpMigratedData: boolean | null
+  // bpremark: string | null
+  // bpRegulatorDTO: unknown | null
+  // bpActiveStatusDTO: unknown | null
+  // buildPartnerBeneficiaryDTOS: unknown[] | null
+  // buildPartnerContactDTOS: unknown[] | null
+  // taskStatusDTO: TaskStatusDTO | null
+
+   id: number
+  arDeveloperId: string
+  arCifrera: string | null
+  arDeveloperRegNo: string
+  arName: string | null
+  arMasterName: string | null
+  arNameLocal: string | null
+  arOnboardingDate: string | null
+  arContactAddress: string | null
+  arContactTel: string | null
+  arPoBox: string | null
+  arMobile: string | null
+  arFax: string | null
+  arEmail: string | null
+  arLicenseNo: string | null
+  arLicenseExpDate: string | null
+  arWorldCheckFlag: boolean | string | null
+  arWorldCheckRemarks: string | null
+  arMigratedData: boolean | null
+  arRemark: string | null
+  arRegulatorDTO: unknown | null
+  arActiveStatusDTO: unknown | null
+  arProjectName?: string | null
+  arCompanyNumber?: string | null
+  arMasterCommunity?: string | null
+  arMasterDeveloper?: string | null
   buildPartnerBeneficiaryDTOS: unknown[] | null
   buildPartnerContactDTOS: unknown[] | null
   taskStatusDTO: TaskStatusDTO | null
@@ -189,7 +219,7 @@ export interface BuildPartnerContactData {
   }
 }
 
-// API Response interface for contact data (includes nested buildPartnerDTO)
+// API Response interface for contact data (includes nested assetRegisterDTO)
 export interface BuildPartnerContactResponse {
   id: number
   bpcContactName: string | null
@@ -208,7 +238,7 @@ export interface BuildPartnerContactResponse {
   enabled: boolean
   workflowStatus: string | null
   deleted: boolean | null
-  buildPartnerDTO?: {
+  assetRegisterDTO?: {
     id: number
     [key: string]: any
   }
@@ -244,7 +274,7 @@ export interface BuildPartnerIndividualFeeData {
   bpFeeCurrencyDTO: {
     id: number
   }
-  buildPartnerDTO?: {
+  assetRegisterDTO?: {
     id: number
   }
 }
@@ -473,7 +503,7 @@ export class BuildPartnerService {
 
   async getBuildPartnerContact(id: string): Promise<unknown> {
     try {
-      const url = buildApiUrl(API_ENDPOINTS.BUILD_PARTNER_CONTACT.GET_BY_ID(id))
+      const url = buildApiUrl(API_ENDPOINTS.ASSET_REGISTER_CONTACT.GET_BY_ID(id))
 
       const result = await apiClient.get(url)
 
@@ -491,7 +521,7 @@ export class BuildPartnerService {
   ): Promise<PaginatedResponse<BuildPartnerContactResponse>> {
     try {
       const url = buildApiUrl(
-        API_ENDPOINTS.BUILD_PARTNER_CONTACT.GET_BY_ID(buildPartnerId)
+        API_ENDPOINTS.ASSET_REGISTER_CONTACT.GET_BY_ID(buildPartnerId)
       )
       const params = buildPaginationParams(page, size)
       const queryString = new URLSearchParams(params).toString()
@@ -510,7 +540,7 @@ export class BuildPartnerService {
 
   async getBuildPartnerFees(id: string): Promise<BuildPartnerFeeResponse[]> {
     try {
-      const url = buildApiUrl(API_ENDPOINTS.BUILD_PARTNER_FEES.GET_BY_ID(id))
+      const url = buildApiUrl(API_ENDPOINTS.ASSET_REGISTER_FEES.GET_BY_ID(id))
       const result = await apiClient.get(url)
 
       // Handle different response formats
@@ -549,7 +579,7 @@ export class BuildPartnerService {
   ): Promise<PaginatedResponse<FeeUIData>> {
     try {
       const url = buildApiUrl(
-        API_ENDPOINTS.BUILD_PARTNER_FEES.GET_BY_ID(buildPartnerId)
+        API_ENDPOINTS.ASSET_REGISTER_FEES.GET_BY_ID(buildPartnerId)
       )
       const params = buildPaginationParams(page, size)
       const queryString = new URLSearchParams(params).toString()
@@ -664,7 +694,7 @@ export class BuildPartnerService {
     developerId?: string
   ): Promise<StepSaveResponse> {
     if (isEditing && developerId) {
-      // Use PUT for editing existing details - include buildPartnerDTO in data
+      // Use PUT for editing existing details - include assetRegisterDTO in data
       const url = buildApiUrl(API_ENDPOINTS.BUILD_PARTNER.UPDATE(developerId))
       const requestData = {
         ...data,
@@ -675,7 +705,7 @@ export class BuildPartnerService {
       return response
     } else {
       // Use POST for creating new details
-      const url = buildApiUrl(API_ENDPOINTS.BUILD_PARTNER_CREATE.DETAILS_SAVE)
+      const url = buildApiUrl(API_ENDPOINTS.ASSET_REGISTER_CREATE.DETAILS_SAVE)
 
       const response = await apiClient.post<StepSaveResponse>(url, data)
       return response
@@ -690,29 +720,29 @@ export class BuildPartnerService {
     if (isEditing && data.id) {
       // Use PUT for updating existing contact with ID
       const url = buildApiUrl(
-        API_ENDPOINTS.BUILD_PARTNER_CONTACT.UPDATE(data.id.toString())
+        API_ENDPOINTS.ASSET_REGISTER_CONTACT.UPDATE(data.id.toString())
       )
-      // Destructure to remove any existing buildPartnerDTO to avoid sending nested data
-      const { buildPartnerDTO, ...contactDataWithoutBuildPartner } = data
+      // Destructure to remove any existing assetRegisterDTO to avoid sending nested data
+      const { assetRegisterDTO, ...contactDataWithoutBuildPartner } = data
       const requestData = {
         ...contactDataWithoutBuildPartner,
         // Preserve workflow-related fields from original data
         enabled: true,
         deleted: false,
         workflowStatus: data.workflowStatus ?? null,
-        buildPartnerDTO: { id: parseInt(developerId || '0') },
+        assetRegisterDTO: { id: parseInt(developerId || '0') },
       }
 
       const response = await apiClient.put<StepSaveResponse>(url, requestData)
       return response
     } else {
       // Use POST for creating new contact
-      const url = buildApiUrl(API_ENDPOINTS.BUILD_PARTNER_CREATE.CONTACT_SAVE)
-      // Destructure to remove any existing buildPartnerDTO to avoid sending nested data
-      const { buildPartnerDTO, ...contactDataWithoutBuildPartner } = data
+      const url = buildApiUrl(API_ENDPOINTS.ASSET_REGISTER_CREATE.CONTACT_SAVE)
+      // Destructure to remove any existing assetRegisterDTO to avoid sending nested data
+      const { assetRegisterDTO, ...contactDataWithoutBuildPartner } = data
       const requestData = {
         ...contactDataWithoutBuildPartner,
-        buildPartnerDTO: developerId
+        assetRegisterDTO: developerId
           ? { id: parseInt(developerId) }
           : undefined,
       }
@@ -724,7 +754,7 @@ export class BuildPartnerService {
 
   async deleteBuildPartnerContact(contactId: string | number): Promise<void> {
     const url = buildApiUrl(
-      API_ENDPOINTS.BUILD_PARTNER_CONTACT.SOFT_DELETE(contactId.toString())
+      API_ENDPOINTS.ASSET_REGISTER_CONTACT.SOFT_DELETE(contactId.toString())
     )
     await apiClient.delete(url)
   }
@@ -739,14 +769,14 @@ export class BuildPartnerService {
 
   async deleteBuildPartnerFee(feeId: string | number): Promise<void> {
     const url = buildApiUrl(
-      API_ENDPOINTS.BUILD_PARTNER_FEES.SOFT_DELETE(feeId.toString())
+      API_ENDPOINTS.ASSET_REGISTER_FEES.SOFT_DELETE(feeId.toString())
     )
     await apiClient.delete(url)
   }
 
   async getBuildPartnerFeeById(feeId: string | number): Promise<unknown> {
     const url = buildApiUrl(
-      API_ENDPOINTS.BUILD_PARTNER_FEES.GET_FEE_BY_ID(feeId.toString())
+      API_ENDPOINTS.ASSET_REGISTER_FEES.GET_FEE_BY_ID(feeId.toString())
     )
     const response = await apiClient.get(url)
     return response
@@ -759,13 +789,13 @@ export class BuildPartnerService {
   ): Promise<StepSaveResponse> {
     if (isEditing && developerId) {
       // Use POST for editing existing fees - wrap data with isEditing and developerId
-      const url = buildApiUrl(API_ENDPOINTS.BUILD_PARTNER_CREATE.FEES_SAVE)
-      // Destructure to remove any existing buildPartnerDTO to avoid sending nested data
-      const { buildPartnerDTO, ...feesDataWithoutBuildPartner } = data as any
+      const url = buildApiUrl(API_ENDPOINTS.ASSET_REGISTER_CREATE.FEES_SAVE)
+      // Destructure to remove any existing assetRegisterDTO to avoid sending nested data
+      const { assetRegisterDTO, ...feesDataWithoutBuildPartner } = data as any
       const requestData = {
         data: {
           ...feesDataWithoutBuildPartner,
-          buildPartnerDTO: { id: parseInt(developerId) },
+          assetRegisterDTO: { id: parseInt(developerId) },
         },
         isEditing: false,
         developerId: developerId,
@@ -775,7 +805,7 @@ export class BuildPartnerService {
       return response
     } else {
       // Use POST for creating new fees - send data directly
-      const url = buildApiUrl(API_ENDPOINTS.BUILD_PARTNER_CREATE.FEES_SAVE)
+      const url = buildApiUrl(API_ENDPOINTS.ASSET_REGISTER_CREATE.FEES_SAVE)
 
       const response = await apiClient.post<StepSaveResponse>(url, data)
       return response
@@ -793,15 +823,15 @@ export class BuildPartnerService {
       if (isEditing && feeId) {
         // Use PUT for updating existing individual fee
         const url = buildApiUrl(
-          API_ENDPOINTS.BUILD_PARTNER_FEES.UPDATE(feeId.toString())
+          API_ENDPOINTS.ASSET_REGISTER_FEES.UPDATE(feeId.toString())
         )
-        // Destructure to remove any existing buildPartnerDTO to avoid sending nested data
-        const { buildPartnerDTO, ...feeDataWithoutBuildPartner } = data as any
+        // Destructure to remove any existing assetRegisterDTO to avoid sending nested data
+        const { assetRegisterDTO, ...feeDataWithoutBuildPartner } = data as any
         const requestData = {
           ...feeDataWithoutBuildPartner,
           enabled: true,
           deleted: false,
-          buildPartnerDTO: { id: parseInt(developerId || '0') },
+          assetRegisterDTO: { id: parseInt(developerId || '0') },
         }
 
         const result = await apiClient.put(url, requestData)
@@ -809,7 +839,7 @@ export class BuildPartnerService {
       } else {
         // Use POST for creating new individual fee
         const result = await apiClient.post(
-          buildApiUrl(API_ENDPOINTS.BUILD_PARTNER_FEES.SAVE),
+          buildApiUrl(API_ENDPOINTS.ASSET_REGISTER_FEES.SAVE),
           data
         )
         return result
@@ -828,17 +858,17 @@ export class BuildPartnerService {
     if (isEditing && beneficiaryId) {
       // Use PUT for editing existing beneficiary
       const url = buildApiUrl(
-        API_ENDPOINTS.BUILD_PARTNER_BENEFICIARY.UPDATE(String(beneficiaryId))
+        API_ENDPOINTS.ASSET_REGISTER_BENEFICIARY.UPDATE(String(beneficiaryId))
       )
-      // Destructure to remove any existing buildPartnerDTO or buildPartnerId to avoid sending nested data
-      const { buildPartnerDTO, buildPartnerId, ...beneficiaryDataClean } =
+      // Destructure to remove any existing assetRegisterDTO or buildPartnerId to avoid sending nested data
+      const { assetRegisterDTO, buildPartnerId, ...beneficiaryDataClean } =
         data as any
       const requestData = {
         ...beneficiaryDataClean,
         enabled: true,
         deleted: false,
         ...(developerId && {
-          buildPartnerDTO: [{ id: parseInt(developerId) }],
+          assetRegisterDTO: [{ id: parseInt(developerId) }],
         }),
       }
 
@@ -847,15 +877,15 @@ export class BuildPartnerService {
     } else {
       // Use POST for creating new beneficiary
       const url = buildApiUrl(
-        API_ENDPOINTS.BUILD_PARTNER_CREATE.BENEFICIARY_SAVE
+        API_ENDPOINTS.ASSET_REGISTER_CREATE.BENEFICIARY_SAVE
       )
-      // Destructure to remove any existing buildPartnerDTO or buildPartnerId to avoid sending nested data
-      const { buildPartnerDTO, buildPartnerId, ...beneficiaryDataClean } =
+      // Destructure to remove any existing assetRegisterDTO or buildPartnerId to avoid sending nested data
+      const { assetRegisterDTO, buildPartnerId, ...beneficiaryDataClean } =
         data as any
       const requestData = {
         ...beneficiaryDataClean,
         ...(developerId && {
-          buildPartnerDTO: [{ id: parseInt(developerId) }],
+          assetRegisterDTO: [{ id: parseInt(developerId) }],
         }),
       }
 
@@ -873,7 +903,7 @@ export class BuildPartnerService {
       }
 
       const url = buildApiUrl(
-        API_ENDPOINTS.BUILD_PARTNER_BENEFICIARY.GET_BY_ID(buildPartnerId)
+        API_ENDPOINTS.ASSET_REGISTER_BENEFICIARY.GET_BY_ID(buildPartnerId)
       )
 
       const response = await apiClient.get<{
@@ -912,7 +942,7 @@ export class BuildPartnerService {
       }
 
       const url = buildApiUrl(
-        API_ENDPOINTS.BUILD_PARTNER_BENEFICIARY.GET_BY_ID(buildPartnerId)
+        API_ENDPOINTS.ASSET_REGISTER_BENEFICIARY.GET_BY_ID(buildPartnerId)
       )
       const params = buildPaginationParams(page, size)
       const queryString = new URLSearchParams(params).toString()
@@ -935,7 +965,7 @@ export class BuildPartnerService {
   ): Promise<BuildPartnerBeneficiaryResponse> {
     try {
       const url = buildApiUrl(
-        API_ENDPOINTS.BUILD_PARTNER_BENEFICIARY.GET_BY_ID(id)
+        API_ENDPOINTS.ASSET_REGISTER_BENEFICIARY.GET_BY_ID(id)
       )
       const response = await apiClient.get<BuildPartnerBeneficiaryResponse>(url)
 
@@ -952,7 +982,7 @@ export class BuildPartnerService {
   ): Promise<BuildPartnerBeneficiaryResponse> {
     try {
       const url = buildApiUrl(
-        API_ENDPOINTS.BUILD_PARTNER_BENEFICIARY.UPDATE(id)
+        API_ENDPOINTS.ASSET_REGISTER_BENEFICIARY.UPDATE(id)
       )
 
       const response = await apiClient.put<BuildPartnerBeneficiaryResponse>(
@@ -970,7 +1000,7 @@ export class BuildPartnerService {
   async deleteBuildPartnerBeneficiary(id: string): Promise<void> {
     try {
       const url = buildApiUrl(
-        API_ENDPOINTS.BUILD_PARTNER_BENEFICIARY.SOFT_DELETE(id)
+        API_ENDPOINTS.ASSET_REGISTER_BENEFICIARY.SOFT_DELETE(id)
       )
 
       await apiClient.delete(url)
@@ -983,7 +1013,7 @@ export class BuildPartnerService {
   async softDeleteBuildPartnerBeneficiary(id: string): Promise<void> {
     try {
       const url = buildApiUrl(
-        API_ENDPOINTS.BUILD_PARTNER_BENEFICIARY.SOFT_DELETE(id)
+        API_ENDPOINTS.ASSET_REGISTER_BENEFICIARY.SOFT_DELETE(id)
       )
 
       await apiClient.delete(url)
@@ -1004,7 +1034,7 @@ export class BuildPartnerService {
   async saveBuildPartnerReview(
     data: BuildPartnerReviewData
   ): Promise<StepSaveResponse> {
-    const url = buildApiUrl(API_ENDPOINTS.BUILD_PARTNER_CREATE.REVIEW_SAVE)
+    const url = buildApiUrl(API_ENDPOINTS.ASSET_REGISTER_CREATE.REVIEW_SAVE)
     return apiClient.post<StepSaveResponse>(url, data)
   }
 
@@ -1091,7 +1121,7 @@ export class BuildPartnerService {
   // Step data retrieval and validation methods
   async getStepData(step: number, developerId?: string): Promise<unknown> {
     let url = buildApiUrl(
-      API_ENDPOINTS.BUILD_PARTNER_CREATE.GET_STEP_DATA(step)
+      API_ENDPOINTS.ASSET_REGISTER_CREATE.GET_STEP_DATA(step)
     )
 
     // Add developer ID as query parameter if provided
@@ -1107,7 +1137,7 @@ export class BuildPartnerService {
     data: unknown
   ): Promise<StepValidationResponse> {
     const url = buildApiUrl(
-      API_ENDPOINTS.BUILD_PARTNER_CREATE.VALIDATE_STEP(step)
+      API_ENDPOINTS.ASSET_REGISTER_CREATE.VALIDATE_STEP(step)
     )
     return apiClient.post<StepValidationResponse>(url, data)
   }
