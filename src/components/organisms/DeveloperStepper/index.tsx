@@ -110,8 +110,8 @@ export default function DeveloperStepperWrapper({
       getBuildPartnerLabelDynamic('CDL_BP_DETAILS'),
       'Documents (Optional)',
       getBuildPartnerLabelDynamic('CDL_BP_CONTACT'),
-      getBuildPartnerLabelDynamic('CDL_BP_FEES'),
-      getBuildPartnerLabelDynamic('CDL_BP_BENE_INFO'),
+      // getBuildPartnerLabelDynamic('CDL_BP_FEES'),
+      // getBuildPartnerLabelDynamic('CDL_BP_BENE_INFO'),
       'Review',
     ],
     [getBuildPartnerLabelDynamic]

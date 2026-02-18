@@ -3,8 +3,6 @@ import {
   Step1,
   Step2,
   Step3,
-  Step4,
-  Step5,
   DocumentUploadStep,
   LazyStepWrapper,
   preloadNextStep,
@@ -25,13 +23,7 @@ export const useStepContentRenderer = ({
     }
   }, [activeStep])
 
-  // Memoized callbacks to prevent infinite re-renders
-  const handleBeneficiariesChange = useCallback(
-    (beneficiaries: any[]) => {
-      methods.setValue('beneficiaries', beneficiaries)
-    },
-    [methods]
-  )
+
 
   const getStepContent = useCallback(
     (step: number) => {
@@ -68,35 +60,11 @@ export const useStepContentRenderer = ({
             </LazyStepWrapper>
           )
         },
-        3: () => {
-          const watchedFees = methods.watch('fees')
-          return (
-            <LazyStepWrapper>
-              <Step3
-                fees={watchedFees}
-                onFeesChange={(fees) => {
-                  methods.setValue('fees', fees)
-                }}
-                buildPartnerId={developerId || ''}
-                isReadOnly={isReadOnly}
-              />
-            </LazyStepWrapper>
-          )
-        },
-        4: () => (
+
+        3: () => (
           <LazyStepWrapper>
-            <Step4
-              beneficiaries={methods.watch('beneficiaries')}
-              onBeneficiariesChange={handleBeneficiariesChange}
-              buildPartnerId={developerId || ''}
-              isReadOnly={isReadOnly}
-            />
-          </LazyStepWrapper>
-        ),
-        5: () => (
-          <LazyStepWrapper>
-            <Step5
-              developerId={developerId}
+            <Step3
+              developerId={developerId || ''}
               onEditStep={onEditStep || undefined}
               isReadOnly={isReadOnly}
             />

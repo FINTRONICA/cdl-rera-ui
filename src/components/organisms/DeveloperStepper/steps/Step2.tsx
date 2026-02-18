@@ -39,28 +39,59 @@ interface Step2Props {
   isReadOnly?: boolean
 }
 
+// const mapApiContactToContactData = (
+//   apiContact: BuildPartnerContactResponse
+// ): ContactData => {
+//   return {
+//     id: apiContact.id,
+//     name: `${apiContact.bpcFirstName} ${apiContact.bpcLastName}`,
+//     address:
+//       apiContact.bpcContactAddressLine1 +
+//       (apiContact.bpcContactAddressLine2
+//         ? ` ${apiContact.bpcContactAddressLine2}`
+//         : ''),
+//     email: apiContact.bpcContactEmail,
+//     pobox: apiContact.bpcContactPoBox,
+//     countrycode: apiContact.bpcCountryMobCode,
+//     mobileno: apiContact.bpcContactMobNo,
+//     telephoneno: apiContact.bpcContactTelNo,
+//     fax: apiContact.bpcContactFaxNo,
+//     ...(apiContact.buildPartnerDTO && {
+//       buildPartnerDTO: { id: apiContact.buildPartnerDTO.id },
+//     }),
+//   }
+// }
+
 const mapApiContactToContactData = (
   apiContact: BuildPartnerContactResponse
-): ContactData => {
-  return {
-    id: apiContact.id,
-    name: `${apiContact.bpcFirstName} ${apiContact.bpcLastName}`,
-    address:
-      apiContact.bpcContactAddressLine1 +
-      (apiContact.bpcContactAddressLine2
-        ? ` ${apiContact.bpcContactAddressLine2}`
-        : ''),
-    email: apiContact.bpcContactEmail,
-    pobox: apiContact.bpcContactPoBox,
-    countrycode: apiContact.bpcCountryMobCode,
-    mobileno: apiContact.bpcContactMobNo,
-    telephoneno: apiContact.bpcContactTelNo,
-    fax: apiContact.bpcContactFaxNo,
-    ...(apiContact.buildPartnerDTO && {
-      buildPartnerDTO: { id: apiContact.buildPartnerDTO.id },
-    }),
-  }
-}
+): ContactData => ({
+  id: apiContact.id,
+  arcContactName: apiContact.arcContactName ?? null,
+  arcFirstName: apiContact.arcFirstName ?? null,
+  arcLastName: apiContact.arcLastName ?? null,
+  arcContactTelCode: apiContact.arcContactTelCode ?? null,
+  arcContactTelNo: apiContact.arcContactTelNo ?? null,
+  arcCountryMobCode: apiContact.arcCountryMobCode ?? null,
+  arcContactMobNo: apiContact.arcContactMobNo ?? null,
+  arcContactEmail: apiContact.arcContactEmail ?? null,
+  arcContactAddress: apiContact.arcContactAddress ?? null,
+  arcContactAddressLine1: apiContact.arcContactAddressLine1 ?? null,
+  arcContactAddressLine2: apiContact.arcContactAddressLine2 ?? null,
+  arcContactPoBox: apiContact.arcContactPoBox ?? null,
+  arcContactFaxNo: apiContact.arcContactFaxNo ?? null,
+  enabled: apiContact.enabled ?? false,
+  workflowStatus: apiContact.workflowStatus ?? null,
+  deleted: apiContact.deleted ?? null,
+  ...(apiContact.assetRegisterDTO && {
+    assetRegisterDTO: {
+      id: apiContact.assetRegisterDTO.id,
+      enabled:
+        (apiContact.assetRegisterDTO as { enabled?: boolean }).enabled ?? true,
+      deleted:
+        (apiContact.assetRegisterDTO as { deleted?: boolean }).deleted ?? false,
+    },
+  }),
+})
 
 const Step2: React.FC<Step2Props> = ({
   contactData,
@@ -198,56 +229,56 @@ const Step2: React.FC<Step2Props> = ({
   const tableColumns = [
     {
       key: 'name',
-      label: getBuildPartnerLabelDynamic('CDL_BP_AUTH_NAME'),
+      label: getBuildPartnerLabelDynamic('CDL_AR_AUTH_NAME'),
       type: 'text' as const,
       width: 'w-40',
       sortable: true,
     },
     {
       key: 'address',
-      label: getBuildPartnerLabelDynamic('CDL_BP_BUSINESS_ADDRESS'),
+      label: getBuildPartnerLabelDynamic('CDL_AR_BUSINESS_ADDRESS'),
       type: 'text' as const,
       width: 'w-40',
       sortable: true,
     },
     {
       key: 'email',
-      label: getBuildPartnerLabelDynamic('CDL_BP_EMAIL_ADDRESS'),
+      label: getBuildPartnerLabelDynamic('CDL_AR_EMAIL_ADDRESS'),
       type: 'text' as const,
       width: 'w-40',
       sortable: true,
     },
     {
       key: 'pobox',
-      label: getBuildPartnerLabelDynamic('CDL_BP_POBOX'),
+      label: getBuildPartnerLabelDynamic('CDL_AR_POBOX'),
       type: 'text' as const,
       width: 'w-28',
       sortable: true,
     },
     {
       key: 'countrycode',
-      label: getBuildPartnerLabelDynamic('CDL_BP_COUNTRY_CODE'),
+      label: getBuildPartnerLabelDynamic('CDL_AR_COUNTRY_CODE'),
       type: 'text' as const,
       width: 'w-40',
       sortable: true,
     },
     {
       key: 'mobileno',
-      label: getBuildPartnerLabelDynamic('CDL_BP_MOBILE_NUMBER'),
+      label: getBuildPartnerLabelDynamic('CDL_AR_MOBILE_NUMBER'),
       type: 'text' as const,
       width: 'w-40',
       sortable: true,
     },
     {
       key: 'telephoneno',
-      label: getBuildPartnerLabelDynamic('CDL_BP_TELEPHONE_NUMBER'),
+      label: getBuildPartnerLabelDynamic('CDL_AR_TELEPHONE_NUMBER'),
       type: 'text' as const,
       width: 'w-40',
       sortable: true,
     },
     {
       key: 'fax',
-      label: getBuildPartnerLabelDynamic('CDL_BP_FAX_NUMBER'),
+      label: getBuildPartnerLabelDynamic('CDL_AR_FAX_NUMBER'),
       type: 'text' as const,
       width: 'w-28',
       sortable: true,

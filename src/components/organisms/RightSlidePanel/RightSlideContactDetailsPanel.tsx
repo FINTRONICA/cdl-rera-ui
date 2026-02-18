@@ -333,28 +333,28 @@ export const RightSlideContactDetailsPanel: React.FC<RightSlidePanelProps> = ({
 
       const contactPayload: BuildPartnerContactData = {
         ...(isEditing && contactData?.id && { id: contactData.id }),
-        bpcFirstName: data.fname,
-        bpcLastName: data.lname,
-        bpcContactEmail: data.email,
-        bpcContactAddressLine1: data.address1,
-        bpcContactAddressLine2: data.address2,
-        bpcContactPoBox: data.pobox,
-        bpcCountryMobCode: countryCodeValue,
-        bpcContactTelNo: data.telephoneno,
-        bpcContactMobNo: data.mobileno,
-        bpcContactFaxNo: data.fax,
+        arcFirstName: data.fname,
+        arcLastName: data.lname,
+        arcContactEmail: data.email,
+        arcContactAddressLine1: data.address1,
+        arcContactAddressLine2: data.address2,
+        arcContactPoBox: data.pobox,
+        arcCountryMobCode: countryCodeValue,
+        arcContactTelNo: data.telephoneno,
+        arcContactMobNo: data.mobileno,
+        arcContactFaxNo: data.fax,
 
         ...(isEditing && apiContactData
           ? {
-              enabled: true,
-              deleted: false,
-              workflowStatus:
-                (apiContactData as BuildPartnerContactResponse)
-                  .workflowStatus ?? null,
-            }
+            enabled: true,
+            deleted: false,
+            workflowStatus:
+              (apiContactData as BuildPartnerContactResponse)
+                .workflowStatus ?? null,
+          }
           : {}),
         ...(buildPartnerId && {
-          buildPartnerDTO: {
+          assetRegisterDTO: {
             id: parseInt(buildPartnerId),
           },
         }),
@@ -703,79 +703,79 @@ export const RightSlideContactDetailsPanel: React.FC<RightSlidePanelProps> = ({
           <Grid container rowSpacing={4} columnSpacing={2} mt={3}>
             {renderTextField(
               'fname',
-              getBuildPartnerLabelDynamic('CDL_BP_AUTH_FIRST_NAME'),
+              getBuildPartnerLabelDynamic('CDL_AR_AUTH_FIRST_NAME'),
               '',
-              6,
+              12,
               true
             )}
             {renderTextField(
               'lname',
-              getBuildPartnerLabelDynamic('CDL_BP_AUTH_LAST_NAME'),
+              getBuildPartnerLabelDynamic('CDL_AR_AUTH_LAST_NAME'),
               '',
-              6,
+              12,
               true
             )}
             {renderTextField(
               'email',
-              getBuildPartnerLabelDynamic('CDL_BP_EMAIL_ADDRESS'),
+              getBuildPartnerLabelDynamic('CDL_AR_EMAIL_ADDRESS'),
               '',
               12,
               true
             )}
             {renderTextField(
               'address1',
-              getBuildPartnerLabelDynamic('CDL_BP_ADDRESS_LINE1'),
+              getBuildPartnerLabelDynamic('CDL_AR_ADDRESS_LINE1'),
               '',
               12,
               true
             )}
             {renderTextField(
               'address2',
-              getBuildPartnerLabelDynamic('CDL_BP_ADDRESS_LINE2'),
+              getBuildPartnerLabelDynamic('CDL_AR_ADDRESS_LINE2'),
               '',
               12,
               false
             )}
             {renderTextField(
               'pobox',
-              getBuildPartnerLabelDynamic('CDL_BP_POBOX'),
+              getBuildPartnerLabelDynamic('CDL_AR_POBOX'),
               '',
               12,
               false
             )}
             {countryCodes.length > 0
               ? renderApiSelectField(
-                  'countrycode',
-                  getBuildPartnerLabelDynamic('CDL_BP_COUNTRY_CODE'),
-                  countryCodes,
-                  6,
-                  true,
-                  countryCodesLoading
-                )
+                'countrycode',
+                getBuildPartnerLabelDynamic('CDL_AR_COUNTRY_CODE'),
+                countryCodes,
+                12,
+                true,
+                countryCodesLoading
+              )
               : renderSelectField(
-                  'countrycode',
-                  getBuildPartnerLabelDynamic('CDL_BP_COUNTRY_CODE'),
-                  ['+971', '+1', '+44', '+91'],
-                  6,
-                  true
-                )}
+                'countrycode',
+                getBuildPartnerLabelDynamic('CDL_AR_COUNTRY_CODE'),
+                ['+971', '+1', '+44', '+91'],
+                12,
+                true
+              )}
             {renderTextField(
               'telephoneno',
-              getBuildPartnerLabelDynamic('CDL_BP_TELEPHONE_NUMBER'),
+              getBuildPartnerLabelDynamic('CDL_AR_TELEPHONE_NUMBER'),
               '',
-              6,
+              12,
               false
             )}
             {renderTextField(
               'mobileno',
-              getBuildPartnerLabelDynamic('CDL_BP_MOBILE_NUMBER'),
+              getBuildPartnerLabelDynamic('CDL_AR_MOBILE_NUMBER'),
               '',
-              6,
+              12,
               true
             )}
             {renderTextField(
               'fax',
-              getBuildPartnerLabelDynamic('CDL_BP_FAX_NUMBER'),
+              getBuildPartnerLabelDynamic('CDL_AR_FAX_NUMBER'),
               '',
               12,
               false
@@ -816,8 +816,8 @@ export const RightSlideContactDetailsPanel: React.FC<RightSlidePanelProps> = ({
                   lineHeight: '20px',
                   letterSpacing: 0,
                   borderWidth: '1px',
-                  borderColor: theme.palette.mode === 'dark' 
-                    ? theme.palette.primary.main 
+                  borderColor: theme.palette.mode === 'dark'
+                    ? theme.palette.primary.main
                     : undefined,
                 }}
               >
@@ -842,13 +842,13 @@ export const RightSlideContactDetailsPanel: React.FC<RightSlidePanelProps> = ({
                   color: theme.palette.primary.contrastText,
                   borderWidth: '1px',
                   borderStyle: 'solid',
-                  borderColor: theme.palette.mode === 'dark' 
-                    ? theme.palette.primary.main 
+                  borderColor: theme.palette.mode === 'dark'
+                    ? theme.palette.primary.main
                     : 'transparent',
                   '&:hover': {
                     backgroundColor: theme.palette.primary.dark,
-                    borderColor: theme.palette.mode === 'dark' 
-                      ? theme.palette.primary.main 
+                    borderColor: theme.palette.mode === 'dark'
+                      ? theme.palette.primary.main
                       : 'transparent',
                   },
                   '&:disabled': {
@@ -856,8 +856,8 @@ export const RightSlideContactDetailsPanel: React.FC<RightSlidePanelProps> = ({
                       theme.palette.mode === 'dark'
                         ? alpha(theme.palette.grey[600], 0.5)
                         : theme.palette.grey[300],
-                    borderColor: theme.palette.mode === 'dark' 
-                      ? alpha(theme.palette.primary.main, 0.5) 
+                    borderColor: theme.palette.mode === 'dark'
+                      ? alpha(theme.palette.primary.main, 0.5)
                       : 'transparent',
                     color: theme.palette.text.disabled,
                   },

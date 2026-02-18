@@ -81,12 +81,12 @@ export interface UpdateBuildPartnerRequest {
 
 export interface BuildPartnerFilters {
   status?:
-    | 'PENDING'
-    | 'APPROVED'
-    | 'REJECTED'
-    | 'IN_PROGRESS'
-    | 'DRAFT'
-    | 'INITIATED'
+  | 'PENDING'
+  | 'APPROVED'
+  | 'REJECTED'
+  | 'IN_PROGRESS'
+  | 'DRAFT'
+  | 'INITIATED'
   name?: string
   developerId?: string
 }
@@ -135,12 +135,12 @@ export interface BuildPartnerUIData {
   lastUpdated?: string | undefined
   contactPerson?: string | undefined
   documents?:
-    | Array<{
-        name: string
-        type: string
-        url: string
-      }>
-    | undefined
+  | Array<{
+    name: string
+    type: string
+    url: string
+  }>
+  | undefined
 }
 
 // Utility function to map API BuildPartner to UI BuildPartnerUIData
@@ -171,20 +171,20 @@ export const mapBuildPartnerToUIData = (
 
 export interface BuildPartnerContactData {
   id?: number | string
-  bpcFirstName: string
-  bpcLastName: string
-  bpcContactEmail: string
-  bpcContactAddressLine1: string
-  bpcContactAddressLine2: string
-  bpcContactPoBox: string
-  bpcCountryMobCode: string
-  bpcContactTelNo: string
-  bpcContactMobNo: string
-  bpcContactFaxNo: string
+  arcFirstName: string
+  arcLastName: string
+  arcContactEmail: string
+  arcContactAddressLine1: string
+  arcContactAddressLine2: string
+  arcContactPoBox: string
+  arcCountryMobCode: string
+  arcContactTelNo: string
+  arcContactMobNo: string
+  arcContactFaxNo: string
   enabled?: boolean
   deleted?: boolean | null
   workflowStatus?: string | null
-  buildPartnerDTO?: {
+  assetRegisterDTO?: {
     id?: number
   }
 }

@@ -367,7 +367,7 @@ const DevelopersPageImpl: React.FC = () => {
             <>
               <div className="sticky top-0 z-10 border-b border-gray-200 bg-white/75 dark:bg-gray-800/80 dark:border-gray-700 rounded-t-2xl">
                 <PageActionButtons
-                  entityType="budget"
+                  entityType="developer"
                   customActionButtons={actionButtons}
                   onDownloadTemplate={handleDownloadTemplate}
                   isDownloading={isDownloading}

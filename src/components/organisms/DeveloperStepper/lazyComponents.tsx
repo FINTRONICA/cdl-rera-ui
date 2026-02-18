@@ -29,8 +29,6 @@ const useIsDarkMode = () => {
 const Step1 = lazy(() => import('./steps/Step1'))
 const Step2 = lazy(() => import('./steps/Step2'))
 const Step3 = lazy(() => import('./steps/Step3'))
-const Step4 = lazy(() => import('./steps/Step4'))
-const Step5 = lazy(() => import('./steps/Step5'))
 const DocumentUploadStep = lazy(() => import('./steps/DocumentUploadStep'))
 
 const StepLoadingFallback = () => {
@@ -108,8 +106,6 @@ export const preloadSteps = {
   step1: () => import('./steps/Step1'),
   step2: () => import('./steps/Step2'),
   step3: () => import('./steps/Step3'),
-  step4: () => import('./steps/Step4'),
-  step5: () => import('./steps/Step5'),
   documentUpload: () => import('./steps/DocumentUploadStep'),
 }
 
@@ -119,8 +115,7 @@ export const preloadNextStep = (currentStep: number) => {
     0: preloadSteps.step2,
     1: preloadSteps.documentUpload,
     2: preloadSteps.step3,
-    3: preloadSteps.step4,
-    4: preloadSteps.step5,
+   
   }
 
   const preloadFn = preloadMap[currentStep]
@@ -136,8 +131,6 @@ export {
   Step1,
   Step2,
   Step3,
-  Step4,
-  Step5,
   DocumentUploadStep,
   LazyStepWrapper,
   StepLoadingFallback,
