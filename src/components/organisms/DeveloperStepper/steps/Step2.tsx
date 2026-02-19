@@ -1,7 +1,7 @@
 'use client'
 
-import React, { useState, useCallback, useMemo } from 'react'
-import { Box, Card, CardContent, Button, useTheme } from '@mui/material'
+import React, { useState, useCallback, useMemo, useEffect } from 'react'
+import { Box, Card, CardContent, Button, useTheme, CircularProgress, Typography } from '@mui/material'
 import { alpha } from '@mui/material/styles'
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
@@ -62,36 +62,54 @@ interface Step2Props {
 //   }
 // }
 
+const emptyDisplay = '-'
+
 const mapApiContactToContactData = (
   apiContact: BuildPartnerContactResponse
-): ContactData => ({
-  id: apiContact.id,
-  arcContactName: apiContact.arcContactName ?? null,
-  arcFirstName: apiContact.arcFirstName ?? null,
-  arcLastName: apiContact.arcLastName ?? null,
-  arcContactTelCode: apiContact.arcContactTelCode ?? null,
-  arcContactTelNo: apiContact.arcContactTelNo ?? null,
-  arcCountryMobCode: apiContact.arcCountryMobCode ?? null,
-  arcContactMobNo: apiContact.arcContactMobNo ?? null,
-  arcContactEmail: apiContact.arcContactEmail ?? null,
-  arcContactAddress: apiContact.arcContactAddress ?? null,
-  arcContactAddressLine1: apiContact.arcContactAddressLine1 ?? null,
-  arcContactAddressLine2: apiContact.arcContactAddressLine2 ?? null,
-  arcContactPoBox: apiContact.arcContactPoBox ?? null,
-  arcContactFaxNo: apiContact.arcContactFaxNo ?? null,
-  enabled: apiContact.enabled ?? false,
-  workflowStatus: apiContact.workflowStatus ?? null,
-  deleted: apiContact.deleted ?? null,
-  ...(apiContact.assetRegisterDTO && {
-    assetRegisterDTO: {
-      id: apiContact.assetRegisterDTO.id,
-      enabled:
-        (apiContact.assetRegisterDTO as { enabled?: boolean }).enabled ?? true,
-      deleted:
-        (apiContact.assetRegisterDTO as { deleted?: boolean }).deleted ?? false,
-    },
-  }),
-})
+): ContactData => {
+  const firstName = apiContact.arcFirstName ?? apiContact.bpcFirstName ?? ''
+  const lastName = apiContact.arcLastName ?? apiContact.bpcLastName ?? ''
+  const address1 = apiContact.arcContactAddressLine1 ?? apiContact.bpcContactAddressLine1 ?? ''
+  const address2 = apiContact.arcContactAddressLine2 ?? apiContact.bpcContactAddressLine2 ?? ''
+  const email = apiContact.arcContactEmail ?? apiContact.bpcContactEmail ?? ''
+  const name = `${firstName} ${lastName}`.trim()
+  const address = `${address1} ${address2}`.trim()
+  const pobox = apiContact.arcContactPoBox ?? apiContact.bpcContactPoBox ?? ''
+  const countrycode = apiContact.arcCountryMobCode ?? apiContact.bpcCountryMobCode ?? ''
+  const mobileno = apiContact.arcContactMobNo ?? apiContact.bpcContactMobNo ?? ''
+  const telephoneno = apiContact.arcContactTelNo ?? apiContact.bpcContactTelNo ?? ''
+  const fax = apiContact.arcContactFaxNo ?? apiContact.bpcContactFaxNo ?? ''
+  return {
+    id: apiContact.id,
+    name: name || emptyDisplay,
+    address: address || emptyDisplay,
+    email: email || emptyDisplay,
+    pobox: pobox || emptyDisplay,
+    countrycode: countrycode || emptyDisplay,
+    mobileno: mobileno || emptyDisplay,
+    telephoneno: telephoneno || emptyDisplay,
+    fax: fax || emptyDisplay,
+    arcContactName: apiContact.arcContactName ?? null,
+    arcFirstName: firstName ?? null,
+    arcLastName: lastName ?? null,
+    arcContactTelCode: apiContact.arcContactTelCode ?? null,
+    arcContactTelNo: apiContact.arcContactTelNo ?? null,
+    arcCountryMobCode: apiContact.arcCountryMobCode ?? null,
+    arcContactMobNo: apiContact.arcContactMobNo ?? null,
+    arcContactEmail: email ?? null,
+    arcContactAddress: apiContact.arcContactAddress ?? null,
+    arcContactAddressLine1: address1 ?? null,
+    arcContactAddressLine2: address2 ?? null,
+    arcContactPoBox: apiContact.arcContactPoBox ?? null,
+    arcContactFaxNo: apiContact.arcContactFaxNo ?? null,
+    enabled: apiContact.enabled ?? false,
+    workflowStatus: apiContact.workflowStatus ?? null,
+    deleted: apiContact.deleted ?? null,
+    ...(apiContact.assetRegisterDTO && {
+      assetRegisterDTO: { id: apiContact.assetRegisterDTO.id },
+    }),
+  } as ContactData
+}
 
 const Step2: React.FC<Step2Props> = ({
   contactData,
@@ -154,6 +172,7 @@ const Step2: React.FC<Step2Props> = ({
 
   const {
     data: apiContactsResponse,
+    isLoading: contactsLoading,
     refetch: refetchContacts,
     updatePagination,
     apiPagination,
@@ -163,6 +182,58 @@ const Step2: React.FC<Step2Props> = ({
     apiContactsResponse?.content && apiContactsResponse.content.length > 0
       ? apiContactsResponse.content.map(mapApiContactToContactData)
       : contactData || []
+
+  // Ensure every contact has table display fields (pobox, countrycode, etc.) and show '-' when empty
+  const contactsForTable: ContactData[] = useMemo(
+    () =>
+      contacts.map((c) => {
+        const name =
+          c.name ?? `${(c.arcFirstName ?? '')} ${(c.arcLastName ?? '')}`.trim()
+        const address =
+          c.address ??
+          [c.arcContactAddressLine1, c.arcContactAddressLine2]
+            .filter(Boolean)
+            .join(' ')
+            .trim()
+        const email = c.arcContactEmail ?? c.email ?? ''
+        const pobox = c.arcContactPoBox ?? c.pobox ?? ''
+        const countrycode = c.arcCountryMobCode ?? c.countrycode ?? ''
+        const mobileno = c.arcContactMobNo ?? c.mobileno ?? ''
+        const telephoneno = c.arcContactTelNo ?? c.telephoneno ?? ''
+        const fax = c.arcContactFaxNo ?? c.fax ?? ''
+        return {
+          ...c,
+          name: name || emptyDisplay,
+          address: address || emptyDisplay,
+          email: email || emptyDisplay,
+          pobox: pobox || emptyDisplay,
+          countrycode: countrycode || emptyDisplay,
+          mobileno: mobileno || emptyDisplay,
+          telephoneno: telephoneno || emptyDisplay,
+          fax: fax || emptyDisplay,
+        }
+      }),
+    [contacts]
+  )
+
+  // Sync form with API: hydrate when API has data, clear when API returns empty (e.g. after refresh or switch to another asset)
+  useEffect(() => {
+    if (!buildPartnerId || apiContactsResponse === undefined) return
+
+    const content = apiContactsResponse?.content
+    const hasContent = Array.isArray(content) && content.length > 0
+
+    if (hasContent && (!contactData || contactData.length === 0)) {
+      onFeesChange(content.map(mapApiContactToContactData))
+    } else if (!hasContent && contactData && contactData.length > 0) {
+      onFeesChange([])
+    }
+  }, [
+    buildPartnerId,
+    apiContactsResponse,
+    contactData,
+    onFeesChange,
+  ])
 
   const addContact = () => {
     setEditMode('add')
@@ -317,7 +388,7 @@ const Step2: React.FC<Step2Props> = ({
     handleRowSelectionChange,
     handleRowExpansionChange,
   } = useTableState({
-    data: contacts,
+    data: contactsForTable,
     searchFields: [
       'name',
       'address',
@@ -333,16 +404,14 @@ const Step2: React.FC<Step2Props> = ({
 
   // Filter contacts based on search state when buildPartnerId exists (client-side filtering)
   const filteredContacts = useMemo(() => {
-    if (!buildPartnerId) return contacts
+    if (!buildPartnerId) return contactsForTable
 
-    // Check if there are any search values
     const hasSearchValues = Object.values(search).some(
       (val) => val.trim() !== ''
     )
-    if (!hasSearchValues) return contacts
+    if (!hasSearchValues) return contactsForTable
 
-    // Filter contacts based on search state (same logic as useTableState)
-    return contacts.filter((contact) => {
+    return contactsForTable.filter((contact) => {
       return [
         'name',
         'address',
@@ -362,7 +431,7 @@ const Step2: React.FC<Step2Props> = ({
         return valueLower.includes(searchLower)
       })
     })
-  }, [contacts, search, buildPartnerId])
+  }, [contactsForTable, search, buildPartnerId])
 
   const page = buildPartnerId ? currentPage + 1 : localPage
   const rowsPerPage = buildPartnerId ? currentPageSize : localRowsPerPage
@@ -442,33 +511,51 @@ const Step2: React.FC<Step2Props> = ({
               </Button>
             )}
           </Box>
-          <ExpandableDataTable<ContactData>
-            data={buildPartnerId ? filteredContacts : paginated}
-            columns={tableColumns}
-            searchState={search}
-            onSearchChange={handleSearchChange}
-            paginationState={{
-              page,
-              rowsPerPage,
-              totalRows,
-              totalPages,
-              startItem,
-              endItem,
-            }}
-            onPageChange={handlePageChange}
-            onRowsPerPageChange={handleRowsPerPageChange}
-            selectedRows={selectedRows}
-            onRowSelectionChange={handleRowSelectionChange}
-            expandedRows={expandedRows}
-            onRowExpansionChange={handleRowExpansionChange}
-            {...(!isReadOnly && {
-              onRowEdit: handleEdit,
-              onRowDelete: handleDelete,
-            })}
-            showEditAction={!isReadOnly}
-            showDeleteAction={!isReadOnly}
-            showViewAction={false}
-          />
+          {buildPartnerId && contactsLoading ? (
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                py: 6,
+                gap: 2,
+              }}
+            >
+              <CircularProgress size={40} />
+              <Typography variant="body2" color="text.secondary">
+                Loading contacts…
+              </Typography>
+            </Box>
+          ) : (
+            <ExpandableDataTable<ContactData>
+              data={buildPartnerId ? filteredContacts : paginated}
+              columns={tableColumns}
+              searchState={search}
+              onSearchChange={handleSearchChange}
+              paginationState={{
+                page,
+                rowsPerPage,
+                totalRows,
+                totalPages,
+                startItem,
+                endItem,
+              }}
+              onPageChange={handlePageChange}
+              onRowsPerPageChange={handleRowsPerPageChange}
+              selectedRows={selectedRows}
+              onRowSelectionChange={handleRowSelectionChange}
+              expandedRows={expandedRows}
+              onRowExpansionChange={handleRowExpansionChange}
+              {...(!isReadOnly && {
+                onRowEdit: handleEdit,
+                onRowDelete: handleDelete,
+              })}
+              showEditAction={!isReadOnly}
+              showDeleteAction={!isReadOnly}
+              showViewAction={false}
+            />
+          )}
         </CardContent>
       </Card>
       <RightSlideContactDetailsPanel

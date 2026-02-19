@@ -62,7 +62,7 @@ function DeveloperStepPageContent() {
 
   if (isValidating || isLoadingData) {
     return (
-      <DashboardLayout title="Build Partner Details" subtitle="">
+      <DashboardLayout title="Asset Registry / Developer Details" subtitle="">
         <div className="bg-white/75 dark:bg-[#101828] rounded-2xl flex flex-col h-full">
           <GlobalLoading fullHeight />
         </div>
@@ -73,8 +73,8 @@ function DeveloperStepPageContent() {
   if (error) {
     return (
       <DashboardLayout
-        title="Build Partner Details"
-        subtitle="Error loading build partner details"
+        title="Asset Registry / Developer Details"
+        subtitle="Error loading developer details"
       >
         <div className="p-6 text-red-600 dark:text-red-400">
           <p>Error: {error}</p>
@@ -85,30 +85,30 @@ function DeveloperStepPageContent() {
 
   return (
     <DashboardLayout
-      title="Build Partner Details"
+      title="Asset Registry / Developer Details"
       subtitle={
         isViewMode
-          ? 'View build partner details and configuration (Read-only)'
+          ? 'View developer details and configuration (Read-only)'
           : isEditingMode
-            ? 'Edit build partner details and configuration'
+            ? 'Edit developer details and configuration'
             : 'Register your developer step by step, non-mandatory fields and steps are easy to skip.'
       }
     >
       <div className="flex items-start py-2 gap-7 px-7">
         <div className="flex flex-col min-w-[200px] gap-1">
           <label className="font-sans font-normal text-[12px] leading-[1] tracking-normal text-gray-600 dark:text-gray-400">
-            Build Partner Name
+            Developer Name
           </label>
           <span className="font-outfit font-normal text-[16px] leading-[1] tracking-normal align-middle text-gray-900 dark:text-gray-100">
-            {buildPartnerData?.bpName || 'N/A'}
+            {buildPartnerData?.arName || 'N/A'}
           </span>
         </div>
         <div className="flex flex-col min-w-[200px] gap-1">
           <label className="font-sans font-normal text-[12px] leading-[1] tracking-normal text-gray-600 dark:text-gray-400">
-            Build Partner CIF
+            Developer CIF
           </label>
           <span className="font-outfit font-normal text-[16px] leading-[1] tracking-normal align-middle text-gray-900 dark:text-gray-100">
-            {buildPartnerData?.bpCifrera || 'N/A'}
+            {buildPartnerData?.arCifrera || 'N/A'}
           </span>
         </div>
       </div>
@@ -127,7 +127,7 @@ export default function DeveloperStepPage() {
   return (
     <Suspense
       fallback={
-        <DashboardLayout title="Build Partner Details" subtitle="">
+        <DashboardLayout title="Asset Registry / Developer Details" subtitle="">
           <div className="bg-white/75 dark:bg-[#101828] rounded-2xl flex flex-col h-full">
             <GlobalLoading fullHeight />
           </div>

@@ -71,27 +71,31 @@ export interface PaginatedDocumentResponse {
 
 export interface BuildPartnerData {
   id: number
-  bpDeveloperId: string
-  bpCifrera: string | null
-  bpDeveloperRegNo: string
-  bpName: string | null
-  bpMasterName: string | null
-  bpNameLocal: string | null
-  bpOnboardingDate: string | null
-  bpContactAddress: string | null
-  bpContactTel: string | null
-  bpPoBox: string | null
-  bpMobile: string | null
-  bpFax: string | null
-  bpEmail: string | null
-  bpLicenseNo: string | null
-  bpLicenseExpDate: string | null
-  bpWorldCheckFlag: boolean | null
-  bpWorldCheckRemarks: string | null
-  bpMigratedData: boolean | null
-  bpremark: string | null
-  bpRegulatorDTO: unknown | null
-  bpActiveStatusDTO: unknown | null
+  arDeveloperId: string
+  arCifrera: string | null
+  arDeveloperRegNo: string
+  arName: string | null
+  arMasterName: string | null
+  arNameLocal: string | null
+  arOnboardingDate: string | null
+  arContactAddress: string | null
+  arContactTel: string | null
+  arPoBox: string | null
+  arMobile: string | null
+  arFax: string | null
+  arEmail: string | null
+  arLicenseNo: string | null
+  arLicenseExpDate: string | null
+  arWorldCheckFlag: boolean | null
+  arWorldCheckRemarks: string | null
+  arMigratedData: boolean | null
+  arRemark: string | null
+  arRegulatorDTO: unknown | null
+  arActiveStatusDTO?: unknown | null
+  arProjectName?: string | null
+  arCompanyNumber?: string | null
+  arMasterCommunity?: string | null
+  arMasterDeveloper?: string | null
 }
 
 export interface ProjectDetailsData {
@@ -140,17 +144,26 @@ export interface AccountData {
 
 export interface ContactData extends Record<string, unknown> {
   id?: number | string
-  name: string
-  address: string
-  email: string
-  pobox: string
-  countrycode: string
-  mobileno: string
-  telephoneno: string
-  fax: string
-  buildPartnerDTO?: {
-    id: number
-  }
+  name?: string
+  address?: string
+  email?: string
+  pobox?: string
+  countrycode?: string
+  mobileno?: string
+  telephoneno?: string
+  fax?: string
+  assetRegisterDTO?: { id: number }
+  buildPartnerDTO?: { id: number }
+  arcFirstName?: string
+  arcLastName?: string
+  arcContactEmail?: string
+  arcContactAddressLine1?: string
+  arcContactAddressLine2?: string
+  arcContactPoBox?: string
+  arcCountryMobCode?: string
+  arcContactTelNo?: string
+  arcContactMobNo?: string
+  arcContactFaxNo?: string
 }
 
 export interface FeeData extends Record<string, unknown> {
@@ -163,9 +176,8 @@ export interface FeeData extends Record<string, unknown> {
   feePercentage: string
   amount: string
   vatPercentage: string
-  buildPartnerDTO?: {
-    id: number
-  }
+  assetRegisterDTO?: { id: number }
+  buildPartnerDTO?: { id: number }
 }
 
 export interface BeneficiaryData extends Record<string, unknown> {
@@ -176,9 +188,8 @@ export interface BeneficiaryData extends Record<string, unknown> {
   swiftCode: string
   routingCode: string
   account: string
-  buildPartnerDTO?: {
-    id: number
-  }
+  assetRegisterDTO?: { id: number }
+  buildPartnerDTO?: { id: number }
   bpbTransferTypeDTO?: {
     id: number
     settingKey: string
@@ -222,29 +233,31 @@ export interface FinancialData {
 }
 
 export interface ProjectData extends ProjectDetailsData {
-  // Step 1: Build Partner Details
-  bpDeveloperId: string
-  bpCifrera: string
-  bpDeveloperRegNo: string
-  bpName: string
-  bpMasterName: string
-  bpNameLocal: string
-  bpOnboardingDate: Dayjs | null
-  bpContactAddress: string
-  bpContactTel: string
-  bpPoBox: string
-  bpMobile: string
-  bpFax: string
-  bpEmail: string
-  bpLicenseNo: string
-  bpLicenseExpDate: Dayjs | null
-  bpWorldCheckFlag: boolean
-  bpWorldCheckRemarks: string
-  bpMigratedData: boolean
-  bpremark: string
-  bpRegulatorDTO: {
-    id: number
-  }
+  // Step 1: Asset Registry / Developer Details (ar*)
+  arDeveloperId: string
+  arCifrera: string
+  arDeveloperRegNo: string
+  arName: string
+  arMasterName: string
+  arNameLocal: string
+  arOnboardingDate: Dayjs | null
+  arContactAddress: string
+  arContactTel: string
+  arPoBox: string
+  arMobile: string
+  arFax: string
+  arEmail: string
+  arLicenseNo: string
+  arLicenseExpDate: Dayjs | null
+  arWorldCheckFlag: boolean
+  arWorldCheckRemarks: string
+  arMigratedData: boolean
+  arRemark: string
+  arRegulatorDTO: { id: number }
+  arProjectName?: string
+  arCompanyNumber?: string
+  arMasterCommunity?: string
+  arMasterDeveloper?: string
 
   // Step 2: Documents (Optional)
   documents: DocumentItem[]

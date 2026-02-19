@@ -1,8 +1,11 @@
 // API Base URL and Version
+// Working contact list URL: https://103.181.200.143/hoa/api/v1/asset-register-contact?assetRegisterId.equals=252&deleted.equals=false&enabled.equals=true&page=0&size=20
+// If contacts don't load in the app: ensure NEXT_PUBLIC_API_URL is NOT set to a different base (e.g. with :2022 or without /hoa), or set it to https://103.181.200.143/hoa
 export const API_CONFIG = {
-  // BASE_URL: process.env.NEXT_PUBLIC_API_URL || 'https://103.181.200.143:2021',
-  BASE_URL: process.env.NODE_ENV === 'production' ? '/hoa' : (process.env.NEXT_PUBLIC_API_URL || 'https://103.181.200.143:2021'),
-    // BASE_URL: process.env.NODE_ENV === 'production' ? '/hoa' : (process.env.NEXT_PUBLIC_API_URL || 'https://103.181.200.143:2022'),
+  BASE_URL:
+    process.env.NODE_ENV === 'production'
+      ? '/hoa'
+      : process.env.NEXT_PUBLIC_API_URL || 'https://103.181.200.143/hoa',
 
   VERSION: 'v1',
   API_PREFIX: '/api/v1',
@@ -50,7 +53,7 @@ export const API_ENDPOINTS = {
     SAVE: '/app-language-translation',
     FIND_ALL: '/app-language-translation/find-all',
     NAV_MENU: '/app-language-translation/nav-menu',
-    BUILD_PARTNER: '/app-language-translation/build-partner',
+    // BUILD_PARTNER: '/app-language-translation/build-partner',
     BUILD_PARTNER_ASSET: '/app-language-translation/build-partner-assests',
     CAPITAL_PARTNER: '/app-language-translation/capital-partner',
     WORKFLOW_ACTIONS: '/app-language-translation/workflow',
@@ -277,67 +280,68 @@ export const API_ENDPOINTS = {
   // },
 
 
-  // ASSET REGISTER APIs
+  // ASSET REGISTER APIs (backend path is asset-register, not asset-registry)
     ASSET_REGISTER: {
-      GET_BY_ID: (id: string) => `/asset-registry/${id}`,
-      UPDATE: (id: string) => `/asset-registry/${id}`,
-      DELETE: (id: string) => `/asset-registry/${id}`,
-      SOFT_DELETE: (id: string) => `/asset-registry/soft/${id}`,
-      GET_ALL: '/asset-registry?deleted.equals=false&enabled.equals=true',
-      SAVE: '/asset-registry',
+      GET_BY_ID: (id: string) => `/asset-register/${id}`,
+      UPDATE: (id: string) => `/asset-register/${id}`,
+      DELETE: (id: string) => `/asset-register/${id}`,
+      SOFT_DELETE: (id: string) => `/asset-register/soft/${id}`,
+      LIST: '/asset-register',
+      GET_ALL: '/asset-register?deleted.equals=false&enabled.equals=true',
+      SAVE: '/asset-register',
       FIND_ALL:
-        '/asset-registry/find-all?deleted.equals=false&enabled.equals=true',
+        '/asset-register/find-all?deleted.equals=false&enabled.equals=true',
     },
 
     ASSET_REGISTER_CREATE: {
-      DETAILS_SAVE: '/asset-registry',
-      CONTACT_SAVE: '/asset-registry-contact',
-      FEES_SAVE: '/asset-registry-fees',
-      BENEFICIARY_SAVE: '/asset-registry-beneficiary',
-      REVIEW_SAVE: '/asset-registry-review',
-      GET_STEP_DATA: (step: number) => `/asset-registry/create/${step}/data`,
-      VALIDATE_STEP: (step: number) => `/asset-registry/create/${step}/validate`,
+      DETAILS_SAVE: '/asset-register',
+      CONTACT_SAVE: '/asset-register-contact',
+      FEES_SAVE: '/asset-register-fees',
+      BENEFICIARY_SAVE: '/asset-register-beneficiary',
+      REVIEW_SAVE: '/asset-register-review',
+      GET_STEP_DATA: (step: number) => `/asset-register/create/${step}/data`,
+      VALIDATE_STEP: (step: number) => `/asset-register/create/${step}/validate`,
     },
 
     ASSET_REGISTER_CONTACT: {
       GET_BY_ID: (id: string) =>
-        `/asset-registry-contact?assetRegisterId.equals=${id}&deleted.equals=false&enabled.equals=true`,
-      UPDATE: (id: string) => `/asset-registry-contact/${id}`,
-      DELETE: (id: string) => `/asset-registry-contact/${id}`,
-      SOFT_DELETE: (id: string) => `/asset-registry-contact/soft/${id}`,
-      SAVE: '/asset-registry-contact',
-      FIND_ALL: '/asset-registry-contact/find-all',
+        `/asset-register-contact?assetRegisterId.equals=${id}&deleted.equals=false&enabled.equals=true`,
+      UPDATE: (id: string) => `/asset-register-contact/${id}`,
+      DELETE: (id: string) => `/asset-register-contact/${id}`,
+      SOFT_DELETE: (id: string) => `/asset-register-contact/soft/${id}`,
+      SAVE: '/asset-register-contact',
+      FIND_ALL: '/asset-register-contact/find-all',
     },
 
     ASSET_REGISTER_BENEFICIARY: {
       GET_BY_ID: (id: string) =>
-        `/asset-registry-beneficiary?assetRegisterId.equals=${id}&deleted.equals=false&enabled.equals=true`,
-      UPDATE: (id: string) => `/asset-registry-beneficiary/${id}`,
-      DELETE: (id: string) => `/asset-registry-beneficiary/${id}`,
-      SOFT_DELETE: (id: string) => `/asset-registry-beneficiary/soft/${id}`,
-      SAVE: '/asset-registry-beneficiary',
-      FIND_ALL: '/asset-registry-beneficiary/find-all',
-      UPLOAD: '/asset-registry-beneficiary/upload',
+        `/asset-register-beneficiary?assetRegisterId.equals=${id}&deleted.equals=false&enabled.equals=true`,
+      UPDATE: (id: string) => `/asset-register-beneficiary/${id}`,
+      DELETE: (id: string) => `/asset-register-beneficiary/${id}`,
+      SOFT_DELETE: (id: string) => `/asset-register-beneficiary/soft/${id}`,
+      SAVE: '/asset-register-beneficiary',
+      FIND_ALL: '/asset-register-beneficiary/find-all',
+      UPLOAD: '/asset-register-beneficiary/upload',
     },
 
     ASSET_REGISTER_FEES: {
       GET_BY_ID: (id: string) =>
-        `/asset-registry-fees?assetRegisterId.equals=${id}&deleted.equals=false&enabled.equals=true`,
-      GET_FEE_BY_ID: (feeId: string) => `/asset-registry-fees/${feeId}`,
-      UPDATE: (id: string) => `/asset-registry-fees/${id}`,
-      DELETE: (id: string) => `/asset-registry-fees/${id}`,
-      SOFT_DELETE: (id: string) => `/asset-registry-fees/soft/${id}`,
-      GET_ALL: '/asset-registry-fees',
-      SAVE: '/asset-registry-fees',
-      FIND_ALL: '/asset-registry-fees/find-all',
+        `/asset-register-fees?assetRegisterId.equals=${id}&deleted.equals=false&enabled.equals=true`,
+      GET_FEE_BY_ID: (feeId: string) => `/asset-register-fees/${feeId}`,
+      UPDATE: (id: string) => `/asset-register-fees/${id}`,
+      DELETE: (id: string) => `/asset-register-fees/${id}`,
+      SOFT_DELETE: (id: string) => `/asset-register-fees/soft/${id}`,
+      GET_ALL: '/asset-register-fees',
+      SAVE: '/asset-register-fees',
+      FIND_ALL: '/asset-register-fees/find-all',
     },
   
     ASSET_REGISTER_ACCOUNT: {
-      GET_BY_ID: (id: string) => `/asset-registry-account/${id}`,
-      UPDATE: (id: string) => `/asset-registry-account/${id}`,
-      DELETE: (id: string) => `/asset-registry-account/${id}`,
-      SAVE: '/asset-registry-account',
-      FIND_ALL: '/asset-registry-account/find-all',
+      GET_BY_ID: (id: string) => `/asset-register-account/${id}`,
+      UPDATE: (id: string) => `/asset-register-account/${id}`,
+      DELETE: (id: string) => `/asset-register-account/${id}`,
+      SAVE: '/asset-register-account',
+      FIND_ALL: '/asset-register-account/find-all',
     },
     // END ASSET REGISTER APIs
   

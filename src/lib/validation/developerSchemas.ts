@@ -26,90 +26,96 @@ const dayjsSchema = z.preprocess(
     .nullable()
 )
 
-// Developer Step 1: Basic Details Schema
+// Developer Step 1: Basic Details Schema (Asset Registry keys: ar*)
 export const DeveloperStep1Schema = z.object({
-  // Build Partner CIF - mandatory field
-  bpCifrera: z
+  // Asset Registry CIF - mandatory field
+  arCifrera: z
     .string()
-    .min(1, 'Build Partner CIF is required')
+    .min(1, 'Asset Registry CIF is required')
     .max(8, 'CIF must be 8 digits or less')
     .regex(/^\d+$/, 'CIF must be numerical'),
 
   // Developer ID - mandatory
-  bpDeveloperId: z
+  arDeveloperId: z
     .string()
-    .min(1, 'Build Partner ID is required')
-    .max(30, 'Build Partner ID must be 30 characters or less'),
+    .min(1, 'Asset Registry Developer ID is required')
+    .max(30, 'Developer ID must be 30 characters or less'),
 
   // Developer Registration no. - mandatory
-  bpDeveloperRegNo: z
+  arDeveloperRegNo: z
     .string()
-    .min(1, 'Build Partner Registration number is required')
-    .max(14, 'Build Partner Registration number must be 14 characters or less'),
+    .min(1, 'Developer Registration number is required')
+    .max(14, 'Developer Registration number must be 14 characters or less'),
 
   // Developer Name (English) - mandatory
-  bpName: z
+  arName: z
     .string()
-    .min(1, 'Build Partner Name (English) is required')
-    .max(100, 'Build Partner Name (English) must be 100 characters or less'),
+    .min(1, 'Developer Name (English) is required')
+    .max(100, 'Developer Name (English) must be 100 characters or less'),
 
   // Developer Name (Local) - mandatory
-  bpNameLocal: z
+  arNameLocal: z
     .string()
-    .min(1, 'Build Partner Name (Local) is required')
-    .max(35, 'Build Partner Name (Local) must be 35 characters or less'),
+    .min(1, 'Developer Name (Local) is required')
+    .max(35, 'Developer Name (Local) must be 35 characters or less'),
+
+  // New AR fields - optional
+  arProjectName: z.string().max(100).optional().or(z.literal('')),
+  arCompanyNumber: z.string().max(50).optional().or(z.literal('')),
+  arMasterCommunity: z.string().max(100).optional().or(z.literal('')),
+  arMasterDeveloper: z.string().max(100).optional().or(z.literal('')),
 
   // Parent Developer Name - optional
-  bpMasterName: z
+  arMasterName: z
     .string()
-    .max(35, 'Parent Build Partner Name must be 35 characters or less')
+    .max(35, 'Parent Developer Name must be 35 characters or less')
     .optional()
     .or(z.literal('')),
 
   // License Number - mandatory
-  bpLicenseNo: z
+  arLicenseNo: z
     .string()
     .min(1, 'License Number is required')
     .max(50, 'License Number must be 50 characters or less'),
 
   // Onboarding Date - mandatory
-  bpOnboardingDate: dayjsSchema.refine(
+  arOnboardingDate: dayjsSchema.refine(
     (val) => val !== null && val !== undefined,
     'Onboarding Date is required'
   ),
 
   // License Expiry Date - mandatory
-  bpLicenseExpDate: dayjsSchema.refine(
+  arLicenseExpDate: dayjsSchema.refine(
     (val) => val !== null && val !== undefined,
     'License Expiry Date is required'
   ),
 
   // Regulatory Authority - mandatory (ID should be number)
-  bpRegulatorId: z.union([
+  arRegulatorId: z.union([
     z.number().min(1, 'Regulatory Authority is required'),
     z.string().min(1, 'Regulatory Authority is required'),
-  ]),
+  ]).optional(),
 
   // Optional fields
-  bpWorldCheckRemarks: z
+  arWorldCheckRemarks: z
     .string()
     .max(100, 'World Check Flag Remarks must be 100 characters or less')
     .optional()
     .or(z.literal('')),
 
-  bpContactAddress: z
+  arContactAddress: z
     .string()
     .max(30, 'Contact Address must be 30 characters or less')
     .optional()
     .or(z.literal('')),
 
-  bpContactTel: z
+  arContactTel: z
     .string()
     .max(35, 'Contact Telephone must be 35 characters or less')
     .optional()
     .or(z.literal('')),
 
-  bpMobile: z
+  arMobile: z
     .union([
       z
         .string()
@@ -123,7 +129,7 @@ export const DeveloperStep1Schema = z.object({
     ])
     .optional(),
 
-  bpEmail: z
+  arEmail: z
     .union([
       z
         .string()
@@ -134,7 +140,7 @@ export const DeveloperStep1Schema = z.object({
     ])
     .optional(),
 
-  bpPoBox: z
+  arPoBox: z
     .union([
       z.string().max(30, 'P.O. Box must be 30 characters or less'),
       z.literal(''),
@@ -143,19 +149,16 @@ export const DeveloperStep1Schema = z.object({
     ])
     .optional(),
 
-  // bpFax: z
-  //   .union([
-  //     z
-  //       .string()
-  //       .max(15, 'Fax number must be 15 characters or less')
-  //       .regex(/^[\d\-\+\(\)\s]+$/, 'Fax number contains invalid characters'),
-  //     z.literal(''),
-  //     z.undefined(),
-  //   ])
-  //   .optional(),
+  arFax: z
+    .union([
+      z.string().max(15, 'Fax must be 15 characters or less'),
+      z.literal(''),
+      z.undefined(),
+    ])
+    .optional(),
 
   // Boolean fields (with string coercion for checkbox compatibility)
-  bpWorldCheckFlag: z
+  arWorldCheckFlag: z
     .union([z.boolean(), z.string()])
     .transform((val) => {
       if (typeof val === 'string')
@@ -163,7 +166,7 @@ export const DeveloperStep1Schema = z.object({
       return val
     })
     .optional(),
-  bpMigratedData: z
+  arMigratedData: z
     .union([z.boolean(), z.string()])
     .transform((val) => {
       if (typeof val === 'string')
@@ -173,8 +176,8 @@ export const DeveloperStep1Schema = z.object({
     .optional(),
 
   // Additional fields
-  bpremark: z.string().optional().or(z.literal('')),
-  bpRegulatorDTO: z.any().optional(),
+  arRemark: z.string().optional().or(z.literal('')),
+  arRegulatorDTO: z.any().optional(),
 })
 
 // Developer Step 2: Documents Schema (Optional)
@@ -198,7 +201,7 @@ export const DeveloperStep2Schema = z.object({
     .default([]),
 })
 
-// Developer Step 3: Contact Details Schema
+// Developer Step 3: Contact Details Schema (assetRegisterDTO for payload)
 export const DeveloperStep3Schema = z.object({
   contactData: z
     .array(
@@ -254,7 +257,7 @@ export const DeveloperStep3Schema = z.object({
           .optional()
           .or(z.literal('')),
 
-        buildPartnerDTO: z
+        assetRegisterDTO: z
           .object({
             id: z.number(),
           })
@@ -337,7 +340,7 @@ export const DeveloperStep4Schema = z.object({
           return false
         }, 'Debit account is required'),
 
-        buildPartnerDTO: z
+        assetRegisterDTO: z
           .object({
             id: z.number(),
           })
@@ -419,7 +422,7 @@ export const DeveloperStep5Schema = z.object({
           .optional()
           .or(z.literal('')),
 
-        buildPartnerDTO: z
+        assetRegisterDTO: z
           .object({
             id: z.number(),
           })

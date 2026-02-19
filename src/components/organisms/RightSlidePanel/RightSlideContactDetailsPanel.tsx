@@ -54,9 +54,8 @@ interface RightSlidePanelProps {
     mobileno?: string
     telephoneno?: string
     fax?: string
-    buildPartnerDTO?: {
-      id: number
-    }
+    assetRegisterDTO?: { id: number }
+    buildPartnerDTO?: { id: number }
   }
   contactIndex?: number
 }
@@ -163,7 +162,7 @@ export const RightSlideContactDetailsPanel: React.FC<RightSlidePanelProps> = ({
             mobileno: allValues.mobileno,
             telephoneno: allValues.telephoneno,
             fax: allValues.fax,
-            buildPartnerDTO: {
+            assetRegisterDTO: {
               id: buildPartnerId ? parseInt(buildPartnerId) : undefined,
             },
           },
@@ -217,17 +216,18 @@ export const RightSlideContactDetailsPanel: React.FC<RightSlidePanelProps> = ({
       const dataToUse: any = apiContactData || contactData
 
       const firstName =
-        dataToUse.bpcFirstName || contactData?.name?.split(' ')[0] || ''
+        dataToUse.arcFirstName ?? dataToUse.bpcFirstName ?? contactData?.name?.split(' ')[0] ?? ''
       const lastName =
-        dataToUse.bpcLastName ||
-        contactData?.name?.split(' ').slice(1).join(' ') ||
+        dataToUse.arcLastName ??
+        dataToUse.bpcLastName ??
+        contactData?.name?.split(' ').slice(1).join(' ') ??
         ''
 
-      const address1 = dataToUse.bpcContactAddressLine1 || ''
-      const address2 = dataToUse.bpcContactAddressLine2 || ''
+      const address1 = dataToUse.arcContactAddressLine1 ?? dataToUse.bpcContactAddressLine1 ?? ''
+      const address2 = dataToUse.arcContactAddressLine2 ?? dataToUse.bpcContactAddressLine2 ?? ''
 
       const countryCodeFromApi =
-        dataToUse.bpcCountryMobCode || contactData?.countrycode || ''
+        dataToUse.arcCountryMobCode ?? dataToUse.bpcCountryMobCode ?? contactData?.countrycode ?? ''
       let countryCodeId = countryCodeFromApi
 
       if (countryCodes.length > 0 && countryCodeFromApi) {
@@ -244,15 +244,15 @@ export const RightSlideContactDetailsPanel: React.FC<RightSlidePanelProps> = ({
       reset({
         fname: firstName,
         lname: lastName,
-        email: dataToUse.bpcContactEmail || contactData?.email || '',
+        email: dataToUse.arcContactEmail ?? dataToUse.bpcContactEmail ?? contactData?.email ?? '',
         address1: address1,
         address2: address2,
-        pobox: dataToUse.bpcContactPoBox || contactData?.pobox || '',
+        pobox: dataToUse.arcContactPoBox ?? dataToUse.bpcContactPoBox ?? contactData?.pobox ?? '',
         countrycode: countryCodeId,
         telephoneno:
-          dataToUse.bpcContactTelNo || contactData?.telephoneno || '',
-        mobileno: dataToUse.bpcContactMobNo || contactData?.mobileno || '',
-        fax: dataToUse.bpcContactFaxNo || contactData?.fax || '',
+          dataToUse.arcContactTelNo ?? dataToUse.bpcContactTelNo ?? contactData?.telephoneno ?? '',
+        mobileno: dataToUse.arcContactMobNo ?? dataToUse.bpcContactMobNo ?? contactData?.mobileno ?? '',
+        fax: dataToUse.arcContactFaxNo ?? dataToUse.bpcContactFaxNo ?? contactData?.fax ?? '',
       })
     } else if (isOpen && mode === 'add') {
       reset({
@@ -314,7 +314,7 @@ export const RightSlideContactDetailsPanel: React.FC<RightSlidePanelProps> = ({
             mobileno: data.mobileno,
             telephoneno: data.telephoneno,
             fax: data.fax,
-            buildPartnerDTO: {
+            assetRegisterDTO: {
               id: buildPartnerId ? parseInt(buildPartnerId) : undefined,
             },
           },
@@ -390,7 +390,7 @@ export const RightSlideContactDetailsPanel: React.FC<RightSlidePanelProps> = ({
         mobileno: data.mobileno,
         telephoneno: data.telephoneno,
         fax: data.fax,
-        buildPartnerDTO: {
+        assetRegisterDTO: {
           id: buildPartnerId ? parseInt(buildPartnerId) : undefined,
         },
       }
@@ -430,30 +430,32 @@ export const RightSlideContactDetailsPanel: React.FC<RightSlidePanelProps> = ({
   const labelSx = tokens.label
   const valueSx = tokens.value
 
-  const selectStyles = React.useMemo(
-    () => ({
+  const selectStyles = React.useMemo(() => {
+    const isDark = theme.palette.mode === 'dark'
+    return {
       height: '46px',
       borderRadius: '8px',
-      backgroundColor: alpha('#1E293B', 0.5), // Darker background for inputs
+      backgroundColor: isDark
+        ? alpha('#1E293B', 0.5)
+        : '#FFFFFF',
       '& .MuiOutlinedInput-notchedOutline': {
-        borderColor: alpha('#FFFFFF', 0.3), // White border with opacity
+        borderColor: isDark ? alpha('#FFFFFF', 0.3) : '#CAD5E2',
         borderWidth: '1px',
       },
       '&:hover .MuiOutlinedInput-notchedOutline': {
-        borderColor: alpha('#FFFFFF', 0.5), // Brighter on hover
+        borderColor: isDark ? alpha('#FFFFFF', 0.5) : '#94A3B8',
       },
       '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
         borderColor: theme.palette.primary.main,
       },
       '& .MuiSelect-icon': {
-        color: '#FFFFFF', // White icon
+        color: isDark ? '#FFFFFF' : theme.palette.text.primary,
       },
       '& .MuiInputBase-input': {
-        color: '#FFFFFF', // White text in inputs
+        color: isDark ? '#FFFFFF' : '#111827',
       },
-    }),
-    [theme]
-  )
+    }
+  }, [theme])
 
   const renderTextField = (
     name: keyof ContactFormData,
@@ -625,8 +627,8 @@ export const RightSlideContactDetailsPanel: React.FC<RightSlidePanelProps> = ({
         }}
       >
         {mode === 'edit'
-          ? getBuildPartnerLabelDynamic('CDL_BP_CONTACT_EDIT')
-          : getBuildPartnerLabelDynamic('CDL_BP_CONTACT_ADD')}
+          ? getBuildPartnerLabelDynamic('CDL_AR_CONTACT_EDIT')
+          : getBuildPartnerLabelDynamic('CDL_AR_CONTACT_ADD')}
         <IconButton
           onClick={handleClose}
           sx={{

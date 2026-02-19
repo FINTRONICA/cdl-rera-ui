@@ -1,7 +1,6 @@
 
 
 export const BUILD_PARTNER_LABELS = {
- 
   'CDL_BP_DETAILS': 'Build Partner details',
   'CDL_BP_ID': 'Build Partner ID',
   'CDL_BP_CIF': 'Build Partner CIF',
@@ -12,31 +11,20 @@ export const BUILD_PARTNER_LABELS = {
   'CDL_BP_MASTER': 'Master Build Partner',
   'CDL_BP_REGULATORY_AUTHORITY': 'Regulatory Authority',
   'CDL_BP_STATUS': 'Status',
-
   'CDL_BP_ADDRESS': 'Registered Address',
   'CDL_BP_MOBILE': 'Official Mobile Number',
   'CDL_BP_EMAIL': 'Official Email Address',
   'CDL_BP_FAX': 'Official Fax Number',
-
-
   'CDL_BP_LICENSE': 'Build Partner License Number',
   'CDL_BP_LICENSE_VALID': 'License Valid Until',
-
- 
   'CDL_BP_WORLD_STATUS': 'World-Check Status',
   'CDL_BP_WORLD_REMARKS': 'World-Check Status Remarks',
-
-  
   'CDL_BP_NOTES': 'Additional Notes',
-
-
   'CDL_BP_DOC_MANAGEMENT': 'Document Management',
   'CDL_BP_DOC_TITLE': 'Document Title',
   'CDL_BP_DOC_CLASSIFICATION': 'Document Classification',
   'CDL_BP_DOC_DATE': 'Date of Submission',
   'CDL_BP_DOC_ACTION': 'Available Actions',
-
- 
   'CDL_BP_CONTACT': 'Build Partner Contact & Identification',
   'CDL_BP_CONTACT_ADD': 'Add Contact Details',
   'CDL_BP_CONTACT_EDIT': 'Edit Contact Details',
@@ -53,6 +41,46 @@ export const BUILD_PARTNER_LABELS = {
   'CDL_BP_TELEPHONE_NUMBER': 'Primary Telephone Number',
   'CDL_BP_FAX_NUMBER': 'Fax Number',
   'CDL_BP_ALTERNATE_NUMBER': 'Alternate Telephone Number',
+
+  // Asset Registry (AR) labels - use these for asset-registry flows
+  'CDL_AR_DETAILS': 'Asset Registry details',
+  'CDL_AR_ID': 'Asset Registry Developer ID',
+  'CDL_AR_CIF': 'Asset Registry CIF',
+  'CDL_AR_REGNO': 'Developer Registration No',
+  'CDL_AR_REGDATE': 'RERA Registration Date',
+  'CDL_AR_NAME_LOCALE': 'Developer Name (Locale)',
+  'CDL_AR_NAME': 'Developer Name',
+  'CDL_AR_PROJECT': 'Project Name',
+  'CDL_AR_COMPANY_NUMBER': 'Company Number',
+  'CDL_AR_MASTER_COMMUNITY': 'Master Community',
+  'CDL_AR_MASTER_DEVELOPER': 'Master Developer',
+  'CDL_AR_MASTER': 'Master Developer Name',
+  'CDL_AR_REGULATORY_AUTHORITY': 'Regulatory Authority',
+  'CDL_AR_STATUS': 'Status',
+  'CDL_AR_ADDRESS': 'Registered Address',
+  'CDL_AR_MOBILE': 'Official Mobile Number',
+  'CDL_AR_EMAIL': 'Official Email Address',
+  'CDL_AR_FAX': 'Official Fax Number',
+  'CDL_AR_LICENSE': 'License Number',
+  'CDL_AR_LICENSE_VALID': 'License Valid Until',
+  'CDL_AR_WORLD_STATUS': 'World-Check Status',
+  'CDL_AR_WORLD_REMARKS': 'World-Check Status Remarks',
+  'CDL_AR_NOTES': 'Additional Notes',
+  'CDL_AR_CONTACT': 'Contact & Identification',
+  'CDL_AR_CONTACT_ADD': 'Add Contact Details',
+  'CDL_AR_CONTACT_EDIT': 'Edit Contact Details',
+  'CDL_AR_AUTH_FIRST_NAME': 'First Name',
+  'CDL_AR_AUTH_LAST_NAME': 'Last Name',
+  'CDL_AR_AUTH_NAME': 'Authorized Contact Name',
+  'CDL_AR_BUSINESS_ADDRESS': 'Business Address',
+  'CDL_AR_EMAIL_ADDRESS': 'Corporate Email Address',
+  'CDL_AR_ADDRESS_LINE1': 'Address Line 1',
+  'CDL_AR_ADDRESS_LINE2': 'Address Line 2',
+  'CDL_AR_POBOX': 'P.O. Box Number',
+  'CDL_AR_COUNTRY_CODE': 'International Dialing Code',
+  'CDL_AR_MOBILE_NUMBER': 'Primary Mobile Number',
+  'CDL_AR_TELEPHONE_NUMBER': 'Primary Telephone Number',
+  'CDL_AR_FAX_NUMBER': 'Fax Number',
 
   // Escrow Fee & Collection Details
   'CDL_BP_FEES': 'Escrow Fee & Collection Details',
@@ -125,16 +153,25 @@ export const getBuildPartnerLabel = (configId) => {
 export const getBuildPartnerLabelsByCategory = (category) => {
   const categories = {
     'details': [
-      'CDL_BP_DETAILS', 'CDL_BP_ID', 'CDL_BP_CIF', 'CDL_BP_REGNO', 
-      'CDL_BP_REGDATE', 'CDL_BP_NAME_LOCALE', 'CDL_BP_NAME', 
-      'CDL_BP_MASTER', 'CDL_BP_REGULATORY_AUTHORITY', 'CDL_BP_STATUS'
+      'CDL_BP_DETAILS', 'CDL_BP_ID', 'CDL_BP_CIF', 'CDL_BP_REGNO',
+      'CDL_BP_REGDATE', 'CDL_BP_NAME_LOCALE', 'CDL_BP_NAME',
+      'CDL_BP_MASTER', 'CDL_BP_REGULATORY_AUTHORITY', 'CDL_BP_STATUS',
+      'CDL_AR_ID', 'CDL_AR_CIF', 'CDL_AR_REGNO', 'CDL_AR_REGDATE',
+      'CDL_AR_NAME_LOCALE', 'CDL_AR_NAME', 'CDL_AR_PROJECT', 'CDL_AR_COMPANY_NUMBER',
+      'CDL_AR_MASTER_COMMUNITY', 'CDL_AR_MASTER_DEVELOPER', 'CDL_AR_MASTER',
+      'CDL_AR_REGULATORY_AUTHORITY', 'CDL_AR_STATUS'
     ],
     'contact': [
       'CDL_BP_ADDRESS', 'CDL_BP_MOBILE', 'CDL_BP_EMAIL', 'CDL_BP_FAX',
       'CDL_BP_CONTACT', 'CDL_BP_AUTH_NAME', 'CDL_BP_BUSINESS_ADDRESS',
       'CDL_BP_EMAIL_ADDRESS', 'CDL_BP_POBOX', 'CDL_BP_COUNTRY_CODE',
       'CDL_BP_MOBILE_NUMBER', 'CDL_BP_TELEPHONE_NUMBER', 'CDL_BP_FAX_NUMBER',
-      'CDL_BP_ALTERNATE_NUMBER'
+      'CDL_BP_ALTERNATE_NUMBER', 'CDL_BP_AUTH_FIRST_NAME', 'CDL_BP_AUTH_LAST_NAME',
+      'CDL_AR_ADDRESS', 'CDL_AR_MOBILE', 'CDL_AR_EMAIL', 'CDL_AR_FAX',
+      'CDL_AR_CONTACT', 'CDL_AR_AUTH_NAME', 'CDL_AR_BUSINESS_ADDRESS',
+      'CDL_AR_EMAIL_ADDRESS', 'CDL_AR_POBOX', 'CDL_AR_COUNTRY_CODE',
+      'CDL_AR_MOBILE_NUMBER', 'CDL_AR_TELEPHONE_NUMBER', 'CDL_AR_FAX_NUMBER',
+      'CDL_AR_AUTH_FIRST_NAME', 'CDL_AR_AUTH_LAST_NAME'
     ],
     'license': [
       'CDL_BP_LICENSE', 'CDL_BP_LICENSE_VALID'

@@ -52,20 +52,37 @@ export const processContactData = (contactStepData: any): ContactData[] => {
     return []
   }
   
-  const mapContactItem = (contact: any): ContactData => ({
-    ...contact,
-    name: `${contact.bpcFirstName || ''} ${contact.bpcLastName || ''}`.trim() || 'N/A',
-    address: `${contact.bpcContactAddressLine1 || ''} ${contact.bpcContactAddressLine2 || ''}`.trim() || 'N/A',
-    email: contact.bpcContactEmail || 'N/A',
-    pobox: contact.bpcContactPoBox || 'N/A',
-    countrycode: contact.bpcCountryMobCode || 'N/A',
-    mobileno: contact.bpcContactMobNo || 'N/A',
-    telephoneno: contact.bpcContactTelNo || 'N/A',
-    fax: contact.bpcContactFaxNo || 'N/A',
-    ...(typeof contact.isActive === 'string' && {
-      isActive: contact.isActive === 'true',
-    }),
-  })
+  const mapContactItem = (contact: any): ContactData => {
+    const firstName = contact.arcFirstName ?? contact.bpcFirstName ?? ''
+    const lastName = contact.arcLastName ?? contact.bpcLastName ?? ''
+    const address1 = contact.arcContactAddressLine1 ?? contact.bpcContactAddressLine1 ?? ''
+    const address2 = contact.arcContactAddressLine2 ?? contact.bpcContactAddressLine2 ?? ''
+    return {
+      ...contact,
+      name: `${firstName} ${lastName}`.trim() || 'N/A',
+      address: `${address1} ${address2}`.trim() || 'N/A',
+      email: contact.arcContactEmail ?? contact.bpcContactEmail ?? 'N/A',
+      pobox: contact.arcContactPoBox ?? contact.bpcContactPoBox ?? 'N/A',
+      countrycode: contact.arcCountryMobCode ?? contact.bpcCountryMobCode ?? 'N/A',
+      mobileno: contact.arcContactMobNo ?? contact.bpcContactMobNo ?? 'N/A',
+      telephoneno: contact.arcContactTelNo ?? contact.bpcContactTelNo ?? 'N/A',
+      fax: contact.arcContactFaxNo ?? contact.bpcContactFaxNo ?? 'N/A',
+      arcFirstName: firstName,
+      arcLastName: lastName,
+      arcContactAddressLine1: address1,
+      arcContactAddressLine2: address2,
+      arcContactEmail: contact.arcContactEmail ?? contact.bpcContactEmail,
+      arcContactPoBox: contact.arcContactPoBox ?? contact.bpcContactPoBox,
+      arcCountryMobCode: contact.arcCountryMobCode ?? contact.bpcCountryMobCode,
+      arcContactMobNo: contact.arcContactMobNo ?? contact.bpcContactMobNo,
+      arcContactTelNo: contact.arcContactTelNo ?? contact.bpcContactTelNo,
+      arcContactFaxNo: contact.arcContactFaxNo ?? contact.bpcContactFaxNo,
+      ...(contact.assetRegisterDTO && { assetRegisterDTO: contact.assetRegisterDTO }),
+      ...(typeof contact.isActive === 'string' && {
+        isActive: contact.isActive === 'true',
+      }),
+    }
+  }
 
   return contentArray.map(mapContactItem)
 }
@@ -120,6 +137,7 @@ export const processBeneficiaryData = (beneficiaryStepData: any): BeneficiaryDat
     swiftCode: beneficiary.bpbSwiftCode || '',
     routingCode: beneficiary.bpbRoutingCode || '',
     account: beneficiary.bpbAccountNumber || '',
+    assetRegisterDTO: beneficiary.assetRegisterDTO,
     buildPartnerDTO: beneficiary.buildPartnerDTO,
     ...(typeof beneficiary.enabled === 'boolean' && {
       enabled: beneficiary.enabled,

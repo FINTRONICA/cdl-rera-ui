@@ -26,6 +26,7 @@ import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers'
 import { Controller, useFormContext } from 'react-hook-form'
 import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import dayjs from 'dayjs'
 import { getBuildPartnerLabel } from '../../../../constants/mappings/buildPartnerMapping'
 import { useBuildPartnerLabelsWithCache } from '@/hooks/useBuildPartnerLabelsWithCache'
 import { useAppStore } from '@/store'
@@ -121,36 +122,124 @@ const Step1 = ({ isReadOnly = false, developerId }: Step1Props) => {
   // Initialize developer ID from form value
   useEffect(() => {
     const subscription = watch((value, { name }) => {
-      if (name === 'bpDeveloperId' && value.bpDeveloperId) {
-        setGeneratedId(value.bpDeveloperId)
+      if (name === 'arDeveloperId' && value.arDeveloperId) {
+        setGeneratedId(value.arDeveloperId)
       }
     })
     return () => subscription.unsubscribe()
   }, [watch])
 
-  // Handle Fetch Details button click
+  // Handle Fetch Details button click – fetch by CIF and populate all fields
   const handleFetchDetails = async () => {
-    const currentCif = watch('bpCifrera')
-    if (!currentCif) {
+    const currentCif = watch('arCifrera')
+    if (!currentCif?.trim()) {
       return
     }
 
-    try {
-      const buildPartnerService = new BuildPartnerService()
-      const customerDetails =
-        await buildPartnerService.getCustomerDetailsByCif(currentCif)
+    const svc = new BuildPartnerService()
 
-      // Populate only the name fields from customer details and clear validation errors
-      setValue('bpName', customerDetails.name.firstName, {
-        shouldValidate: true,
-        shouldDirty: true,
-      })
-      setValue('bpNameLocal', customerDetails.name.shortName, {
-        shouldValidate: true,
-        shouldDirty: true,
-      })
-    } catch (error) {
-      // You might want to show a user-friendly error message here
+    try {
+      // 1. Try to get existing asset register by CIF – populate all fields
+      const existing = await svc.getBuildPartnerByCif(currentCif.trim())
+
+      const set = (name: string, value: unknown) => {
+        setValue(name, value ?? '', { shouldValidate: true, shouldDirty: true })
+      }
+
+      set('arDeveloperId', existing.arDeveloperId ?? '')
+      set('arDeveloperRegNo', existing.arDeveloperRegNo ?? '')
+      set('arName', existing.arName ?? '')
+      set('arNameLocal', existing.arNameLocal ?? '')
+      set('arProjectName', existing.arProjectName ?? '')
+      set('arCompanyNumber', existing.arCompanyNumber ?? '')
+      set('arMasterCommunity', existing.arMasterCommunity ?? '')
+      set('arMasterDeveloper', existing.arMasterDeveloper ?? '')
+      set('arMasterName', existing.arMasterName ?? '')
+      set('arContactAddress', existing.arContactAddress ?? '')
+      set('arContactTel', existing.arContactTel ?? '')
+      set('arPoBox', existing.arPoBox ?? '')
+      set('arMobile', existing.arMobile ?? '')
+      set('arFax', existing.arFax ?? '')
+      set('arEmail', existing.arEmail ?? '')
+      set('arLicenseNo', existing.arLicenseNo ?? '')
+      set('arWorldCheckRemarks', existing.arWorldCheckRemarks ?? '')
+      set('arRemark', existing.arRemark ?? '')
+
+      if (existing.arOnboardingDate) {
+        setValue(
+          'arOnboardingDate',
+          dayjs(existing.arOnboardingDate).isValid()
+            ? dayjs(existing.arOnboardingDate)
+            : null,
+          { shouldValidate: true, shouldDirty: true }
+        )
+      }
+      if (existing.arLicenseExpDate) {
+        setValue(
+          'arLicenseExpDate',
+          dayjs(existing.arLicenseExpDate).isValid()
+            ? dayjs(existing.arLicenseExpDate)
+            : null,
+          { shouldValidate: true, shouldDirty: true }
+        )
+      }
+      if (existing.arWorldCheckFlag !== undefined && existing.arWorldCheckFlag !== null) {
+        setValue(
+          'arWorldCheckFlag',
+          existing.arWorldCheckFlag === true ||
+            existing.arWorldCheckFlag === 'true' ||
+            existing.arWorldCheckFlag === '1',
+          { shouldValidate: true, shouldDirty: true }
+        )
+      }
+      if (existing.arMigratedData !== undefined && existing.arMigratedData !== null) {
+        setValue('arMigratedData', !!existing.arMigratedData, {
+          shouldValidate: true,
+          shouldDirty: true,
+        })
+      }
+      const regulatorId = (existing.arRegulatorDTO as { id?: number })?.id
+      if (regulatorId) {
+        setValue('arRegulatorDTO.id', regulatorId, {
+          shouldValidate: true,
+          shouldDirty: true,
+        })
+      }
+      if (existing.arDeveloperId) {
+        setGeneratedId(existing.arDeveloperId)
+      }
+    } catch {
+      // 2. No existing record – fall back to customer details (name + AR fields from name)
+      try {
+        const customerDetails = await svc.getCustomerDetailsByCif(currentCif.trim())
+        const n = customerDetails.name
+        setValue('arName', n.firstName ?? '', {
+          shouldValidate: true,
+          shouldDirty: true,
+        })
+        setValue('arNameLocal', n.shortName ?? '', {
+          shouldValidate: true,
+          shouldDirty: true,
+        })
+        setValue('arProjectName', n.property ?? '', {
+          shouldValidate: true,
+          shouldDirty: true,
+        })
+        setValue('arCompanyNumber', n.companyNumber ?? '', {
+          shouldValidate: true,
+          shouldDirty: true,
+        })
+        setValue('arMasterCommunity', n.masterCommunity ?? '', {
+          shouldValidate: true,
+          shouldDirty: true,
+        })
+        setValue('arMasterDeveloper', n.masterDeveloper ?? '', {
+          shouldValidate: true,
+          shouldDirty: true,
+        })
+      } catch {
+        // Both failed – keep form as is or show a message
+      }
     }
   }
 
@@ -160,7 +249,7 @@ const Step1 = ({ isReadOnly = false, developerId }: Step1Props) => {
       setIsGeneratingId(true)
       const newIdResponse = developerIdService.generateNewId()
       setGeneratedId(newIdResponse.id)
-      setValue('bpDeveloperId', newIdResponse.id, {
+      setValue('arDeveloperId', newIdResponse.id, {
         shouldValidate: true,
         shouldDirty: true,
       })
@@ -175,16 +264,16 @@ const Step1 = ({ isReadOnly = false, developerId }: Step1Props) => {
   useEffect(() => {
     if (!isEditMode || !developerId) return
 
-    const currentId = watch('bpRegulatorDTO.id')
+    const currentId = watch('arRegulatorDTO.id')
     if (currentId) return
 
     const loadExisting = async () => {
       try {
         const svc = new BuildPartnerService()
         const details = await svc.getBuildPartner(developerId)
-        const regulatorId = (details as any)?.bpRegulatorDTO?.id
+        const regulatorId = (details as any)?.arRegulatorDTO?.id
         if (regulatorId) {
-          setValue('bpRegulatorDTO.id', regulatorId, {
+          setValue('arRegulatorDTO.id', regulatorId, {
             shouldValidate: true,
             shouldDirty: false,
           })
@@ -236,9 +325,7 @@ const Step1 = ({ isReadOnly = false, developerId }: Step1Props) => {
             InputProps={{
               sx: {
                 ...valueStyles,
-                ...(isReadOnly && {
-                  color: textSecondary,
-                }),
+                color: isReadOnly ? textSecondary : textPrimary,
               },
             }}
             sx={{
@@ -253,6 +340,11 @@ const Step1 = ({ isReadOnly = false, developerId }: Step1Props) => {
                   '&:hover fieldset': {
                     borderColor: viewModeStyles.borderColor,
                   },
+                },
+              }),
+              ...(!disabled && {
+                '& .MuiOutlinedInput-root': {
+                  color: textPrimary,
                 },
               }),
               ...(!!errors[name] &&
@@ -522,7 +614,10 @@ const Step1 = ({ isReadOnly = false, developerId }: Step1Props) => {
                   </Button>
                 </InputAdornment>
               ),
-              sx: valueStyles,
+              sx: {
+                ...valueStyles,
+                color: isReadOnly ? textSecondary : textPrimary,
+              },
             }}
             InputLabelProps={{
               sx: {
@@ -546,6 +641,11 @@ const Step1 = ({ isReadOnly = false, developerId }: Step1Props) => {
                   '&:hover fieldset': {
                     borderColor: viewModeStyles.borderColor,
                   },
+                },
+              }),
+              ...(!isReadOnly && {
+                '& .MuiOutlinedInput-root': {
+                  color: textPrimary,
                 },
               }),
             }}
@@ -615,7 +715,10 @@ const Step1 = ({ isReadOnly = false, developerId }: Step1Props) => {
                   </Button>
                 </InputAdornment>
               ),
-              sx: valueStyles,
+              sx: {
+                ...valueStyles,
+                color: isReadOnly || isEditMode ? textSecondary : textPrimary,
+              },
             }}
             InputLabelProps={{
               sx: {
@@ -639,6 +742,11 @@ const Step1 = ({ isReadOnly = false, developerId }: Step1Props) => {
                   '&:hover fieldset': {
                     borderColor: viewModeStyles.borderColor,
                   },
+                },
+              }),
+              ...(!isReadOnly && !isEditMode && {
+                '& .MuiOutlinedInput-root': {
+                  color: textPrimary,
                 },
               }),
             }}
@@ -871,7 +979,6 @@ const Step1 = ({ isReadOnly = false, developerId }: Step1Props) => {
                 )}
               />
             </Grid>
-
             <Grid size={{ xs: 12, md: 6 }}>
               <Controller
                 name="arMasterCommunity"
@@ -912,7 +1019,6 @@ const Step1 = ({ isReadOnly = false, developerId }: Step1Props) => {
                 )}
               />
             </Grid>
-
             <Grid size={{ xs: 12, md: 6 }}>
               <Controller
                 name="arMasterDeveloper"
@@ -953,6 +1059,7 @@ const Step1 = ({ isReadOnly = false, developerId }: Step1Props) => {
                 )}
               />
             </Grid>
+            {/* END NEW FIELDS */}
 
 
             {renderTextField(
@@ -961,7 +1068,7 @@ const Step1 = ({ isReadOnly = false, developerId }: Step1Props) => {
             )}
             {renderApiSelectField(
               'arRegulatorDTO.id',
-              getBuildPartnerLabelDynamic('CDL_BP_REGULATORY_AUTHORITY'),
+              getBuildPartnerLabelDynamic('CDL_AR_REGULATORY_AUTHORITY'),
               regulatoryAuthorities,
               6,
               dropdownsLoading,
@@ -1020,7 +1127,7 @@ const Step1 = ({ isReadOnly = false, developerId }: Step1Props) => {
             )}
             {renderCheckboxField('arMigratedData', 'Migrated Data', 3)}
             {renderTextField(
-              'bpWorldCheckRemarks',
+              'arWorldCheckRemarks',
               getBuildPartnerLabelDynamic('CDL_AR_WORLD_REMARKS')
             )}
             {renderTextField(

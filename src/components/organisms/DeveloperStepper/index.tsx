@@ -107,11 +107,9 @@ export default function DeveloperStepperWrapper({
   // Define steps array (direct mapping for clarity)
   const steps = useMemo(
     () => [
-      getBuildPartnerLabelDynamic('CDL_BP_DETAILS'),
+      getBuildPartnerLabelDynamic('CDL_AR_DETAILS'),
       'Documents (Optional)',
-      getBuildPartnerLabelDynamic('CDL_BP_CONTACT'),
-      // getBuildPartnerLabelDynamic('CDL_BP_FEES'),
-      // getBuildPartnerLabelDynamic('CDL_BP_BENE_INFO'),
+      getBuildPartnerLabelDynamic('CDL_AR_CONTACT'),
       'Review',
     ],
     [getBuildPartnerLabelDynamic]

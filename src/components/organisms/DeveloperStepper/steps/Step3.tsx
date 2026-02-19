@@ -24,6 +24,7 @@ import { useParams } from 'next/navigation'
 import {
   buildPartnerService,
   type BuildPartner,
+  type BuildPartnerContactResponse,
 } from '@/services/api/buildPartnerService'
 import { formatDate } from '@/utils'
 import { GlobalLoading } from '@/components/atoms'
@@ -79,6 +80,15 @@ const fieldBoxSx = {
   flexDirection: 'column',
   gap: 0.5,
   marginBottom: '16px',
+}
+
+function hasContentArray<T>(value: unknown): value is { content: T[] } {
+  return (
+    value != null &&
+    typeof value === 'object' &&
+    'content' in value &&
+    Array.isArray((value as { content: unknown[] }).content)
+  )
 }
 
 // Data interfaces
@@ -139,10 +149,10 @@ const Step3 = ({ developerId, onEditStep, isReadOnly = false }: Step3Props) => {
 
   // Render helper functions with dark mode support
   const renderDisplayField = useCallback(
-    (label: string, value: string | number | null = '-') => (
+    (label: string, value: string | number | null | undefined = '-') => (
       <Box sx={fieldBoxSx}>
         <Typography sx={getLabelSx(isDarkMode)}>{label}</Typography>
-        <Typography sx={getValueSx(isDarkMode)}>{value || '-'}</Typography>
+        <Typography sx={getValueSx(isDarkMode)}>{value ?? '-'}</Typography>
       </Box>
     ),
     [isDarkMode]
@@ -172,7 +182,7 @@ const Step3 = ({ developerId, onEditStep, isReadOnly = false }: Step3Props) => {
 
         // Fetch all data in parallel
 
-        const [details, contacts, documents] =
+        const [details, contacts, _fees, _beneficiaries, documents] =
           await Promise.allSettled([
             buildPartnerService.getBuildPartner(buildPartnerId),
             buildPartnerService.getBuildPartnerContact(buildPartnerId),
@@ -184,31 +194,34 @@ const Step3 = ({ developerId, onEditStep, isReadOnly = false }: Step3Props) => {
             ),
           ])
 
-        // Extract values from Promise.allSettled results
         const detailsResult =
           details.status === 'fulfilled' ? details.value : null
         const contactsResult =
           contacts.status === 'fulfilled' ? contacts.value : null
-      
         const documentsResult =
           documents.status === 'fulfilled' ? documents.value : null
 
         setBuildPartnerDetails(detailsResult as BuildPartner)
 
-        // Handle paginated responses for contacts
-        let contactArray: ContactData[] = []
-        if (Array.isArray(contactsResult)) {
-          contactArray = contactsResult as ContactData[]
-        } else if (
-          contactsResult &&
-          typeof contactsResult === 'object' &&
-          'content' in contactsResult
-        ) {
-          contactArray = Array.isArray((contactsResult as any).content)
-            ? ((contactsResult as any).content as ContactData[])
-            : []
+        let contactArray: BuildPartnerContactResponse[] = []
+        if (hasContentArray<BuildPartnerContactResponse>(contactsResult)) {
+          contactArray = contactsResult.content
+        } else if (Array.isArray(contactsResult)) {
+          contactArray = contactsResult as BuildPartnerContactResponse[]
         }
-        setContactData(contactArray)
+        const normalizedContacts: ContactData[] = contactArray.map((c) => ({
+          arcFirstName: c.arcFirstName ?? c.bpcFirstName ?? '',
+          arcLastName: c.arcLastName ?? c.bpcLastName ?? '',
+          arcContactEmail: c.arcContactEmail ?? c.bpcContactEmail ?? '',
+          arcContactAddressLine1: c.arcContactAddressLine1 ?? c.bpcContactAddressLine1 ?? '',
+          arcContactAddressLine2: c.arcContactAddressLine2 ?? c.bpcContactAddressLine2 ?? '',
+          arcContactPoBox: c.arcContactPoBox ?? c.bpcContactPoBox ?? '',
+          arcCountryMobCode: c.arcCountryMobCode ?? c.bpcCountryMobCode ?? '',
+          arcContactTelNo: c.arcContactTelNo ?? c.bpcContactTelNo ?? '',
+          arcContactMobNo: c.arcContactMobNo ?? c.bpcContactMobNo ?? '',
+          arcContactFaxNo: c.arcContactFaxNo ?? c.bpcContactFaxNo ?? '',
+        }))
+        setContactData(normalizedContacts)
 
 
         // Handle paginated responses for documents
@@ -412,7 +425,7 @@ const Step3 = ({ developerId, onEditStep, isReadOnly = false }: Step3Props) => {
                 color: isDarkMode ? '#F9FAFB' : '#1E2939',
               }}
             >
-              {getBuildPartnerLabelDynamic('CDL_BP_DETAILS')}
+              {getBuildPartnerLabelDynamic('CDL_AR_DETAILS')}
             </Typography>
             {!isReadOnly && (
               <Button
@@ -487,6 +500,30 @@ const Step3 = ({ developerId, onEditStep, isReadOnly = false }: Step3Props) => {
               {renderDisplayField(
                 getBuildPartnerLabelDynamic('CDL_AR_NAME_LOCALE'),
                 buildPartnerDetails.arNameLocal
+              )}
+            </Grid>
+            <Grid size={{ xs: 12, md: 6 }}>
+              {renderDisplayField(
+                getBuildPartnerLabelDynamic('CDL_AR_PROJECT'),
+                buildPartnerDetails.arProjectName
+              )}
+            </Grid>
+            <Grid size={{ xs: 12, md: 6 }}>
+              {renderDisplayField(
+                getBuildPartnerLabelDynamic('CDL_AR_MASTER_DEVELOPER'),
+                buildPartnerDetails.arMasterDeveloper
+              )}
+            </Grid>
+            <Grid size={{ xs: 12, md: 6 }}>
+              {renderDisplayField(
+                getBuildPartnerLabelDynamic('CDL_AR_MASTER_COMMUNITY'),
+                buildPartnerDetails.arMasterCommunity
+              )}
+            </Grid>
+            <Grid size={{ xs: 12, md: 6 }}>
+              {renderDisplayField(
+                getBuildPartnerLabelDynamic('CDL_AR_COMPANY_NUMBER'),
+                buildPartnerDetails.arCompanyNumber
               )}
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
@@ -777,7 +814,7 @@ const Step3 = ({ developerId, onEditStep, isReadOnly = false }: Step3Props) => {
                   color: isDarkMode ? '#F9FAFB' : '#1E2939',
                 }}
               >
-                {getBuildPartnerLabelDynamic('CDL_BP_CONTACT')}
+                {getBuildPartnerLabelDynamic('CDL_AR_CONTACT')}
               </Typography>
               {!isReadOnly && (
                 <Button

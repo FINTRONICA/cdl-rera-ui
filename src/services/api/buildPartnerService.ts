@@ -82,31 +82,31 @@ export interface BuildPartner {
 }
 
 export interface CreateBuildPartnerRequest {
-  bpName: string
-  bpDeveloperId: string
-  bpCifrera: string
-  bpNameLocal?: string
-  bpWorldCheckFlag?: string
-  bpContactAddress?: string
-  bpContactTel?: string
-  bpEmail?: string
-  bpMobile?: string
-  bpLicenseNo?: string
-  bpLicenseExpDate?: string
+  arName: string
+  arDeveloperId: string
+  arCifrera: string
+  arNameLocal?: string
+  arWorldCheckFlag?: string
+  arContactAddress?: string
+  arContactTel?: string
+  arEmail?: string
+  arMobile?: string
+  arLicenseNo?: string
+  arLicenseExpDate?: string
 }
 
 export interface UpdateBuildPartnerRequest {
-  bpName?: string
-  bpDeveloperId?: string
-  bpCifrera?: string
-  bpNameLocal?: string
-  bpWorldCheckFlag?: string
-  bpContactAddress?: string
-  bpContactTel?: string
-  bpEmail?: string
-  bpMobile?: string
-  bpLicenseNo?: string
-  bpLicenseExpDate?: string
+  arName?: string
+  arDeveloperId?: string
+  arCifrera?: string
+  arNameLocal?: string
+  arWorldCheckFlag?: string
+  arContactAddress?: string
+  arContactTel?: string
+  arEmail?: string
+  arMobile?: string
+  arLicenseNo?: string
+  arLicenseExpDate?: string
 }
 
 export interface BuildPartnerFilters {
@@ -144,13 +144,33 @@ export interface StepValidationResponse {
   warnings?: string[]
 }
 
-// Build Partner form data types
+// Asset Registry / Build Partner form data types (ar* keys for API)
 export interface BuildPartnerDetailsData {
-  bpName: string
-  bpDeveloperId: string
-  bpCifrera: string
-  bpNameLocal: string
-  bpWorldCheckFlag?: string
+  arName: string
+  arDeveloperId: string
+  arCifrera: string
+  arNameLocal: string
+  arDeveloperRegNo?: string
+  arOnboardingDate?: string | null
+  arContactAddress?: string
+  arContactTel?: string
+  arPoBox?: string
+  arMobile?: string
+  arFax?: string
+  arEmail?: string
+  arLicenseNo?: string
+  arLicenseExpDate?: string | null
+  arWorldCheckFlag?: string | boolean
+  arWorldCheckRemarks?: string
+  arMigratedData?: boolean
+  arRemark?: string
+  arRegulatorId?: number | string
+  arRegulatorDTO?: { id: number }
+  arProjectName?: string
+  arCompanyNumber?: string
+  arMasterCommunity?: string
+  arMasterDeveloper?: string
+  arMasterName?: string
 }
 
 // UI-friendly BuildPartner interface for table display
@@ -188,14 +208,14 @@ export const mapBuildPartnerToUIData = (
 
   return {
     id: apiData.id.toString(),
-    name: apiData.bpName || 'N/A',
-    developerId: apiData.bpDeveloperId || 'N/A',
-    developerCif: apiData.bpCifrera || 'N/A',
-    localeNames: apiData.bpNameLocal || '---',
+    name: apiData.arName || 'N/A',
+    developerId: apiData.arDeveloperId || 'N/A',
+    developerCif: apiData.arCifrera || 'N/A',
+    localeNames: apiData.arNameLocal || '---',
     status: mapApiStatus(apiData.taskStatusDTO),
-    registrationDate: apiData.bpOnboardingDate || undefined,
-    lastUpdated: apiData.bpOnboardingDate || undefined,
-    contactPerson: apiData.bpContactAddress || undefined,
+    registrationDate: apiData.arOnboardingDate || undefined,
+    lastUpdated: apiData.arOnboardingDate || undefined,
+    contactPerson: apiData.arContactAddress || undefined,
   }
 }
 
@@ -219,22 +239,35 @@ export interface BuildPartnerContactData {
   }
 }
 
-// API Response interface for contact data (includes nested assetRegisterDTO)
+// API Response interface for contact data (arc* payload / response, with bpc* for backward compat)
 export interface BuildPartnerContactResponse {
   id: number
-  bpcContactName: string | null
-  bpcFirstName: string
-  bpcLastName: string
-  bpcContactTelCode: string | null
-  bpcContactTelNo: string
-  bpcCountryMobCode: string
-  bpcContactMobNo: string
-  bpcContactEmail: string
-  bpcContactAddress: string | null
-  bpcContactAddressLine1: string
-  bpcContactAddressLine2: string
-  bpcContactPoBox: string
-  bpcContactFaxNo: string
+  arcContactName?: string | null
+  arcFirstName?: string
+  arcLastName?: string
+  arcContactTelCode?: string | null
+  arcContactTelNo?: string
+  arcCountryMobCode?: string
+  arcContactMobNo?: string
+  arcContactEmail?: string
+  arcContactAddress?: string | null
+  arcContactAddressLine1?: string
+  arcContactAddressLine2?: string
+  arcContactPoBox?: string
+  arcContactFaxNo?: string
+  bpcContactName?: string | null
+  bpcFirstName?: string
+  bpcLastName?: string
+  bpcContactTelCode?: string | null
+  bpcContactTelNo?: string
+  bpcCountryMobCode?: string
+  bpcContactMobNo?: string
+  bpcContactEmail?: string
+  bpcContactAddress?: string | null
+  bpcContactAddressLine1?: string
+  bpcContactAddressLine2?: string
+  bpcContactPoBox?: string
+  bpcContactFaxNo?: string
   enabled: boolean
   workflowStatus: string | null
   deleted: boolean | null
@@ -429,6 +462,10 @@ export interface CustomerDetailsResponse {
   name: {
     firstName: string
     shortName: string
+    companyNumber?: string
+    property?: string
+    masterDeveloper?: string
+    masterCommunity?: string
   }
   type: string
   contact: {
@@ -451,38 +488,45 @@ export class BuildPartnerService {
     size = 20,
     filters?: BuildPartnerFilters
   ): Promise<PaginatedResponse<BuildPartner>> {
-    // Map UI filter names to API field names
-    const apiFilters: Record<string, string> = {}
-    if (filters) {
-      if (filters.status) {
-        // Map UI status values to API status values
-        const statusMapping: Record<string, string> = {
-          Approved: 'CLEAR',
-          'In Review': 'PENDING',
-          Rejected: 'REJECTED',
-          Incomplete: 'INCOMPLETE',
-        }
-        apiFilters.bpWorldCheckFlag =
-          statusMapping[filters.status] || filters.status
+    // Use LIST (base path only) + pagination to avoid 500 from unsupported query params on backend
+    const params: Record<string, string> = {
+      ...buildPaginationParams(page, size),
+    }
+    if (filters?.status?.trim()) {
+      const statusMapping: Record<string, string> = {
+        Approved: 'CLEAR',
+        'In Review': 'PENDING',
+        Rejected: 'REJECTED',
+        Incomplete: 'INCOMPLETE',
       }
-      if (filters.name) {
-        apiFilters.bpName = filters.name
-      }
-      if (filters.developerId) {
-        apiFilters.bpDeveloperId = filters.developerId
-      }
+      params.arWorldCheckFlag = statusMapping[filters.status] || filters.status
+    }
+    if (filters?.name?.trim()) {
+      params.arName = filters.name.trim()
+    }
+    if (filters?.developerId?.trim()) {
+      params.arDeveloperId = filters.developerId.trim()
     }
 
-    const params = {
-      ...buildPaginationParams(page, size),
-      ...apiFilters,
-    }
     const queryString = new URLSearchParams(params).toString()
-    const url = `${buildApiUrl(API_ENDPOINTS.BUILD_PARTNER.GET_ALL)}&${queryString}`
+    // Match working backend: /asset-register?deleted.equals=false&enabled.equals=true&page=0&size=20
+    const baseUrl = buildApiUrl(API_ENDPOINTS.ASSET_REGISTER.GET_ALL)
+    const url = queryString ? `${baseUrl}&${queryString}` : baseUrl
 
     try {
       const result = await apiClient.get<PaginatedResponse<BuildPartner>>(url)
-
+      // Backend may return { content, page } or a plain array - normalize to PaginatedResponse
+      if (Array.isArray(result)) {
+        return {
+          content: result as BuildPartner[],
+          page: {
+            size: size,
+            number: page,
+            totalElements: result.length,
+            totalPages: 1,
+          },
+        }
+      }
       return result
     } catch (error) {
       throw error
@@ -491,11 +535,23 @@ export class BuildPartnerService {
 
   async getBuildPartner(id: string): Promise<BuildPartner> {
     try {
-      const url = buildApiUrl(API_ENDPOINTS.BUILD_PARTNER.GET_BY_ID(id))
+      const url = buildApiUrl(API_ENDPOINTS.ASSET_REGISTER.GET_BY_ID(id))
 
-      const result = await apiClient.get<BuildPartner>(url)
+      const result = await apiClient.get<BuildPartner & {
+        projectName?: string | null
+        companyNumber?: string | null
+        masterCommunity?: string | null
+        masterDeveloper?: string | null
+      }>(url)
 
-      return result
+      // Normalize AR fields for review page (support both ar* and alternate backend keys)
+      return {
+        ...result,
+        arProjectName: result.arProjectName ?? result.projectName ?? null,
+        arCompanyNumber: result.arCompanyNumber ?? result.companyNumber ?? null,
+        arMasterCommunity: result.arMasterCommunity ?? result.masterCommunity ?? null,
+        arMasterDeveloper: result.arMasterDeveloper ?? result.masterDeveloper ?? null,
+      }
     } catch (error) {
       throw error
     }
@@ -513,7 +569,6 @@ export class BuildPartnerService {
     }
   }
 
-  // Get contacts with pagination
   async getBuildPartnerContactsPaginated(
     buildPartnerId: string,
     page = 0,
@@ -606,9 +661,9 @@ export class BuildPartnerService {
 
   async getBuildPartnerByCif(cif: string): Promise<BuildPartner> {
     try {
-      const params = { bpCifrera: cif }
+      const params = { arCifrera: cif }
       const queryString = new URLSearchParams(params).toString()
-      const url = `${buildApiUrl(API_ENDPOINTS.BUILD_PARTNER.GET_ALL)}?${queryString}`
+      const url = `${buildApiUrl(API_ENDPOINTS.ASSET_REGISTER.GET_ALL)}?${queryString}`
 
       const result = await apiClient.get<PaginatedResponse<BuildPartner>>(url)
 
@@ -645,7 +700,7 @@ export class BuildPartnerService {
   ): Promise<BuildPartner> {
     try {
       const result = await apiClient.post<BuildPartner>(
-        buildApiUrl(API_ENDPOINTS.BUILD_PARTNER.SAVE),
+        buildApiUrl(API_ENDPOINTS.ASSET_REGISTER.SAVE),
         data
       )
 
@@ -661,7 +716,7 @@ export class BuildPartnerService {
   ): Promise<BuildPartner> {
     try {
       const result = await apiClient.put<BuildPartner>(
-        buildApiUrl(API_ENDPOINTS.BUILD_PARTNER.UPDATE(id)),
+        buildApiUrl(API_ENDPOINTS.ASSET_REGISTER.UPDATE(id)),
         updates
       )
 
@@ -674,7 +729,7 @@ export class BuildPartnerService {
   async deleteBuildPartner(id: string): Promise<void> {
     try {
       await apiClient.delete<string>(
-        buildApiUrl(API_ENDPOINTS.BUILD_PARTNER.SOFT_DELETE(id))
+        buildApiUrl(API_ENDPOINTS.ASSET_REGISTER.SOFT_DELETE(id))
       )
     } catch (error) {
       throw error
@@ -695,7 +750,7 @@ export class BuildPartnerService {
   ): Promise<StepSaveResponse> {
     if (isEditing && developerId) {
       // Use PUT for editing existing details - include assetRegisterDTO in data
-      const url = buildApiUrl(API_ENDPOINTS.BUILD_PARTNER.UPDATE(developerId))
+      const url = buildApiUrl(API_ENDPOINTS.ASSET_REGISTER.UPDATE(developerId))
       const requestData = {
         ...data,
         id: parseInt(developerId),
@@ -718,33 +773,37 @@ export class BuildPartnerService {
     developerId?: string
   ): Promise<StepSaveResponse> {
     if (isEditing && data.id) {
-      // Use PUT for updating existing contact with ID
       const url = buildApiUrl(
         API_ENDPOINTS.ASSET_REGISTER_CONTACT.UPDATE(data.id.toString())
       )
-      // Destructure to remove any existing assetRegisterDTO to avoid sending nested data
-      const { assetRegisterDTO, ...contactDataWithoutBuildPartner } = data
+      const { assetRegisterDTO: _assetRegisterDTO, ...contactDataWithoutAssetRegister } = data
+      void _assetRegisterDTO
       const requestData = {
-        ...contactDataWithoutBuildPartner,
-        // Preserve workflow-related fields from original data
+        ...contactDataWithoutAssetRegister,
         enabled: true,
         deleted: false,
         workflowStatus: data.workflowStatus ?? null,
-        assetRegisterDTO: { id: parseInt(developerId || '0') },
+        assetRegisterDTO: {
+          id: parseInt(developerId || '0'),
+          enabled: true,
+          deleted: false,
+        },
       }
 
       const response = await apiClient.put<StepSaveResponse>(url, requestData)
       return response
     } else {
-      // Use POST for creating new contact
       const url = buildApiUrl(API_ENDPOINTS.ASSET_REGISTER_CREATE.CONTACT_SAVE)
-      // Destructure to remove any existing assetRegisterDTO to avoid sending nested data
-      const { assetRegisterDTO, ...contactDataWithoutBuildPartner } = data
+      const { assetRegisterDTO: _assetRegisterDTO, ...contactDataWithoutAssetRegister } = data
+      void _assetRegisterDTO
       const requestData = {
-        ...contactDataWithoutBuildPartner,
+        ...contactDataWithoutAssetRegister,
         assetRegisterDTO: developerId
-          ? { id: parseInt(developerId) }
+          ? { id: parseInt(developerId), enabled: true, deleted: false }
           : undefined,
+        enabled: true,
+        deleted: false,
+        workflowStatus: contactDataWithoutAssetRegister.workflowStatus ?? null,
       }
 
       const response = await apiClient.post<StepSaveResponse>(url, requestData)
@@ -762,7 +821,7 @@ export class BuildPartnerService {
   async getBuildPartnerContactById(
     contactId: string
   ): Promise<BuildPartnerContactResponse> {
-    const url = buildApiUrl(`/asset-registry-contact/${contactId}`)
+    const url = buildApiUrl(`/asset-register-contact/${contactId}`)
     const response = await apiClient.get<BuildPartnerContactResponse>(url)
     return response
   }
@@ -791,6 +850,7 @@ export class BuildPartnerService {
       // Use POST for editing existing fees - wrap data with isEditing and developerId
       const url = buildApiUrl(API_ENDPOINTS.ASSET_REGISTER_CREATE.FEES_SAVE)
       // Destructure to remove any existing assetRegisterDTO to avoid sending nested data
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars -- intentionally omitted from payload
       const { assetRegisterDTO, ...feesDataWithoutBuildPartner } = data as any
       const requestData = {
         data: {
@@ -826,6 +886,7 @@ export class BuildPartnerService {
           API_ENDPOINTS.ASSET_REGISTER_FEES.UPDATE(feeId.toString())
         )
         // Destructure to remove any existing assetRegisterDTO to avoid sending nested data
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars -- intentionally omitted from payload
         const { assetRegisterDTO, ...feeDataWithoutBuildPartner } = data as any
         const requestData = {
           ...feeDataWithoutBuildPartner,
@@ -861,6 +922,7 @@ export class BuildPartnerService {
         API_ENDPOINTS.ASSET_REGISTER_BENEFICIARY.UPDATE(String(beneficiaryId))
       )
       // Destructure to remove any existing assetRegisterDTO or buildPartnerId to avoid sending nested data
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars -- intentionally omitted from payload
       const { assetRegisterDTO, buildPartnerId, ...beneficiaryDataClean } =
         data as any
       const requestData = {
@@ -880,6 +942,7 @@ export class BuildPartnerService {
         API_ENDPOINTS.ASSET_REGISTER_CREATE.BENEFICIARY_SAVE
       )
       // Destructure to remove any existing assetRegisterDTO or buildPartnerId to avoid sending nested data
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars -- intentionally omitted from payload
       const { assetRegisterDTO, buildPartnerId, ...beneficiaryDataClean } =
         data as any
       const requestData = {
@@ -1026,7 +1089,7 @@ export class BuildPartnerService {
   async getBuildPartnerBeneficiaryById(
     beneficiaryId: string | number
   ): Promise<unknown> {
-    const url = buildApiUrl(`/asset-registry-beneficiary/${beneficiaryId}`)
+    const url = buildApiUrl(`/asset-register-beneficiary/${beneficiaryId}`)
     const response = await apiClient.get(url)
     return response
   }
@@ -1228,11 +1291,11 @@ export class BuildPartnerService {
 
       const params = {
         ...buildPaginationParams(page, size),
-        'bpName.contains': query.trim(),
+        'arName.contains': query.trim(),
         'deleted.equals': 'false',
         'enabled.equals': 'true',
       }
-      const url = `${buildApiUrl(API_ENDPOINTS.BUILD_PARTNER.SAVE)}?${new URLSearchParams(params).toString()}`
+      const url = `${buildApiUrl(API_ENDPOINTS.ASSET_REGISTER.GET_ALL)}&${new URLSearchParams(params).toString()}`
       const response = await apiClient.get(url)
       // Handle both single object and paginated response formats
       let buildPartners: BuildPartner[] = []
@@ -1244,7 +1307,7 @@ export class BuildPartnerService {
         if ('content' in response && Array.isArray(response.content)) {
           // Paginated response format
           buildPartners = response.content
-        } else if ('id' in response || 'bpName' in response) {
+        } else if ('id' in response || 'arName' in response) {
           // Single object response - wrap in array
           buildPartners = [response as BuildPartner]
         }
