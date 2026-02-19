@@ -40,7 +40,8 @@ export const useStepHandlers = (
       
       
 
-      if (activeStep === 5) {
+      // Review step (last step, index 3)
+      if (activeStep === 3) {
         navigation.navigateToCompletion()
         notifications.showSuccess('Developer registration completed successfully!')
         return

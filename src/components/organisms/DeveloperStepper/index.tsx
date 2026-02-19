@@ -200,25 +200,15 @@ export default function DeveloperStepperWrapper({
         return
       }
 
-      // Documents (Optional), Contact, Fees, and Beneficiary steps don't need API call here - items are saved when "Add" is clicked
-      // These steps should skip ALL validation and just navigate
-      if (
-        activeStep === 1 ||
-        activeStep === 2 ||
-        activeStep === 3 ||
-        activeStep === 4
-      ) {
-        // For these steps, just navigate to next step without API call or validation
+      // Documents (Optional) and Contact steps: no API call here; items are saved via Add/Update in panel. Just navigate.
+      if (activeStep === 1 || activeStep === 2) {
         const nextStep = activeStep + 1
         if (nextStep < steps.length) {
-          // Convert 0-based activeStep to 1-based URL step
           const nextUrlStep = nextStep + 1
-          // Preserve editing mode when navigating back to Review
           const modeParam = getModeParam()
           router.push(
             `/asset-registry/${developerId}/step/${nextUrlStep}${modeParam}`
           )
-          // Update local state to match navigation
           setActiveStep(nextStep)
         } else {
           router.push('/asset-registry')
@@ -226,8 +216,8 @@ export default function DeveloperStepperWrapper({
         return
       }
 
-      // Review step (step 5) - complete the process and submit workflow request
-      if (activeStep === 5) {
+      // Review step (last step, activeStep 3) - submit workflow request
+      if (activeStep === 3) {
         try {
           // Get the developer ID from step status
           const developerIdFromStatus =
