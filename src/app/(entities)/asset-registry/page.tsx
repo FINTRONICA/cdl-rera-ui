@@ -128,9 +128,12 @@ const DevelopersPageImpl: React.FC = () => {
 
   const { getLabelResolver } = useSidebarConfig()
 
+  // const developersPageTitle = getLabelResolver
+  //   ? getLabelResolver('developers', 'Developers')
+  //   : 'Developers'
   const developersPageTitle = getLabelResolver
-    ? getLabelResolver('developers', 'Developers')
-    : 'Developers'
+    ? getLabelResolver('asset-register', 'Asset Register')
+    : 'Asset Register'
 
   const {
     data: apiResponse,
@@ -288,7 +291,7 @@ const DevelopersPageImpl: React.FC = () => {
     }
 
     confirmDelete({
-      itemName: `build partner: ${row.name}`,
+      itemName: `asset registry: ${row.id}`,
       itemId: row.developerId,
       onConfirm: async () => {
         try {
@@ -297,7 +300,7 @@ const DevelopersPageImpl: React.FC = () => {
         } catch (error) {
           const errorMessage =
             error instanceof Error ? error.message : 'Unknown error occurred'
-          console.error(`Failed to delete build partner: ${errorMessage}`)
+          console.error(`Failed to delete asset registry: ${errorMessage}`)
 
           throw error
         } finally {

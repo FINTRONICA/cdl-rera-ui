@@ -10,9 +10,13 @@ export const SIDEBAR_TO_CONFIG_MAPPING: Record<string, string> = {
   'entities': 'CDL_BUSINESS_OBJECTS',             // "Business Objects"
   
   // Entities section
-  'developers': 'CDL_BUILD_PARTNER',              // "Build Partner"
-  'projects': 'CDL_BUILD_PARTNER_ASSEST',          // "Build Partner Asset"
-  'investors': 'CDL_CAPITAL_PARTNER',             // "Capital Partner"
+  // 'developers': 'CDL_BUILD_PARTNER',              // "Build Partner"
+  // 'projects': 'CDL_BUILD_PARTNER_ASSEST',          // "Build Partner Asset"
+  // 'investors': 'CDL_CAPITAL_PARTNER',             // "Capital Partner"
+  'asset-register': 'CDL_ASSET_REGISTER',          // "Asset Register"
+  'management-firms': 'CDL_MANAGEMENT_FIRMS',          // "Management Firms"
+  'owner-registry': 'CDL_OWNER_REGISTRY',          // "Owner Registry"
+  
   
   // Deposits section
   'unallocated': 'CDL_PENDING_TRANSACTION',       // "Pending Transactions"

@@ -31,7 +31,7 @@ function DeveloperStepPageContent() {
   const isViewMode = mode === 'view'
   const isEditingMode = editing === 'true'
 
-  // Validate step number and fetch build partner data
+  // Validate step number and fetch asset registry data
   useEffect(() => {
     if (isNaN(stepNumber) || stepNumber < 1 || stepNumber > 6) {
       router.push('/asset-registry')
@@ -40,7 +40,7 @@ function DeveloperStepPageContent() {
     setIsValidating(false)
   }, [stepNumber, router])
 
-  // Fetch build partner data
+  // Fetch asset registry data
   useEffect(() => {
     const fetchBuildPartnerData = async () => {
       try {
@@ -49,7 +49,7 @@ function DeveloperStepPageContent() {
         const data = await buildPartnerService.getBuildPartner(developerId)
         setBuildPartnerData(data)
       } catch (err: any) {
-        setError(err.message || 'Failed to fetch build partner data')
+        setError(err.message || 'Failed to fetch asset registry data')
       } finally {
         setIsLoadingData(false)
       }
@@ -62,7 +62,7 @@ function DeveloperStepPageContent() {
 
   if (isValidating || isLoadingData) {
     return (
-      <DashboardLayout title="Asset Registry / Developer Details" subtitle="">
+      <DashboardLayout title="Asset Registry" subtitle="">
         <div className="bg-white/75 dark:bg-[#101828] rounded-2xl flex flex-col h-full">
           <GlobalLoading fullHeight />
         </div>
@@ -73,8 +73,8 @@ function DeveloperStepPageContent() {
   if (error) {
     return (
       <DashboardLayout
-        title="Asset Registry / Developer Details"
-        subtitle="Error loading developer details"
+        title="Asset Registry"
+        subtitle="Error loading asset details"
       >
         <div className="p-6 text-red-600 dark:text-red-400">
           <p>Error: {error}</p>
@@ -85,13 +85,13 @@ function DeveloperStepPageContent() {
 
   return (
     <DashboardLayout
-      title="Asset Registry / Developer Details"
+      title="Asset Registry"
       subtitle={
         isViewMode
-          ? 'View developer details and configuration (Read-only)'
+          ? 'View asset details and configuration (Read-only)'
           : isEditingMode
-            ? 'Edit developer details and configuration'
-            : 'Register your developer step by step, non-mandatory fields and steps are easy to skip.'
+            ? 'Edit asset details and configuration'
+            : 'Register your asset step by step, non-mandatory fields and steps are easy to skip.'
       }
     >
       <div className="flex items-start py-2 gap-7 px-7">
@@ -127,7 +127,7 @@ export default function DeveloperStepPage() {
   return (
     <Suspense
       fallback={
-        <DashboardLayout title="Asset Registry / Developer Details" subtitle="">
+        <DashboardLayout title="Asset Registry" subtitle="">
           <div className="bg-white/75 dark:bg-[#101828] rounded-2xl flex flex-col h-full">
             <GlobalLoading fullHeight />
           </div>

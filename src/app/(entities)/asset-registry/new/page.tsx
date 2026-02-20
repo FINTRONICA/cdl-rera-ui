@@ -19,8 +19,8 @@ function DeveloperStepperWithSuspense() {
 export default function NewDeveloperPage() {
   return (
     <DashboardLayout
-      title="Build Partner Details"
-      subtitle="Register your developer step by step, non-mandatory fields and steps are easy to skip."
+      title="Asset Registry"
+      subtitle="Register your asset step by step, non-mandatory fields and steps are easy to skip."
     >
       <div className="px-3">
         <DeveloperStepperWithSuspense />
