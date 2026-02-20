@@ -106,7 +106,7 @@ const PageActionButtonsComponent: React.FC<PageActionButtonsProps> = ({
       uploadPermission: ['bulk_upload'], // Unified upload permission
     },
     developer: {
-      label: 'Add New Build Partner',
+      label: 'Add New Asset Registry',
       route: '/asset-registry/new',
       permissions: ['bp_create'], // Only users with bp_create permission
       downloadPermission: ['data_export'], // Unified download permission
