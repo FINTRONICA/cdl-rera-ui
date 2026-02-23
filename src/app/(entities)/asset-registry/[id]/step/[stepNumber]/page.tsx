@@ -16,7 +16,7 @@ function DeveloperStepPageContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [isValidating, setIsValidating] = useState(true)
-  const [buildPartnerData, setBuildPartnerData] = useState<BuildPartner | null>(
+  const [assetRegisterData, setAssetRegisterData] = useState<BuildPartner | null>(
     null
   )
   const [isLoadingData, setIsLoadingData] = useState(true)
@@ -42,12 +42,12 @@ function DeveloperStepPageContent() {
 
   // Fetch asset registry data
   useEffect(() => {
-    const fetchBuildPartnerData = async () => {
+    const fetchAssetRegisterData = async () => {
       try {
         setIsLoadingData(true)
         setError(null)
         const data = await buildPartnerService.getBuildPartner(developerId)
-        setBuildPartnerData(data)
+        setAssetRegisterData(data)
       } catch (err: any) {
         setError(err.message || 'Failed to fetch asset registry data')
       } finally {
@@ -56,7 +56,7 @@ function DeveloperStepPageContent() {
     }
 
     if (developerId && !isValidating) {
-      fetchBuildPartnerData()
+      fetchAssetRegisterData()
     }
   }, [developerId, isValidating])
 
@@ -100,7 +100,7 @@ function DeveloperStepPageContent() {
             Developer Name
           </label>
           <span className="font-outfit font-normal text-[16px] leading-[1] tracking-normal align-middle text-gray-900 dark:text-gray-100">
-            {buildPartnerData?.arName || 'N/A'}
+            {assetRegisterData?.arName || 'N/A'}
           </span>
         </div>
         <div className="flex flex-col min-w-[200px] gap-1">
@@ -108,7 +108,7 @@ function DeveloperStepPageContent() {
             Developer CIF
           </label>
           <span className="font-outfit font-normal text-[16px] leading-[1] tracking-normal align-middle text-gray-900 dark:text-gray-100">
-            {buildPartnerData?.arCifrera || 'N/A'}
+            {assetRegisterData?.arCifrera || 'N/A'}
           </span>
         </div>
       </div>

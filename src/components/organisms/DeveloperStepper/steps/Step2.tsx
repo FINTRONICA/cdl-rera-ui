@@ -158,7 +158,7 @@ const Step2: React.FC<Step2Props> = ({
     useBuildPartnerLabelsWithCache()
   const currentLanguage = useAppStore((state) => state.language) || 'EN'
 
-  const getBuildPartnerLabelDynamic = useCallback(
+  const getAssetRegisterLabelDynamic = useCallback(
     (configId: string): string => {
       const fallback = getBuildPartnerLabel(configId)
 
@@ -300,56 +300,56 @@ const Step2: React.FC<Step2Props> = ({
   const tableColumns = [
     {
       key: 'name',
-      label: getBuildPartnerLabelDynamic('CDL_AR_AUTH_NAME'),
+      label: getAssetRegisterLabelDynamic('CDL_AR_AUTH_NAME'),
       type: 'text' as const,
       width: 'w-40',
       sortable: true,
     },
     {
       key: 'address',
-      label: getBuildPartnerLabelDynamic('CDL_AR_BUSINESS_ADDRESS'),
+      label: getAssetRegisterLabelDynamic('CDL_AR_BUSINESS_ADDRESS'),
       type: 'text' as const,
       width: 'w-40',
       sortable: true,
     },
     {
       key: 'email',
-      label: getBuildPartnerLabelDynamic('CDL_AR_EMAIL_ADDRESS'),
+      label: getAssetRegisterLabelDynamic('CDL_AR_EMAIL_ADDRESS'),
       type: 'text' as const,
       width: 'w-40',
       sortable: true,
     },
     {
       key: 'pobox',
-      label: getBuildPartnerLabelDynamic('CDL_AR_POBOX'),
+      label: getAssetRegisterLabelDynamic('CDL_AR_POBOX'),
       type: 'text' as const,
       width: 'w-28',
       sortable: true,
     },
     {
       key: 'countrycode',
-      label: getBuildPartnerLabelDynamic('CDL_AR_COUNTRY_CODE'),
+      label: getAssetRegisterLabelDynamic('CDL_AR_COUNTRY_CODE'),
       type: 'text' as const,
       width: 'w-40',
       sortable: true,
     },
     {
       key: 'mobileno',
-      label: getBuildPartnerLabelDynamic('CDL_AR_MOBILE_NUMBER'),
+      label: getAssetRegisterLabelDynamic('CDL_AR_MOBILE_NUMBER'),
       type: 'text' as const,
       width: 'w-40',
       sortable: true,
     },
     {
       key: 'telephoneno',
-      label: getBuildPartnerLabelDynamic('CDL_AR_TELEPHONE_NUMBER'),
+      label: getAssetRegisterLabelDynamic('CDL_AR_TELEPHONE_NUMBER'),
       type: 'text' as const,
       width: 'w-40',
       sortable: true,
     },
     {
       key: 'fax',
-      label: getBuildPartnerLabelDynamic('CDL_AR_FAX_NUMBER'),
+      label: getAssetRegisterLabelDynamic('CDL_AR_FAX_NUMBER'),
       type: 'text' as const,
       width: 'w-28',
       sortable: true,

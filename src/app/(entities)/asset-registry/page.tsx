@@ -128,9 +128,6 @@ const DevelopersPageImpl: React.FC = () => {
 
   const { getLabelResolver } = useSidebarConfig()
 
-  // const developersPageTitle = getLabelResolver
-  //   ? getLabelResolver('developers', 'Developers')
-  //   : 'Developers'
   const developersPageTitle = getLabelResolver
     ? getLabelResolver('asset-register', 'Asset Register')
     : 'Asset Register'
@@ -156,7 +153,7 @@ const DevelopersPageImpl: React.FC = () => {
     return []
   }, [apiResponse])
 
-  const getBuildPartnerLabelDynamic = useCallback(
+  const getAssetRegisterLabelDynamic = useCallback(
     (configId: string): string => {
       const fallback = getBuildPartnerLabel(configId)
 
@@ -171,42 +168,42 @@ const DevelopersPageImpl: React.FC = () => {
   const tableColumns = [
     {
       key: 'name',
-      label: getBuildPartnerLabelDynamic('CDL_AR_NAME'),
+      label: getAssetRegisterLabelDynamic('CDL_AR_NAME'),
       type: 'text' as const,
       width: 'w-40',
       sortable: true,
     },
     {
       key: 'developerId',
-      label: getBuildPartnerLabelDynamic('CDL_AR_ID'),
+      label: getAssetRegisterLabelDynamic('CDL_AR_ID'),
       type: 'text' as const,
       width: 'w-48',
       sortable: true,
     },
     {
       key: 'developerCif',
-      label: getBuildPartnerLabelDynamic('CDL_AR_CIF'),
+      label: getAssetRegisterLabelDynamic('CDL_AR_CIF'),
       type: 'text' as const,
       width: 'w-40',
       sortable: true,
     },
     {
       key: 'localeNames',
-      label: getBuildPartnerLabelDynamic('CDL_AR_NAME_LOCALE'),
+      label: getAssetRegisterLabelDynamic('CDL_AR_NAME_LOCALE'),
       type: 'text' as const,
       width: 'w-48',
       sortable: true,
     },
     {
       key: 'status',
-      label: getBuildPartnerLabelDynamic('CDL_AR_STATUS'),
+      label: getAssetRegisterLabelDynamic('CDL_AR_STATUS'),
       type: 'status' as const,
       width: 'w-32',
       sortable: true,
     },
     {
       key: 'actions',
-      label: getBuildPartnerLabelDynamic('CDL_BP_DOC_ACTION'),
+      label: getAssetRegisterLabelDynamic('CDL_BP_DOC_ACTION'),
       type: 'actions' as const,
       width: 'w-20',
     },
