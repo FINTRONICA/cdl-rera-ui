@@ -36,7 +36,7 @@ class CapitalPartnerUnitBookingService {
     id: number
   ): Promise<CapitalPartnerUnitBookingResponse> {
     const url = buildApiUrl(
-      API_ENDPOINTS.CAPITAL_PARTNER_UNIT_BOOKING.GET_BY_ID(id.toString())
+      API_ENDPOINTS.OWNER_REGISTRY_UNIT_BOOKING.GET_BY_ID(id.toString())
     )
     const data = await apiClient.get<CapitalPartnerUnitBookingResponse>(url)
     return data
@@ -47,7 +47,7 @@ class CapitalPartnerUnitBookingService {
     payload: Partial<CapitalPartnerUnitBookingRequest>
   ): Promise<CapitalPartnerUnitBookingResponse> {
     const url = buildApiUrl(
-      API_ENDPOINTS.CAPITAL_PARTNER_UNIT_BOOKING.UPDATE(id.toString())
+      API_ENDPOINTS.OWNER_REGISTRY_UNIT_BOOKING.UPDATE(id.toString())
     )
     const response = await apiClient.put(url, payload)
     return response as CapitalPartnerUnitBookingResponse
@@ -55,7 +55,7 @@ class CapitalPartnerUnitBookingService {
 
   async deleteCapitalPartnerUnitBooking(id: number): Promise<void> {
     const url = buildApiUrl(
-      API_ENDPOINTS.CAPITAL_PARTNER_UNIT_BOOKING.DELETE(id.toString())
+      API_ENDPOINTS.OWNER_REGISTRY_UNIT_BOOKING.DELETE(id.toString())
     )
     await apiClient.delete(url)
   }
@@ -63,7 +63,7 @@ class CapitalPartnerUnitBookingService {
   async createCapitalPartnerUnitBooking(
     payload: any
   ): Promise<CapitalPartnerUnitBookingResponse> {
-    const url = buildApiUrl(API_ENDPOINTS.CAPITAL_PARTNER_UNIT_BOOKING.SAVE)
+    const url = buildApiUrl(API_ENDPOINTS.OWNER_REGISTRY_UNIT_BOOKING.SAVE)
     const response = await apiClient.post(url, payload)
     return response as CapitalPartnerUnitBookingResponse
   }

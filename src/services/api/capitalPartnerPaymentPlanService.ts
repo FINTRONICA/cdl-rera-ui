@@ -30,7 +30,7 @@ class CapitalPartnerPaymentPlanService {
     id: number
   ): Promise<CapitalPartnerPaymentPlanResponse> {
     const url = buildApiUrl(
-      API_ENDPOINTS.CAPITAL_PARTNER_PAYMENT_PLAN.GET_BY_ID(id.toString())
+      API_ENDPOINTS.OWNER_REGISTRY_PAYMENT_PLAN.GET_BY_ID(id.toString())
     )
     const data = await apiClient.get<CapitalPartnerPaymentPlanResponse>(url)
     return data
@@ -41,7 +41,7 @@ class CapitalPartnerPaymentPlanService {
     payload: Partial<CapitalPartnerPaymentPlanRequest>
   ): Promise<CapitalPartnerPaymentPlanResponse> {
     const url = buildApiUrl(
-      API_ENDPOINTS.CAPITAL_PARTNER_PAYMENT_PLAN.UPDATE(id.toString())
+      API_ENDPOINTS.OWNER_REGISTRY_PAYMENT_PLAN.UPDATE(id.toString())
     )
     const response = await apiClient.put(url, payload)
     return response as CapitalPartnerPaymentPlanResponse
@@ -49,14 +49,14 @@ class CapitalPartnerPaymentPlanService {
 
   async deleteCapitalPartnerPaymentPlan(id: number): Promise<void> {
     const url = buildApiUrl(
-      API_ENDPOINTS.CAPITAL_PARTNER_PAYMENT_PLAN.DELETE(id.toString())
+      API_ENDPOINTS.OWNER_REGISTRY_PAYMENT_PLAN.DELETE(id.toString())
     )
     await apiClient.delete(url)
   }
 
   async softDeleteCapitalPartnerPaymentPlan(id: number): Promise<void> {
     const url = buildApiUrl(
-      API_ENDPOINTS.CAPITAL_PARTNER_PAYMENT_PLAN.SOFT_DELETE(id.toString())
+      API_ENDPOINTS.OWNER_REGISTRY_PAYMENT_PLAN.SOFT_DELETE(id.toString())
     )
     await apiClient.delete(url)
   }
@@ -64,7 +64,7 @@ class CapitalPartnerPaymentPlanService {
   async createCapitalPartnerPaymentPlan(
     payload: any
   ): Promise<CapitalPartnerPaymentPlanResponse> {
-    const url = buildApiUrl(API_ENDPOINTS.CAPITAL_PARTNER_PAYMENT_PLAN.SAVE)
+    const url = buildApiUrl(API_ENDPOINTS.OWNER_REGISTRY_PAYMENT_PLAN.SAVE)
     const response = await apiClient.post(url, payload)
     return response as CapitalPartnerPaymentPlanResponse
   }

@@ -147,7 +147,7 @@ const Step2 = forwardRef<Step2Ref, Step2Props>(
       isLoading: isLoadingExistingUnit,
       error: errorLoadingUnit,
     } = useGetEnhanced<CapitalPartnerUnitResponse[]>(
-      `${API_ENDPOINTS.CAPITAL_PARTNER_UNIT.GET_ALL}?capitalPartnerId.equals=${capitalPartnerId || 0}`,
+      `${API_ENDPOINTS.OWNER_REGISTRY_UNIT.GET_ALL}?capitalPartnerId.equals=${capitalPartnerId || 0}`,
       {},
       {
         enabled: Boolean(isEditMode && capitalPartnerId),
@@ -171,7 +171,7 @@ const Step2 = forwardRef<Step2Ref, Step2Props>(
       data: existingUnitPurchaseData,
       isLoading: isLoadingExistingPurchase,
     } = useGetEnhanced<CapitalPartnerUnitPurchaseResponse[]>(
-      `${API_ENDPOINTS.CAPITAL_PARTNER_UNIT_PURCHASE.GET_ALL}?capitalPartnerUnitId.equals=${unitId || 0}`,
+      `${API_ENDPOINTS.OWNER_REGISTRY_UNIT_PURCHASE.GET_ALL}?capitalPartnerUnitId.equals=${unitId || 0}`,
       {},
       {
         enabled: Boolean(isEditMode && isUnitDataReady && unitId),
@@ -188,7 +188,7 @@ const Step2 = forwardRef<Step2Ref, Step2Props>(
       data: existingUnitBookingData,
       isLoading: isLoadingExistingBooking,
     } = useGetEnhanced<any[]>(
-      `${API_ENDPOINTS.CAPITAL_PARTNER_UNIT_BOOKING.GET_ALL}?capitalPartnerUnitId.equals=${unitId || 0}`,
+      `${API_ENDPOINTS.OWNER_REGISTRY_UNIT_BOOKING.GET_ALL}?capitalPartnerUnitId.equals=${unitId || 0}`,
       {},
       {
         enabled: Boolean(isEditMode && isUnitDataReady && unitId),

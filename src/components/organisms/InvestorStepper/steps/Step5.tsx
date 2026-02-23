@@ -315,7 +315,7 @@ const Step5: React.FC<Step5Props> = ({
     isLoading: isLoadingBasic,
     error: errorBasic,
   } = useGetEnhanced<CapitalPartnerResponse>(
-    API_ENDPOINTS.CAPITAL_PARTNER.GET_BY_ID(capitalPartnerId?.toString() || ''),
+    API_ENDPOINTS.OWNER_REGISTRY.GET_BY_ID(capitalPartnerId?.toString() || ''),
     {},
     {
       enabled: !!capitalPartnerId,
@@ -332,7 +332,7 @@ const Step5: React.FC<Step5Props> = ({
     isLoading: isLoadingPayment,
     error: errorPayment,
   } = useGetEnhanced<PaymentPlanResponse[]>(
-    `${API_ENDPOINTS.CAPITAL_PARTNER_PAYMENT_PLAN.GET_ALL}?capitalPartnerId.equals=${capitalPartnerId}&deleted.equals=false&enabled.equals=true`,
+    `${API_ENDPOINTS.OWNER_REGISTRY_PAYMENT_PLAN.GET_ALL}?capitalPartnerId.equals=${capitalPartnerId}&deleted.equals=false&enabled.equals=true`,
     {},
     {
       enabled: !!capitalPartnerId,
@@ -349,7 +349,7 @@ const Step5: React.FC<Step5Props> = ({
     isLoading: isLoadingBank,
     error: errorBank,
   } = useGetEnhanced<BankDetailsResponse[]>(
-    `${API_ENDPOINTS.CAPITAL_PARTNER_BANK_INFO.GET_ALL}?capitalPartnerId.equals=${capitalPartnerId}`,
+    `${API_ENDPOINTS.OWNER_REGISTRY_BANK_INFO.GET_ALL}?capitalPartnerId.equals=${capitalPartnerId}`,
     {},
     {
       enabled: !!capitalPartnerId,
@@ -367,7 +367,7 @@ const Step5: React.FC<Step5Props> = ({
     error: errorUnit,
   } = useGetEnhanced<CapitalPartnerUnitResponse[]>(
     capitalPartnerId
-      ? `${API_ENDPOINTS.CAPITAL_PARTNER_UNIT.GET_ALL}?capitalPartnerId.equals=${capitalPartnerId}`
+      ? `${API_ENDPOINTS.OWNER_REGISTRY_UNIT.GET_ALL}?capitalPartnerId.equals=${capitalPartnerId}`
       : '',
     {},
     {
@@ -390,7 +390,7 @@ const Step5: React.FC<Step5Props> = ({
     isLoading: isLoadingPurchase,
     error: errorPurchase,
   } = useGetEnhanced<CapitalPartnerUnitPurchaseResponse[]>(
-    `${API_ENDPOINTS.CAPITAL_PARTNER_UNIT_PURCHASE.GET_ALL}?capitalPartnerUnitId.equals=${unitId || 0}`,
+    `${API_ENDPOINTS.OWNER_REGISTRY_UNIT_PURCHASE.GET_ALL}?capitalPartnerUnitId.equals=${unitId || 0}`,
     {},
     {
       enabled: isUnitDetailsReady && !!unitId,

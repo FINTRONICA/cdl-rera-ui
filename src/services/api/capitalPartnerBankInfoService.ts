@@ -51,7 +51,7 @@ class CapitalPartnerBankInfoService {
     id: number
   ): Promise<CapitalPartnerBankInfoResponse> {
     const url = buildApiUrl(
-      API_ENDPOINTS.CAPITAL_PARTNER_BANK_INFO.GET_BY_ID(id.toString())
+      API_ENDPOINTS.OWNER_REGISTRY_BANK_INFO.GET_BY_ID(id.toString())
     )
     const data = await apiClient.get<CapitalPartnerBankInfoResponse>(url)
     return data
@@ -62,7 +62,7 @@ class CapitalPartnerBankInfoService {
     payload: Partial<CapitalPartnerBankInfoRequest>
   ): Promise<CapitalPartnerBankInfoResponse> {
     const url = buildApiUrl(
-      API_ENDPOINTS.CAPITAL_PARTNER_BANK_INFO.UPDATE(id.toString())
+      API_ENDPOINTS.OWNER_REGISTRY_BANK_INFO.UPDATE(id.toString())
     )
     const response = await apiClient.put(url, payload)
     return response as CapitalPartnerBankInfoResponse
@@ -70,7 +70,7 @@ class CapitalPartnerBankInfoService {
 
   async deleteCapitalPartnerBankInfo(id: number): Promise<void> {
     const url = buildApiUrl(
-      API_ENDPOINTS.CAPITAL_PARTNER_BANK_INFO.DELETE(id.toString())
+      API_ENDPOINTS.OWNER_REGISTRY_BANK_INFO.DELETE(id.toString())
     )
     await apiClient.delete(url)
   }
@@ -78,7 +78,7 @@ class CapitalPartnerBankInfoService {
   async createCapitalPartnerBankInfo(
     payload: any
   ): Promise<CapitalPartnerBankInfoResponse> {
-    const url = buildApiUrl(API_ENDPOINTS.CAPITAL_PARTNER_BANK_INFO.SAVE)
+    const url = buildApiUrl(API_ENDPOINTS.OWNER_REGISTRY_BANK_INFO.SAVE)
     const response = await apiClient.post(url, payload)
     return response as CapitalPartnerBankInfoResponse
   }

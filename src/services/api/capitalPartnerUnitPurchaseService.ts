@@ -94,7 +94,7 @@ class CapitalPartnerUnitPurchaseService {
     id: number
   ): Promise<CapitalPartnerUnitPurchaseResponse> {
     const url = buildApiUrl(
-      API_ENDPOINTS.CAPITAL_PARTNER_UNIT_PURCHASE.GET_BY_ID(id.toString())
+      API_ENDPOINTS.OWNER_REGISTRY_UNIT_PURCHASE.GET_BY_ID(id.toString())
     )
     const data = await apiClient.get<CapitalPartnerUnitPurchaseResponse>(url)
     return data
@@ -105,7 +105,7 @@ class CapitalPartnerUnitPurchaseService {
     payload: Partial<CapitalPartnerUnitPurchaseRequest>
   ): Promise<CapitalPartnerUnitPurchaseResponse> {
     const url = buildApiUrl(
-      API_ENDPOINTS.CAPITAL_PARTNER_UNIT_PURCHASE.UPDATE(id.toString())
+      API_ENDPOINTS.OWNER_REGISTRY_UNIT_PURCHASE.UPDATE(id.toString())
     )
     const response = await apiClient.put(url, payload)
     return response as CapitalPartnerUnitPurchaseResponse
@@ -113,7 +113,7 @@ class CapitalPartnerUnitPurchaseService {
 
   async deleteCapitalPartnerUnitPurchase(id: number): Promise<void> {
     const url = buildApiUrl(
-      API_ENDPOINTS.CAPITAL_PARTNER_UNIT_PURCHASE.DELETE(id.toString())
+      API_ENDPOINTS.OWNER_REGISTRY_UNIT_PURCHASE.DELETE(id.toString())
     )
     await apiClient.delete(url)
   }
@@ -121,7 +121,7 @@ class CapitalPartnerUnitPurchaseService {
   async createCapitalPartnerUnitPurchase(
     payload: any
   ): Promise<CapitalPartnerUnitPurchaseResponse> {
-    const url = buildApiUrl(API_ENDPOINTS.CAPITAL_PARTNER_UNIT_PURCHASE.SAVE)
+    const url = buildApiUrl(API_ENDPOINTS.OWNER_REGISTRY_UNIT_PURCHASE.SAVE)
     const response = await apiClient.post(url, payload)
     return response as CapitalPartnerUnitPurchaseResponse
   }

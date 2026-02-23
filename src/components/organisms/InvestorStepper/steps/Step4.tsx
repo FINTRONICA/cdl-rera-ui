@@ -130,7 +130,7 @@ const Step4 = forwardRef<Step4Ref, Step4Props>(
     // Load existing bank data when in edit mode
     const { data: existingBankData, isLoading: isLoadingExistingBank } =
       useGetEnhanced<BankDetailsResponse[]>(
-        `${API_ENDPOINTS.CAPITAL_PARTNER_BANK_INFO.GET_ALL}?capitalPartnerId.equals=${capitalPartnerId || 0}`,
+        `${API_ENDPOINTS.OWNER_REGISTRY_BANK_INFO.GET_ALL}?capitalPartnerId.equals=${capitalPartnerId || 0}`,
         {},
         {
           enabled: Boolean(isEditMode && capitalPartnerId),

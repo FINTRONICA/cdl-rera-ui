@@ -53,9 +53,6 @@ export const API_ENDPOINTS = {
     SAVE: '/app-language-translation',
     FIND_ALL: '/app-language-translation/find-all',
     NAV_MENU: '/app-language-translation/nav-menu',
-    // BUILD_PARTNER: '/app-language-translation/build-partner',
-    BUILD_PARTNER_ASSET: '/app-language-translation/build-partner-assests',
-    CAPITAL_PARTNER: '/app-language-translation/capital-partner',
     WORKFLOW_ACTIONS: '/app-language-translation/workflow',
     BUDGET: '/app-language-translation/budget',
     BUDGET_MANAGEMENT_FIRM: '/app-language-translation/budget-management-firm',
@@ -80,6 +77,8 @@ export const API_ENDPOINTS = {
     GROUP_MANAGEMENT_LABEL: '/app-language-translation/group-management',
     PAYMENTS_LABEL: '/app-language-translation/payments',
     FEE_REPUSH: '/app-language-translation/fee-repush',
+    
+    
   },
 
    // BUDGET API START
@@ -280,6 +279,72 @@ export const API_ENDPOINTS = {
   // },
 
 
+    // Capital Partner
+  // CAPITAL_PARTNER: {
+  //   GET_BY_ID: (id: string) => `/capital-partner/${id}`,
+  //   UPDATE: (id: string) => `/capital-partner/${id}`,
+  //   DELETE: (id: string) => `/capital-partner/${id}`,
+  //   SOFT_DELETE: (id: string) => `/capital-partner/soft/${id}`,
+  //   GET_ALL: '/capital-partner?deleted.equals=false&enabled.equals=true',
+  //   SAVE: '/capital-partner',
+  //   FIND_ALL: '/capital-partner/find-all',
+  // },
+  // CAPITAL_PARTNER_UNIT: {
+  //   GET_BY_ID: (id: string) => `/capital-partner-unit/${id}`,
+  //   UPDATE: (id: string) => `/capital-partner-unit/${id}`,
+  //   DELETE: (id: string) => `/capital-partner-unit/${id}`,
+  //   GET_ALL: '/capital-partner-unit',
+  //   SAVE: '/capital-partner-unit',
+  //   FIND_ALL: '/capital-partner-unit/find-all',
+  // },
+  // CAPITAL_PARTNER_PAYMENT_PLAN: {
+  //   GET_BY_ID: (id: string) => `/capital-partner-payment-plan/${id}`,
+  //   UPDATE: (id: string) => `/capital-partner-payment-plan/${id}`,
+  //   DELETE: (id: string) => `/capital-partner-payment-plan/${id}`,
+  //   SOFT_DELETE: (id: string) => `/capital-partner-payment-plan/soft/${id}`,
+  //   GET_ALL: '/capital-partner-payment-plan',
+  //   SAVE: '/capital-partner-payment-plan',
+  //   FIND_ALL: '/capital-partner-payment-plan/find-all',
+  // },
+
+  // CAPITAL_PARTNER_BANK_INFO: {
+  //   GET_BY_ID: (id: string) => `/capital-partner-bank-info/${id}`,
+  //   UPDATE: (id: string) => `/capital-partner-bank-info/${id}`,
+  //   DELETE: (id: string) => `/capital-partner-bank-info/${id}`,
+  //   GET_ALL: '/capital-partner-bank-info',
+  //   SAVE: '/capital-partner-bank-info',
+  //   FIND_ALL: '/capital-partner-bank-info/find-all',
+  // },
+
+  // CAPITAL_PARTNER_UNIT_BOOKING: {
+  //   GET_BY_ID: (id: string) => `/capital-partner-unit-booking/${id}`,
+  //   UPDATE: (id: string) => `/capital-partner-unit-booking/${id}`,
+  //   DELETE: (id: string) => `/capital-partner-unit-booking/${id}`,
+  //   GET_ALL: '/capital-partner-unit-booking',
+  //   SAVE: '/capital-partner-unit-booking',
+  //   FIND_ALL: '/capital-partner-unit-booking/find-all',
+  // },
+
+  // CAPITAL_PARTNER_UNIT_PURCHASE: {
+  //   GET_BY_ID: (id: string) => `/capital-partner-unit-purchase/${id}`,
+  //   UPDATE: (id: string) => `/capital-partner-unit-purchase/${id}`,
+  //   DELETE: (id: string) => `/capital-partner-unit-purchase/${id}`,
+  //   GET_ALL: '/capital-partner-unit-purchase',
+  //   SAVE: '/capital-partner-unit-purchase',
+  //   FIND_ALL: '/capital-partner-unit-purchase/find-all',
+  // },
+
+  // CAPITAL_PARTNER_UNIT_TYPE: {
+  //   GET_BY_ID: (id: string) => `/capital-partner-unit-type/${id}`,
+  //   UPDATE: (id: string) => `/capital-partner-unit-type/${id}`,
+  //   DELETE: (id: string) => `/capital-partner-unit-type/${id}`,
+  //   GET_ALL: '/capital-partner-unit-type',
+  //   SAVE: '/capital-partner-unit-type',
+  //   FIND_ALL: '/capital-partner-unit-type/find-all',
+  // },
+
+
+
   // ASSET REGISTER APIs (backend path is asset-register, not asset-registry)
     ASSET_REGISTER: {
       GET_BY_ID: (id: string) => `/asset-register/${id}`,
@@ -346,7 +411,6 @@ export const API_ENDPOINTS = {
     // END ASSET REGISTER APIs
   
 
- 
 
   APPLICATION_TABLE_DESIGN: {
     GET_BY_ID: (id: string) => `/application-table-design/${id}`,
@@ -416,74 +480,90 @@ export const API_ENDPOINTS = {
     FIND_ALL: '/binary-data-store/find-all',
   },
 
-  // Build Partner
+
+ // Owner Registry Start APIs HOA
+ OWNER_REGISTRY: {
+  GET_BY_ID: (id: string) => `/owner-registry/${id}`,
+  UPDATE: (id: string) => `/owner-registry/${id}`,
+  DELETE: (id: string) => `/owner-registry/${id}`,
+  SOFT_DELETE: (id: string) => `/owner-registry/soft/${id}`,
+  GET_ALL: '/owner-registry?deleted.equals=false&enabled.equals=true',
+  SAVE: '/owner-registry',
+  FIND_ALL: '/owner-registry/find-all',
+},
+
+OWNER_REGISTRY_UNIT: {
+  GET_BY_ID: (id: string) => `/owner-registry-unit/${id}`,
+  UPDATE: (id: string) => `/owner-registry-unit/${id}`,
+  DELETE: (id: string) => `/owner-registry-unit/${id}`,
+  GET_ALL: '/owner-registry-unit',
+  SAVE: '/owner-registry-unit',
+  FIND_ALL: '/owner-registry-unit/find-all',
+},
+
+OWNER_REGISTRY_PAYMENT_PLAN: {
+  GET_BY_ID: (id: string) => `/owner-registry-payment-plan/${id}`,
+  UPDATE: (id: string) => `/owner-registry-payment-plan/${id}`,
+  DELETE: (id: string) => `/owner-registry-payment-plan/${id}`,
+  SOFT_DELETE: (id: string) => `/owner-registry-payment-plan/soft/${id}`,
+  GET_ALL: '/owner-registry-payment-plan',
+  SAVE: '/owner-registry-payment-plan',
+  FIND_ALL: '/owner-registry-payment-plan/find-all',
+},
+
+OWNER_REGISTRY_BANK_INFO: {
+  GET_BY_ID: (id: string) => `/owner-registry-bank-info/${id}`,
+  UPDATE: (id: string) => `/owner-registry-bank-info/${id}`,
+  DELETE: (id: string) => `/owner-registry-bank-info/${id}`,
+  GET_ALL: '/owner-registry-bank-info',
+  SAVE: '/owner-registry-bank-info',
+  FIND_ALL: '/owner-registry-bank-info/find-all',
+},
+
+OWNER_REGISTRY_UNIT_BOOKING: {
+  GET_BY_ID: (id: string) => `/owner-registry-unit-booking/${id}`,
+  UPDATE: (id: string) => `/owner-registry-unit-booking/${id}`,
+  DELETE: (id: string) => `/owner-registry-unit-booking/${id}`,
+  GET_ALL: '/owner-registry-unit-booking',
+  SAVE: '/owner-registry-unit-booking',
+  FIND_ALL: '/owner-registry-unit-booking/find-all',
+},
+
+OWNER_REGISTRY_UNIT_PURCHASE: {
+  GET_BY_ID: (id: string) => `/owner-registry-unit-purchase/${id}`,
+  UPDATE: (id: string) => `/owner-registry-unit-purchase/${id}`,
+  DELETE: (id: string) => `/owner-registry-unit-purchase/${id}`,
+  GET_ALL: '/owner-registry-unit-purchase',
+  SAVE: '/owner-registry-unit-purchase',
+  FIND_ALL: '/owner-registry-unit-purchase/find-all',
+},
+// NEW API FOR CONTACT
+
+//  OWNER_REGISTRY_CONTACT: {
+//   GET_BY_ID: (id: string) => `/owner-registry-contact-details/${id}`,
+//   UPDATE: (id: string) => `/owner-registry-contact-details/${id}`,
+//   DELETE: (id: string) => `/owner-registry-contact-details/${id}`,
+//   SOFT_DELETE: (id: string) => `/owner-registry-contact-details/soft/${id}`,
+//   GET_ALL: '/owner-registry-contact-details',
+//   SAVE: '/owner-registry-contact-details',
+//   FIND_ALL: '/owner-registry-contact-details/find-all',
+//   UPLOAD: '/owner-registry-contact-details/upload',
+// },
+
+// OWNER_REGISTRY_UNIT_TYPE: {
+//   GET_BY_ID: (id: string) => `/owner-registry-unit-type/${id}`,
+//   UPDATE: (id: string) => `/owner-registry-unit-type/${id}`,
+//   DELETE: (id: string) => `/owner-registry-unit-type/${id}`,
+//   GET_ALL: '/owner-registry-unit-type',
+//   SAVE: '/owner-registry-unit-type',
+//   FIND_ALL: '/owner-registry-unit-type/find-all',
+// },
+
+// END Owner Registry Start APIs HOA
 
 
-  // Capital Partner
-  CAPITAL_PARTNER: {
-    GET_BY_ID: (id: string) => `/capital-partner/${id}`,
-    UPDATE: (id: string) => `/capital-partner/${id}`,
-    DELETE: (id: string) => `/capital-partner/${id}`,
-    SOFT_DELETE: (id: string) => `/capital-partner/soft/${id}`,
-    GET_ALL: '/capital-partner?deleted.equals=false&enabled.equals=true',
-    SAVE: '/capital-partner',
-    FIND_ALL: '/capital-partner/find-all',
-  },
 
-  CAPITAL_PARTNER_BANK_INFO: {
-    GET_BY_ID: (id: string) => `/capital-partner-bank-info/${id}`,
-    UPDATE: (id: string) => `/capital-partner-bank-info/${id}`,
-    DELETE: (id: string) => `/capital-partner-bank-info/${id}`,
-    GET_ALL: '/capital-partner-bank-info',
-    SAVE: '/capital-partner-bank-info',
-    FIND_ALL: '/capital-partner-bank-info/find-all',
-  },
 
-  CAPITAL_PARTNER_UNIT_BOOKING: {
-    GET_BY_ID: (id: string) => `/capital-partner-unit-booking/${id}`,
-    UPDATE: (id: string) => `/capital-partner-unit-booking/${id}`,
-    DELETE: (id: string) => `/capital-partner-unit-booking/${id}`,
-    GET_ALL: '/capital-partner-unit-booking',
-    SAVE: '/capital-partner-unit-booking',
-    FIND_ALL: '/capital-partner-unit-booking/find-all',
-  },
-
-  CAPITAL_PARTNER_PAYMENT_PLAN: {
-    GET_BY_ID: (id: string) => `/capital-partner-payment-plan/${id}`,
-    UPDATE: (id: string) => `/capital-partner-payment-plan/${id}`,
-    DELETE: (id: string) => `/capital-partner-payment-plan/${id}`,
-    SOFT_DELETE: (id: string) => `/capital-partner-payment-plan/soft/${id}`,
-    GET_ALL: '/capital-partner-payment-plan',
-    SAVE: '/capital-partner-payment-plan',
-    FIND_ALL: '/capital-partner-payment-plan/find-all',
-  },
-
-  CAPITAL_PARTNER_UNIT: {
-    GET_BY_ID: (id: string) => `/capital-partner-unit/${id}`,
-    UPDATE: (id: string) => `/capital-partner-unit/${id}`,
-    DELETE: (id: string) => `/capital-partner-unit/${id}`,
-    GET_ALL: '/capital-partner-unit',
-    SAVE: '/capital-partner-unit',
-    FIND_ALL: '/capital-partner-unit/find-all',
-  },
-
-  CAPITAL_PARTNER_UNIT_PURCHASE: {
-    GET_BY_ID: (id: string) => `/capital-partner-unit-purchase/${id}`,
-    UPDATE: (id: string) => `/capital-partner-unit-purchase/${id}`,
-    DELETE: (id: string) => `/capital-partner-unit-purchase/${id}`,
-    GET_ALL: '/capital-partner-unit-purchase',
-    SAVE: '/capital-partner-unit-purchase',
-    FIND_ALL: '/capital-partner-unit-purchase/find-all',
-  },
-
-  CAPITAL_PARTNER_UNIT_TYPE: {
-    GET_BY_ID: (id: string) => `/capital-partner-unit-type/${id}`,
-    UPDATE: (id: string) => `/capital-partner-unit-type/${id}`,
-    DELETE: (id: string) => `/capital-partner-unit-type/${id}`,
-    GET_ALL: '/capital-partner-unit-type',
-    SAVE: '/capital-partner-unit-type',
-    FIND_ALL: '/capital-partner-unit-type/find-all',
-  },
 
   // Configuration
   CONFIGURATION_STORE: {

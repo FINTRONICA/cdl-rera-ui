@@ -79,7 +79,7 @@ class CapitalPartnerUnitService {
     id: number
   ): Promise<CapitalPartnerUnitResponse> {
     const url = buildApiUrl(
-      API_ENDPOINTS.CAPITAL_PARTNER_UNIT.GET_BY_ID(id.toString())
+      API_ENDPOINTS.OWNER_REGISTRY_UNIT.GET_BY_ID(id.toString())
     )
     const data = await apiClient.get<CapitalPartnerUnitResponse>(url)
     return data
@@ -90,7 +90,7 @@ class CapitalPartnerUnitService {
     payload: Partial<CapitalPartnerUnitRequest>
   ): Promise<CapitalPartnerUnitResponse> {
     const url = buildApiUrl(
-      API_ENDPOINTS.CAPITAL_PARTNER_UNIT.UPDATE(id.toString())
+      API_ENDPOINTS.OWNER_REGISTRY_UNIT.UPDATE(id.toString())
     )
     const response = await apiClient.put(url, payload)
     return response as CapitalPartnerUnitResponse
@@ -98,7 +98,7 @@ class CapitalPartnerUnitService {
 
   async deleteCapitalPartnerUnit(id: number): Promise<void> {
     const url = buildApiUrl(
-      API_ENDPOINTS.CAPITAL_PARTNER_UNIT.DELETE(id.toString())
+      API_ENDPOINTS.OWNER_REGISTRY_UNIT.DELETE(id.toString())
     )
     await apiClient.delete(url)
   }
@@ -106,7 +106,7 @@ class CapitalPartnerUnitService {
   async createCapitalPartnerUnit(
     payload: any
   ): Promise<CapitalPartnerUnitResponse> {
-    const url = buildApiUrl(API_ENDPOINTS.CAPITAL_PARTNER_UNIT.SAVE)
+    const url = buildApiUrl(API_ENDPOINTS.OWNER_REGISTRY_UNIT.SAVE)
     const response = await apiClient.post(url, payload)
     return response as CapitalPartnerUnitResponse
   }

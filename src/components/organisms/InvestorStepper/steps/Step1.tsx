@@ -114,7 +114,7 @@ const Step1 = forwardRef<Step1Ref, Step1Props>(
       data: existingCapitalPartnerData,
       isLoading: isLoadingExistingData,
     } = useGetEnhanced<CapitalPartnerResponse>(
-      API_ENDPOINTS.CAPITAL_PARTNER.GET_BY_ID(
+      API_ENDPOINTS.OWNER_REGISTRY.GET_BY_ID(
         (capitalPartnerId || 0).toString()
       ),
       {},
