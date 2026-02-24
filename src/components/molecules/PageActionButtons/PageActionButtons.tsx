@@ -7,7 +7,7 @@ import { UploadDialog } from '@/components/molecules/UploadDialog'
 
 export type EntityType =
   | 'project'
-  | 'investor'
+  | 'ownerRegistry'
   | 'developer'
   | 'manualPayment'
   | 'feeRepush'
@@ -98,8 +98,8 @@ const PageActionButtonsComponent: React.FC<PageActionButtonsProps> = ({
       downloadPermission: ['data_export'], // Unified download permission
       uploadPermission: ['bulk_upload'], // Unified upload permission
     },
-    investor: {
-      label: 'Add New Capital Partner',
+    ownerRegistry: {
+      label: 'Add New Owner Registry ',
       route: '/owner-registry/new',
       permissions: ['cp_create'], // Only users with cp_create permission
       downloadPermission: ['data_export'], // Unified download permission
@@ -276,7 +276,7 @@ const PageActionButtonsComponent: React.FC<PageActionButtonsProps> = ({
   // Get default upload endpoint based on entity type
   const getDefaultUploadEndpoint = (entityType: EntityType): string => {
     switch (entityType) {
-      case 'investor':
+      case 'ownerRegistry':
         return '/owner-registry/upload'
       case 'developer':
         return '/asset-registry-beneficiary/upload'

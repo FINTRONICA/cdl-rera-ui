@@ -304,11 +304,11 @@ const Step5: React.FC<Step5Props> = ({
     }
   }
 
-  const handleEditBankDetails = () => {
-    if (capitalPartnerId) {
-      router.push(`/owner-registry/${capitalPartnerId}/step/5`)
-    }
-  }
+  // const handleEditBankDetails = () => {
+  //   if (capitalPartnerId) {
+  //     router.push(`/owner-registry/${capitalPartnerId}/step/5`)
+  //   }
+  // }
 
   const {
     data: capitalPartnerData,
@@ -657,7 +657,7 @@ const Step5: React.FC<Step5Props> = ({
     return [
       {
         gridSize: 6,
-        label: getLabel('CDL_CP_BPA_NAME', currentLanguage, 'Project Name*'),
+        label: getLabel('CDL_CP_MF_NAME', currentLanguage, 'Project Name*'),
         value: unitData.realEstateAssestDTO?.reaName || '-',
       },
       {
@@ -667,12 +667,12 @@ const Step5: React.FC<Step5Props> = ({
       },
       {
         gridSize: 6,
-        label: getLabel('CDL_CP_BP_ID', currentLanguage, 'Developer ID*'),
+        label: getLabel('CDL_CP_AR_ID', currentLanguage, 'Developer ID*'),
         value: unitData.realEstateAssestDTO?.reaReraNumber || '-',
       },
       {
         gridSize: 6,
-        label: getLabel('CDL_CP_BP_NAME', currentLanguage, 'Developer Name*'),
+        label: getLabel('CDL_CP_AR_NAME', currentLanguage, 'Developer Name*'),
         value: unitData.realEstateAssestDTO?.reaManagedBy || '-',
       },
       {
@@ -1666,7 +1666,7 @@ const Step5: React.FC<Step5Props> = ({
       </CardContent>
 
       {/* Bank Details Section */}
-      <CardContent>
+      {/* <CardContent>
         <Box
           display="flex"
           justifyContent="space-between"
@@ -1723,7 +1723,7 @@ const Step5: React.FC<Step5Props> = ({
             </Typography>
           )
         )}
-      </CardContent>
+      </CardContent> */}
     </Card>
   )
 }

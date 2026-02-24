@@ -23,7 +23,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import {
   CapitalPartnerStep1Schema,
   CapitalPartnerStep2Schema,
-  CapitalPartnerStep4Schema,
+  // CapitalPartnerStep4Schema,
   type CapitalPartnerStep1Data,
   type CapitalPartnerStep2Data,
 } from '@/lib/validation/capitalPartnerSchemas'
@@ -31,7 +31,7 @@ import {
 import Step1, { type Step1Ref } from './steps/Step1'
 import Step2, { type Step2Ref } from './steps/Step2'
 import Step3, { type Step3Ref } from './steps/Step3'
-import Step4, { type Step4Ref } from './steps/Step4'
+// import Step4, { type Step4Ref } from './steps/Step4'
 import Step5 from './steps/Step5'
 import DocumentUploadFactory from '../DocumentUpload/DocumentUploadFactory'
 import { DocumentItem } from '../DeveloperStepper/developerTypes'
@@ -61,7 +61,7 @@ const stepConfigs = [
   { key: 'documents', configId: 'CDL_CP_DOCUMENTS' },
   { key: 'unit', configId: 'CDL_CP_UNIT_DETAILS' },
   { key: 'payment', configId: 'CDL_CP_PAYMENT_PLAN' },
-  { key: 'bank', configId: 'CDL_CP_BANK_DETAILS' },
+  // { key: 'bank', configId: 'CDL_CP_BANK_DETAILS' },
   { key: 'review', configId: 'CDL_CP_REVIEW' },
 ]
 
@@ -71,7 +71,7 @@ const fallbackSteps = [
   'Documents',
   'Unit Details',
   'Payment Plan',
-  'Bank Details',
+  // 'Bank Details',
   'Review',
 ]
 
@@ -111,7 +111,7 @@ export default function InvestorsStepperWrapper({
   const step1Ref = useRef<Step1Ref>(null)
   const step2Ref = useRef<Step2Ref>(null)
   const step3Ref = useRef<Step3Ref>(null)
-  const step4Ref = useRef<Step4Ref>(null)
+  // const step4Ref = useRef<Step4Ref>(null)
 
   // Keep active step in a ref so the resolver can react to step changes without remounting the form
   const activeStepRef = useRef(activeStep)
@@ -139,12 +139,12 @@ export default function InvestorsStepperWrapper({
               CapitalPartnerStep2Schema
             ) as unknown as Resolver<CapitalPartnerFormData>
           )(values, context, options)
-        case 4:
-          return (
-            zodResolver(
-              CapitalPartnerStep4Schema
-            ) as unknown as Resolver<CapitalPartnerFormData>
-          )(values, context, options)
+        // case 4:
+        //   return (
+        //     zodResolver(
+        //       CapitalPartnerStep4Schema
+        //     ) as unknown as Resolver<CapitalPartnerFormData>
+        //   )(values, context, options)
         default:
           return {
             values,
@@ -273,10 +273,10 @@ export default function InvestorsStepperWrapper({
       return
     }
 
-    if (activeStep === 4 && step4Ref.current) {
-      await handleAsyncStep(step4Ref.current)
-      return
-    }
+    // if (activeStep === 4 && step4Ref.current) {
+    //   await handleAsyncStep(step4Ref.current)
+    //   return
+    // }
 
     navigateToNextStep()
   }
@@ -326,13 +326,13 @@ export default function InvestorsStepperWrapper({
     }
   }
 
-  const handleStep4SaveAndNext = () => {
-    const nextStep = activeStep + 1
-    if (nextStep < steps.length) {
-      setActiveStep(nextStep)
-      updateURL(nextStep, capitalPartnerId)
-    }
-  }
+  // const handleStep4SaveAndNext = () => {
+  //   const nextStep = activeStep + 1
+  //   if (nextStep < steps.length) {
+  //     setActiveStep(nextStep)
+  //     updateURL(nextStep, capitalPartnerId)
+  //   }
+  // }
 
   const handleDocumentsChange = useCallback(
     (documents: DocumentItem[]) => {
@@ -433,16 +433,16 @@ export default function InvestorsStepperWrapper({
             isViewMode={isViewMode}
           />
         )
-      case 4:
-        return (
-          <Step4
-            ref={step4Ref}
-            capitalPartnerId={capitalPartnerId}
-            onSaveAndNext={handleStep4SaveAndNext}
-            isEditMode={isEditMode}
-            isViewMode={isViewMode}
-          />
-        )
+      // case 4:
+      //   return (
+      //     <Step4
+      //       ref={step4Ref}
+      //       capitalPartnerId={capitalPartnerId}
+      //       onSaveAndNext={handleStep4SaveAndNext}
+      //       isEditMode={isEditMode}
+      //       isViewMode={isViewMode}
+      //     />
+      //   )
       case 5:
         return (
           <Step5 capitalPartnerId={capitalPartnerId} isViewMode={isViewMode} />

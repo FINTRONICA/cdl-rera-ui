@@ -793,61 +793,61 @@ const Step1 = forwardRef<Step1Ref, Step1Props>(
 
             <Grid container rowSpacing={4} columnSpacing={2}>
               {renderApiSelectField(
-                'investorType',
-                'CDL_CP_TYPE',
-                'Investor Type',
+                'ownerType',
+                'CDL_OWNER_TYPE',
+                'Owner Type',
                 investorTypes?.length
                   ? investorTypes
-                  : getFallbackOptions('investorType'),
+                  : getFallbackOptions('ownerType'),
                 6,
                 true,
                 loadingInvestorTypes
               )}
               {renderInvestorIdField(
-                'investorId',
-                getLabel('CDL_CP_REFID', currentLanguage, 'Investor ID'),
+                'ownerId',
+                getLabel('CDL_OWNER_REFID', currentLanguage, 'Owner ID'),
                 6,
                 true
               )}
               {renderTextField(
-                'investorFirstName',
-                'CDL_CP_FIRSTNAME',
-                'Investor Name',
+                'ownerFirstName',
+                'CDL_OWNER_FIRSTNAME',
+                'Owner Name',
                 '',
                 true
               )}
               {renderTextField(
-                'investorMiddleName',
-                'CDL_CP_MIDDLENAME',
+                'ownerMiddleName',
+                'CDL_OWNER_MIDDLENAME',
                 'Middle Name'
               )}
               {renderTextField(
-                'investorLastName',
-                'CDL_CP_LASTNAME',
+                'ownerLastName',
+                'CDL_OWNER_LASTNAME',
                 'Last Name'
               )}
               {renderTextField(
                 'arabicName',
-                'CDL_CP_LOCALE_NAME',
+                'CDL_OWNER_LOCALE_NAME',
                 'Arabic Name'
               )}
               {renderTextField(
                 'ownership',
-                'CDL_CP_OWNERSHIP',
+                'CDL_OWNER_OWNERSHIP',
                 'Ownership Percentage'
               )}
               {renderApiSelectField(
-                'investorIdType',
-                'CDL_CP_ID_TYPE',
-                'Investor ID Type',
+                'ownerIdType',
+                'CDL_OWNER_ID_TYPE',
+                'Owner ID Type',
                 idTypes?.length
                   ? idTypes
-                  : getFallbackOptions('investorIdType'),
+                  : getFallbackOptions('ownerIdType'),
                 6,
                 true,
                 loadingIdTypes
               )}
-              {renderTextField('idNumber', 'CDL_CP_DOC_NO', 'ID No.', '', true)}
+              {renderTextField('idNumber', 'CDL_OWNER_DOC_NO', 'ID No.', '', true)}
               <Grid size={{ xs: 12, md: 6 }}>
                 <Controller
                   name="idExpiryDate"
@@ -857,7 +857,7 @@ const Step1 = forwardRef<Step1Ref, Step1Props>(
                     <>
                       <DatePicker
                         label={getLabel(
-                          'CDL_CP_ID_EXP',
+                          'CDL_OWNER_ID_EXP',
                           currentLanguage,
                           'ID Expiry Date'
                         )}
@@ -906,7 +906,7 @@ const Step1 = forwardRef<Step1Ref, Step1Props>(
               </Grid>
               {renderApiSelectField(
                 'nationality',
-                'CDL_CP_NATIONALITY',
+                'CDL_OWNER_NATIONALITY',
                 'Nationality',
                 countries?.length
                   ? countries
@@ -917,17 +917,17 @@ const Step1 = forwardRef<Step1Ref, Step1Props>(
               )}
               {renderTextField(
                 'accountContact',
-                'CDL_CP_TELEPHONE',
+                'CDL_OWNER_TELEPHONE',
                 'Account Contact Number',
                 ''
               )}
               {renderTextField(
                 'mobileNumber',
-                'CDL_CP_MOBILE',
+                'CDL_OWNER_MOBILE',
                 'Mobile Number',
                 ''
               )}
-              {renderTextField('email', 'CDL_CP_EMAIL', 'Email Address', '')}
+              {renderTextField('email', 'CDL_OWNER_EMAIL', 'Email Address', '')}
             </Grid>
           </CardContent>
         </Card>

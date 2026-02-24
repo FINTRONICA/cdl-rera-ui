@@ -26,75 +26,75 @@ const statusOptions = [
   'DRAFT',
   'INITIATED',
 ]
-type InvestorData = CapitalPartnerUIData
+type OwnerData = CapitalPartnerUIData
 
 const getTableColumns = (getLabel: (configId: string) => string) => [
   {
-    key: 'investor',
-    label: getLabel('CDL_CP_FIRSTNAME'),
+    key: 'owner',
+    label: getLabel('CDL_OWNER_FIRSTNAME'),
     type: 'text' as const,
     width: 'w-40',
     sortable: true,
   },
   {
-    key: 'investorId',
-    label: getLabel('CDL_CP_REFID'),
+    key: 'ownerId',
+    label: getLabel('CDL_OWNER_REFID'),
     type: 'text' as const,
     width: 'w-32',
     sortable: true,
   },
   {
-    key: 'buildPartnerName',
-    label: getLabel('CDL_CP_BP_NAME'),
+    key: 'assetRegisterName',
+    label: getLabel('CDL_OWNER_AR_NAME'),
     type: 'text' as const,
     width: 'w-48',
     sortable: true,
   },
   {
-    key: 'buildPartnerId',
-    label: getLabel('CDL_CP_BP_ID'),
+    key: 'assetRegisterId',
+    label: getLabel('CDL_OWNER_AR_ID'),
     type: 'text' as const,
     width: 'w-48',
     sortable: true,
   },
   {
-    key: 'buildPartnerCif',
-    label: getLabel('CDL_CP_BP_CIF'),
+    key: 'assetRegisterCif',
+    label: getLabel('CDL_OWNER_AR_CIF'),
     type: 'text' as const,
     width: 'w-40',
     sortable: true,
   },
   {
-    key: 'projectName',
-    label: getLabel('CDL_CP_BPA_NAME'),
+    key: 'managementFirmName',
+    label: getLabel('CDL_OWNER_MF_NAME'),
     type: 'text' as const,
     width: 'w-48',
     sortable: true,
   },
   {
-    key: 'projectCIF',
-    label: getLabel('CDL_CP_BPA_CIF'),
+    key: 'managementFirmCif',
+    label: getLabel('CDL_OWNER_MF_CIF'),
     type: 'text' as const,
     width: 'w-48',
     sortable: true,
   },
   {
     key: 'unitNumber',
-    label: getLabel('CDL_CP_UNIT_NUMBER'),
+    label: getLabel('CDL_OWNER_UNIT_NUMBER'),
     type: 'text' as const,
     width: 'w-40',
     sortable: true,
   },
   {
     key: 'approvalStatus',
-    label: getLabel('CDL_CP_APPROVAL_STATUS'),
+    label: getLabel('CDL_OWNER_APPROVAL_STATUS'),
     type: 'status' as const,
     width: 'w-40',
     sortable: true,
   },
   {
     key: 'actions',
-    label: getLabel('CDL_CP_ACTION'),
+    label: getLabel('CDL_OWNER_ACTION'),
     type: 'actions' as const,
     width: 'w-26',
   },
@@ -115,9 +115,9 @@ const InvestorsPage: React.FC = () => {
 
   const currentLanguage = useAppStore((state) => state.language)
   const { getLabelResolver } = useSidebarConfig()
-  const investorsTitle = getLabelResolver
-    ? getLabelResolver('investors', 'Investor')
-    : 'Investor'
+  const ownersTitle = getLabelResolver
+    ? getLabelResolver('owner-registry', 'Owner Registry')
+    : 'Owner Registry'
   const { getLabel } = useCapitalPartnerLabelsApi()
   const confirmDelete = useDeleteConfirmation()
 
@@ -176,13 +176,13 @@ const InvestorsPage: React.FC = () => {
   const [search, setSearch] = useState<Record<string, string>>(() =>
     Object.fromEntries(
       [
-        'investor',
-        'investorId',
-        'buildPartnerName',
-        'buildPartnerCif',
-        'buildPartnerId',
-        'projectName',
-        'projectCIF',
+        'owner',
+        'ownerId',
+        'assetRegisterName',
+        'assetRegisterId',
+        'assetRegisterCif',
+        'managementFirmName',
+        'managementFirmCif',
         'unitNumber',
         'approvalStatus',
       ].map((field) => [field, ''])
@@ -266,18 +266,18 @@ const InvestorsPage: React.FC = () => {
     } catch (error) {}
   }
 
-  const handleRowDelete = (row: InvestorData) => {
+  const handleRowDelete = (row: OwnerData) => {
     if (isDeleting) {
       return
     }
 
     if (!row.id) {
-      alert('Cannot delete: No ID found for this investor')
+      alert('Cannot delete: No ID found for this owner')
       return
     }
 
     confirmDelete({
-      itemName: `investor: ${row.investor}`,
+      itemName: `owner: ${row.owner}`,
       onConfirm: async () => {
         try {
           setIsDeleting(true)
@@ -295,7 +295,7 @@ const InvestorsPage: React.FC = () => {
         } catch (error) {
           const errorMessage =
             error instanceof Error ? error.message : 'Unknown error occurred'
-          console.error(`Failed to delete investor: ${errorMessage}`)
+          console.error(`Failed to delete owner: ${errorMessage}`)
           throw error
         } finally {
           setIsDeleting(false)
@@ -303,7 +303,7 @@ const InvestorsPage: React.FC = () => {
       },
     })
   }
-  const handleRowView = (row: InvestorData) => {
+  const handleRowView = (row: OwnerData) => {
     if (row.id) {
     
       router.push(`/owner-registry/${row.id}?mode=view`)
@@ -312,7 +312,7 @@ const InvestorsPage: React.FC = () => {
     }
   }
 
-  const handleRowEdit = (row: InvestorData) => {
+  const handleRowEdit = (row: OwnerData) => {
     if (row.id) {
       
       router.push(`/owner-registry/${row.id}?editing=true`)
@@ -321,34 +321,34 @@ const InvestorsPage: React.FC = () => {
     }
   }
 
-  const renderExpandedContent = (row: InvestorData) => (
+  const renderExpandedContent = (row: OwnerData) => (
     <div className="grid grid-cols-2 gap-8">
       <div className="space-y-4">
         <h4 className="mb-4 text-sm font-semibold text-gray-900">
-          {getCapitalPartnerLabelDynamic('CDL_CP_BASIC_INFO')}
+          {getCapitalPartnerLabelDynamic('CDL_OWNER_BASIC_INFO')}
         </h4>
         <div className="grid grid-cols-2 gap-4 text-sm">
           <div>
             <span className="text-gray-600">
-              {getCapitalPartnerLabelDynamic('CDL_CP_FIRSTNAME')}:
+              {getCapitalPartnerLabelDynamic('CDL_OWNER_FIRSTNAME')}:
             </span>
             <span className="ml-2">{row.investor}</span>
           </div>
           <div>
             <span className="text-gray-600">
-              {getCapitalPartnerLabelDynamic('CDL_CP_REFID')}:
+              {getCapitalPartnerLabelDynamic('CDL_OWNER_REFID')}:
             </span>
             <span className="ml-2">{row.investorId}</span>
           </div>
           <div>
             <span className="text-gray-600">
-              {getCapitalPartnerLabelDynamic('CDL_CP_UNIT_NUMBER')}:
+              {getCapitalPartnerLabelDynamic('CDL_OWNER_UNIT_NUMBER')}:
             </span>
             <span className="ml-2">{row.unitNumber || 'N/A'}</span>
           </div>
           <div>
             <span className="text-gray-600">
-              {getCapitalPartnerLabelDynamic('CDL_CP_APPROVAL_STATUS')}:
+              {getCapitalPartnerLabelDynamic('CDL_OWNER_APPROVAL_STATUS')}:
             </span>
             <span className="ml-2">{row.approvalStatus}</span>
           </div>
@@ -356,15 +356,15 @@ const InvestorsPage: React.FC = () => {
       </div>
       <div className="space-y-4">
         <h4 className="mb-4 text-sm font-semibold text-gray-900">
-          Build Partner Details
+          Asset Register Details
         </h4>
         <div className="grid grid-cols-2 gap-4 text-sm">
           <div>
-            <span className="text-gray-600">Build Partner Name:</span>
+            <span className="text-gray-600">Asset Register Name:</span>
             <span className="ml-2">{row.buildPartnerName}</span>
           </div>
           <div>
-            <span className="text-gray-600">Build Partner CIF:</span>
+            <span className="text-gray-600">Asset Register CIF:</span>
             <span className="ml-2">{row.buildPartnerCif}</span>
           </div>
         </div>
@@ -374,7 +374,7 @@ const InvestorsPage: React.FC = () => {
 
   if (loadingData) {
     return (
-      <DashboardLayout title={investorsTitle}>
+      <DashboardLayout title={ownersTitle}>
         <div className="flex flex-col h-full bg-white/75 dark:bg-gray-800/80 rounded-2xl">
           <GlobalLoading fullHeight />
         </div>
@@ -384,7 +384,7 @@ const InvestorsPage: React.FC = () => {
 
   if (errorData) {
     return (
-      <DashboardLayout title={investorsTitle}>
+      <DashboardLayout title={ownersTitle}>
         <div className="flex flex-col h-full bg-white/75 dark:bg-gray-800/80 rounded-2xl">
           <GlobalError 
             error={errorData} 
@@ -423,11 +423,11 @@ const InvestorsPage: React.FC = () => {
         </div>
       )}
 
-      <DashboardLayout title={investorsTitle}>
+      <DashboardLayout title={ownersTitle}>
         <div className="flex flex-col h-full bg-white/75 dark:bg-gray-800/80 rounded-2xl">
           <div className="sticky top-0 z-10 border-b border-gray-200 bg-white/75 dark:bg-gray-800/80 dark:border-gray-700 rounded-t-2xl">
             <PageActionButtons
-              entityType="investor"
+              entityType="ownerRegistry"
               onDownloadTemplate={handleDownloadInvestorTemplate}
               isDownloading={isDownloadingInvestor}
             />
@@ -435,8 +435,8 @@ const InvestorsPage: React.FC = () => {
 
           <div className="flex flex-col flex-1 min-h-0">
             <div className="flex-1 overflow-auto">
-              <PermissionAwareDataTable<InvestorData>
-                key={`investors-table-${tableKey}`}
+              <PermissionAwareDataTable<OwnerData>
+                key={`ownerRegistry-table-${tableKey}`}
                 data={filteredData}
                 columns={tableColumns}
                 searchState={search}

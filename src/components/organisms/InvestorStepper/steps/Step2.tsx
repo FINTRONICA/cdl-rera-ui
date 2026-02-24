@@ -926,51 +926,51 @@ const Step2 = forwardRef<Step2Ref, Step2Props>(
             <Grid container rowSpacing={4} columnSpacing={2}>
               {renderProjectSelectField(
                 'projectNameDropdown',
-                'CDL_CP_BPA_NAME',
-                'Project Name',
+                'CDL_OWNER_UNIT_MF_NAME',
+                'Management Firm Name',
                 projectOptions,
                 6,
                 true,
                 loadingProjects
               )}
               {renderTextField(
-                'projectId',
-                'CDL_CP_PROP_NUMBER',
-                'Project ID*',
+                'managementFirmId',
+                'CDL_OWNER_UNIT_MF_ID',
+                'Management Firm ID*',
                 '',
                 6,
                 !selectedProject || isEditMode,
                 true
               )}
               {renderTextField(
-                'developerIdInput',
-                'CDL_CP_BP_ID',
-                'Developer ID*',
+                'assetRegisterIdInput',
+                'CDL_CP_AR_ID',
+                'Asset Register ID*',
                 '',
                 6,
                 !selectedProject || isEditMode,
                 true
               )}
               {renderTextField(
-                'developerNameInput',
-                'CDL_CP_BP_NAME',
-                'Developer Name',
+                'assetRegisterNameInput',
+                'CDL_OWNER_UNIT_AR_NAME',
+                'Asset Register Name',
                 '',
                 6,
                 !selectedProject || isEditMode,
                 true
               )}
-              {renderTextField('floor', 'CDL_CP_FLOOR', 'Floor', '', 3)}
+              {renderTextField('floor', 'CDL_OWNER_UNIT_FLOOR', 'Floor', '', 3)}
               {renderTextField(
                 'bedroomCount',
-                'CDL_CP_NOOF_BED',
+                'CDL_OWNER_UNIT_NOOF_BED',
                 'No. of Bedroom',
                 '',
                 3
               )}
               {renderTextField(
                 'unitNoQaqood',
-                'CDL_CP_UNIT_NUMBER',
+                'CDL_OWNER_UNIT_NUMBER',
                 'Unit no. Qaqood format',
                 '',
                 3,
@@ -979,7 +979,7 @@ const Step2 = forwardRef<Step2Ref, Step2Props>(
               )}
               {renderApiSelectField(
                 'unitStatus',
-                'CDL_CP_UNIT_STATUS',
+                'CDL_OWNER_UNIT_STATUS',
                 'Unit Status',
                 unitStatuses?.length
                   ? unitStatuses
@@ -990,7 +990,7 @@ const Step2 = forwardRef<Step2Ref, Step2Props>(
               )}
               {renderTextField(
                 'buildingName',
-                'CDL_CP_BUILDING_NAME',
+                'CDL_OWNER_UNIT_BUILDING_NAME',
                 'Building Name',
                 '',
                 6,
@@ -999,7 +999,7 @@ const Step2 = forwardRef<Step2Ref, Step2Props>(
               )}
               {renderTextField(
                 'plotSize',
-                'CDL_CP_PLOT_SIZE',
+                'CDL_OWNER_UNIT_PLOT_SIZE',
                 'Plot Size*',
                 '',
                 6,
@@ -1008,7 +1008,7 @@ const Step2 = forwardRef<Step2Ref, Step2Props>(
               )}
               {renderApiSelectField(
                 'propertyId',
-                'CDL_CP_PROP_NUMBER',
+                'CDL_OWNER_UNIT_PROP_NUMBER',
                 'Property ID',
                 propertyIds?.length
                   ? propertyIds
@@ -1029,7 +1029,7 @@ const Step2 = forwardRef<Step2Ref, Step2Props>(
                       fullWidth
                       disabled={isViewMode}
                       label={getLabel(
-                        'CDL_CP_UNIT_IBAN',
+                        'CDL_OWNER_UNIT_IBAN',
                         currentLanguage,
                         'Unit IBAN'
                       )}
@@ -1100,7 +1100,7 @@ const Step2 = forwardRef<Step2Ref, Step2Props>(
 
               {renderTextField(
                 'registrationFees',
-                'CDL_CP_REG_FEE',
+                'CDL_OWNER_UNIT_REG_FEE',
                 'Unit Registration Fees',
                 '',
                 3,
@@ -1109,7 +1109,7 @@ const Step2 = forwardRef<Step2Ref, Step2Props>(
               )}
               {renderTextField(
                 'agentName',
-                'CDL_CP_AGENT_NAME',
+                'CDL_OWNER_UNIT_AGENT_NAME',
                 'Agent Name',
                 '',
                 3,
@@ -1118,7 +1118,7 @@ const Step2 = forwardRef<Step2Ref, Step2Props>(
               )}
               {renderTextField(
                 'agentNationalId',
-                'CDL_CP_AGENT_ID',
+                'CDL_OWNER_UNIT_AGENT_ID',
                 'Agent National ID',
                 '',
                 3,
@@ -1127,7 +1127,7 @@ const Step2 = forwardRef<Step2Ref, Step2Props>(
               )}
               {renderTextField(
                 'grossSalePrice',
-                'CDL_CP_GROSS_PRICE',
+                'CDL_OWNER_UNIT_GROSS_PRICE',
                 'Gross Sale Price',
                 '',
                 3,
@@ -1138,17 +1138,17 @@ const Step2 = forwardRef<Step2Ref, Step2Props>(
               {[
                 {
                   name: 'VatApplicable',
-                  configId: 'CDL_CP_VAT_APPLICABLE',
+                  configId: 'CDL_OWNER_UNIT_VAT_APPLICABLE',
                   fallbackLabel: 'VAT Applicable',
                 },
                 {
                   name: 'SalesPurchaseAgreement',
-                  configId: 'CDL_CP_SPA',
+                  configId: 'CDL_OWNER_UNIT_SPA',
                   fallbackLabel: 'Sales Purchase Agreement',
                 },
                 {
                   name: 'ProjectPaymentPlan',
-                  configId: 'CDL_CP_PAYMENT_PLAN',
+                  configId: 'CDL_OWNER_UNIT_PAYMENT_PLAN',
                   fallbackLabel: 'Project Payment Plan',
                 },
               ].map(({ name, configId, fallbackLabel }) => (
@@ -1195,21 +1195,21 @@ const Step2 = forwardRef<Step2Ref, Step2Props>(
 
               {renderTextField(
                 'salePrice',
-                'CDL_CP_NET_PRICE',
+                'CDL_OWNER_UNIT_NET_PRICE',
                 'Sale Price',
                 '',
                 3
               )}
               {renderTextField(
                 'deedNo',
-                'CDL_CP_DEED_REF_NO',
+                'CDL_OWNER_UNIT_DEED_REF_NO',
                 'Deed No',
                 '',
                 3
               )}
               {renderTextField(
                 'contractNo',
-                'CDL_CP_CONTRACT_NO',
+                'CDL_OWNER_UNIT_CONTRACT_NO',
                 'Contract No',
                 '',
                 3
@@ -1222,7 +1222,7 @@ const Step2 = forwardRef<Step2Ref, Step2Props>(
                   render={({ field }) => (
                     <DatePicker
                       label={getLabel(
-                        'CDL_CP_AGREEMENT_DATE',
+                          'CDL_OWNER_UNIT_AGREEMENT_DATE',
                         currentLanguage,
                         'Agreement Date'
                       )}
@@ -1254,17 +1254,17 @@ const Step2 = forwardRef<Step2Ref, Step2Props>(
               {[
                 {
                   name: 'ModificationFeeNeeded',
-                  configId: 'CDL_CP_FEE_REQ',
+                  configId: 'CDL_OWNER_UNIT_FEE_REQ',
                   fallbackLabel: 'Modification Fee Needed',
                 },
                 {
                   name: 'ReservationBookingForm',
-                  configId: 'CDL_CP_BOOKING',
+                  configId: 'CDL_OWNER_UNIT_BOOKING',
                   fallbackLabel: 'Reservation & Booking Form',
                 },
                 {
                   name: 'OqoodPaid',
-                  configId: 'CDL_CP_OQOOD_PAID',
+                  configId: 'CDL_OWNER_UNIT_OQOOD_PAID',
                   fallbackLabel: 'Oqood Paid',
                 },
               ].map(({ name, configId, fallbackLabel }) => (
@@ -1300,27 +1300,27 @@ const Step2 = forwardRef<Step2Ref, Step2Props>(
               ))}
               {renderCheckboxField(
                 'worldCheck',
-                'CDL_CP_WORLD_STATUS',
+                'CDL_OWNER_UNIT_WORLD_STATUS',
                 'World Check',
                 6
               )}
               {renderTextField(
                 'paidInEscrow',
-                'CDL_CP_WITH_ESCROW',
+                'CDL_OWNER_UNIT_WITH_ESCROW',
                 'Amount Paid to Build Partner (Within Escrow)',
                 '',
                 6
               )}
               {renderTextField(
                 'paidOutEscrow',
-                'CDL_CP_OUTSIDE_ESCROW',
+                'CDL_OWNER_UNIT_OUTSIDE_ESCROW',
                 'Amount Paid to Build Partner (Outside Escrow)',
                 '',
                 6
               )}
               {renderTextField(
                 'totalPaid',
-                'CDL_CP_PARTNER_PAYMENT',
+                  'CDL_OWNER_UNIT_PARTNER_PAYMENT',
                 'Total Capital Partner Payment',
                 '',
                 6,
@@ -1329,49 +1329,49 @@ const Step2 = forwardRef<Step2Ref, Step2Props>(
               )}
               {renderTextField(
                 'qaqoodAmount',
-                'CDL_CP_OQOOD_PAID',
+                'CDL_OWNER_UNIT_OQOOD_PAID',
                 'Qaqood Amount Paid',
                 '',
                 3
               )}
               {renderTextField(
                 'unitAreaSize',
-                'CDL_CP_UNIT_AREA',
+                'CDL_OWNER_UNIT_AREA',
                 'Unit Area Size',
                 '',
                 3
               )}
               {renderTextField(
                 'forfeitAmount',
-                'CDL_CP_FROFEIT_AMT',
+                'CDL_OWNER_UNIT_FROFEIT_AMT',
                 'Forfeit Amount',
                 '',
                 3
               )}
               {renderTextField(
                 'dldAmount',
-                'CDL_CP_DLD_FEE',
+                'CDL_OWNER_UNIT_DLD_FEE',
                 'Dld Amount',
                 '',
                 3
               )}
               {renderTextField(
                 'refundAmount',
-                'CDL_CP_REFUND_AMOUNT',
+                'CDL_OWNER_UNIT_REFUND_AMOUNT',
                 'Refund Amount',
                 '',
                 6
               )}
               {renderTextField(
                 'transferredAmount',
-                'CDL_CP_TRANS_AMT',
+                'CDL_OWNER_UNIT_TRANS_AMT',
                 'Transferred Amount',
                 '',
                 6
               )}
               {renderTextField(
                 'unitRemarks',
-                'CDL_CP_REMARKS',
+                'CDL_OWNER_UNIT_REMARKS',
                 'Remarks',
                 '',
                 12

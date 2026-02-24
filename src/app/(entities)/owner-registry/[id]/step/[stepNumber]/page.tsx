@@ -52,7 +52,7 @@ function InvestorStepPageContent() {
  
   if (isLoading) {
     return (
-      <DashboardLayout title="Capital Partner Details" subtitle="">
+      <DashboardLayout title="Owner Registry Details" subtitle="">
         <div className="bg-[#FFFFFFBF] rounded-2xl flex flex-col h-full">
           <GlobalLoading fullHeight />
         </div>
@@ -64,7 +64,7 @@ function InvestorStepPageContent() {
   if (error) {
     return (
       <DashboardLayout
-        title="Capital Partner Details"
+        title="Owner Registry Details"
         subtitle="Error loading investor details"
       >
         <div className="p-6 text-red-600">
@@ -82,19 +82,19 @@ function InvestorStepPageContent() {
 
   return (
     <DashboardLayout
-      title="Capital Partner Details"
+      title="Owner Registry Details"
       subtitle={
         isViewMode
-          ? 'View capital partner details and configuration (Read-only)'
+          ? 'View owner registry details and configuration (Read-only)'
           : isEditingMode
-            ? 'Edit capital partner details and configuration'
-            : 'Manage your capital partner details and configuration'
+            ? 'Edit owner registry details and configuration'
+            : 'Manage your owner registry details and configuration'
       }
     >
       <div className="flex items-start py-2 gap-7 px-7">
         <div className="flex flex-col min-w-[200px] gap-1">
           <label className="font-sans font-normal text-[12px] leading-[1] tracking-normal text-[#4A5565] dark:text-white">
-            Capital Partner Name
+            Owner Registry Name
           </label>
           <span className="font-outfit font-normal text-[16px] leading-[1] tracking-normal align-middle text-[#1E2939] dark:text-white">
             {capitalPartnerData
@@ -105,7 +105,7 @@ function InvestorStepPageContent() {
         </div>
         <div className="flex flex-col min-w-[200px] gap-1">
           <label className="font-sans font-normal text-[12px] leading-[1] tracking-normal text-[#4A5565] dark:text-white">
-            Capital Partner ID
+            Owner Registry ID
           </label>
           <span className="font-outfit font-normal text-[16px] leading-[1] tracking-normal align-middle text-[#1E2939] dark:text-white">
             {capitalPartnerData?.capitalPartnerId || 'N/A'}
@@ -129,7 +129,7 @@ export default function InvestorStepPage() {
   return (
     <Suspense
       fallback={
-        <DashboardLayout title="Capital Partner Details" subtitle="">
+        <DashboardLayout title="Owner Registry Details" subtitle="">
           <div className="bg-[#FFFFFFBF] rounded-2xl flex flex-col h-full">
             <GlobalLoading fullHeight />
           </div>

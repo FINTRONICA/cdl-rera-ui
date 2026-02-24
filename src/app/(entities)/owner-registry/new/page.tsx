@@ -8,8 +8,8 @@ import { GlobalLoading } from '@/components/atoms'
 function NewInvestorPageContent() {
   return (
     <DashboardLayout
-      title="Capital Partner Details"
-      subtitle="Register your capital partner step by step, non-mandatory fields and steps are easy to skip."
+      title="Owner Registry Details"
+      subtitle="Register your owner registry step by step, non-mandatory fields and steps are easy to skip."
     >
       <div className="px-3">
         <InvestorsStepperWrapper />
@@ -22,7 +22,7 @@ export default function NewInvestorPage() {
   return (
     <Suspense
       fallback={
-        <DashboardLayout title="Capital Partner Details" subtitle="">
+          <DashboardLayout title="Owner Registry Details" subtitle="">
           <div className="bg-[#FFFFFFBF] rounded-2xl flex flex-col h-full">
             <GlobalLoading fullHeight />
           </div>
