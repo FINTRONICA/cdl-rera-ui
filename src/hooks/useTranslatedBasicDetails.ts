@@ -40,77 +40,109 @@ export function useTranslatedBasicDetails(
 
       try {
         const promises = []
-        const typeDTO = (capitalPartnerData as any).ownerRegistryTypeDTO ?? (capitalPartnerData as any).investorTypeDTO
-        if (typeDTO?.id && typeDTO?.settingKey) {
-          promises.push(
-            applicationSettingService
-              .getApplicationSettingByIdAndKey(typeDTO.id, typeDTO.settingKey)
-              .then((setting) => {
-                const translatedValue =
-                  setting.languageTranslationId?.configValue ||
-                  setting.settingValue
-                setInvestorType(translatedValue)
-              })
-              .catch(() => {
-                setInvestorType(typeDTO?.settingValue || '-')
-              })
-          )
+        const typeDTO = (capitalPartnerData as Record<string, unknown>).ownerRegistryTypeDTO ?? (capitalPartnerData as Record<string, unknown>).investorTypeDTO
+        const typeDtoObj = typeDTO as { id?: number; settingKey?: string; settingValue?: string } | undefined
+        if (typeDtoObj?.id != null) {
+          if (typeDtoObj.settingKey) {
+            promises.push(
+              applicationSettingService
+                .getApplicationSettingByIdAndKey(typeDtoObj.id, typeDtoObj.settingKey)
+                .then((setting) => {
+                  const translatedValue =
+                    setting.languageTranslationId?.configValue ||
+                    setting.settingValue
+                  setInvestorType(translatedValue)
+                })
+                .catch(() => {
+                  setInvestorType(typeDtoObj?.settingValue || '-')
+                })
+            )
+          } else {
+            // API may return only { id }; resolve by id to get display value
+            promises.push(
+              applicationSettingService
+                .getApplicationSettingById(typeDtoObj.id)
+                .then((setting) => {
+                  const translatedValue =
+                    setting.languageTranslationId?.configValue ||
+                    setting.settingValue
+                  setInvestorType(translatedValue)
+                })
+                .catch(() => {
+                  setInvestorType(typeDtoObj?.settingValue || '-')
+                })
+            )
+          }
         } else {
-          setInvestorType(typeDTO?.settingValue || '-')
+          setInvestorType(typeDtoObj?.settingValue || '-')
         }
-        if (
-          capitalPartnerData.documentTypeDTO?.id &&
-          capitalPartnerData.documentTypeDTO?.settingKey
-        ) {
-          promises.push(
-            applicationSettingService
-              .getApplicationSettingByIdAndKey(
-                capitalPartnerData.documentTypeDTO.id,
-                capitalPartnerData.documentTypeDTO.settingKey
-              )
-              .then((setting) => {
-                const translatedValue =
-                  setting.languageTranslationId?.configValue ||
-                  setting.settingValue
-                setInvestorIdType(translatedValue)
-              })
-              .catch(() => {
-                setInvestorIdType(
-                  capitalPartnerData.documentTypeDTO?.settingValue || '-'
-                )
-              })
-          )
+        const docTypeDTO = (capitalPartnerData as Record<string, unknown>).documentTypeDTO as { id?: number; settingKey?: string; settingValue?: string } | undefined
+        if (docTypeDTO?.id != null) {
+          if (docTypeDTO.settingKey) {
+            promises.push(
+              applicationSettingService
+                .getApplicationSettingByIdAndKey(docTypeDTO.id, docTypeDTO.settingKey)
+                .then((setting) => {
+                  const translatedValue =
+                    setting.languageTranslationId?.configValue ||
+                    setting.settingValue
+                  setInvestorIdType(translatedValue)
+                })
+                .catch(() => {
+                  setInvestorIdType(docTypeDTO?.settingValue || '-')
+                })
+            )
+          } else {
+            promises.push(
+              applicationSettingService
+                .getApplicationSettingById(docTypeDTO.id)
+                .then((setting) => {
+                  const translatedValue =
+                    setting.languageTranslationId?.configValue ||
+                    setting.settingValue
+                  setInvestorIdType(translatedValue)
+                })
+                .catch(() => {
+                  setInvestorIdType(docTypeDTO?.settingValue || '-')
+                })
+            )
+          }
         } else {
-          setInvestorIdType(
-            capitalPartnerData.documentTypeDTO?.settingValue || '-'
-          )
+          setInvestorIdType(docTypeDTO?.settingValue || '-')
         }
-        if (
-          capitalPartnerData.countryOptionDTO?.id &&
-          capitalPartnerData.countryOptionDTO?.settingKey
-        ) {
-          promises.push(
-            applicationSettingService
-              .getApplicationSettingByIdAndKey(
-                capitalPartnerData.countryOptionDTO.id,
-                capitalPartnerData.countryOptionDTO.settingKey
-              )
-              .then((setting) => {
-                const translatedValue =
-                  setting.languageTranslationId?.configValue ||
-                  setting.settingValue
-                setNationality(translatedValue)
-              })
-              .catch(() => {
-                setNationality(
-                  capitalPartnerData.countryOptionDTO?.settingValue || '-'
-                )
-              })
-          )
+        const countryDTO = (capitalPartnerData as Record<string, unknown>).countryOptionDTO as { id?: number; settingKey?: string; settingValue?: string } | undefined
+        if (countryDTO?.id != null) {
+          if (countryDTO.settingKey) {
+            promises.push(
+              applicationSettingService
+                .getApplicationSettingByIdAndKey(countryDTO.id, countryDTO.settingKey)
+                .then((setting) => {
+                  const translatedValue =
+                    setting.languageTranslationId?.configValue ||
+                    setting.settingValue
+                  setNationality(translatedValue)
+                })
+                .catch(() => {
+                  setNationality(countryDTO?.settingValue || '-')
+                })
+            )
+          } else {
+            promises.push(
+              applicationSettingService
+                .getApplicationSettingById(countryDTO.id)
+                .then((setting) => {
+                  const translatedValue =
+                    setting.languageTranslationId?.configValue ||
+                    setting.settingValue
+                  setNationality(translatedValue)
+                })
+                .catch(() => {
+                  setNationality(countryDTO?.settingValue || '-')
+                })
+            )
+          }
         } else {
-          setNationality(
-            capitalPartnerData.countryOptionDTO?.settingValue || '-'
-          )
+          setNationality(countryDTO?.settingValue || '-')
         }
         if (unitDetailsData && unitDetailsData.length > 0) {
           const unitData = unitDetailsData[0]
@@ -171,11 +203,13 @@ export function useTranslatedBasicDetails(
         setError(
           err instanceof Error ? err.message : 'Failed to fetch translations'
         )
-        setInvestorType(((capitalPartnerData as any).ownerRegistryTypeDTO ?? (capitalPartnerData as any).investorTypeDTO)?.settingValue || '-')
-        setInvestorIdType(
-          capitalPartnerData.documentTypeDTO?.settingValue || '-'
-        )
-        setNationality(capitalPartnerData.countryOptionDTO?.settingValue || '-')
+        const cp = capitalPartnerData as Record<string, unknown>
+        const typeDto = (cp.ownerRegistryTypeDTO ?? cp.investorTypeDTO) as { settingValue?: string } | undefined
+        const docDto = cp.documentTypeDTO as { settingValue?: string } | undefined
+        const countryDto = cp.countryOptionDTO as { settingValue?: string } | undefined
+        setInvestorType(typeDto?.settingValue || '-')
+        setInvestorIdType(docDto?.settingValue || '-')
+        setNationality(countryDto?.settingValue || '-')
         setUnitStatus(unitDetailsData?.[0]?.unitStatusDTO?.settingValue || '-')
         setPayMode(bankDetailsData?.[0]?.payModeDTO?.settingValue || '-')
       } finally {

@@ -45,7 +45,7 @@ import { Controller, useFormContext } from 'react-hook-form'
 import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import dayjs from 'dayjs'
-import { CapitalPartnerStep1Schema } from '@/lib/validation'
+import { CapitalPartnerStep1Schema, type CapitalPartnerStep1Data } from '@/lib/validation'
 import { FormError } from '../../../atoms/FormError'
 import { alpha } from '@mui/material/styles'
 
@@ -57,7 +57,8 @@ interface Step1Props {
 }
 
 export interface Step1Ref {
-  handleSaveAndNext: () => Promise<void>
+  /** Returns the owner registry id on success (create or edit); throws on failure. */
+  handleSaveAndNext: () => Promise<number>
 }
 
 const Step1 = forwardRef<Step1Ref, Step1Props>(
@@ -70,6 +71,8 @@ const Step1 = forwardRef<Step1Ref, Step1Props>(
       watch,
       setValue,
       trigger,
+      setError,
+      clearErrors,
       formState: { errors },
     } = useFormContext()
 
@@ -134,13 +137,16 @@ const Step1 = forwardRef<Step1Ref, Step1Props>(
       if (!isEditMode || !existingCapitalPartnerData || isLoadingExistingData) return
 
       const raw = existingCapitalPartnerData as unknown
-      // Normalize: API may return single object, { data: object }, or array (e.g. list response)
+      // Normalize: API may return single object, { data/result/content: object }, or array (e.g. list response)
       let existing: Record<string, unknown>
       if (Array.isArray(raw)) {
         existing = (raw[0] as Record<string, unknown>) ?? {}
       } else {
         const obj = raw as Record<string, unknown>
-        existing = (obj?.data as Record<string, unknown>) ?? obj
+        const fromData = obj?.data as Record<string, unknown> | undefined
+        const fromResult = obj?.result as Record<string, unknown> | undefined
+        const fromContent = obj?.content as Record<string, unknown> | undefined
+        existing = fromData ?? fromResult ?? fromContent ?? obj
       }
 
       // Owner Type: API uses investorTypeDTO (or ownerRegistryTypeDTO / ownerTypeDTO); prefer matching dropdown by id so value is in options
@@ -186,9 +192,21 @@ const Step1 = forwardRef<Step1Ref, Step1Props>(
 
       setValue('idNumber', String(existing.ownerRegistryIdNo ?? existing.capitalPartnerIdNo ?? existing.ownerIdNumber ?? ''))
 
-      // ID Expiry: API uses idExpiaryDate (typo) or idExpiryDate; null is valid
-      const expiryRaw = existing.idExpiaryDate ?? existing.idExpiryDate
-      setValue('idExpiryDate', expiryRaw ? dayjs(expiryRaw as string) : null)
+      // ID Expiry Date: API key is idExpiaryDate (typo); form field is idExpiryDate. Same pattern as DeveloperStepper arOnboardingDate.
+      const rawObj = raw as Record<string, unknown>
+      const expiryRaw =
+        existing.idExpiaryDate ??
+        existing.idExpiryDate ??
+        existing.id_expiary_date ??
+        rawObj?.idExpiaryDate ??
+        rawObj?.idExpiryDate
+      if (expiryRaw != null && expiryRaw !== '') {
+        setValue(
+          'idExpiryDate',
+          dayjs(expiryRaw as string).isValid() ? dayjs(expiryRaw as string) : null,
+          { shouldValidate: true, shouldDirty: true }
+        )
+      }
 
       // Nationality: countryOptionDTO; prefer matching dropdown by id
       const countryDto = existing.countryOptionDTO as Record<string, unknown> | undefined
@@ -217,6 +235,29 @@ const Step1 = forwardRef<Step1Ref, Step1Props>(
       countries,
     ])
 
+    // Dedicated effect for idExpiaryDate: ensure date shows when API returns it (handles any response shape and sets after paint)
+    useEffect(() => {
+      if (!isEditMode || !existingCapitalPartnerData || isLoadingExistingData) return
+      const raw = existingCapitalPartnerData as unknown as Record<string, unknown>
+      const fromData = raw?.data as Record<string, unknown> | undefined
+      const fromResult = raw?.result as Record<string, unknown> | undefined
+      const fromContent = raw?.content as Record<string, unknown> | undefined
+      const entity = fromData ?? fromResult ?? fromContent ?? raw
+      const expiryRaw =
+        entity?.idExpiaryDate ??
+        entity?.idExpiryDate ??
+        (entity?.id_expiary_date as string | undefined) ??
+        raw?.idExpiaryDate ??
+        raw?.idExpiryDate
+      if (expiryRaw == null || String(expiryRaw).trim() === '') return
+      const parsed = dayjs(expiryRaw as string)
+      if (!parsed.isValid()) return
+      const rafId = requestAnimationFrame(() => {
+        setValue('idExpiryDate', parsed, { shouldValidate: false, shouldDirty: false })
+      })
+      return () => cancelAnimationFrame(rafId)
+    }, [isEditMode, existingCapitalPartnerData, isLoadingExistingData, setValue])
+
     React.useEffect(() => {
       const currentId = watch('investorId')
       if (currentId && currentId !== investorId) {
@@ -235,12 +276,12 @@ const Step1 = forwardRef<Step1Ref, Step1Props>(
           shouldTouch: true,
         })
         await trigger('investorId')
-      } catch (error) {
+      } catch {
       } finally {
         setIsGeneratingId(false)
       }
     }
-    const handleSaveAndNext = async () => {
+    const handleSaveAndNext = async (): Promise<number> => {
       try {
         setSaveError(null)
 
@@ -264,9 +305,19 @@ const Step1 = forwardRef<Step1Ref, Step1Props>(
 
         const zodResult = CapitalPartnerStep1Schema.safeParse(formData)
         if (!zodResult.success) {
-          await trigger()
-
-          return
+          clearErrors()
+          zodResult.error.issues.forEach((issue) => {
+            const field = (issue.path?.[0] as string) || ''
+            if (field) {
+              setError(field as keyof CapitalPartnerStep1Data, {
+                type: 'manual',
+                message: issue.message,
+              })
+            }
+          })
+          await trigger() // validate all fields so every error is shown
+          setSaveError('Please fill all required fields correctly.')
+          throw new Error('Please fill all required fields correctly.')
         }
 
         await trigger()
@@ -308,17 +359,24 @@ const Step1 = forwardRef<Step1Ref, Step1Props>(
           response = await capitalPartnerService.createCapitalPartner(payload)
         }
 
+        // In edit mode we already have capitalPartnerId; use it so we always advance even if API returns empty/different body
         const raw = (response ?? null) as unknown as Record<string, unknown> | null
         const dataObj = raw?.data as Record<string, unknown> | undefined
-        const id = raw?.id ?? dataObj?.id
-        if (onSaveAndNext && id != null) {
+        const idFromResponse = raw?.id ?? dataObj?.id
+        const id = idFromResponse != null ? Number(idFromResponse) : (isEditMode && capitalPartnerId ? capitalPartnerId : null)
+        if (id == null && !(isEditMode && capitalPartnerId)) {
+          setSaveError('Invalid response: no ID returned from server.')
+          throw new Error('Invalid response: no ID returned from server.')
+        }
+        if (onSaveAndNext) {
           onSaveAndNext({ id: Number(id) })
         }
-      } catch (error) {
+        return id as number
+      } catch (err) {
         setSaveError(
-          error instanceof Error ? error.message : 'Failed to save data'
+          err instanceof Error ? err.message : 'Failed to save data'
         )
-        throw error
+        throw err
       }
     }
     useImperativeHandle(
@@ -725,6 +783,56 @@ const Step1 = forwardRef<Step1Ref, Step1Props>(
       )
     }
 
+    // Reference: DeveloperStepper Step1 renderDatePickerField – single Controller + DatePicker, error/helperText in slotProps only
+    const renderDatePickerField = (
+      name: string,
+      label: string,
+      gridSize: number = 6,
+      required = false
+    ) => (
+      <Grid key={name} size={{ xs: 12, md: gridSize }}>
+        <Controller
+          name={name}
+          control={control}
+          defaultValue={null}
+          render={({ field }) => (
+            <DatePicker
+              label={label}
+              value={field.value}
+              onChange={field.onChange}
+              format="DD/MM/YYYY"
+              disabled={isViewMode}
+              slots={{ openPickerIcon: StyledCalendarIcon }}
+              slotProps={{
+                textField: {
+                  fullWidth: true,
+                  required,
+                  error: !!errors[name] && !isViewMode,
+                  helperText: (errors[name]?.message as string) ?? '',
+                  sx: {
+                    ...datePickerStyles,
+                    ...(!!errors[name] &&
+                      !isViewMode && {
+                        '& .MuiOutlinedInput-root': {
+                          '& fieldset': { borderColor: theme.palette.error.main },
+                          '&:hover fieldset': { borderColor: theme.palette.error.main },
+                          '&.Mui-focused fieldset': { borderColor: theme.palette.error.main },
+                        },
+                      }),
+                  },
+                  InputLabelProps: { sx: getLabelSx() },
+                  InputProps: {
+                    sx: valueSx,
+                    style: { height: '46px' },
+                  },
+                },
+              }}
+            />
+          )}
+        />
+      </Grid>
+    )
+
     const getFallbackOptions = (key: string) => {
       switch (key) {
         case 'investorType':
@@ -791,58 +899,40 @@ const Step1 = forwardRef<Step1Ref, Step1Props>(
                 </Typography>
               </Box>
             )}
-            {saveError && (
-              <Box
-                sx={{
-                  mb: 2,
-                  p: 1,
-                  bgcolor: isDark
-                    ? alpha(theme.palette.error.main, 0.15)
-                    : '#fef2f2',
-                  borderRadius: 1,
-                  border: `1px solid ${alpha(theme.palette.error.main, 0.4)}`,
-                }}
-              >
-                <Typography variant="body2" color="error">
-                  ⚠️ 123{saveError} 456
-                </Typography>
-              </Box>
-            )}
-
             <Grid container rowSpacing={4} columnSpacing={2}>
               {renderApiSelectField(
-                'ownerType',
+                'investorType',
                 'CDL_OWNER_TYPE',
-                'Owner Type',
+                'Owner Registry Type',
                 investorTypes?.length
                   ? investorTypes
-                  : getFallbackOptions('ownerType'),
+                  : getFallbackOptions('investorType'),
                 6,
                 true,
                 loadingInvestorTypes
               )}
               {renderInvestorIdField(
-                'ownerId',
-                getLabel('CDL_OWNER_REFID', currentLanguage, 'Owner ID'),
+                'investorId',
+                getLabel('CDL_OWNER_REFID', currentLanguage, 'Owner Registry ID'),
                 6,
                 true
               )}
               {renderTextField(
-                'ownerFirstName',
+                'investorFirstName',
                 'CDL_OWNER_FIRSTNAME',
-                'Owner Name',
+                'Owner Registry Name',
                 '',
                 true
               )}
               {renderTextField(
-                'ownerMiddleName',
+                'investorMiddleName',
                 'CDL_OWNER_MIDDLENAME',
-                'Middle Name'
+                'Owner Registry Middle Name'
               )}
               {renderTextField(
-                'ownerLastName',
+                'investorLastName',
                 'CDL_OWNER_LASTNAME',
-                'Last Name'
+                'Owner Registry Last Name'
               )}
               {renderTextField(
                 'arabicName',
@@ -855,73 +945,23 @@ const Step1 = forwardRef<Step1Ref, Step1Props>(
                 'Ownership Percentage'
               )}
               {renderApiSelectField(
-                'ownerIdType',
+                'investorIdType',
                 'CDL_OWNER_ID_TYPE',
-                'Owner ID Type',
+                'Owner Registry ID Type',
                 idTypes?.length
                   ? idTypes
-                  : getFallbackOptions('ownerIdType'),
+                  : getFallbackOptions('investorIdType'),
                 6,
                 true,
                 loadingIdTypes
               )}
               {renderTextField('idNumber', 'CDL_OWNER_DOC_NO', 'ID No.', '', true)}
-              <Grid size={{ xs: 12, md: 6 }}>
-                <Controller
-                  name="idExpiryDate"
-                  control={control}
-                  defaultValue={null}
-                  render={({ field }) => (
-                    <>
-                      <DatePicker
-                        label={getLabel(
-                          'CDL_OWNER_ID_EXP',
-                          currentLanguage,
-                          'ID Expiry Date'
-                        )}
-                        value={field.value}
-                        onChange={field.onChange}
-                        format="DD/MM/YYYY"
-                        disabled={isViewMode}
-                        slots={{ openPickerIcon: StyledCalendarIcon }}
-                        slotProps={{
-                          textField: {
-                            fullWidth: true,
-                            error: !!errors.idExpiryDate && !isViewMode,
-                            helperText: '',
-                            sx: {
-                              ...datePickerStyles,
-                              ...(!!errors.idExpiryDate &&
-                                !isViewMode && {
-                                  '& .MuiOutlinedInput-root': {
-                                    '& fieldset': {
-                                      borderColor: theme.palette.error.main,
-                                    },
-                                    '&:hover fieldset': {
-                                      borderColor: theme.palette.error.main,
-                                    },
-                                    '&.Mui-focused fieldset': {
-                                      borderColor: theme.palette.error.main,
-                                    },
-                                  },
-                                }),
-                            },
-                            InputLabelProps: { sx: getLabelSx() },
-                            InputProps: {
-                              sx: valueSx,
-                              style: { height: '46px' },
-                            },
-                          },
-                        }}
-                      />
-                      <FormError
-                        error={(errors as any).idExpiryDate?.message as string}
-                        touched={true}
-                      />
-                    </>
-                  )}
-                />
-              </Grid>
+              {renderDatePickerField(
+                'idExpiryDate',
+                getLabel('CDL_OWNER_ID_EXP', currentLanguage, 'ID Expiry Date'),
+                6,
+                false
+              )}
               {renderApiSelectField(
                 'nationality',
                 'CDL_OWNER_NATIONALITY',

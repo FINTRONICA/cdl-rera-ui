@@ -157,114 +157,114 @@ export function mapStep2ToCapitalPartnerUnitPayload(
   const purchaseData: any = {}
 
   if (formData.registrationFees) {
-    purchaseData.cpupUnitRegistrationFee = parseFloat(formData.registrationFees)
+    purchaseData.ownupUnitRegistrationFee = parseFloat(formData.registrationFees)
   }
 
   if (formData.agentName) {
-    purchaseData.cpupAgentName = formData.agentName
+    purchaseData.ownupAgentName = formData.agentName
   }
 
   if (formData.agentNationalId) {
-    purchaseData.cpupAgentId = formData.agentNationalId
+    purchaseData.ownupAgentId = formData.agentNationalId
   }
 
   if (formData.grossSalePrice) {
-    purchaseData.cpupGrossSaleprice = parseFloat(formData.grossSalePrice)
+    purchaseData.ownupGrossSaleprice = parseFloat(formData.grossSalePrice)
   }
 
   if (formData.VatApplicable !== undefined) {
-    purchaseData.cpupVatApplicable = formData.VatApplicable
+    purchaseData.ownupVatApplicable = formData.VatApplicable
   }
 
   if (formData.SalesPurchaseAgreement !== undefined) {
-    purchaseData.cpupSalePurchaseAgreement = formData.SalesPurchaseAgreement
+    purchaseData.ownupSalePurchaseAgreement = formData.SalesPurchaseAgreement
   }
 
   if (formData.ProjectPaymentPlan !== undefined) {
-    purchaseData.cpupProjectPaymentPlan = formData.ProjectPaymentPlan
+    purchaseData.ownupProjectPaymentPlan = formData.ProjectPaymentPlan
   }
 
   if (formData.salePrice) {
-    purchaseData.cpupSalePrice = parseFloat(formData.salePrice)
+    purchaseData.ownupSalePrice = parseFloat(formData.salePrice)
   }
 
   if (formData.deedNo) {
-    purchaseData.cpupDeedNo = formData.deedNo
+    purchaseData.ownupDeedNo = formData.deedNo
   }
 
   if (formData.contractNo) {
-    purchaseData.cpupAgreementNo = formData.contractNo
+    purchaseData.ownupAgreementNo = formData.contractNo
   }
 
   if (formData.agreementDate) {
     const formattedDate = formatAgreementDate(formData.agreementDate)
     if (formattedDate) {
-      purchaseData.cpupAgreementDate = formattedDate
+      purchaseData.ownupAgreementDate = formattedDate
     }
   }
 
   if (formData.ModificationFeeNeeded !== undefined) {
-    purchaseData.cpupModificationFeeNeeded = formData.ModificationFeeNeeded
+    purchaseData.ownupModificationFeeNeeded = formData.ModificationFeeNeeded
   }
 
   if (formData.ReservationBookingForm !== undefined) {
-    purchaseData.cpupReservationBookingForm = formData.ReservationBookingForm
+    purchaseData.ownupReservationBookingForm = formData.ReservationBookingForm
   }
 
   if (formData.OqoodPaid !== undefined) {
-    purchaseData.cpupOqoodPaid = formData.OqoodPaid
+    purchaseData.ownupOqoodPaid = formData.OqoodPaid
   }
 
   if (formData.qaqoodAmount) {
-    purchaseData.cpupOqoodAmountPaid = parseFloat(formData.qaqoodAmount)
+    purchaseData.ownupOqoodAmountPaid = parseFloat(formData.qaqoodAmount)
   }
 
   if (formData.worldCheck !== undefined) {
-    purchaseData.cpupWorldCheck = formData.worldCheck
+    purchaseData.ownupWorldCheck = formData.worldCheck
   }
 
   if (formData.paidInEscrow) {
-    purchaseData.cpupAmtPaidToDevInEscorw = parseFloat(formData.paidInEscrow)
+    purchaseData.ownupAmtPaidToDevInEscorw = parseFloat(formData.paidInEscrow)
   }
 
   if (formData.paidOutEscrow) {
-    purchaseData.cpupAmtPaidToDevOutEscorw = parseFloat(formData.paidOutEscrow)
+    purchaseData.ownupAmtPaidToDevOutEscorw = parseFloat(formData.paidOutEscrow)
   }
 
   if (formData.totalPaid) {
-    purchaseData.cpupTotalAmountPaid = parseFloat(formData.totalPaid)
+    purchaseData.ownupTotalAmountPaid = parseFloat(formData.totalPaid)
   }
 
   if (formData.unitIban) {
-    purchaseData.cpupUnitIban = formData.unitIban
+    purchaseData.ownupUnitIban = formData.unitIban
   }
 
   if (formData.unitNoQaqood) {
-    purchaseData.cpupUnitNoOtherFormat = formData.unitNoQaqood
+    purchaseData.ownupUnitNoOtherFormat = formData.unitNoQaqood
   }
 
   if (formData.unitAreaSize) {
-    purchaseData.cpupUnitAreaSize = parseFloat(formData.unitAreaSize)
+    purchaseData.ownupUnitAreaSize = parseFloat(formData.unitAreaSize)
   }
 
   if (formData.forfeitAmount) {
-    purchaseData.cpupForfeitAmount = parseFloat(formData.forfeitAmount)
+    purchaseData.ownupForfeitAmount = parseFloat(formData.forfeitAmount)
   }
 
   if (formData.dldAmount) {
-    purchaseData.cpupDldAmount = parseFloat(formData.dldAmount)
+    purchaseData.ownupDldAmount = parseFloat(formData.dldAmount)
   }
 
   if (formData.refundAmount) {
-    purchaseData.cpupRefundAmount = parseFloat(formData.refundAmount)
+    purchaseData.ownupRefundAmount = parseFloat(formData.refundAmount)
   }
 
   if (formData.unitRemarks) {
-    purchaseData.cpupRemarks = formData.unitRemarks
+    purchaseData.ownupRemarks = formData.unitRemarks
   }
 
   if (formData.transferredAmount) {
-    purchaseData.cpupTransferredAmount = parseFloat(formData.transferredAmount)
+    purchaseData.ownupTransferredAmount = parseFloat(formData.transferredAmount)
   }
 
   payload.isResale = false

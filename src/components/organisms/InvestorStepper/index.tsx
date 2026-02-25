@@ -193,7 +193,7 @@ export default function InvestorsStepperWrapper({
     resolver: dynamicResolver,
     mode: 'onChange', // Enable real-time validation
     defaultValues: {
-      // Step 1: Capital Partner Basic Info
+      // Step 1: Basic Info (required for resolver when activeStep === 0)
       investorType: '',
       investorFirstName: '',
       investorMiddleName: '',
@@ -208,6 +208,44 @@ export default function InvestorsStepperWrapper({
       accountContact: '',
       mobileNumber: '',
       email: '',
+
+      // Step 2: Unit Details (required for resolver when activeStep === 2)
+      projectNameDropdown: '',
+      projectId: '',
+      developerIdInput: '',
+      developerNameInput: '',
+      unitNoQaqood: '',
+      unitStatus: '',
+      plotSize: '',
+      propertyId: '',
+      floor: '',
+      bedroomCount: '',
+      buildingName: '',
+      unitIban: '',
+      registrationFees: '',
+      agentName: '',
+      agentNationalId: '',
+      VatApplicable: false,
+      SalesPurchaseAgreement: false,
+      ProjectPaymentPlan: false,
+      salePrice: '',
+      deedNo: '',
+      contractNo: '',
+      agreementDate: null,
+      ModificationFeeNeeded: false,
+      ReservationBookingForm: false,
+      OqoodPaid: false,
+      worldCheck: false,
+      paidInEscrow: '',
+      paidOutEscrow: '',
+      totalPaid: '',
+      qaqoodAmount: '',
+      unitAreaSize: '',
+      forfeitAmount: '',
+      dldAmount: '',
+      refundAmount: '',
+      transferredAmount: '',
+      unitRemarks: '',
 
       // Additional fields for other steps
       documents: [],
@@ -257,7 +295,25 @@ export default function InvestorsStepperWrapper({
     }
 
     if (activeStep === 0 && step1Ref.current) {
-      await handleAsyncStep(step1Ref.current)
+      setIsSaving(true)
+      setErrorMessage(null)
+      try {
+        const id = await step1Ref.current.handleSaveAndNext()
+        if (id != null && id > 0) {
+          setCapitalPartnerId(id)
+          const nextStep = activeStep + 1
+          setActiveStep(nextStep)
+          updateURL(nextStep, id)
+        }
+      } catch (err) {
+        const msg = err instanceof Error ? err.message : 'Save failed. Please check the form and try again.'
+        // Don't show top Snackbar for validation errors; field-level errors are shown inline
+        if (msg !== 'Please fill all required fields correctly.') {
+          setErrorMessage(msg)
+        }
+      } finally {
+        setIsSaving(false)
+      }
       return
     }
 
@@ -449,7 +505,7 @@ export default function InvestorsStepperWrapper({
       //       isViewMode={isViewMode}
       //     />
       //   )
-      case 5:
+      case 4:
         return (
           <Step5 capitalPartnerId={capitalPartnerId} isViewMode={isViewMode} />
         )
@@ -537,7 +593,7 @@ export default function InvestorsStepperWrapper({
                         : 'Submit'
                       : isViewMode
                         ? 'Next'
-                        : 'Save and Next'}
+                        : 'Save & Next'}
                 </Button>
               </Box>
             </Box>

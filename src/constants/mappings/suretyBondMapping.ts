@@ -23,7 +23,7 @@ export const SURETY_BOND_LABELS = {
     CDL_SB_BACK: 'Back',
     CDL_SB_NEXT: 'Next',
     CDL_SB_SUBMIT: 'Submit',
-    CDL_SB_SAVE_NEXT: 'Save and Next',
+    CDL_SB_SAVE_NEXT: 'Save & Next',
     CDL_SB_UPDATE: 'Update',
     CDL_SB_CREATING: 'Creating...',
     CDL_SB_UPDATING: 'Updating...',

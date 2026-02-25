@@ -552,7 +552,7 @@ export default function DeveloperStepperWrapper({
                       : 'Next'
                     : activeStep === steps.length - 1
                       ? 'Complete'
-                      : 'Save and Next'}
+                      : 'Save & Next'}
               </Button>
             </Box>
           </Box>

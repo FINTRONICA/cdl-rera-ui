@@ -249,64 +249,64 @@ const Step2 = forwardRef<Step2Ref, Step2Props>(
         if (purchaseData) {
           setValue(
             'registrationFees',
-            purchaseData.cpupUnitRegistrationFee?.toString() || ''
+            purchaseData.ownupUnitRegistrationFee?.toString() || ''
           )
-          setValue('agentName', purchaseData.cpupAgentName || '')
-          setValue('agentNationalId', purchaseData.cpupAgentId || '')
+          setValue('agentName', purchaseData.ownupAgentName || '')
+          setValue('agentNationalId', purchaseData.ownupAgentId || '')
           setValue(
             'grossSalePrice',
-            purchaseData.cpupGrossSaleprice?.toString() || ''
+            purchaseData.ownupGrossSaleprice?.toString() || ''
           )
-          setValue('VatApplicable', purchaseData.cpupVatApplicable || false)
+          setValue('VatApplicable', purchaseData.ownupVatApplicable || false)
           setValue(
             'SalesPurchaseAgreement',
-            purchaseData.cpupSalePurchaseAgreement || false
+            purchaseData.ownupSalePurchaseAgreement || false
           )
           setValue(
             'ProjectPaymentPlan',
-            purchaseData.cpupProjectPaymentPlan || false
+            purchaseData.ownupProjectPaymentPlan || false
           )
-          setValue('salePrice', purchaseData.cpupSalePrice?.toString() || '')
-          setValue('deedNo', purchaseData.cpupDeedNo || '')
-          setValue('contractNo', purchaseData.cpupAgreementNo || '')
+          setValue('salePrice', purchaseData.ownupSalePrice?.toString() || '')
+          setValue('deedNo', purchaseData.ownupDeedNo || '')
+          setValue('contractNo', purchaseData.ownupAgreementNo || '')
           setValue(
             'agreementDate',
-            purchaseData.cpupAgreementDate
-              ? dayjs(purchaseData.cpupAgreementDate)
+            purchaseData.ownupAgreementDate
+              ? dayjs(purchaseData.ownupAgreementDate)
               : null
           )
           setValue(
             'ModificationFeeNeeded',
-            purchaseData.cpupModificationFeeNeeded || false
+            purchaseData.ownupModificationFeeNeeded || false
           )
           setValue(
             'ReservationBookingForm',
-            purchaseData.cpupReservationBookingForm || false
+            purchaseData.ownupReservationBookingForm || false
           )
-          setValue('OqoodPaid', purchaseData.cpupOqoodPaid || false)
-          setValue('worldCheck', purchaseData.cpupWorldCheck || false)
+          setValue('OqoodPaid', purchaseData.ownupOqoodPaid || false)
+          setValue('worldCheck', purchaseData.ownupWorldCheck || false)
           setValue(
             'paidInEscrow',
-            purchaseData.cpupAmtPaidToDevInEscorw?.toString() || ''
+            purchaseData.ownupAmtPaidToDevInEscorw?.toString() || ''
           )
           setValue(
             'paidOutEscrow',
-            purchaseData.cpupAmtPaidToDevOutEscorw?.toString() || ''
+            purchaseData.ownupAmtPaidToDevOutEscorw?.toString() || ''
           )
           setValue(
             'totalPaid',
-            purchaseData.cpupTotalAmountPaid?.toString() || ''
+            purchaseData.ownupTotalAmountPaid?.toString() || ''
           )
-          setValue('qaqoodAmount', purchaseData.cpupOqoodAmountPaid || '')
-          setValue('unitAreaSize', purchaseData.cpupUnitAreaSize || '')
-          setValue('forfeitAmount', purchaseData.cpupForfeitAmount || '')
-          setValue('dldAmount', purchaseData.cpupDldAmount || '')
-          setValue('refundAmount', purchaseData.cpupRefundAmount || '')
+          setValue('qaqoodAmount', purchaseData.ownupOqoodAmountPaid || '')
+          setValue('unitAreaSize', purchaseData.ownupUnitAreaSize || '')
+          setValue('forfeitAmount', purchaseData.ownupForfeitAmount || '')
+          setValue('dldAmount', purchaseData.ownupDldAmount || '')
+          setValue('refundAmount', purchaseData.ownupRefundAmount || '')
           setValue(
             'transferredAmount',
-            purchaseData.cpupTransferredAmount || ''
+            purchaseData.ownupTransferredAmount || ''
           )
-          setValue('unitRemarks', purchaseData.cpupRemarks || '')
+          setValue('unitRemarks', purchaseData.ownupRemarks || '')
         }
 
         setIsFormInitialized(true)
@@ -370,17 +370,7 @@ const Step2 = forwardRef<Step2Ref, Step2Props>(
               propertyId: watch('propertyId'),
             })
             if (!result.success) {
-              const fieldsToCheck = [
-                'projectNameDropdown',
-                'projectId',
-                'developerIdInput',
-                'developerNameInput',
-                'unitNoQaqood',
-                'unitStatus',
-                'plotSize',
-                'propertyId',
-              ] as const
-              clearErrors(fieldsToCheck as unknown as any)
+              clearErrors()
               result.error.issues.forEach((issue) => {
                 const field = (issue.path?.[0] as string) || ''
                 if (field) {
@@ -390,6 +380,7 @@ const Step2 = forwardRef<Step2Ref, Step2Props>(
                   })
                 }
               })
+              await trigger() // show all errors in UI
               return false
             }
             return true
@@ -446,23 +437,14 @@ const Step2 = forwardRef<Step2Ref, Step2Props>(
         const zodResult = CapitalPartnerStep2Schema.safeParse(formData)
 
         if (!zodResult.success) {
-          const fieldsToCheck = [
-            'projectNameDropdown',
-            'projectId',
-            'developerIdInput',
-            'developerNameInput',
-            'unitNoQaqood',
-            'unitStatus',
-            'plotSize',
-            'propertyId',
-          ] as const
-          clearErrors(fieldsToCheck as unknown as any)
+          clearErrors()
           zodResult.error.issues.forEach((issue) => {
             const field = (issue.path?.[0] as string) || ''
             if (field) {
               setError(field as any, { type: 'manual', message: issue.message })
             }
           })
+          await trigger() // show all errors (including superRefine: buildingName, totalPaid)
           throw new Error('Please fix validation errors')
         } else {
           clearErrors()

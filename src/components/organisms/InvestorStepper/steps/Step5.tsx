@@ -311,7 +311,7 @@ const Step5: React.FC<Step5Props> = ({
   // }
 
   const {
-    data: capitalPartnerData,
+    data: capitalPartnerDataRaw,
     isLoading: isLoadingBasic,
     error: errorBasic,
   } = useGetEnhanced<CapitalPartnerResponse>(
@@ -327,6 +327,17 @@ const Step5: React.FC<Step5Props> = ({
       refetchOnWindowFocus: false,
     }
   )
+
+  // Unwrap API response: may be entity, { data }, { result }, or { content }
+  const capitalPartnerData = React.useMemo((): CapitalPartnerResponse | null => {
+    if (!capitalPartnerDataRaw) return null
+    const raw = capitalPartnerDataRaw as unknown as Record<string, unknown>
+    if (Array.isArray(raw)) return (raw[0] as unknown as CapitalPartnerResponse) ?? null
+    const fromData = raw?.data as Record<string, unknown> | undefined
+    const fromResult = raw?.result as Record<string, unknown> | undefined
+    const fromContent = raw?.content as Record<string, unknown> | undefined
+    return (fromData ?? fromResult ?? fromContent ?? raw) as unknown as CapitalPartnerResponse | null
+  }, [capitalPartnerDataRaw])
   const {
     data: paymentPlanData,
     isLoading: isLoadingPayment,
@@ -558,94 +569,47 @@ const Step5: React.FC<Step5Props> = ({
   }
 
   const bankDetailsFields = getBankDetailsFields()
-  const getBasicFields = () => {
-    if (!capitalPartnerData) return []
 
-    return [
-      {
-        gridSize: 6,
-        label: getLabel('CDL_OWNER_TYPE', currentLanguage, 'Owner Registry Type*'),
-        value: loadingTranslations ? 'Loading...' : translatedInvestorType,
-      },
-      {
-        gridSize: 6,
-        label: getLabel('CDL_OWNER_REFID', currentLanguage, 'Owner Registry ID*'),
-        value: capitalPartnerData.capitalPartnerId || '-',
-      },
-      {
-        gridSize: 3,
-        label: getLabel('CDL_OWNER_FIRSTNAME', currentLanguage, 'Owner Registry Name*'),
-        value: capitalPartnerData.capitalPartnerName || '-',
-      },
-      {
-        gridSize: 3,
-        label: getLabel('CDL_OWNER_MIDDLENAME', currentLanguage, 'Middle Name*'),
-        value: capitalPartnerData.capitalPartnerMiddleName || '-',
-      },
-      {
-        gridSize: 6,
-        label: getLabel('CDL_OWNER_LASTNAME', currentLanguage, 'Last Name*'),
-        value: capitalPartnerData.capitalPartnerLastName || '-',
-      },
-      {
-        gridSize: 12,
-        label: getLabel('CDL_OWNER_LOCALE_NAME', currentLanguage, 'Arabic Name'),
-        value: (capitalPartnerData as Record<string, unknown>).ownerRegistryLocaleName || '-',
-      },
-      {
-        gridSize: 6,
-        label: getLabel(
-          'CDL_OWNER_OWNERSHIP',
-          currentLanguage,
-          'Ownership Percentage'
-        ),
-        value:
-          capitalPartnerData.capitalPartnerOwnershipPercentage?.toString() ||
-          '-',
-      },
-      {
-        gridSize: 6,
-        label: getLabel('CDL_OWNER_ID_TYPE', currentLanguage, 'Owner Registry ID Type*'),
-        value: loadingTranslations ? 'Loading...' : translatedInvestorIdType,
-      },
-      {
-        gridSize: 6,
-        label: getLabel('CDL_OWNER_DOC_NO', currentLanguage, 'ID No.'),
-        value: capitalPartnerData.capitalPartnerIdNo || '-',
-      },
-      {
-        gridSize: 6,
-        label: getLabel('CDL_OWNER_ID_EXP', currentLanguage, 'ID Expiry Date'),
-        value: formatDate(capitalPartnerData.idExpiaryDate),
-      },
-      {
-        gridSize: 6,
-        label: getLabel('CDL_OWNER_NATIONALITY', currentLanguage, 'Nationality*'),
-        value: loadingTranslations ? 'Loading...' : translatedNationality,
-      },
-      {
-        gridSize: 6,
-        label: getLabel(
-          'CDL_OWNER_TELEPHONE',
-          currentLanguage,
-          'Account Contact Number'
-        ),
-        value: capitalPartnerData.capitalPartnerTelephoneNo || '-',
-      },
-      {
-        gridSize: 6,
-        label: getLabel('CDL_OWNER_MOBILE', currentLanguage, 'Mobile Number'),
-        value: capitalPartnerData.capitalPartnerMobileNo || '-',
-      },
-      {
-        gridSize: 6,
-        label: getLabel('CDL_OWNER_EMAIL', currentLanguage, 'Email Address'),
-        value: capitalPartnerData.capitalPartnerEmail || '-',
-      },
+  const getBasicFields = (): { gridSize: number; label: string; value: string | number }[] => {
+    if (!capitalPartnerData) return []
+    const cp = capitalPartnerData as Record<string, unknown>
+    const ownerId = String(cp.ownerRegistryId ?? cp.capitalPartnerId ?? '')
+    const firstName = String(cp.ownerRegistryName ?? cp.capitalPartnerName ?? '')
+    const middleName = String(cp.ownerRegistryMiddleName ?? cp.capitalPartnerMiddleName ?? '')
+    const lastName = String(cp.ownerRegistryLastName ?? cp.capitalPartnerLastName ?? '')
+    const localeName = String(cp.ownerRegistryLocaleName ?? '')
+    const pct = cp.ownerRegistryOwnershipPercentage ?? cp.capitalPartnerOwnershipPercentage
+    const idNo = String(cp.ownerRegistryIdNo ?? cp.capitalPartnerIdNo ?? '')
+    const idExpiry = cp.idExpiaryDate ?? cp.idExpiryDate
+    const telephone = String(cp.ownerRegistryTelephoneNo ?? cp.capitalPartnerTelephoneNo ?? '')
+    const mobile = String(cp.ownerRegistryMobileNo ?? cp.capitalPartnerMobileNo ?? '')
+    const email = String(cp.ownerRegistryEmail ?? cp.capitalPartnerEmail ?? '')
+
+    const allFields: { gridSize: number; label: string; value: string | number }[] = [
+      { gridSize: 6, label: getLabel('CDL_OWNER_TYPE', currentLanguage, 'Owner Registry Type*'), value: loadingTranslations ? 'Loading...' : translatedInvestorType },
+      { gridSize: 6, label: getLabel('CDL_OWNER_REFID', currentLanguage, 'Owner Registry ID*'), value: ownerId },
+      { gridSize: 3, label: getLabel('CDL_OWNER_FIRSTNAME', currentLanguage, 'Owner Registry Name*'), value: firstName },
+      { gridSize: 3, label: getLabel('CDL_OWNER_MIDDLENAME', currentLanguage, 'Middle Name*'), value: middleName },
+      { gridSize: 6, label: getLabel('CDL_OWNER_LASTNAME', currentLanguage, 'Last Name*'), value: lastName },
+      { gridSize: 12, label: getLabel('CDL_OWNER_LOCALE_NAME', currentLanguage, 'Arabic Name'), value: localeName },
+      { gridSize: 6, label: getLabel('CDL_OWNER_OWNERSHIP', currentLanguage, 'Ownership Percentage'), value: pct != null ? String(pct) : '' },
+      { gridSize: 6, label: getLabel('CDL_OWNER_ID_TYPE', currentLanguage, 'Owner Registry ID Type*'), value: loadingTranslations ? 'Loading...' : translatedInvestorIdType },
+      { gridSize: 6, label: getLabel('CDL_OWNER_DOC_NO', currentLanguage, 'ID No.'), value: idNo },
+      { gridSize: 6, label: getLabel('CDL_OWNER_ID_EXP', currentLanguage, 'ID Expiry Date'), value: formatDate(idExpiry as string) },
+      { gridSize: 6, label: getLabel('CDL_OWNER_NATIONALITY', currentLanguage, 'Nationality*'), value: loadingTranslations ? 'Loading...' : translatedNationality },
+      { gridSize: 6, label: getLabel('CDL_OWNER_TELEPHONE', currentLanguage, 'Account Contact Number'), value: telephone },
+      { gridSize: 6, label: getLabel('CDL_OWNER_MOBILE', currentLanguage, 'Mobile Number'), value: mobile },
+      { gridSize: 6, label: getLabel('CDL_OWNER_EMAIL', currentLanguage, 'Email Address'), value: email },
     ]
+    // Only show fields that have data (skip empty / dash)
+    return allFields.filter((f) => {
+      const v = f.value
+      return v != null && String(v).trim() !== '' && String(v) !== '-'
+    })
   }
 
   const basicFields = getBasicFields()
+  const hasBasicDetailsData = capitalPartnerData != null && basicFields.length > 0
   const getUnitFields = (
     purchaseData?: CapitalPartnerUnitPurchaseResponse | null
   ) => {
@@ -733,14 +697,14 @@ const Step5: React.FC<Step5Props> = ({
           currentLanguage,
           'Unit Registration Fees'
         ),
-        value: purchaseData?.cpupUnitRegistrationFee
-          ? formatCurrency(purchaseData.cpupUnitRegistrationFee)
+        value: purchaseData?.ownupUnitRegistrationFee
+          ? formatCurrency(purchaseData.ownupUnitRegistrationFee)
           : '0.00',
       },
       {
         gridSize: 3,
         label: getLabel('CDL_OWNER_AGENT_NAME', currentLanguage, 'Agent Name'),
-        value: purchaseData?.cpupAgentName || '-',
+        value: purchaseData?.ownupAgentName || '-',
       },
       {
         gridSize: 3,
@@ -749,7 +713,7 @@ const Step5: React.FC<Step5Props> = ({
           currentLanguage,
           'Agent National ID'
         ),
-        value: purchaseData?.cpupAgentId || '-',
+        value: purchaseData?.ownupAgentId || '-',
       },
       {
         gridSize: 3,
@@ -758,8 +722,8 @@ const Step5: React.FC<Step5Props> = ({
           currentLanguage,
           'Gross Sale Price'
         ),
-        value: purchaseData?.cpupGrossSaleprice
-          ? formatCurrency(purchaseData.cpupGrossSaleprice)
+        value: purchaseData?.ownupGrossSaleprice
+          ? formatCurrency(purchaseData.ownupGrossSaleprice)
           : '246,578.00',
       },
     ]
@@ -1136,7 +1100,7 @@ const Step5: React.FC<Step5Props> = ({
             currentLanguage,
             'VAT Applicable'
           ),
-          checked: purchaseData?.cpupVatApplicable || false,
+          checked: purchaseData?.ownupVatApplicable || false,
         },
         {
           label: getLabel(
@@ -1144,7 +1108,7 @@ const Step5: React.FC<Step5Props> = ({
             currentLanguage,
             'Sale Purchase Agreement'
           ),
-          checked: purchaseData?.cpupSalePurchaseAgreement || false,
+          checked: purchaseData?.ownupSalePurchaseAgreement || false,
         },
         {
           label: getLabel(
@@ -1152,26 +1116,26 @@ const Step5: React.FC<Step5Props> = ({
             currentLanguage,
             'Project Payment Plan'
           ),
-          checked: purchaseData?.cpupProjectPaymentPlan || false,
+          checked: purchaseData?.ownupProjectPaymentPlan || false,
         },
       ],
       checkboxFieldsRow2: [
         {
           gridSize: 3,
           label: getLabel('CDL_OWNER_NET_PRICE', currentLanguage, 'Sale Price'),
-          value: purchaseData?.cpupSalePrice
-            ? formatCurrency(purchaseData.cpupSalePrice)
+          value: purchaseData?.ownupSalePrice
+            ? formatCurrency(purchaseData.ownupSalePrice)
             : '-',
         },
         {
           gridSize: 3,
           label: getLabel('CDL_OWNER_DEED_REF_NO', currentLanguage, 'Deed No'),
-          value: purchaseData?.cpupDeedNo || '-',
+          value: purchaseData?.ownupDeedNo || '-',
         },
         {
           gridSize: 3,
           label: getLabel('CDL_OWNER_CONTRACT_NO', currentLanguage, 'Contract No'),
-          value: purchaseData?.cpupAgreementNo || '-',
+          value: purchaseData?.ownupAgreementNo || '-',
         },
         {
           gridSize: 3,
@@ -1180,8 +1144,8 @@ const Step5: React.FC<Step5Props> = ({
             currentLanguage,
             'Agreement Date'
           ),
-          value: purchaseData?.cpupAgreementDate
-            ? formatDate(purchaseData.cpupAgreementDate)
+          value: purchaseData?.ownupAgreementDate
+            ? formatDate(purchaseData.ownupAgreementDate)
             : '-',
         },
       ],
@@ -1192,7 +1156,7 @@ const Step5: React.FC<Step5Props> = ({
             currentLanguage,
             'Modification Fee Needed'
           ),
-          checked: purchaseData?.cpupModificationFeeNeeded || false,
+          checked: purchaseData?.ownupModificationFeeNeeded || false,
         },
         {
           label: getLabel(
@@ -1200,11 +1164,11 @@ const Step5: React.FC<Step5Props> = ({
             currentLanguage,
             'Reservation Booking Form'
           ),
-          checked: purchaseData?.cpupReservationBookingForm || false,
+          checked: purchaseData?.ownupReservationBookingForm || false,
         },
         {
           label: getLabel('CDL_OWNER_OQOOD_PAID', currentLanguage, 'Oqood Paid'),
-          checked: purchaseData?.cpupOqoodPaid || false,
+          checked: purchaseData?.ownupOqoodPaid || false,
         },
       ],
       remainingFields: [
@@ -1215,7 +1179,7 @@ const Step5: React.FC<Step5Props> = ({
             currentLanguage,
             'World Check'
           ),
-          value: purchaseData?.cpupWorldCheck ? 'Yes' : 'No',
+          value: purchaseData?.ownupWorldCheck ? 'Yes' : 'No',
         },
         {
           gridSize: 6,
@@ -1224,8 +1188,8 @@ const Step5: React.FC<Step5Props> = ({
             currentLanguage,
             'Amount Paid to Developer within Escrow'
           ),
-          value: purchaseData?.cpupAmtPaidToDevInEscorw
-            ? formatCurrency(purchaseData.cpupAmtPaidToDevInEscorw)
+          value: purchaseData?.ownupAmtPaidToDevInEscorw
+            ? formatCurrency(purchaseData.ownupAmtPaidToDevInEscorw)
             : '-',
         },
         {
@@ -1235,8 +1199,8 @@ const Step5: React.FC<Step5Props> = ({
             currentLanguage,
             'Amount Paid to Developer out of Escrow'
           ),
-          value: purchaseData?.cpupAmtPaidToDevOutEscorw
-            ? formatCurrency(purchaseData.cpupAmtPaidToDevOutEscorw)
+          value: purchaseData?.ownupAmtPaidToDevOutEscorw
+            ? formatCurrency(purchaseData.ownupAmtPaidToDevOutEscorw)
             : '-',
         },
         {
@@ -1246,8 +1210,8 @@ const Step5: React.FC<Step5Props> = ({
             currentLanguage,
             'Total Amount Paid'
           ),
-          value: purchaseData?.cpupTotalAmountPaid
-            ? formatCurrency(purchaseData.cpupTotalAmountPaid)
+          value: purchaseData?.ownupTotalAmountPaid
+            ? formatCurrency(purchaseData.ownupTotalAmountPaid)
             : '-',
         },
         {
@@ -1257,7 +1221,7 @@ const Step5: React.FC<Step5Props> = ({
             currentLanguage,
             'Oqood Amount Paid'
           ),
-          value: purchaseData?.cpupOqoodAmountPaid || '-',
+          value: purchaseData?.ownupOqoodAmountPaid || '-',
         },
         {
           gridSize: 3,
@@ -1266,7 +1230,7 @@ const Step5: React.FC<Step5Props> = ({
             currentLanguage,
             'Unit Area Size'
           ),
-          value: purchaseData?.cpupUnitAreaSize || '-',
+          value: purchaseData?.ownupUnitAreaSize || '-',
         },
         {
           gridSize: 3,
@@ -1275,12 +1239,12 @@ const Step5: React.FC<Step5Props> = ({
             currentLanguage,
             'Forfeit Amount'
           ),
-          value: purchaseData?.cpupForfeitAmount || '-',
+          value: purchaseData?.ownupForfeitAmount || '-',
         },
         {
           gridSize: 3,
           label: getLabel('CDL_OWNER_DLD_FEE', currentLanguage, 'Dld Amount'),
-          value: purchaseData?.cpupDldAmount || '-',
+          value: purchaseData?.ownupDldAmount || '-',
         },
         {
           gridSize: 6,
@@ -1289,7 +1253,7 @@ const Step5: React.FC<Step5Props> = ({
             currentLanguage,
             'Refund Amount'
           ),
-          value: purchaseData?.cpupRefundAmount || '-',
+          value: purchaseData?.ownupRefundAmount || '-',
         },
         {
           gridSize: 6,
@@ -1298,12 +1262,12 @@ const Step5: React.FC<Step5Props> = ({
             currentLanguage,
             'Transferred Amount'
           ),
-          value: purchaseData?.cpupTransferredAmount || '-',
+          value: purchaseData?.ownupTransferredAmount || '-',
         },
         {
           gridSize: 12,
           label: getLabel('CDL_OWNER_REMARKS', currentLanguage, 'Remarks'),
-          value: purchaseData?.cpupRemarks || '-',
+          value: purchaseData?.ownupRemarks || '-',
         },
       ],
     }
@@ -1344,59 +1308,65 @@ const Step5: React.FC<Step5Props> = ({
 
   return (
     <Card sx={cardBaseStyles}>
-      <CardContent>
-        <Box
-          display="flex"
-          justifyContent="space-between"
-          alignItems="center"
-          mb={2}
-        >
-          <Typography
-            variant="h6"
-            fontWeight={600}
-            gutterBottom
-            sx={{
-              fontFamily: 'Outfit, sans-serif',
-              fontWeight: 500,
-              fontStyle: 'normal',
-              fontSize: '18px',
-              lineHeight: '28px',
-              letterSpacing: '0.15px',
-              verticalAlign: 'middle',
-            }}
+      {(sectionLoadingStates.basicDetails ||
+        sectionErrorStates.basicDetails ||
+        hasBasicDetailsData) && (
+        <CardContent>
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
+            mb={2}
           >
-            {getLabel('CDL_OWNER_BASIC_INFO', currentLanguage, 'Basic Details')}
-          </Typography>
-          {!isViewMode && (
-            <Button
-              startIcon={<EditIcon />}
-              onClick={handleEditBasicDetails}
-              sx={editButtonSx}
+            <Typography
+              variant="h6"
+              fontWeight={600}
+              gutterBottom
+              sx={{
+                fontFamily: 'Outfit, sans-serif',
+                fontWeight: 500,
+                fontStyle: 'normal',
+                fontSize: '18px',
+                lineHeight: '28px',
+                letterSpacing: '0.15px',
+                verticalAlign: 'middle',
+              }}
             >
-              Edit
-            </Button>
+              {getLabel('CDL_OWNER_BASIC_INFO', currentLanguage, 'Basic Details')}
+            </Typography>
+            {!isViewMode && (
+              <Button
+                startIcon={<EditIcon />}
+                onClick={handleEditBasicDetails}
+                sx={editButtonSx}
+              >
+                Edit
+              </Button>
+            )}
+          </Box>
+          <Divider sx={dividerSx} />
+          {renderSectionContent(
+            getLabel('CDL_OWNER_BASIC_INFO', currentLanguage, 'Basic Details'),
+            sectionLoadingStates.basicDetails,
+            sectionErrorStates.basicDetails,
+            <Grid container spacing={3}>
+              {basicFields.map((field, idx) => (
+                <Grid size={{ xs: 12, md: field.gridSize }} key={`basic-${idx}`}>
+                  {renderDisplayField(
+                    field.label,
+                    field.value,
+                    labelStyles,
+                    valueStyles
+                  )}
+                </Grid>
+              ))}
+            </Grid>
           )}
-        </Box>
-        <Divider sx={dividerSx} />
-        {renderSectionContent(
-          getLabel('CDL_OWNER_BASIC_INFO', currentLanguage, 'Basic Details'),
-          sectionLoadingStates.basicDetails,
-          sectionErrorStates.basicDetails,
-          <Grid container spacing={3}>
-            {basicFields.map((field, idx) => (
-              <Grid size={{ xs: 12, md: field.gridSize }} key={`basic-${idx}`}>
-                {renderDisplayField(
-                  field.label,
-                  field.value,
-                  labelStyles,
-                  valueStyles
-                )}
-              </Grid>
-            ))}
-          </Grid>
-        )}
-      </CardContent>
+        </CardContent>
+      )}
 
+      {/* Submitted Documents: only show when at least one document is uploaded */}
+      {documents.length > 0 && (
       <CardContent>
         <Box
           display="flex"
@@ -1437,49 +1407,38 @@ const Step5: React.FC<Step5Props> = ({
           )}
         </Box>
         <Divider sx={dividerSx} />
-        {renderSectionContent(
-          getLabel('CDL_OWNER_DOCUMENTS', currentLanguage, 'Submitted Documents'),
-          isLoadingDocuments,
-          documentsError,
-          documents.length > 0 ? (
-            <TableContainer component={Paper} sx={tableContainerStyles}>
-              <Table>
-                <TableHead>
-                  <TableRow sx={tableHeadRowSx}>
-                    <TableCell sx={tableHeaderCellSx}>Name</TableCell>
-                    <TableCell sx={tableHeaderCellSx}>Date</TableCell>
-                    <TableCell sx={tableHeaderCellSx}>Type</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {documents.map((doc) => (
-                    <TableRow key={doc.id} sx={tableRowHoverSx}>
-                      <TableCell sx={tableBodyCellSx}>
-                        {doc.name || 'Document'}
-                      </TableCell>
-                      <TableCell sx={tableBodyCellSx}>
-                        {formatDocumentDate(doc.uploadDate)}
-                      </TableCell>
-                      <TableCell sx={tableBodyCellSx}>
-                        {doc.classification || 'N/A'}
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          ) : (
-            <Typography sx={neutralTextSx}>
-              {getLabel(
-                'CDL_OWNER_NO_DOCUMENTS',
-                currentLanguage,
-                'No documents uploaded.'
-              )}
-            </Typography>
-          )
-        )}
+        <TableContainer component={Paper} sx={tableContainerStyles}>
+          <Table>
+            <TableHead>
+              <TableRow sx={tableHeadRowSx}>
+                <TableCell sx={tableHeaderCellSx}>Name</TableCell>
+                <TableCell sx={tableHeaderCellSx}>Date</TableCell>
+                <TableCell sx={tableHeaderCellSx}>Type</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {documents.map((doc) => (
+                <TableRow key={doc.id} sx={tableRowHoverSx}>
+                  <TableCell sx={tableBodyCellSx}>
+                    {doc.name || 'Document'}
+                  </TableCell>
+                  <TableCell sx={tableBodyCellSx}>
+                    {formatDocumentDate(doc.uploadDate)}
+                  </TableCell>
+                  <TableCell sx={tableBodyCellSx}>
+                    {doc.classification || 'N/A'}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </CardContent>
+      )}
 
+      {(sectionLoadingStates.unitDetails ||
+        sectionErrorStates.unitDetails ||
+        (unitDetailsData && unitDetailsData.length > 0)) && (
       <CardContent>
         <Box
           display="flex"
@@ -1568,8 +1527,12 @@ const Step5: React.FC<Step5Props> = ({
           </Grid>
         )}
       </CardContent>
+      )}
 
-      {/* Payment Plan Section */}
+      {/* Payment Plan Section - only show when loading, error, or data exists */}
+      {(sectionLoadingStates.paymentPlan ||
+        sectionErrorStates.paymentPlan ||
+        (paymentPlanData && paymentPlanData.length > 0)) && (
       <CardContent>
         <Box
           display="flex"
@@ -1664,6 +1627,7 @@ const Step5: React.FC<Step5Props> = ({
           )
         )}
       </CardContent>
+      )}
 
       {/* Bank Details Section */}
       {/* <CardContent>

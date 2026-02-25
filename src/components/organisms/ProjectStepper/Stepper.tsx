@@ -429,8 +429,8 @@ const ProjectDetailsStepper: React.FC = () => {
                 }}
               >
                 {activeStep === steps.length - 1
-                  ? 'Save and Next'
-                  : 'Save and Next'}
+                  ? 'Save & Next'
+                  : 'Save & Next'}
               </Button>
             </Box>
           </div>
