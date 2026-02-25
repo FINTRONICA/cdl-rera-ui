@@ -427,8 +427,8 @@ export function mapFormDataToFundEgress(
           ? { id: parseInt(formData.developerId) }
           : null,
 
-    // Capital partner unit - pass null if not found
-    capitalPartnerUnitDTO: formData.unitNo ? {
+    // Owner registry unit - pass null if not found
+    ownerRegistryUnitDTO: formData.unitNo ? {
       id: 0,
       unitRefId: formData.unitNo,
       altUnitRefId: null,
@@ -761,8 +761,8 @@ export function mapFormDataToFundEgressSimplified(
           ? { id: parseInt(formData.developerId) }
           : null,
 
-    // Capital partner unit - send only id
-    capitalPartnerUnitDTO: formData.unitNo ? { id: 0 } : null,
+    // Owner registry unit - send only id
+    ownerRegistryUnitDTO: formData.unitNo ? { id: 0 } : null,
 
     // Payout to be made from CBS
     payoutToBeMadeFromCbsDTO: formData.uploadDocuments2

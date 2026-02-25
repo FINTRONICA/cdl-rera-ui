@@ -172,8 +172,8 @@ export const useUIActions = () => {
 export const useLabels = () => {
   const sidebarLabels = useAppStore((state) => state.sidebarLabels)
   const buildPartnerLabels = useAppStore((state) => state.buildPartnerLabels)
-  const capitalPartnerLabels = useAppStore(
-    (state) => state.capitalPartnerLabels
+  const ownerRegistryLabels = useAppStore(
+    (state) => state.ownerRegistryLabels
   )
   const buildPartnerAssetLabels = useAppStore(
     (state) => state.buildPartnerAssetLabels
@@ -194,7 +194,7 @@ export const useLabels = () => {
     () => ({
       sidebarLabels,
       buildPartnerLabels,
-      capitalPartnerLabels,
+      ownerRegistryLabels,
       buildPartnerAssetLabels,
       workflowActionLabels,
       workflowDefinitionLabels,
@@ -207,7 +207,7 @@ export const useLabels = () => {
       allLabelsLoading,
       allLabelsError,
     }),
-    [sidebarLabels, buildPartnerLabels, capitalPartnerLabels, buildPartnerAssetLabels, workflowActionLabels, allLabelsLoading, allLabelsError, workflowDefinitionLabels, workflowStageTemplateLabels, workflowAmountRuleLabels, workflowAmountStageOverrideLabels, workflowRequestedLabels, budgetLabels, budgetManagementFirmLabels]
+    [sidebarLabels, buildPartnerLabels, ownerRegistryLabels, buildPartnerAssetLabels, workflowActionLabels, allLabelsLoading, allLabelsError, workflowDefinitionLabels, workflowStageTemplateLabels, workflowAmountRuleLabels, workflowAmountStageOverrideLabels, workflowRequestedLabels, budgetLabels, budgetManagementFirmLabels]
 
   )
 }
@@ -215,7 +215,7 @@ export const useLabels = () => {
 export const useLabelsLoadingState = () => {
   const sidebarLabelsLoading = useAppStore((state) => state.sidebarLabelsLoading)
   const buildPartnerLabelsLoading = useAppStore((state) => state.buildPartnerLabelsLoading)
-  const capitalPartnerLabelsLoading = useAppStore((state) => state.capitalPartnerLabelsLoading)
+  const ownerRegistryLabelsLoading = useAppStore((state) => state.ownerRegistryLabelsLoading)
   const buildPartnerAssetLabelsLoading = useAppStore((state) => state.buildPartnerAssetLabelsLoading)
   const workflowActionLabelsLoading = useAppStore((state) => state.workflowActionLabelsLoading)
   const workflowDefinitionLabelsLoading = useAppStore((state) => state.workflowDefinitionLabelsLoading)
@@ -232,7 +232,7 @@ export const useLabelsLoadingState = () => {
     () => ({
       sidebarLabelsLoading,
       buildPartnerLabelsLoading,
-      capitalPartnerLabelsLoading,
+      ownerRegistryLabelsLoading,
       buildPartnerAssetLabelsLoading,
       workflowActionLabelsLoading,
       workflowDefinitionLabelsLoading,
@@ -245,7 +245,7 @@ export const useLabelsLoadingState = () => {
 
       getLoadingStatus,
     }),
-    [sidebarLabelsLoading, buildPartnerLabelsLoading, capitalPartnerLabelsLoading, buildPartnerAssetLabelsLoading, workflowActionLabelsLoading, workflowDefinitionLabelsLoading, workflowStageTemplateLabelsLoading, workflowAmountRuleLabelsLoading, workflowAmountStageOverrideLabelsLoading, workflowRequestedLabelsLoading, budgetLabelsLoading, budgetManagementFirmLabelsLoading,getLoadingStatus]
+    [sidebarLabelsLoading, buildPartnerLabelsLoading, ownerRegistryLabelsLoading, buildPartnerAssetLabelsLoading, workflowActionLabelsLoading, workflowDefinitionLabelsLoading, workflowStageTemplateLabelsLoading, workflowAmountRuleLabelsLoading, workflowAmountStageOverrideLabelsLoading, workflowRequestedLabelsLoading, budgetLabelsLoading, budgetManagementFirmLabelsLoading,getLoadingStatus]
 
   )
 }
@@ -272,14 +272,14 @@ export const useLabelsActions = () => {
   )
 
   // Capital partner actions
-  const setCapitalPartnerLabels = useAppStore(
-    (state) => state.setCapitalPartnerLabels
+  const setOwnerRegistryLabels = useAppStore(
+    (state) => state.setOwnerRegistryLabels
   )
-  const setCapitalPartnerLabelsLoading = useAppStore(
-    (state) => state.setCapitalPartnerLabelsLoading
+  const setOwnerRegistryLabelsLoading = useAppStore(
+    (state) => state.setOwnerRegistryLabelsLoading
   )
-  const setCapitalPartnerLabelsError = useAppStore(
-    (state) => state.setCapitalPartnerLabelsError
+  const setOwnerRegistryLabelsError = useAppStore(
+    (state) => state.setOwnerRegistryLabelsError
   )
 
   // Build partner asset actions
@@ -357,10 +357,10 @@ export const useLabelsActions = () => {
       setBuildPartnerLabelsLoading,
       setBuildPartnerLabelsError,
 
-      // Capital partner
-      setCapitalPartnerLabels,
-      setCapitalPartnerLabelsLoading,
-      setCapitalPartnerLabelsError,
+      // Owner registry (replaces Capital partner)
+      setOwnerRegistryLabels,
+      setOwnerRegistryLabelsLoading,
+      setOwnerRegistryLabelsError,
 
       // Build partner asset
       setBuildPartnerAssetLabels,
@@ -425,8 +425,8 @@ export const useLabelsActions = () => {
       setSidebarLabels, setSidebarLabelsLoading, setSidebarLabelsError,
       // Build partner
       setBuildPartnerLabels, setBuildPartnerLabelsLoading, setBuildPartnerLabelsError,
-      // Capital partner
-      setCapitalPartnerLabels, setCapitalPartnerLabelsLoading, setCapitalPartnerLabelsError,
+      // Owner registry
+      setOwnerRegistryLabels, setOwnerRegistryLabelsLoading, setOwnerRegistryLabelsError,
       // Build partner asset
       setBuildPartnerAssetLabels, setBuildPartnerAssetLabelsLoading, setBuildPartnerAssetLabelsError,
       // Workflow action   (previously missing)

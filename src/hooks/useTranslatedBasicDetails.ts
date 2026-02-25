@@ -40,16 +40,11 @@ export function useTranslatedBasicDetails(
 
       try {
         const promises = []
-        if (
-          capitalPartnerData.investorTypeDTO?.id &&
-          capitalPartnerData.investorTypeDTO?.settingKey
-        ) {
+        const typeDTO = (capitalPartnerData as any).ownerRegistryTypeDTO ?? (capitalPartnerData as any).investorTypeDTO
+        if (typeDTO?.id && typeDTO?.settingKey) {
           promises.push(
             applicationSettingService
-              .getApplicationSettingByIdAndKey(
-                capitalPartnerData.investorTypeDTO.id,
-                capitalPartnerData.investorTypeDTO.settingKey
-              )
+              .getApplicationSettingByIdAndKey(typeDTO.id, typeDTO.settingKey)
               .then((setting) => {
                 const translatedValue =
                   setting.languageTranslationId?.configValue ||
@@ -57,15 +52,11 @@ export function useTranslatedBasicDetails(
                 setInvestorType(translatedValue)
               })
               .catch(() => {
-                setInvestorType(
-                  capitalPartnerData.investorTypeDTO?.settingValue || '-'
-                )
+                setInvestorType(typeDTO?.settingValue || '-')
               })
           )
         } else {
-          setInvestorType(
-            capitalPartnerData.investorTypeDTO?.settingValue || '-'
-          )
+          setInvestorType(typeDTO?.settingValue || '-')
         }
         if (
           capitalPartnerData.documentTypeDTO?.id &&
@@ -180,7 +171,7 @@ export function useTranslatedBasicDetails(
         setError(
           err instanceof Error ? err.message : 'Failed to fetch translations'
         )
-        setInvestorType(capitalPartnerData.investorTypeDTO?.settingValue || '-')
+        setInvestorType(((capitalPartnerData as any).ownerRegistryTypeDTO ?? (capitalPartnerData as any).investorTypeDTO)?.settingValue || '-')
         setInvestorIdType(
           capitalPartnerData.documentTypeDTO?.settingValue || '-'
         )

@@ -1,55 +1,48 @@
 import type { CapitalPartnerResponse } from '@/services/api/capitalPartnerService'
-import { CapitalPartnerUIData } from '@/services/api/capitalPartnerService'
+import type { OwnerRegistryUIData } from '@/services/api/capitalPartnerService'
 
+/** Maps API response (capitalPartner* or ownerRegistry*) to UI model (owner, assetRegister*, managementFirm*). */
 export const mapCapitalPartnerToInvestorData = (
-  cp: CapitalPartnerResponse
-): CapitalPartnerUIData => {
+  cp: CapitalPartnerResponse | Record<string, unknown>
+): OwnerRegistryUIData => {
   try {
     const mapApiStatus = (taskStatusDTO: any | null): string => {
-      if (!taskStatusDTO) {
-        return 'INITIATED'
-      }
-
+      if (!taskStatusDTO) return 'INITIATED'
       return taskStatusDTO.code || 'INITIATED'
     }
-
-    // Extract build partner data from nested structure
-    const buildPartnerData =
-      cp.capitalPartnerUnitDTO?.realEstateAssestDTO?.buildPartnerDTO
-
+    const src = cp as Record<string, unknown>
+    const unitDto = (src.ownerRegistryUnitDTO ?? (src as any).capitalPartnerUnitDTO) as Record<string, unknown> | undefined
+    const rea = unitDto?.realEstateAssestDTO as Record<string, unknown> | undefined
+    const assetDto = rea?.buildPartnerDTO as Record<string, unknown> | undefined
+    const ownerName =
+      (src.ownerRegistryName ?? src.capitalPartnerName) as string ?? '-'
+    const ownerRefId =
+      (src.ownerRegistryId ?? src.capitalPartnerId) as string ?? '-'
     return {
-      id: cp.id,
-      investor: cp.capitalPartnerName ?? '-',
-      investorId: cp.capitalPartnerId ?? '-',
-      developerName: cp.capitalPartnerLocaleName ?? '-',
-      developerIdRera: cp.capitalPartnerIdNo ?? '-',
-      developerCif: cp.capitalPartnerOwnershipPercentage?.toString() ?? '-',
-      projectName:
-        cp.capitalPartnerUnitDTO?.realEstateAssestDTO?.reaName ?? '-',
-      projectCIF: cp.capitalPartnerUnitDTO?.realEstateAssestDTO?.reaCif ?? '-',
-      unitNumber: cp.capitalPartnerUnitDTO?.unitRefId ?? '-',
-      approvalStatus: mapApiStatus(cp.taskStatusDTO),
-      buildPartnerName: buildPartnerData?.bpName ?? '-',
-      buildPartnerCif: buildPartnerData?.bpCifrera ?? '-',
-      buildPartnerId: buildPartnerData?.bpDeveloperId ?? '-',
+      id: (src.id as number) ?? 0,
+      owner: ownerName,
+      ownerId: ownerRefId,
+      assetRegisterName: (assetDto?.bpName as string) ?? '-',
+      assetRegisterId: (assetDto?.bpDeveloperId as string) ?? '-',
+      assetRegisterCif: (assetDto?.bpCifrera as string) ?? '-',
+      managementFirmName: (rea?.reaName as string) ?? '-',
+      managementFirmCif: (rea?.reaCif as string) ?? '-',
+      unitNumber: String(unitDto?.unitRefId ?? '-'),
+      approvalStatus: mapApiStatus((src.taskStatusDTO as any) ?? null),
     }
   } catch (error) {
-    console.error('Error mapping capital partner data:', error, cp)
-    // Return a safe fallback object
+    console.error('Error mapping owner registry data:', error, cp)
     return {
-      id: cp.id || 0,
-      investor: '-',
-      investorId: '-',
-      developerName: '-',
-      developerIdRera: '-',
-      developerCif: '-',
-      projectName: '-',
-      projectCIF: '-',
+      id: (cp as any)?.id || 0,
+      owner: '-',
+      ownerId: '-',
+      assetRegisterName: '-',
+      assetRegisterId: '-',
+      assetRegisterCif: '-',
+      managementFirmName: '-',
+      managementFirmCif: '-',
       unitNumber: '-',
       approvalStatus: 'INITIATED',
-      buildPartnerName: '-',
-      buildPartnerCif: '-',
-      buildPartnerId: '-',
     }
   }
 }

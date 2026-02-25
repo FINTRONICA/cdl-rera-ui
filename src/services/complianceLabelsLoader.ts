@@ -76,7 +76,7 @@ export class SimpleLabelsLoader {
           const apiNames = [
             'Sidebar Labels',
             'Build Partner Labels',
-            'Capital Partner Labels',
+            'Owner Registry Labels',
             'Build Partner Asset Labels',
             'Pending Transaction Labels',
           ]
@@ -152,22 +152,21 @@ export class SimpleLabelsLoader {
   }
 
   /**
-   * Load capital partner labels
+   * Load owner registry labels (replaces Capital Partner)
    */
   private async loadCapitalPartnerLabels() {
     try {
       const data = await CapitalPartnerLabelsService.fetchLabels()
       const processed = CapitalPartnerLabelsService.processLabels(data)
 
-      // Store in Zustand
-      useAppStore.getState().setCapitalPartnerLabels(processed)
-      useAppStore.getState().setCapitalPartnerLabelsError(null)
+      useAppStore.getState().setOwnerRegistryLabels(processed)
+      useAppStore.getState().setOwnerRegistryLabelsError(null)
 
       return { success: true, data: processed }
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : 'Unknown error'
-      useAppStore.getState().setCapitalPartnerLabelsError(errorMessage)
+      useAppStore.getState().setOwnerRegistryLabelsError(errorMessage)
       return { success: false, error: errorMessage }
     }
   }
@@ -221,7 +220,7 @@ export class SimpleLabelsLoader {
     const state = useAppStore.getState()
     state.setSidebarLabelsLoading(loading)
     state.setBuildPartnerLabelsLoading(loading)
-    state.setCapitalPartnerLabelsLoading(loading)
+    state.setOwnerRegistryLabelsLoading(loading)
     state.setBuildPartnerAssetLabelsLoading(loading)
     state.setPendingTransactionLabelsLoading(loading)
   }

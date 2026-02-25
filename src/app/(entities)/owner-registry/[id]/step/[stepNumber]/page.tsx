@@ -15,39 +15,38 @@ function InvestorStepPageContent() {
   const searchParams = useSearchParams()
   const router = useRouter()
 
-  const capitalPartnerId = params.id as string
+  const ownerRegistryId = params.id as string
   const stepNumber = params.stepNumber as string
   const mode = searchParams.get('mode')
   const editing = searchParams.get('editing')
   const isViewMode = mode === 'view'
   const isEditingMode = editing === 'true'
 
-  const [capitalPartnerData, setCapitalPartnerData] =
+  const [ownerRegistryData, setOwnerRegistryData] =
     useState<CapitalPartnerResponse | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-
   useEffect(() => {
-    const fetchCapitalPartnerData = async () => {
+    const fetchOwnerRegistryData = async () => {
       try {
         setIsLoading(true)
         setError(null)
         const data = await capitalPartnerService.getCapitalPartnerById(
-          parseInt(capitalPartnerId)
+          parseInt(ownerRegistryId)
         )
-        setCapitalPartnerData(data)
-      } catch (err: any) {
-        setError(err.message || 'Failed to fetch capital partner data')
+        setOwnerRegistryData(data)
+      } catch (err: unknown) {
+        setError(err instanceof Error ? err.message : 'Failed to fetch owner registry data')
       } finally {
         setIsLoading(false)
       }
     }
 
-    if (capitalPartnerId) {
-      fetchCapitalPartnerData()
+    if (ownerRegistryId) {
+      fetchOwnerRegistryData()
     }
-  }, [capitalPartnerId])
+  }, [ownerRegistryId])
 
  
   if (isLoading) {
@@ -97,8 +96,8 @@ function InvestorStepPageContent() {
             Owner Registry Name
           </label>
           <span className="font-outfit font-normal text-[16px] leading-[1] tracking-normal align-middle text-[#1E2939] dark:text-white">
-            {capitalPartnerData
-              ? `${capitalPartnerData.capitalPartnerName || ''} ${capitalPartnerData.capitalPartnerMiddleName || ''} ${capitalPartnerData.capitalPartnerLastName || ''}`.trim() ||
+            {ownerRegistryData
+              ? `${ownerRegistryData.ownerRegistryName ?? ownerRegistryData.capitalPartnerName ?? ''} ${ownerRegistryData.ownerRegistryMiddleName ?? ownerRegistryData.capitalPartnerMiddleName ?? ''} ${ownerRegistryData.ownerRegistryLastName ?? ownerRegistryData.capitalPartnerLastName ?? ''}`.trim() ||
                 'N/A'
               : 'N/A'}
           </span>
@@ -108,14 +107,14 @@ function InvestorStepPageContent() {
             Owner Registry ID
           </label>
           <span className="font-outfit font-normal text-[16px] leading-[1] tracking-normal align-middle text-[#1E2939] dark:text-white">
-            {capitalPartnerData?.capitalPartnerId || 'N/A'}
+            {ownerRegistryData?.ownerRegistryId ?? ownerRegistryData?.capitalPartnerId ?? 'N/A'}
           </span>
         </div>
       </div>
       <div className="px-3 mt-[10px]">
         <InvestorsStepperWrapper
           initialCapitalPartnerId={
-            capitalPartnerId ? parseInt(capitalPartnerId) : null
+            ownerRegistryId ? parseInt(ownerRegistryId) : null
           }
           initialStep={stepNumber ? parseInt(stepNumber) - 1 : 0}
           isViewMode={isViewMode}

@@ -504,23 +504,23 @@ const Step5: React.FC<Step5Props> = ({
     return [
       {
         gridSize: 6,
-        label: getLabel('CDL_CP_PAY_MODE', currentLanguage, 'Pay Mode'),
+        label: getLabel('CDL_OWNER_PAY_MODE', currentLanguage, 'Pay Mode'),
         value: loadingTranslations ? 'Loading...' : translatedPayMode,
       },
       {
         gridSize: 6,
-        label: getLabel('CDL_CP_PAYEE_NAME', currentLanguage, 'Payee Name'),
+        label: getLabel('CDL_OWNER_PAYEE_NAME', currentLanguage, 'Payee Name'),
         value: bankData.cpbiPayeeName || '-',
       },
       {
         gridSize: 6,
-        label: getLabel('CDL_CP_BANK_NAME', currentLanguage, 'Bank Name'),
+        label: getLabel('CDL_OWNER_BANK_NAME', currentLanguage, 'Bank Name'),
         value: bankData.cpbiBankName || '-',
       },
       {
         gridSize: 6,
         label: getLabel(
-          'CDL_CP_ROUTING_CODE',
+          'CDL_OWNER_ROUTING_CODE',
           currentLanguage,
           'Beneficiary Routing Code'
         ),
@@ -529,7 +529,7 @@ const Step5: React.FC<Step5Props> = ({
       {
         gridSize: 6,
         label: getLabel(
-          'CDL_CP_ACCOUNT_NUMBER',
+          'CDL_OWNER_ACCOUNT_NUMBER',
           currentLanguage,
           'Account Number'
         ),
@@ -538,7 +538,7 @@ const Step5: React.FC<Step5Props> = ({
       {
         gridSize: 6,
         label: getLabel(
-          'CDL_CP_PAYEE_ADDRESS',
+          'CDL_OWNER_PAYEE_ADDRESS',
           currentLanguage,
           'Payee Address'
         ),
@@ -546,12 +546,12 @@ const Step5: React.FC<Step5Props> = ({
       },
       {
         gridSize: 6,
-        label: getLabel('CDL_CP_BANK_ADDRESS', currentLanguage, 'Bank Address'),
+        label: getLabel('CDL_OWNER_BANK_ADDRESS', currentLanguage, 'Bank Address'),
         value: bankData.cpbiBankAddress || '-',
       },
       {
         gridSize: 6,
-        label: getLabel('CDL_CP_BIC_CODE', currentLanguage, 'BIC'),
+        label: getLabel('CDL_OWNER_BIC_CODE', currentLanguage, 'BIC'),
         value: bankData.cpbiBicCode || '-',
       },
     ]
@@ -564,38 +564,38 @@ const Step5: React.FC<Step5Props> = ({
     return [
       {
         gridSize: 6,
-        label: getLabel('CDL_CP_TYPE', currentLanguage, 'Investor Type*'),
+        label: getLabel('CDL_OWNER_TYPE', currentLanguage, 'Owner Registry Type*'),
         value: loadingTranslations ? 'Loading...' : translatedInvestorType,
       },
       {
         gridSize: 6,
-        label: getLabel('CDL_CP_REFID', currentLanguage, 'Investor ID*'),
+        label: getLabel('CDL_OWNER_REFID', currentLanguage, 'Owner Registry ID*'),
         value: capitalPartnerData.capitalPartnerId || '-',
       },
       {
         gridSize: 3,
-        label: getLabel('CDL_CP_FIRSTNAME', currentLanguage, 'Investor Name*'),
+        label: getLabel('CDL_OWNER_FIRSTNAME', currentLanguage, 'Owner Registry Name*'),
         value: capitalPartnerData.capitalPartnerName || '-',
       },
       {
         gridSize: 3,
-        label: getLabel('CDL_CP_MIDDLENAME', currentLanguage, 'Middle Name*'),
+        label: getLabel('CDL_OWNER_MIDDLENAME', currentLanguage, 'Middle Name*'),
         value: capitalPartnerData.capitalPartnerMiddleName || '-',
       },
       {
         gridSize: 6,
-        label: getLabel('CDL_CP_LASTNAME', currentLanguage, 'Last Name*'),
+        label: getLabel('CDL_OWNER_LASTNAME', currentLanguage, 'Last Name*'),
         value: capitalPartnerData.capitalPartnerLastName || '-',
       },
       {
         gridSize: 12,
-        label: getLabel('CDL_CP_LOCALE_NAME', currentLanguage, 'Arabic Name'),
-        value: capitalPartnerData.capitalPartnerLocaleName || '-',
+        label: getLabel('CDL_OWNER_LOCALE_NAME', currentLanguage, 'Arabic Name'),
+        value: (capitalPartnerData as Record<string, unknown>).ownerRegistryLocaleName || '-',
       },
       {
         gridSize: 6,
         label: getLabel(
-          'CDL_CP_OWNERSHIP',
+          'CDL_OWNER_OWNERSHIP',
           currentLanguage,
           'Ownership Percentage'
         ),
@@ -605,28 +605,28 @@ const Step5: React.FC<Step5Props> = ({
       },
       {
         gridSize: 6,
-        label: getLabel('CDL_CP_ID_TYPE', currentLanguage, 'Investor ID Type*'),
+        label: getLabel('CDL_OWNER_ID_TYPE', currentLanguage, 'Owner Registry ID Type*'),
         value: loadingTranslations ? 'Loading...' : translatedInvestorIdType,
       },
       {
         gridSize: 6,
-        label: getLabel('CDL_CP_DOC_NO', currentLanguage, 'ID No.'),
+        label: getLabel('CDL_OWNER_DOC_NO', currentLanguage, 'ID No.'),
         value: capitalPartnerData.capitalPartnerIdNo || '-',
       },
       {
         gridSize: 6,
-        label: getLabel('CDL_CP_ID_EXP', currentLanguage, 'ID Expiry Date'),
+        label: getLabel('CDL_OWNER_ID_EXP', currentLanguage, 'ID Expiry Date'),
         value: formatDate(capitalPartnerData.idExpiaryDate),
       },
       {
         gridSize: 6,
-        label: getLabel('CDL_CP_NATIONALITY', currentLanguage, 'Nationality*'),
+        label: getLabel('CDL_OWNER_NATIONALITY', currentLanguage, 'Nationality*'),
         value: loadingTranslations ? 'Loading...' : translatedNationality,
       },
       {
         gridSize: 6,
         label: getLabel(
-          'CDL_CP_TELEPHONE',
+          'CDL_OWNER_TELEPHONE',
           currentLanguage,
           'Account Contact Number'
         ),
@@ -634,12 +634,12 @@ const Step5: React.FC<Step5Props> = ({
       },
       {
         gridSize: 6,
-        label: getLabel('CDL_CP_MOBILE', currentLanguage, 'Mobile Number'),
+        label: getLabel('CDL_OWNER_MOBILE', currentLanguage, 'Mobile Number'),
         value: capitalPartnerData.capitalPartnerMobileNo || '-',
       },
       {
         gridSize: 6,
-        label: getLabel('CDL_CP_EMAIL', currentLanguage, 'Email Address'),
+        label: getLabel('CDL_OWNER_EMAIL', currentLanguage, 'Email Address'),
         value: capitalPartnerData.capitalPartnerEmail || '-',
       },
     ]
@@ -657,38 +657,38 @@ const Step5: React.FC<Step5Props> = ({
     return [
       {
         gridSize: 6,
-        label: getLabel('CDL_CP_MF_NAME', currentLanguage, 'Project Name*'),
+        label: getLabel('CDL_OWNER_UNIT_MF_NAME', currentLanguage, 'Management Firm Name*'),
         value: unitData.realEstateAssestDTO?.reaName || '-',
       },
       {
         gridSize: 6,
-        label: getLabel('CDL_CP_PROP_NUMBER', currentLanguage, 'Project ID*'),
+        label: getLabel('CDL_OWNER_UNIT_MF_ID', currentLanguage, 'Management Firm ID*'),
         value: unitData.realEstateAssestDTO?.reaId || '-',
       },
       {
         gridSize: 6,
-        label: getLabel('CDL_CP_AR_ID', currentLanguage, 'Developer ID*'),
+        label: getLabel('CDL_OWNER_UNIT_AR_ID', currentLanguage, 'Asset Register ID*'),
         value: unitData.realEstateAssestDTO?.reaReraNumber || '-',
       },
       {
         gridSize: 6,
-        label: getLabel('CDL_CP_AR_NAME', currentLanguage, 'Developer Name*'),
+        label: getLabel('CDL_OWNER_UNIT_AR_NAME', currentLanguage, 'Asset Register Name*'),
         value: unitData.realEstateAssestDTO?.reaManagedBy || '-',
       },
       {
         gridSize: 3,
-        label: getLabel('CDL_CP_FLOOR', currentLanguage, 'Floor'),
+        label: getLabel('CDL_OWNER_UNIT_FLOOR', currentLanguage, 'Floor'),
         value: unitData.floor || '-',
       },
       {
         gridSize: 3,
-        label: getLabel('CDL_CP_NOOF_BED', currentLanguage, 'No. of Bedroom'),
+        label: getLabel('CDL_OWNER_UNIT_NOOF_BED', currentLanguage, 'No. of Bedroom'),
         value: unitData.noofBedroom || '-',
       },
       {
         gridSize: 3,
         label: getLabel(
-          'CDL_CP_UNIT_NUMBER',
+          'CDL_OWNER_UNIT_NUMBER',
           currentLanguage,
           'Unit no. Oqood format*'
         ),
@@ -696,13 +696,13 @@ const Step5: React.FC<Step5Props> = ({
       },
       {
         gridSize: 3,
-        label: getLabel('CDL_CP_UNIT_STATUS', currentLanguage, 'Unit Status*'),
+        label: getLabel('CDL_OWNER_UNIT_STATUS', currentLanguage, 'Unit Status*'),
         value: loadingTranslations ? 'Loading...' : translatedUnitStatus,
       },
       {
         gridSize: 6,
         label: getLabel(
-          'CDL_CP_BUILDING_NAME',
+          'CDL_OWNER_BUILDING_NAME',
           currentLanguage,
           'Building Name'
         ),
@@ -710,12 +710,12 @@ const Step5: React.FC<Step5Props> = ({
       },
       {
         gridSize: 6,
-        label: getLabel('CDL_CP_PLOT_SIZE', currentLanguage, 'Plot Size*'),
+        label: getLabel('CDL_OWNER_PLOT_SIZE', currentLanguage, 'Plot Size*'),
         value: unitData.unitPlotSize || '-',
       },
       {
         gridSize: 6,
-        label: getLabel('CDL_CP_PROP_NUMBER', currentLanguage, 'Property ID*'),
+        label: getLabel('CDL_OWNER_PROP_NUMBER', currentLanguage, 'Property ID*'),
         value:
           unitData.propertyIdDTO?.languageTranslationId?.configValue ||
           unitData.propertyIdDTO?.settingValue ||
@@ -723,13 +723,13 @@ const Step5: React.FC<Step5Props> = ({
       },
       {
         gridSize: 6,
-        label: getLabel('CDL_CP_UNIT_IBAN', currentLanguage, 'Unit IBAN'),
+        label: getLabel('CDL_OWNER_UNIT_IBAN', currentLanguage, 'Unit IBAN'),
         value: unitData.virtualAccNo || '-',
       },
       {
         gridSize: 3,
         label: getLabel(
-          'CDL_CP_REG_FEE',
+          'CDL_OWNER_REG_FEE',
           currentLanguage,
           'Unit Registration Fees'
         ),
@@ -739,13 +739,13 @@ const Step5: React.FC<Step5Props> = ({
       },
       {
         gridSize: 3,
-        label: getLabel('CDL_CP_AGENT_NAME', currentLanguage, 'Agent Name'),
+        label: getLabel('CDL_OWNER_AGENT_NAME', currentLanguage, 'Agent Name'),
         value: purchaseData?.cpupAgentName || '-',
       },
       {
         gridSize: 3,
         label: getLabel(
-          'CDL_CP_AGENT_ID',
+          'CDL_OWNER_AGENT_ID',
           currentLanguage,
           'Agent National ID'
         ),
@@ -754,7 +754,7 @@ const Step5: React.FC<Step5Props> = ({
       {
         gridSize: 3,
         label: getLabel(
-          'CDL_CP_GROSS_PRICE',
+          'CDL_OWNER_GROSS_PRICE',
           currentLanguage,
           'Gross Sale Price'
         ),
@@ -775,7 +775,7 @@ const Step5: React.FC<Step5Props> = ({
         checkboxFieldsRow1: [
           {
             label: getLabel(
-              'CDL_CP_VAT_APPLICABLE',
+              'CDL_OWNER_VAT_APPLICABLE',
               currentLanguage,
               'VAT Applicable'
             ),
@@ -783,7 +783,7 @@ const Step5: React.FC<Step5Props> = ({
           },
           {
             label: getLabel(
-              'CDL_CP_SPA',
+              'CDL_OWNER_SPA',
               currentLanguage,
               'Sale Purchase Agreement'
             ),
@@ -791,7 +791,7 @@ const Step5: React.FC<Step5Props> = ({
           },
           {
             label: getLabel(
-              'CDL_CP_PAYMENT_PLAN',
+              'CDL_OWNER_PAYMENT_PLAN',
               currentLanguage,
               'Project Payment Plan'
             ),
@@ -801,18 +801,18 @@ const Step5: React.FC<Step5Props> = ({
         checkboxFieldsRow2: [
           {
             gridSize: 3,
-            label: getLabel('CDL_CP_NET_PRICE', currentLanguage, 'Sale Price'),
+            label: getLabel('CDL_OWNER_NET_PRICE', currentLanguage, 'Sale Price'),
             value: '-',
           },
           {
             gridSize: 3,
-            label: getLabel('CDL_CP_DEED_REF_NO', currentLanguage, 'Deed No'),
+            label: getLabel('CDL_OWNER_DEED_REF_NO', currentLanguage, 'Deed No'),
             value: '-',
           },
           {
             gridSize: 3,
             label: getLabel(
-              'CDL_CP_CONTRACT_NO',
+              'CDL_OWNER_CONTRACT_NO',
               currentLanguage,
               'Contract No'
             ),
@@ -821,7 +821,7 @@ const Step5: React.FC<Step5Props> = ({
           {
             gridSize: 3,
             label: getLabel(
-              'CDL_CP_AGREEMENT_DATE',
+              'CDL_OWNER_AGREEMENT_DATE',
               currentLanguage,
               'Agreement Date'
             ),
@@ -831,7 +831,7 @@ const Step5: React.FC<Step5Props> = ({
         checkboxFieldsRow3: [
           {
             label: getLabel(
-              'CDL_CP_MODIFICATION_FEE_NEEDED',
+              'CDL_OWNER_MODIFICATION_FEE_NEEDED',
               currentLanguage,
               'Modification Fee Needed'
             ),
@@ -839,14 +839,14 @@ const Step5: React.FC<Step5Props> = ({
           },
           {
             label: getLabel(
-              'CDL_CP_RESERVATION_BOOKING_FORM',
+              'CDL_OWNER_RESERVATION_BOOKING_FORM',
               currentLanguage,
               'Reservation Booking Form'
             ),
             checked: false,
           },
           {
-            label: getLabel('CDL_CP_OQOOD_PAID', currentLanguage, 'Oqood Paid'),
+            label: getLabel('CDL_OWNER_OQOOD_PAID', currentLanguage, 'Oqood Paid'),
             checked: false,
           },
         ],
@@ -854,7 +854,7 @@ const Step5: React.FC<Step5Props> = ({
           {
             gridSize: 6,
             label: getLabel(
-              'CDL_CP_WORLD_STATUS',
+              'CDL_OWNER_WORLD_STATUS',
               currentLanguage,
               'World Check'
             ),
@@ -863,7 +863,7 @@ const Step5: React.FC<Step5Props> = ({
           {
             gridSize: 6,
             label: getLabel(
-              'CDL_CP_WITH_ESCROW',
+              'CDL_OWNER_WITH_ESCROW',
               currentLanguage,
               'Amount Paid to Developer within Escrow'
             ),
@@ -872,7 +872,7 @@ const Step5: React.FC<Step5Props> = ({
           {
             gridSize: 6,
             label: getLabel(
-              'CDL_CP_OUTSIDE_ESCROW',
+              'CDL_OWNER_OUTSIDE_ESCROW',
               currentLanguage,
               'Amount Paid to Developer out of Escrow'
             ),
@@ -881,7 +881,7 @@ const Step5: React.FC<Step5Props> = ({
           {
             gridSize: 6,
             label: getLabel(
-              'CDL_CP_PARTNER_PAYMENT',
+              'CDL_OWNER_PARTNER_PAYMENT',
               currentLanguage,
               'Total Amount Paid'
             ),
@@ -890,7 +890,7 @@ const Step5: React.FC<Step5Props> = ({
           {
             gridSize: 3,
             label: getLabel(
-              'CDL_CP_OQOOD_PAID',
+              'CDL_OWNER_OQOOD_PAID',
               currentLanguage,
               'Oqood Amount Paid'
             ),
@@ -899,7 +899,7 @@ const Step5: React.FC<Step5Props> = ({
           {
             gridSize: 3,
             label: getLabel(
-              'CDL_CP_UNIT_AREA',
+              'CDL_OWNER_UNIT_AREA',
               currentLanguage,
               'Unit Area Size'
             ),
@@ -908,7 +908,7 @@ const Step5: React.FC<Step5Props> = ({
           {
             gridSize: 3,
             label: getLabel(
-              'CDL_CP_FORFEIT_AMOUNT',
+              'CDL_OWNER_FORFEIT_AMOUNT',
               currentLanguage,
               'Forfeit Amount'
             ),
@@ -916,13 +916,13 @@ const Step5: React.FC<Step5Props> = ({
           },
           {
             gridSize: 3,
-            label: getLabel('CDL_CP_DLD_FEE', currentLanguage, 'Dld Amount'),
+            label: getLabel('CDL_OWNER_DLD_FEE', currentLanguage, 'Dld Amount'),
             value: '-',
           },
           {
             gridSize: 6,
             label: getLabel(
-              'CDL_CP_REFUND_AMOUNT',
+              'CDL_OWNER_REFUND_AMOUNT',
               currentLanguage,
               'Refund Amount'
             ),
@@ -931,7 +931,7 @@ const Step5: React.FC<Step5Props> = ({
           {
             gridSize: 6,
             label: getLabel(
-              'CDL_CP_TRANS_AMT',
+              'CDL_OWNER_TRANS_AMT',
               currentLanguage,
               'Transferred Amount'
             ),
@@ -939,7 +939,7 @@ const Step5: React.FC<Step5Props> = ({
           },
           {
             gridSize: 12,
-            label: getLabel('CDL_CP_REMARKS', currentLanguage, 'Remarks'),
+            label: getLabel('CDL_OWNER_REMARKS', currentLanguage, 'Remarks'),
             value: '-',
           },
         ],
@@ -952,7 +952,7 @@ const Step5: React.FC<Step5Props> = ({
         checkboxFieldsRow1: [
           {
             label: getLabel(
-              'CDL_CP_VAT_APPLICABLE',
+              'CDL_OWNER_VAT_APPLICABLE',
               currentLanguage,
               'VAT Applicable'
             ),
@@ -960,7 +960,7 @@ const Step5: React.FC<Step5Props> = ({
           },
           {
             label: getLabel(
-              'CDL_CP_SPA',
+              'CDL_OWNER_SPA',
               currentLanguage,
               'Sale Purchase Agreement'
             ),
@@ -968,7 +968,7 @@ const Step5: React.FC<Step5Props> = ({
           },
           {
             label: getLabel(
-              'CDL_CP_PAYMENT_PLAN',
+              'CDL_OWNER_PAYMENT_PLAN',
               currentLanguage,
               'Project Payment Plan'
             ),
@@ -978,18 +978,18 @@ const Step5: React.FC<Step5Props> = ({
         checkboxFieldsRow2: [
           {
             gridSize: 3,
-            label: getLabel('CDL_CP_NET_PRICE', currentLanguage, 'Sale Price'),
+            label: getLabel('CDL_OWNER_NET_PRICE', currentLanguage, 'Sale Price'),
             value: '-',
           },
           {
             gridSize: 3,
-            label: getLabel('CDL_CP_DEED_REF_NO', currentLanguage, 'Deed No'),
+            label: getLabel('CDL_OWNER_DEED_REF_NO', currentLanguage, 'Deed No'),
             value: '-',
           },
           {
             gridSize: 3,
             label: getLabel(
-              'CDL_CP_CONTRACT_NO',
+              'CDL_OWNER_CONTRACT_NO',
               currentLanguage,
               'Contract No'
             ),
@@ -998,7 +998,7 @@ const Step5: React.FC<Step5Props> = ({
           {
             gridSize: 3,
             label: getLabel(
-              'CDL_CP_AGREEMENT_DATE',
+              'CDL_OWNER_AGREEMENT_DATE',
               currentLanguage,
               'Agreement Date'
             ),
@@ -1008,7 +1008,7 @@ const Step5: React.FC<Step5Props> = ({
         checkboxFieldsRow3: [
           {
             label: getLabel(
-              'CDL_CP_MODIFICATION_FEE_NEEDED',
+              'CDL_OWNER_MODIFICATION_FEE_NEEDED',
               currentLanguage,
               'Modification Fee Needed'
             ),
@@ -1016,14 +1016,14 @@ const Step5: React.FC<Step5Props> = ({
           },
           {
             label: getLabel(
-              'CDL_CP_RESERVATION_BOOKING_FORM',
+              'CDL_OWNER_RESERVATION_BOOKING_FORM',
               currentLanguage,
               'Reservation Booking Form'
             ),
             checked: false,
           },
           {
-            label: getLabel('CDL_CP_OQOOD_PAID', currentLanguage, 'Oqood Paid'),
+            label: getLabel('CDL_OWNER_OQOOD_PAID', currentLanguage, 'Oqood Paid'),
             checked: false,
           },
         ],
@@ -1031,7 +1031,7 @@ const Step5: React.FC<Step5Props> = ({
           {
             gridSize: 6,
             label: getLabel(
-              'CDL_CP_WORLD_STATUS',
+              'CDL_OWNER_WORLD_STATUS',
               currentLanguage,
               'World Check'
             ),
@@ -1040,7 +1040,7 @@ const Step5: React.FC<Step5Props> = ({
           {
             gridSize: 6,
             label: getLabel(
-              'CDL_CP_WITH_ESCROW',
+              'CDL_OWNER_WITH_ESCROW',
               currentLanguage,
               'Amount Paid to Developer within Escrow'
             ),
@@ -1049,7 +1049,7 @@ const Step5: React.FC<Step5Props> = ({
           {
             gridSize: 6,
             label: getLabel(
-              'CDL_CP_OUTSIDE_ESCROW',
+              'CDL_OWNER_OUTSIDE_ESCROW',
               currentLanguage,
               'Amount Paid to Developer out of Escrow'
             ),
@@ -1058,7 +1058,7 @@ const Step5: React.FC<Step5Props> = ({
           {
             gridSize: 6,
             label: getLabel(
-              'CDL_CP_PARTNER_PAYMENT',
+              'CDL_OWNER_PARTNER_PAYMENT',
               currentLanguage,
               'Total Amount Paid'
             ),
@@ -1067,7 +1067,7 @@ const Step5: React.FC<Step5Props> = ({
           {
             gridSize: 3,
             label: getLabel(
-              'CDL_CP_OQOOD_PAID',
+              'CDL_OWNER_OQOOD_PAID',
               currentLanguage,
               'Oqood Amount Paid'
             ),
@@ -1076,7 +1076,7 @@ const Step5: React.FC<Step5Props> = ({
           {
             gridSize: 3,
             label: getLabel(
-              'CDL_CP_UNIT_AREA',
+              'CDL_OWNER_UNIT_AREA',
               currentLanguage,
               'Unit Area Size'
             ),
@@ -1085,7 +1085,7 @@ const Step5: React.FC<Step5Props> = ({
           {
             gridSize: 3,
             label: getLabel(
-              'CDL_CP_FORFEIT_AMOUNT',
+              'CDL_OWNER_FORFEIT_AMOUNT',
               currentLanguage,
               'Forfeit Amount'
             ),
@@ -1093,13 +1093,13 @@ const Step5: React.FC<Step5Props> = ({
           },
           {
             gridSize: 3,
-            label: getLabel('CDL_CP_DLD_FEE', currentLanguage, 'Dld Amount'),
+            label: getLabel('CDL_OWNER_DLD_FEE', currentLanguage, 'Dld Amount'),
             value: '-',
           },
           {
             gridSize: 6,
             label: getLabel(
-              'CDL_CP_REFUND_AMOUNT',
+              'CDL_OWNER_REFUND_AMOUNT',
               currentLanguage,
               'Refund Amount'
             ),
@@ -1108,7 +1108,7 @@ const Step5: React.FC<Step5Props> = ({
           {
             gridSize: 6,
             label: getLabel(
-              'CDL_CP_TRANS_AMT',
+              'CDL_OWNER_TRANS_AMT',
               currentLanguage,
               'Transferred Amount'
             ),
@@ -1116,7 +1116,7 @@ const Step5: React.FC<Step5Props> = ({
           },
           {
             gridSize: 12,
-            label: getLabel('CDL_CP_REMARKS', currentLanguage, 'Remarks'),
+            label: getLabel('CDL_OWNER_REMARKS', currentLanguage, 'Remarks'),
             value: '-',
           },
         ],
@@ -1132,7 +1132,7 @@ const Step5: React.FC<Step5Props> = ({
       checkboxFieldsRow1: [
         {
           label: getLabel(
-            'CDL_CP_VAT_APPLICABLE',
+            'CDL_OWNER_VAT_APPLICABLE',
             currentLanguage,
             'VAT Applicable'
           ),
@@ -1140,7 +1140,7 @@ const Step5: React.FC<Step5Props> = ({
         },
         {
           label: getLabel(
-            'CDL_CP_SPA',
+            'CDL_OWNER_SPA',
             currentLanguage,
             'Sale Purchase Agreement'
           ),
@@ -1148,7 +1148,7 @@ const Step5: React.FC<Step5Props> = ({
         },
         {
           label: getLabel(
-            'CDL_CP_PAYMENT_PLAN',
+            'CDL_OWNER_PAYMENT_PLAN',
             currentLanguage,
             'Project Payment Plan'
           ),
@@ -1158,25 +1158,25 @@ const Step5: React.FC<Step5Props> = ({
       checkboxFieldsRow2: [
         {
           gridSize: 3,
-          label: getLabel('CDL_CP_NET_PRICE', currentLanguage, 'Sale Price'),
+          label: getLabel('CDL_OWNER_NET_PRICE', currentLanguage, 'Sale Price'),
           value: purchaseData?.cpupSalePrice
             ? formatCurrency(purchaseData.cpupSalePrice)
             : '-',
         },
         {
           gridSize: 3,
-          label: getLabel('CDL_CP_DEED_REF_NO', currentLanguage, 'Deed No'),
+          label: getLabel('CDL_OWNER_DEED_REF_NO', currentLanguage, 'Deed No'),
           value: purchaseData?.cpupDeedNo || '-',
         },
         {
           gridSize: 3,
-          label: getLabel('CDL_CP_CONTRACT_NO', currentLanguage, 'Contract No'),
+          label: getLabel('CDL_OWNER_CONTRACT_NO', currentLanguage, 'Contract No'),
           value: purchaseData?.cpupAgreementNo || '-',
         },
         {
           gridSize: 3,
           label: getLabel(
-            'CDL_CP_AGREEMENT_DATE',
+            'CDL_OWNER_AGREEMENT_DATE',
             currentLanguage,
             'Agreement Date'
           ),
@@ -1188,7 +1188,7 @@ const Step5: React.FC<Step5Props> = ({
       checkboxFieldsRow3: [
         {
           label: getLabel(
-            'CDL_CP_FEE_REQ',
+            'CDL_OWNER_FEE_REQ',
             currentLanguage,
             'Modification Fee Needed'
           ),
@@ -1196,14 +1196,14 @@ const Step5: React.FC<Step5Props> = ({
         },
         {
           label: getLabel(
-            'CDL_CP_BOOKING',
+            'CDL_OWNER_BOOKING',
             currentLanguage,
             'Reservation Booking Form'
           ),
           checked: purchaseData?.cpupReservationBookingForm || false,
         },
         {
-          label: getLabel('CDL_CP_OQOOD_PAID', currentLanguage, 'Oqood Paid'),
+          label: getLabel('CDL_OWNER_OQOOD_PAID', currentLanguage, 'Oqood Paid'),
           checked: purchaseData?.cpupOqoodPaid || false,
         },
       ],
@@ -1211,7 +1211,7 @@ const Step5: React.FC<Step5Props> = ({
         {
           gridSize: 6,
           label: getLabel(
-            'CDL_CP_WORLD_STATUS',
+            'CDL_OWNER_WORLD_STATUS',
             currentLanguage,
             'World Check'
           ),
@@ -1220,7 +1220,7 @@ const Step5: React.FC<Step5Props> = ({
         {
           gridSize: 6,
           label: getLabel(
-            'CDL_CP_WITH_ESCROW',
+            'CDL_OWNER_WITH_ESCROW',
             currentLanguage,
             'Amount Paid to Developer within Escrow'
           ),
@@ -1231,7 +1231,7 @@ const Step5: React.FC<Step5Props> = ({
         {
           gridSize: 6,
           label: getLabel(
-            'CDL_CP_OUTSIDE_ESCROW',
+            'CDL_OWNER_OUTSIDE_ESCROW',
             currentLanguage,
             'Amount Paid to Developer out of Escrow'
           ),
@@ -1242,7 +1242,7 @@ const Step5: React.FC<Step5Props> = ({
         {
           gridSize: 6,
           label: getLabel(
-            'CDL_CP_PARTNER_PAYMENT',
+            'CDL_OWNER_PARTNER_PAYMENT',
             currentLanguage,
             'Total Amount Paid'
           ),
@@ -1253,7 +1253,7 @@ const Step5: React.FC<Step5Props> = ({
         {
           gridSize: 3,
           label: getLabel(
-            'CDL_CP_OQOOD_PAID',
+            'CDL_OWNER_OQOOD_PAID',
             currentLanguage,
             'Oqood Amount Paid'
           ),
@@ -1262,7 +1262,7 @@ const Step5: React.FC<Step5Props> = ({
         {
           gridSize: 3,
           label: getLabel(
-            'CDL_CP_UNIT_AREA',
+            'CDL_OWNER_UNIT_AREA',
             currentLanguage,
             'Unit Area Size'
           ),
@@ -1271,7 +1271,7 @@ const Step5: React.FC<Step5Props> = ({
         {
           gridSize: 3,
           label: getLabel(
-            'CDL_CP_FORFEIT_AMOUNT',
+            'CDL_OWNER_FORFEIT_AMOUNT',
             currentLanguage,
             'Forfeit Amount'
           ),
@@ -1279,13 +1279,13 @@ const Step5: React.FC<Step5Props> = ({
         },
         {
           gridSize: 3,
-          label: getLabel('CDL_CP_DLD_FEE', currentLanguage, 'Dld Amount'),
+          label: getLabel('CDL_OWNER_DLD_FEE', currentLanguage, 'Dld Amount'),
           value: purchaseData?.cpupDldAmount || '-',
         },
         {
           gridSize: 6,
           label: getLabel(
-            'CDL_CP_REFUND_AMOUNT',
+            'CDL_OWNER_REFUND_AMOUNT',
             currentLanguage,
             'Refund Amount'
           ),
@@ -1294,7 +1294,7 @@ const Step5: React.FC<Step5Props> = ({
         {
           gridSize: 6,
           label: getLabel(
-            'CDL_CP_TRANS_AMT',
+            'CDL_OWNER_TRANS_AMT',
             currentLanguage,
             'Transferred Amount'
           ),
@@ -1302,7 +1302,7 @@ const Step5: React.FC<Step5Props> = ({
         },
         {
           gridSize: 12,
-          label: getLabel('CDL_CP_REMARKS', currentLanguage, 'Remarks'),
+          label: getLabel('CDL_OWNER_REMARKS', currentLanguage, 'Remarks'),
           value: purchaseData?.cpupRemarks || '-',
         },
       ],
@@ -1365,7 +1365,7 @@ const Step5: React.FC<Step5Props> = ({
               verticalAlign: 'middle',
             }}
           >
-            {getLabel('CDL_CP_BASIC_INFO', currentLanguage, 'Basic Details')}
+            {getLabel('CDL_OWNER_BASIC_INFO', currentLanguage, 'Basic Details')}
           </Typography>
           {!isViewMode && (
             <Button
@@ -1379,7 +1379,7 @@ const Step5: React.FC<Step5Props> = ({
         </Box>
         <Divider sx={dividerSx} />
         {renderSectionContent(
-          getLabel('CDL_CP_BASIC_INFO', currentLanguage, 'Basic Details'),
+          getLabel('CDL_OWNER_BASIC_INFO', currentLanguage, 'Basic Details'),
           sectionLoadingStates.basicDetails,
           sectionErrorStates.basicDetails,
           <Grid container spacing={3}>
@@ -1419,7 +1419,7 @@ const Step5: React.FC<Step5Props> = ({
             }}
           >
             {getLabel(
-              'CDL_CP_DOCUMENTS',
+              'CDL_OWNER_DOCUMENTS',
               currentLanguage,
               'Submitted Documents'
             )}
@@ -1438,7 +1438,7 @@ const Step5: React.FC<Step5Props> = ({
         </Box>
         <Divider sx={dividerSx} />
         {renderSectionContent(
-          getLabel('CDL_CP_DOCUMENTS', currentLanguage, 'Submitted Documents'),
+          getLabel('CDL_OWNER_DOCUMENTS', currentLanguage, 'Submitted Documents'),
           isLoadingDocuments,
           documentsError,
           documents.length > 0 ? (
@@ -1471,7 +1471,7 @@ const Step5: React.FC<Step5Props> = ({
           ) : (
             <Typography sx={neutralTextSx}>
               {getLabel(
-                'CDL_CP_NO_DOCUMENTS',
+                'CDL_OWNER_NO_DOCUMENTS',
                 currentLanguage,
                 'No documents uploaded.'
               )}
@@ -1501,7 +1501,7 @@ const Step5: React.FC<Step5Props> = ({
               verticalAlign: 'middle',
             }}
           >
-            {getLabel('CDL_CP_UNIT_DETAILS', currentLanguage, 'Unit Details')}
+            {getLabel('CDL_OWNER_UNIT_DETAILS', currentLanguage, 'Unit Details')}
           </Typography>
           {!isViewMode && (
             <Button
@@ -1515,7 +1515,7 @@ const Step5: React.FC<Step5Props> = ({
         </Box>
         <Divider sx={dividerSx} />
         {renderSectionContent(
-          getLabel('CDL_CP_UNIT_DETAILS', currentLanguage, 'Unit Details'),
+          getLabel('CDL_OWNER_UNIT_DETAILS', currentLanguage, 'Unit Details'),
           sectionLoadingStates.unitDetails,
           sectionErrorStates.unitDetails,
           <Grid container spacing={3}>
@@ -1591,7 +1591,7 @@ const Step5: React.FC<Step5Props> = ({
               verticalAlign: 'middle',
             }}
           >
-            {getLabel('CDL_CP_PAYMENT_PLAN', currentLanguage, 'Payment Plan')}
+            {getLabel('CDL_OWNER_PAYMENT_PLAN', currentLanguage, 'Payment Plan')}
           </Typography>
           {!isViewMode && (
             <Button
@@ -1605,7 +1605,7 @@ const Step5: React.FC<Step5Props> = ({
         </Box>
         <Divider sx={dividerSx} />
         {renderSectionContent(
-          getLabel('CDL_CP_PAYMENT_PLAN', currentLanguage, 'Payment Plan'),
+          getLabel('CDL_OWNER_PAYMENT_PLAN', currentLanguage, 'Payment Plan'),
           sectionLoadingStates.paymentPlan,
           sectionErrorStates.paymentPlan,
           paymentPlanData && paymentPlanData.length > 0 ? (
@@ -1615,21 +1615,21 @@ const Step5: React.FC<Step5Props> = ({
                   <TableRow sx={tableHeadRowSx}>
                     <TableCell sx={tableHeaderCellSx}>
                       {getLabel(
-                        'CDL_CP_SEQ_NO',
+                        'CDL_OWNER_SEQ_NO',
                         currentLanguage,
                         'Installment Number'
                       )}
                     </TableCell>
                     <TableCell sx={tableHeaderCellSx}>
                       {getLabel(
-                        'CDL_CP_DUE_DATE',
+                        'CDL_OWNER_DUE_DATE',
                         currentLanguage,
                         'Installment Date'
                       )}
                     </TableCell>
                     <TableCell sx={tableHeaderCellSx}>
                       {getLabel(
-                        'CDL_CP_BOOKING_AMOUNT',
+                        'CDL_OWNER_BOOKING_AMOUNT',
                         currentLanguage,
                         'Booking Amount'
                       )}
@@ -1687,7 +1687,7 @@ const Step5: React.FC<Step5Props> = ({
               verticalAlign: 'middle',
             }}
           >
-            {getLabel('CDL_CP_BANK_DETAILS', currentLanguage, 'Bank Details')}
+            {getLabel('CDL_OWNER_BANK_DETAILS', currentLanguage, 'Bank Details')}
           </Typography>
           {!isViewMode && (
             <Button
@@ -1701,7 +1701,7 @@ const Step5: React.FC<Step5Props> = ({
         </Box>
         <Divider sx={dividerSx} />
         {renderSectionContent(
-          getLabel('CDL_CP_BANK_DETAILS', currentLanguage, 'Bank Details'),
+          getLabel('CDL_OWNER_BANK_DETAILS', currentLanguage, 'Bank Details'),
           sectionLoadingStates.bankDetails,
           sectionErrorStates.bankDetails,
           bankDetailsFields.length > 0 ? (

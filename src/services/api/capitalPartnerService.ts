@@ -17,10 +17,10 @@ export interface TaskStatusDTO {
 
 // ---------- Request DTO ----------
 export interface CapitalPartnerRequest {
-  capitalPartnerId: string
-  capitalPartnerName: string
+  capitalPartnerId?: string
+  capitalPartnerName?: string
   capitalPartnerMiddleName?: string
-  capitalPartnerLastName: string
+  capitalPartnerLastName?: string
   capitalPartnerOwnershipPercentage?: number
   capitalPartnerIdNo?: string
   capitalPartnerTelephoneNo?: string
@@ -29,12 +29,24 @@ export interface CapitalPartnerRequest {
   capitalPartnerOwnerNumber?: number
   isCurrent?: boolean
   idExpiaryDate?: string
-  capitalPartnerLocaleName?: string
   documentTypeDTO?: OptionDTO
   countryOptionDTO?: OptionDTO
-  investorTypeDTO?: OptionDTO
+  ownerTypeDTO?: OptionDTO
+  ownerRegistryTypeDTO?: OptionDTO
   capitalPartnerBankInfoDTOS?: any[]
-  capitalPartnerUnitDTO?: any
+  ownerRegistryUnitDTO?: any
+  ownerRegistryId?: string
+  ownerRegistryName?: string
+  ownerRegistryMiddleName?: string
+  ownerRegistryLastName?: string
+  ownerRegistryOwnershipPercentage?: number
+  ownerRegistryIdNo?: string
+  ownerRegistryTelephoneNo?: string
+  ownerRegistryMobileNo?: string
+  ownerRegistryEmail?: string
+  ownerRegistryOwnerNumber?: number
+  ownerRegistryLocaleName?: string
+  ownerRegistryBankInfoDTOS?: any[]
   deleted?: boolean
   taskStatusDTO?: TaskStatusDTO | null
 }
@@ -47,50 +59,60 @@ export interface OptionDTO {
 // ---------- Response DTO ----------
 export interface CapitalPartnerResponse {
   id: number
-  capitalPartnerId: string
-  capitalPartnerName: string
-  capitalPartnerMiddleName: string
-  capitalPartnerLastName: string
-  capitalPartnerOwnershipPercentage: number
-  capitalPartnerIdNo: string
-  capitalPartnerTelephoneNo: string
-  capitalPartnerMobileNo: string
-  capitalPartnerEmail: string
-  capitalPartnerOwnerNumber: number
-  isCurrent: boolean
-  idExpiaryDate: string
-  capitalPartnerLocaleName: string
-  capitalPartnerUnitDTO: any
-  documentTypeDTO: OptionDTO
-  countryOptionDTO: OptionDTO
-  investorTypeDTO: OptionDTO
-  taskStatusDTO: TaskStatusDTO | null
+  capitalPartnerId?: string
+  capitalPartnerName?: string
+  capitalPartnerMiddleName?: string
+  capitalPartnerLastName?: string
+  capitalPartnerOwnershipPercentage?: number
+  capitalPartnerIdNo?: string
+  capitalPartnerTelephoneNo?: string
+  capitalPartnerMobileNo?: string
+  capitalPartnerEmail?: string
+  capitalPartnerOwnerNumber?: number
+  isCurrent?: boolean
+  idExpiaryDate?: string
+  ownerRegistryId?: string
+  ownerRegistryName?: string
+  ownerRegistryMiddleName?: string
+  ownerRegistryLastName?: string
+  ownerRegistryOwnershipPercentage?: number
+  ownerRegistryIdNo?: string
+  ownerRegistryTelephoneNo?: string
+  ownerRegistryMobileNo?: string
+  ownerRegistryEmail?: string
+  ownerRegistryOwnerNumber?: number
+  ownerRegistryLocaleName?: string
+  ownerRegistryUnitDTO?: any
+  documentTypeDTO?: OptionDTO
+  countryOptionDTO?: OptionDTO
+  ownerRegistryTypeDTO?: OptionDTO
+  ownerTypeDTO?: OptionDTO
+  taskStatusDTO?: TaskStatusDTO | null
 }
 
-// ---------- UI Model ----------
-export interface CapitalPartnerUIData extends Record<string, unknown> {
+// ---------- UI Model (Owner Registry) ----------
+export interface OwnerRegistryUIData extends Record<string, unknown> {
   id: number
-  investor: string
-  investorId: string
-  developerName: string
-  developerIdRera: string
-  developerCif: string
-  projectName: string
-  projectCIF: string
+  owner: string
+  ownerId: string
+  assetRegisterName: string
+  assetRegisterId: string
+  assetRegisterCif: string
+  managementFirmName: string
+  managementFirmCif: string
   unitNumber: string
   approvalStatus: string
-  // Build Partner fields
-  buildPartnerName: string
-  buildPartnerCif: string
-  buildPartnerId: string
 }
+
+/** @deprecated Use OwnerRegistryUIData */
+export type CapitalPartnerUIData = OwnerRegistryUIData
 
 // ---------- Service ----------
 class CapitalPartnerService {
   static async getCapitalPartners(
     page = 0,
     size = 20
-  ): Promise<PaginatedResponse<CapitalPartnerUIData>> {
+  ): Promise<PaginatedResponse<OwnerRegistryUIData>> {
     try {
       const baseUrl = buildApiUrl(API_ENDPOINTS.OWNER_REGISTRY.GET_ALL)
       const url = `${baseUrl}&page=${page}&size=${size}`

@@ -55,14 +55,13 @@ import { useCreateDeveloperWorkflowRequest } from '@/hooks/workflow'
 import { useCapitalPartnerLabelsApi } from '@/hooks/useCapitalPartnerLabelsApi'
 import { useAppStore } from '@/store'
 
-// Step configuration with config IDs for dynamic labels
+// Step configuration with config IDs for dynamic labels (OWNER_REGISTRY)
 const stepConfigs = [
-  { key: 'basic', configId: 'CDL_CP_BASIC_INFO' },
-  { key: 'documents', configId: 'CDL_CP_DOCUMENTS' },
-  { key: 'unit', configId: 'CDL_CP_UNIT_DETAILS' },
-  { key: 'payment', configId: 'CDL_CP_PAYMENT_PLAN' },
-  // { key: 'bank', configId: 'CDL_CP_BANK_DETAILS' },
-  { key: 'review', configId: 'CDL_CP_REVIEW' },
+  { key: 'basic', configId: 'CDL_OWNER_BASIC_INFO' },
+  { key: 'documents', configId: 'CDL_OWNER_DOCUMENTS' },
+  { key: 'unit', configId: 'CDL_OWNER_UNIT_DETAILS' },
+  { key: 'payment', configId: 'CDL_OWNER_UNIT_PAYMENT_PLAN' },
+  { key: 'review', configId: 'CDL_OWNER_REVIEW' },
 ]
 
 // Fallback step labels
@@ -181,8 +180,12 @@ export default function InvestorsStepperWrapper({
   }, [searchParams, activeStep, steps.length])
 
   useEffect(() => {
-    if (params.id && !capitalPartnerId) {
-      setCapitalPartnerId(parseInt(params.id as string))
+    const idParam = params.id as string | undefined
+    if (idParam) {
+      const numId = parseInt(idParam, 10)
+      if (!Number.isNaN(numId) && numId > 0 && !capitalPartnerId) {
+        setCapitalPartnerId(numId)
+      }
     }
   }, [params.id, capitalPartnerId])
 
@@ -301,12 +304,15 @@ export default function InvestorsStepperWrapper({
 
   const onSubmit = () => {}
 
-  const handleStep1SaveAndNext = (data: { id: number }) => {
-    if (data && data.id) {
+  const handleStep1SaveAndNext = (data: { id?: number } | unknown) => {
+    const raw = data as Record<string, unknown> | null
+    const id = raw?.id ?? (raw as any)?.data?.id
+    const numId = id != null ? Number(id) : NaN
+    if (!Number.isNaN(numId) && numId > 0) {
       const nextStep = activeStep + 1
-      setCapitalPartnerId(data.id)
+      setCapitalPartnerId(numId)
       setActiveStep(nextStep)
-      updateURL(nextStep, data.id)
+      updateURL(nextStep, numId)
     }
   }
 
@@ -480,6 +486,7 @@ export default function InvestorsStepperWrapper({
               sx={buttonContainerSx}
             >
               <Button
+                type="button"
                 onClick={handleReset}
                 variant="outlined"
                 sx={cancelButtonSx}
@@ -489,6 +496,7 @@ export default function InvestorsStepperWrapper({
               <Box>
                 {activeStep !== 0 && (
                   <Button
+                    type="button"
                     onClick={handleBack}
                     sx={(theme) => ({
                       ...(
@@ -504,6 +512,7 @@ export default function InvestorsStepperWrapper({
                   </Button>
                 )}
                 <Button
+                  type="button"
                   onClick={
                     activeStep === steps.length - 1
                       ? isViewMode

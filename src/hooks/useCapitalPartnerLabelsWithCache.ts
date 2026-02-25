@@ -5,54 +5,39 @@ import { CapitalPartnerLabelsService } from '@/services/api/capitalPartnerLabels
 export function useCapitalPartnerLabelsWithCache() {
   // 🏦 BANKING COMPLIANCE: Now using Zustand store instead of localStorage
   // API remains identical for backward compatibility
-  const { capitalPartnerLabels } = useLabels()
-  const { capitalPartnerLabelsLoading } = useLabelsLoadingState()
-  
-  // Note: We no longer use the old React Query hook since Zustand is the source of truth
-  // Labels are loaded by the compliance loader service on app initialization
+  const { ownerRegistryLabels } = useLabels()
+  const { ownerRegistryLabelsLoading } = useLabelsLoadingState()
 
   const getLabel = useCallback(
     (configId: string, language: string, fallback: string) => {
-      // 🏦 COMPLIANCE: Using Zustand store data instead of localStorage
-      if (capitalPartnerLabels) {
-        return CapitalPartnerLabelsService.getLabel(capitalPartnerLabels, configId, language, fallback)
+      if (ownerRegistryLabels) {
+        return CapitalPartnerLabelsService.getLabel(ownerRegistryLabels, configId, language, fallback)
       }
       return fallback
     },
-    [capitalPartnerLabels]
+    [ownerRegistryLabels]
   )
 
   const hasLabels = useCallback(() => {
-    // 🏦 COMPLIANCE: Using Zustand store data instead of localStorage
-    return CapitalPartnerLabelsService.hasLabels(capitalPartnerLabels || {})
-  }, [capitalPartnerLabels])
+    return CapitalPartnerLabelsService.hasLabels(ownerRegistryLabels || {})
+  }, [ownerRegistryLabels])
 
   const getAvailableLanguages = useCallback(() => {
-    // 🏦 COMPLIANCE: Using Zustand store data instead of localStorage
-    return CapitalPartnerLabelsService.getAvailableLanguages(capitalPartnerLabels || {})
-  }, [capitalPartnerLabels])
+    return CapitalPartnerLabelsService.getAvailableLanguages(ownerRegistryLabels || {})
+  }, [ownerRegistryLabels])
 
-  // 🏦 COMPLIANCE: Return identical API structure for backward compatibility
   return {
-    // Simulated React Query-like structure for compatibility
-    data: capitalPartnerLabels,
-    isLoading: capitalPartnerLabelsLoading,
-    error: null, // Error handling is managed by the compliance loader
+    data: ownerRegistryLabels,
+    isLoading: ownerRegistryLabelsLoading,
+    error: null,
     isError: false,
-    isFetching: capitalPartnerLabelsLoading,
-    isSuccess: !!capitalPartnerLabels,
-    refetch: () => {
-     
-      return Promise.resolve({ data: capitalPartnerLabels })
-    },
-    
-    // Original hook API functions (unchanged signatures)
+    isFetching: ownerRegistryLabelsLoading,
+    isSuccess: !!ownerRegistryLabels,
+    refetch: () => Promise.resolve({ data: ownerRegistryLabels }),
     getLabel,
     hasLabels,
     getAvailableLanguages,
-    
-    // Compatibility properties (maintained for existing UI components)
-    hasCache: !!capitalPartnerLabels, // Now represents Zustand store state
-    cacheStatus: capitalPartnerLabels ? 'cached' : capitalPartnerLabelsLoading ? 'Loading...' : 'fresh',
+    hasCache: !!ownerRegistryLabels,
+    cacheStatus: ownerRegistryLabels ? 'cached' : ownerRegistryLabelsLoading ? 'Loading...' : 'fresh',
   }
 }

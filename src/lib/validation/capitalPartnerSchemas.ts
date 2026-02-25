@@ -9,23 +9,22 @@ const dayjsSchema = z
   .nullable()
 
 export const CapitalPartnerStep1Schema = z.object({
-  investorType: z.string().min(1, 'Capital Partner Type is required'),
+  investorType: z.string().min(1, 'Owner Registry Type is required'),
 
   investorFirstName: z
     .string()
-    .min(1, 'Capital Partner Name is required')
-    .max(50, 'Capital Partner Name must be 50 characters or less'),
+    .min(1, 'Owner Registry Name is required')
+    .max(50, 'Owner Registry Name must be 50 characters or less'),
 
-  // Optional name parts used in the Step 1 form (no validation constraints)
   investorMiddleName: z.string().optional(),
 
   investorLastName: z.string().optional(),
 
   arabicName: z.string().optional(),
 
-  investorId: z.string().min(1, 'Capital Partner Reference ID is required'),
+  investorId: z.string().min(1, 'Owner Registry ID is required'),
 
-  investorIdType: z.string().min(1, 'Capital Partner ID Type is required'),
+  investorIdType: z.string().min(1, 'Owner Registry ID Type is required'),
 
   idNumber: z
     .string()
@@ -98,10 +97,10 @@ export const CapitalPartnerStep3Schema = z.object({
 
 export const CapitalPartnerStep2Schema = z
   .object({
-    projectNameDropdown: z.string().min(1, 'Project Name is required'),
-    projectId: z.string().min(1, 'Project ID is required'),
-    developerIdInput: z.string().min(1, 'Build Partner ID is required'),
-    developerNameInput: z.string().min(1, 'Build Partner Name is required'),
+    projectNameDropdown: z.string().min(1, 'Management Firm Name is required'),
+    projectId: z.string().min(1, 'Management Firm ID is required'),
+    developerIdInput: z.string().min(1, 'Asset Register ID is required'),
+    developerNameInput: z.string().min(1, 'Asset Register Name is required'),
     unitNoQaqood: z
       .string()
       .max(20, 'Unit no. must be 20 characters or less')

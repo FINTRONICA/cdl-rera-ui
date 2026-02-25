@@ -129,74 +129,92 @@ const Step1 = forwardRef<Step1Ref, Step1Props>(
       }
     )
 
-    // Pre-populate form when existing data is loaded
+    // Pre-populate form when existing data is loaded (supports ownerRegistry* or capitalPartner* from API; handles wrapped { data } or array response)
     useEffect(() => {
-      if (isEditMode && existingCapitalPartnerData && !isLoadingExistingData) {
-        setValue(
-          'investorType',
-          existingCapitalPartnerData.investorTypeDTO?.settingValue || ''
-        )
-        setValue(
-          'investorId',
-          existingCapitalPartnerData.capitalPartnerId || ''
-        )
-        setValue(
-          'investorFirstName',
-          existingCapitalPartnerData.capitalPartnerName || ''
-        )
-        setValue(
-          'investorMiddleName',
-          existingCapitalPartnerData.capitalPartnerMiddleName || ''
-        )
-        setValue(
-          'investorLastName',
-          existingCapitalPartnerData.capitalPartnerLastName || ''
-        )
-        setValue(
-          'arabicName',
-          existingCapitalPartnerData.capitalPartnerLocaleName || ''
-        )
-        setValue(
-          'ownership',
-          existingCapitalPartnerData.capitalPartnerOwnershipPercentage?.toString() ||
-            ''
-        )
-        setValue(
-          'investorIdType',
-          existingCapitalPartnerData.documentTypeDTO?.settingValue || ''
-        )
-        setValue(
-          'idNumber',
-          existingCapitalPartnerData.capitalPartnerIdNo || ''
-        )
-        setValue(
-          'idExpiryDate',
-          existingCapitalPartnerData.idExpiaryDate
-            ? dayjs(existingCapitalPartnerData.idExpiaryDate)
-            : null
-        )
-        setValue(
-          'nationality',
-          existingCapitalPartnerData.countryOptionDTO?.settingValue || ''
-        )
-        setValue(
-          'accountContact',
-          existingCapitalPartnerData.capitalPartnerTelephoneNo || ''
-        )
-        setValue(
-          'mobileNumber',
-          existingCapitalPartnerData.capitalPartnerMobileNo || ''
-        )
-        setValue('email', existingCapitalPartnerData.capitalPartnerEmail || '')
+      if (!isEditMode || !existingCapitalPartnerData || isLoadingExistingData) return
 
-        // Set investorId state for the UI
-        setInvestorId(existingCapitalPartnerData.capitalPartnerId || '')
+      const raw = existingCapitalPartnerData as unknown
+      // Normalize: API may return single object, { data: object }, or array (e.g. list response)
+      let existing: Record<string, unknown>
+      if (Array.isArray(raw)) {
+        existing = (raw[0] as Record<string, unknown>) ?? {}
+      } else {
+        const obj = raw as Record<string, unknown>
+        existing = (obj?.data as Record<string, unknown>) ?? obj
       }
+
+      // Owner Type: API uses investorTypeDTO (or ownerRegistryTypeDTO / ownerTypeDTO); prefer matching dropdown by id so value is in options
+      const typeDto = (existing.ownerRegistryTypeDTO ?? existing.ownerTypeDTO ?? existing.investorTypeDTO) as Record<string, unknown> | undefined
+      let typeVal = ''
+      if (typeDto?.id != null && Array.isArray(investorTypes) && investorTypes.length > 0) {
+        const byId = investorTypes.find((o: { id: number }) => o.id === Number(typeDto.id))
+        if (byId?.settingValue) typeVal = byId.settingValue
+      }
+      if (!typeVal && typeDto) {
+        typeVal =
+          String(typeDto.settingValue ?? (typeDto.languageTranslationId as Record<string, unknown>)?.configValue ?? typeDto.configValue ?? '')
+      }
+      setValue('investorType', typeVal)
+
+      const refId = String(existing.ownerRegistryId ?? existing.capitalPartnerId ?? '')
+      setValue('investorId', refId)
+
+      // Names: API uses ownerRegistryName / ownerRegistryMiddleName / ownerRegistryLastName (flat ownerName etc. are often null)
+      const firstName = existing.ownerRegistryName ?? existing.capitalPartnerName ?? existing.ownerName ?? existing.investorFirstName ?? existing.firstName ?? existing.name ?? ''
+      const middleName = existing.ownerRegistryMiddleName ?? existing.capitalPartnerMiddleName ?? existing.ownerMiddleName ?? existing.investorMiddleName ?? ''
+      const lastName = existing.ownerRegistryLastName ?? existing.capitalPartnerLastName ?? existing.ownerLastName ?? existing.investorLastName ?? ''
+      setValue('investorFirstName', String(firstName))
+      setValue('investorMiddleName', String(middleName))
+      setValue('investorLastName', String(lastName))
+      setValue('arabicName', String(existing.ownerRegistryLocaleName ?? existing.ownerLocalName ?? ''))
+
+      const pct = existing.ownerRegistryOwnershipPercentage ?? existing.capitalPartnerOwnershipPercentage ?? existing.ownerOwnershipShare
+      setValue('ownership', pct != null ? String(pct) : '')
+
+      // Owner ID Type: documentTypeDTO; prefer matching dropdown by id
+      const docTypeDto = existing.documentTypeDTO as Record<string, unknown> | undefined
+      let idTypeVal = ''
+      if (docTypeDto?.id != null && Array.isArray(idTypes) && idTypes.length > 0) {
+        const byId = idTypes.find((o: { id: number }) => o.id === Number(docTypeDto.id))
+        if (byId?.settingValue) idTypeVal = byId.settingValue
+      }
+      if (!idTypeVal && docTypeDto) {
+        idTypeVal =
+          String(docTypeDto.settingValue ?? (docTypeDto.languageTranslationId as Record<string, unknown>)?.configValue ?? docTypeDto.configValue ?? '')
+      }
+      setValue('investorIdType', idTypeVal)
+
+      setValue('idNumber', String(existing.ownerRegistryIdNo ?? existing.capitalPartnerIdNo ?? existing.ownerIdNumber ?? ''))
+
+      // ID Expiry: API uses idExpiaryDate (typo) or idExpiryDate; null is valid
+      const expiryRaw = existing.idExpiaryDate ?? existing.idExpiryDate
+      setValue('idExpiryDate', expiryRaw ? dayjs(expiryRaw as string) : null)
+
+      // Nationality: countryOptionDTO; prefer matching dropdown by id
+      const countryDto = existing.countryOptionDTO as Record<string, unknown> | undefined
+      let countryVal = ''
+      if (countryDto?.id != null && Array.isArray(countries) && countries.length > 0) {
+        const byId = countries.find((o: { id: number }) => o.id === Number(countryDto.id))
+        if (byId?.settingValue) countryVal = byId.settingValue
+      }
+      if (!countryVal && countryDto) {
+        countryVal =
+          String(countryDto.settingValue ?? (countryDto.languageTranslationId as Record<string, unknown>)?.configValue ?? countryDto.configValue ?? '')
+      }
+      setValue('nationality', countryVal)
+
+      setValue('accountContact', String(existing.ownerRegistryTelephoneNo ?? existing.capitalPartnerTelephoneNo ?? ''))
+      setValue('mobileNumber', String(existing.ownerRegistryMobileNo ?? existing.capitalPartnerMobileNo ?? existing.ownerMobileNumber ?? ''))
+      setValue('email', String(existing.ownerRegistryEmail ?? existing.capitalPartnerEmail ?? existing.ownerEmailAddress ?? ''))
+      setInvestorId(refId)
     }, [
       existingCapitalPartnerData,
       isLoadingExistingData,
       isEditMode,
       setValue,
+      investorTypes,
+      idTypes,
+      countries,
     ])
 
     React.useEffect(() => {
@@ -267,21 +285,18 @@ const Step1 = forwardRef<Step1Ref, Step1Props>(
           }
 
           if (existingCapitalPartnerData) {
-            updatePayload.capitalPartnerUnitDTO =
-              existingCapitalPartnerData.capitalPartnerUnitDTO
-
-            updatePayload.capitalPartnerBankInfoDTOS =
-              existingCapitalPartnerData.capitalPartnerBankInfoDTOS
-
-            if (existingCapitalPartnerData.taskStatusDTO?.id) {
-              updatePayload.taskStatusDTO = {
-                id: existingCapitalPartnerData.taskStatusDTO.id,
-              }
+            const raw = existingCapitalPartnerData as unknown
+            const existing = Array.isArray(raw)
+              ? (raw[0] as Record<string, unknown>)
+              : ((raw as Record<string, unknown>)?.data as Record<string, unknown>) ?? (raw as Record<string, unknown>)
+            updatePayload.ownerRegistryUnitDTO = existing?.ownerRegistryUnitDTO
+            updatePayload.ownerRegistryBankInfoDTOS = existing?.ownerRegistryBankInfoDTOS
+            const taskId = (existing?.taskStatusDTO as Record<string, unknown>)?.id
+            if (taskId != null) {
+              updatePayload.taskStatusDTO = { id: taskId as number }
             }
-
-            updatePayload.deleted = existingCapitalPartnerData.deleted ?? false
-            updatePayload.enabled =
-              (existingCapitalPartnerData as any).enabled ?? true
+            updatePayload.deleted = (existing?.deleted as boolean) ?? false
+            updatePayload.enabled = (existing?.enabled as boolean) ?? true
           }
 
           response = await capitalPartnerService.updateCapitalPartner(
@@ -293,8 +308,11 @@ const Step1 = forwardRef<Step1Ref, Step1Props>(
           response = await capitalPartnerService.createCapitalPartner(payload)
         }
 
-        if (onSaveAndNext) {
-          onSaveAndNext(response)
+        const raw = (response ?? null) as unknown as Record<string, unknown> | null
+        const dataObj = raw?.data as Record<string, unknown> | undefined
+        const id = raw?.id ?? dataObj?.id
+        if (onSaveAndNext && id != null) {
+          onSaveAndNext({ id: Number(id) })
         }
       } catch (error) {
         setSaveError(

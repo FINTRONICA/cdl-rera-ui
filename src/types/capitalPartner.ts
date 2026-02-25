@@ -55,12 +55,12 @@ export interface CapitalPartnerResponse {
   capitalPartnerOwnerNumber: number
   isCurrent: boolean
   idExpiaryDate: string
-  capitalPartnerLocaleName: string
+  ownerRegistryLocaleName: string
   documentTypeDTO: DocumentTypeDTO
   countryOptionDTO: CountryOptionDTO
-  investorTypeDTO: InvestorTypeDTO
+  ownerRegistryTypeDTO: InvestorTypeDTO
   capitalPartnerBankInfoDTOS: any | null
-  capitalPartnerUnitDTO: any | null
+  ownerRegistryUnitDTO: any | null
   deleted: boolean
   enabled: boolean
   taskStatusDTO: any | null
@@ -204,7 +204,7 @@ export interface CapitalPartnerUnitBookingResponse {
   cpubRefundAmount: number
   cpubTransferredAmount: number
   cpubRemarks: string
-  capitalPartnerUnitDTOS: CapitalPartnerUnitResponse | null
+  ownerRegistryUnitDTOS: CapitalPartnerUnitResponse | null
   deleted: boolean
 }
 
@@ -243,6 +243,6 @@ export interface CapitalPartnerUnitPurchaseResponse {
   cpupModificationFeeNeeded: boolean
   cpupCreditCurrencyDTO: any | null
   cpuPurchasePriceCurrencyDTO: any | null
-  capitalPartnerUnitDTO: CapitalPartnerUnitResponse
+  ownerRegistryUnitDTO: CapitalPartnerUnitResponse
   deleted: boolean
 }

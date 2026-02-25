@@ -510,7 +510,7 @@ const Step2 = forwardRef<Step2Ref, Step2Props>(
         if (Object.keys(bookingPayload).length > 0) {
           const bookingPayloadWithId = {
             ...bookingPayload,
-            capitalPartnerUnitDTOS: [
+            ownerRegistryUnitDTOS: [
               {
                 id: finalUnitId,
               },
@@ -527,9 +527,9 @@ const Step2 = forwardRef<Step2Ref, Step2Props>(
         if (Object.keys(purchasePayload).length > 0) {
           const purchasePayloadWithId = {
             ...purchasePayload,
-            capitalPartnerUnitDTO: {
+            ownerRegistryUnitDTO: {
               id: finalUnitId,
-              capitalPartnerDTOS: [
+              ownerRegistryDTOS: [
                 {
                   id: capitalPartnerId,
                 },
@@ -944,7 +944,7 @@ const Step2 = forwardRef<Step2Ref, Step2Props>(
               )}
               {renderTextField(
                 'assetRegisterIdInput',
-                'CDL_CP_AR_ID',
+                'CDL_OWNER_UNIT_AR_ID',
                 'Asset Register ID*',
                 '',
                 6,

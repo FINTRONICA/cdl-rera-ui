@@ -7,21 +7,19 @@ import { useAppStore } from '@/store'
  * No API calls are made here to avoid duplicate requests
  */
 export function useCapitalPartnerLabels() {
-  // Read labels from Zustand store (already loaded by ComplianceProvider)
-  const capitalPartnerLabels = useAppStore((state) => state.capitalPartnerLabels)
-  const capitalPartnerLabelsLoading = useAppStore((state) => state.capitalPartnerLabelsLoading)
-  const capitalPartnerLabelsError = useAppStore((state) => state.capitalPartnerLabelsError)
+  const ownerRegistryLabels = useAppStore((state) => state.ownerRegistryLabels)
+  const ownerRegistryLabelsLoading = useAppStore((state) => state.ownerRegistryLabelsLoading)
+  const ownerRegistryLabelsError = useAppStore((state) => state.ownerRegistryLabelsError)
 
-  // Return React Query-compatible interface for backwards compatibility
   return useMemo(
     () => ({
-      data: capitalPartnerLabels,
-      isLoading: capitalPartnerLabelsLoading,
-      error: capitalPartnerLabelsError ? new Error(capitalPartnerLabelsError) : null,
-      isError: !!capitalPartnerLabelsError,
-      isSuccess: !capitalPartnerLabelsLoading && !!capitalPartnerLabels,
+      data: ownerRegistryLabels,
+      isLoading: ownerRegistryLabelsLoading,
+      error: ownerRegistryLabelsError ? new Error(ownerRegistryLabelsError) : null,
+      isError: !!ownerRegistryLabelsError,
+      isSuccess: !ownerRegistryLabelsLoading && !!ownerRegistryLabels,
     }),
-    [capitalPartnerLabels, capitalPartnerLabelsLoading, capitalPartnerLabelsError]
+    [ownerRegistryLabels, ownerRegistryLabelsLoading, ownerRegistryLabelsError]
   )
 }
 

@@ -9,9 +9,10 @@ import LeftSlidePanel from '@/components/organisms/LeftSlidePanel/LeftSlidePanel
 import { useTableState } from '@/hooks/useTableState'
 
 import { useCapitalPartnerLabelsApi } from '@/hooks/useCapitalPartnerLabelsApi'
+import { getOwnerRegistryLabel } from '@/constants/mappings/capitalPartnerMapping'
 import { useAppStore } from '@/store'
 import { CapitalPartnerService } from '@/services/api/capitalPartnerService'
-import type { CapitalPartnerUIData } from '@/services/api/capitalPartnerService'
+import type { OwnerRegistryUIData } from '@/services/api/capitalPartnerService'
 import { useSidebarConfig } from '@/hooks/useSidebarConfig'
 import { useTemplateDownload } from '@/hooks/useRealEstateDocumentTemplate'
 import { TEMPLATE_FILES } from '@/constants'
@@ -26,7 +27,7 @@ const statusOptions = [
   'DRAFT',
   'INITIATED',
 ]
-type OwnerData = CapitalPartnerUIData
+type OwnerData = OwnerRegistryUIData
 
 const getTableColumns = (getLabel: (configId: string) => string) => [
   {
@@ -103,7 +104,7 @@ const getTableColumns = (getLabel: (configId: string) => string) => [
 const InvestorsPage: React.FC = () => {
   const router = useRouter()
   const [isSidePanelOpen, setIsSidePanelOpen] = useState(false)
-  const [investorsData, setInvestorsData] = useState<CapitalPartnerUIData[]>([])
+  const [investorsData, setInvestorsData] = useState<OwnerRegistryUIData[]>([])
   const [loadingData, setLoadingData] = useState(true)
   const [errorData, setErrorData] = useState<string | null>(null)
   const [currentPage, setCurrentPage] = useState(1)
@@ -144,10 +145,10 @@ const InvestorsPage: React.FC = () => {
         const calculatedPages = Math.ceil(res.page.totalElements / size) || 1
         setTotalPages(calculatedPages)
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Error fetching investors:', err)
       setErrorData(
-        `Failed to fetch investors: ${err.message || 'Unknown error'}`
+        `Failed to fetch owner registry: ${err instanceof Error ? err.message : 'Unknown error'}`
       )
       setInvestorsData([])
       setTotalElements(0)
@@ -163,7 +164,7 @@ const InvestorsPage: React.FC = () => {
 
   const getCapitalPartnerLabelDynamic = useCallback(
     (configId: string): string => {
-      return getLabel(configId, currentLanguage, configId)
+      return getLabel(configId, currentLanguage, getOwnerRegistryLabel(configId))
     },
     [getLabel, currentLanguage]
   )
@@ -207,7 +208,7 @@ const InvestorsPage: React.FC = () => {
             const trimmedSearch = searchVal?.toLowerCase().trim() || ''
             if (!trimmedSearch) return true
             const value = String(
-              row[field as keyof CapitalPartnerUIData] ?? ''
+              row[field as keyof OwnerRegistryUIData] ?? ''
             ).toLowerCase()
             return value.includes(trimmedSearch)
           })
@@ -217,8 +218,8 @@ const InvestorsPage: React.FC = () => {
    
     if (sortConfig && sortConfig.key) {
       data = [...data].sort((a, b) => {
-        const aValue = a[sortConfig.key as keyof CapitalPartnerUIData] ?? ''
-        const bValue = b[sortConfig.key as keyof CapitalPartnerUIData] ?? ''
+        const aValue = a[sortConfig.key as keyof OwnerRegistryUIData] ?? ''
+        const bValue = b[sortConfig.key as keyof OwnerRegistryUIData] ?? ''
 
         if (sortConfig.direction === 'asc') {
           return String(aValue).localeCompare(String(bValue))
@@ -263,7 +264,7 @@ const InvestorsPage: React.FC = () => {
   const handleDownloadInvestorTemplate = async () => {
     try {
       await downloadInvestorTemplate(TEMPLATE_FILES.INVESTOR)
-    } catch (error) {}
+    } catch { /* template download error */ }
   }
 
   const handleRowDelete = (row: OwnerData) => {
@@ -308,7 +309,7 @@ const InvestorsPage: React.FC = () => {
     
       router.push(`/owner-registry/${row.id}?mode=view`)
     } else {
-      alert('Cannot view: No ID found for this investor')
+      alert('Cannot view: No ID found for this owner')
     }
   }
 
@@ -317,7 +318,7 @@ const InvestorsPage: React.FC = () => {
       
       router.push(`/owner-registry/${row.id}?editing=true`)
     } else {
-      alert('Cannot edit: No ID found for this investor')
+      alert('Cannot edit: No ID found for this owner')
     }
   }
 
@@ -332,13 +333,13 @@ const InvestorsPage: React.FC = () => {
             <span className="text-gray-600">
               {getCapitalPartnerLabelDynamic('CDL_OWNER_FIRSTNAME')}:
             </span>
-            <span className="ml-2">{row.investor}</span>
+            <span className="ml-2">{row.owner}</span>
           </div>
           <div>
             <span className="text-gray-600">
               {getCapitalPartnerLabelDynamic('CDL_OWNER_REFID')}:
             </span>
-            <span className="ml-2">{row.investorId}</span>
+            <span className="ml-2">{row.ownerId}</span>
           </div>
           <div>
             <span className="text-gray-600">
@@ -361,11 +362,11 @@ const InvestorsPage: React.FC = () => {
         <div className="grid grid-cols-2 gap-4 text-sm">
           <div>
             <span className="text-gray-600">Asset Register Name:</span>
-            <span className="ml-2">{row.buildPartnerName}</span>
+            <span className="ml-2">{row.assetRegisterName}</span>
           </div>
           <div>
             <span className="text-gray-600">Asset Register CIF:</span>
-            <span className="ml-2">{row.buildPartnerCif}</span>
+            <span className="ml-2">{row.assetRegisterCif}</span>
           </div>
         </div>
       </div>
@@ -389,7 +390,7 @@ const InvestorsPage: React.FC = () => {
           <GlobalError 
             error={errorData} 
             onRetry={() => fetchInvestors(currentPage, rowsPerPage)}
-            title="Error loading investors"
+            title="Error loading owner registry"
             fullHeight
           />
         </div>

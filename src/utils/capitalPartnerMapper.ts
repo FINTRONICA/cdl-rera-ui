@@ -76,71 +76,28 @@ export function mapStep1ToCapitalPartnerPayload(
   // Create the OptionDTO structure with only non-null values
   // Helper kept for future extension; not used currently after payload simplification
 
-  // Build the payload with only non-empty values
+  // Build the payload (OWNER_REGISTRY API keys)
   const payload: any = {}
 
-  // Only add fields that have actual values from UI
-  if (formData.investorId) {
-    payload.capitalPartnerId = formData.investorId
-  }
+  if (formData.investorId) payload.ownerRegistryId = formData.investorId
+  if (formData.investorFirstName) payload.ownerRegistryName = formData.investorFirstName
+  if (formData.investorMiddleName) payload.ownerRegistryMiddleName = formData.investorMiddleName
+  if (formData.investorLastName) payload.ownerRegistryLastName = formData.investorLastName
+  if (formData.ownership) payload.ownerRegistryOwnershipPercentage = parseFloat(formData.ownership)
+  if (formData.idNumber) payload.ownerRegistryIdNo = formData.idNumber
+  if (formData.accountContact) payload.ownerRegistryTelephoneNo = formData.accountContact
+  if (formData.mobileNumber) payload.ownerRegistryMobileNo = formData.mobileNumber
+  if (formData.email) payload.ownerRegistryEmail = formData.email
+  if (formData.arabicName) payload.ownerRegistryLocaleName = formData.arabicName
 
-  if (formData.investorFirstName) {
-    payload.capitalPartnerName = formData.investorFirstName
-  }
-
-  if (formData.investorMiddleName) {
-    payload.capitalPartnerMiddleName = formData.investorMiddleName
-  }
-
-  if (formData.investorLastName) {
-    payload.capitalPartnerLastName = formData.investorLastName
-  }
-
-  if (formData.ownership) {
-    payload.capitalPartnerOwnershipPercentage = parseFloat(formData.ownership)
-  }
-
-  if (formData.idNumber) {
-    payload.capitalPartnerIdNo = formData.idNumber
-  }
-
-  if (formData.accountContact) {
-    payload.capitalPartnerTelephoneNo = formData.accountContact
-  }
-
-  if (formData.mobileNumber) {
-    payload.capitalPartnerMobileNo = formData.mobileNumber
-  }
-
-  if (formData.email) {
-    payload.capitalPartnerEmail = formData.email
-  }
-
-  if (formData.arabicName) {
-    payload.capitalPartnerLocaleName = formData.arabicName
-  }
-
-  // Add expiry date if it exists
   const expiryDate = formatExpiryDate(formData.idExpiryDate)
-  if (expiryDate) {
-    payload.idExpiaryDate = expiryDate
-  }
+  if (expiryDate) payload.idExpiaryDate = expiryDate
 
-  // Add DTO IDs only if they exist
-  if (selectedIdType) {
-    payload.documentTypeDTO = { id: selectedIdType.id }
-  }
+  if (selectedIdType) payload.documentTypeDTO = { id: selectedIdType.id }
+  if (selectedCountry) payload.countryOptionDTO = { id: selectedCountry.id }
+  if (selectedInvestorType) payload.ownerRegistryTypeDTO = { id: selectedInvestorType.id }
 
-  if (selectedCountry) {
-    payload.countryOptionDTO = { id: selectedCountry.id }
-  }
-
-  if (selectedInvestorType) {
-    payload.investorTypeDTO = { id: selectedInvestorType.id }
-  }
-
-  // Add required defaults
-  payload.capitalPartnerOwnerNumber = 1073741824
+  payload.ownerRegistryOwnerNumber = 1073741824
   payload.isCurrent = true
   payload.deleted = false
 

@@ -5,15 +5,14 @@ import { useAppStore } from '@/store'
 // Hook that reads from Zustand store (labels are pre-loaded by ComplianceProvider)
 // No API calls are made here to avoid duplicate requests
 export function useCapitalPartnerLabelsApi() {
-  // Read labels from Zustand store (already loaded by ComplianceProvider)
-  const capitalPartnerLabels = useAppStore((state) => state.capitalPartnerLabels)
-  const capitalPartnerLabelsLoading = useAppStore((state) => state.capitalPartnerLabelsLoading)
-  const capitalPartnerLabelsError = useAppStore((state) => state.capitalPartnerLabelsError)
+  // Read owner registry labels from Zustand store (already loaded by ComplianceProvider)
+  const ownerRegistryLabels = useAppStore((state) => state.ownerRegistryLabels)
+  const ownerRegistryLabelsLoading = useAppStore((state) => state.ownerRegistryLabelsLoading)
+  const ownerRegistryLabelsError = useAppStore((state) => state.ownerRegistryLabelsError)
 
-  // Labels are already loaded by ComplianceProvider, no need to fetch
-  const labels = capitalPartnerLabels as ProcessedCapitalPartnerLabels | null
-  const isLoading = capitalPartnerLabelsLoading
-  const error = capitalPartnerLabelsError
+  const labels = ownerRegistryLabels as ProcessedCapitalPartnerLabels | null
+  const isLoading = ownerRegistryLabelsLoading
+  const error = ownerRegistryLabelsError
 
   const getLabel = useCallback(
     (configId: string, language: string = 'EN', fallback?: string): string => {

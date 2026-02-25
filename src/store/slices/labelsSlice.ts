@@ -35,11 +35,11 @@ export interface LabelsState {
   buildPartnerLabelsError: string | null;
   buildPartnerLabelsLastFetched: number | null;
 
-  // Capital partner labels
-  capitalPartnerLabels: ProcessedLabels | null;
-  capitalPartnerLabelsLoading: boolean;
-  capitalPartnerLabelsError: string | null;
-  capitalPartnerLabelsLastFetched: number | null;
+  // Owner registry labels (replaces CAPITAL_PARTNER)
+  ownerRegistryLabels: ProcessedLabels | null;
+  ownerRegistryLabelsLoading: boolean;
+  ownerRegistryLabelsError: string | null;
+  ownerRegistryLabelsLastFetched: number | null;
 
   // Build partner asset labels
   buildPartnerAssetLabels: ProcessedLabels | null;
@@ -124,10 +124,10 @@ export interface LabelsActions {
   setBuildPartnerLabelsLoading: (loading: boolean) => void;
   setBuildPartnerLabelsError: (error: string | null) => void;
 
-  // Capital partner labels actions
-  setCapitalPartnerLabels: (labels: ProcessedLabels) => void;
-  setCapitalPartnerLabelsLoading: (loading: boolean) => void;
-  setCapitalPartnerLabelsError: (error: string | null) => void;
+  // Owner registry labels actions
+  setOwnerRegistryLabels: (labels: ProcessedLabels) => void;
+  setOwnerRegistryLabelsLoading: (loading: boolean) => void;
+  setOwnerRegistryLabelsError: (error: string | null) => void;
 
   // Build partner asset labels actions
   setBuildPartnerAssetLabels: (labels: ProcessedLabels) => void;
@@ -193,7 +193,7 @@ export interface LabelsActions {
     type:
       | "sidebar"
       | "buildPartner"
-      | "capitalPartner"
+      | "ownerRegistry"
       | "buildPartnerAsset"
       | "workflowAction"
       | "workflowDefinition"
@@ -215,7 +215,7 @@ export interface LabelsActions {
     type:
       | "sidebar"
       | "buildPartner"
-      | "capitalPartner"
+      | "ownerRegistry"
       | "buildPartnerAsset"
       | "workflowAction"
       | "workflowDefinition"
@@ -232,7 +232,7 @@ export interface LabelsActions {
     type:
       | "sidebar"
       | "buildPartner"
-      | "capitalPartner"
+      | "ownerRegistry"
       | "buildPartnerAsset"
       | "workflowAction"
       | "workflowDefinition"
@@ -283,10 +283,10 @@ export const labelsSlice: StateCreator<LabelsSlice> = (set, get) => ({
   buildPartnerLabelsError: null,
   buildPartnerLabelsLastFetched: null,
 
-  capitalPartnerLabels: null,
-  capitalPartnerLabelsLoading: false,
-  capitalPartnerLabelsError: null,
-  capitalPartnerLabelsLastFetched: null,
+  ownerRegistryLabels: null,
+  ownerRegistryLabelsLoading: false,
+  ownerRegistryLabelsError: null,
+  ownerRegistryLabelsLastFetched: null,
 
   buildPartnerAssetLabels: null,
   buildPartnerAssetLabelsLoading: false,
@@ -386,22 +386,22 @@ export const labelsSlice: StateCreator<LabelsSlice> = (set, get) => ({
   },
 
   // Capital partner labels actions
-  setCapitalPartnerLabels: (labels) => {
+  setOwnerRegistryLabels: (labels) => {
     set({
-      capitalPartnerLabels: labels,
-      capitalPartnerLabelsLastFetched: Date.now(),
-      capitalPartnerLabelsError: null,
+      ownerRegistryLabels: labels,
+      ownerRegistryLabelsLastFetched: Date.now(),
+      ownerRegistryLabelsError: null,
     });
   },
 
-  setCapitalPartnerLabelsLoading: (loading) =>
-    set({ capitalPartnerLabelsLoading: loading }),
+  setOwnerRegistryLabelsLoading: (loading) =>
+    set({ ownerRegistryLabelsLoading: loading }),
 
-  setCapitalPartnerLabelsError: (error) => {
+  setOwnerRegistryLabelsError: (error) => {
     if (error) {
-      console.error("[COMPLIANCE] Capital partner labels error:", error);
+      console.error("[COMPLIANCE] Owner registry labels error:", error);
     }
-    set({ capitalPartnerLabelsError: error });
+    set({ ownerRegistryLabelsError: error });
   },
 
   // Build partner asset labels actions
@@ -620,7 +620,7 @@ export const labelsSlice: StateCreator<LabelsSlice> = (set, get) => ({
     set({
       sidebarLabels: null,
       buildPartnerLabels: null,
-      capitalPartnerLabels: null,
+      ownerRegistryLabels: null,
       buildPartnerAssetLabels: null,
       pendingTransactionLabels: null,
       discardedTransactionLabels: null,
@@ -633,7 +633,7 @@ export const labelsSlice: StateCreator<LabelsSlice> = (set, get) => ({
       workflowRequestedLabels: null,
       budgetManagementFirmLabels: null,
       buildPartnerLabelsLastFetched: null,
-      capitalPartnerLabelsLastFetched: null,
+      ownerRegistryLabelsLastFetched: null,
       buildPartnerAssetLabelsLastFetched: null,
       workflowActionLabelsLastFetched: null,
       workflowDefinitionLabelsLastFetched: null,
@@ -646,7 +646,7 @@ export const labelsSlice: StateCreator<LabelsSlice> = (set, get) => ({
       budgetManagementFirmLabelsLastFetched: null,
       sidebarLabelsError: null,
       buildPartnerLabelsError: null,
-      capitalPartnerLabelsError: null,
+      ownerRegistryLabelsError: null,
       buildPartnerAssetLabelsError: null,
       workflowActionLabelsError: null,
       workflowDefinitionLabelsError: null,
@@ -676,8 +676,8 @@ export const labelsSlice: StateCreator<LabelsSlice> = (set, get) => ({
       case "buildPartner":
         labels = state.buildPartnerLabels;
         break;
-      case "capitalPartner":
-        labels = state.capitalPartnerLabels;
+      case "ownerRegistry":
+        labels = state.ownerRegistryLabels;
         break;
       case "buildPartnerAsset":
         labels = state.buildPartnerAssetLabels;
@@ -740,10 +740,10 @@ export const labelsSlice: StateCreator<LabelsSlice> = (set, get) => ({
           state.buildPartnerLabels &&
           Object.keys(state.buildPartnerLabels).length > 0
         );
-      case "capitalPartner":
+      case "ownerRegistry":
         return !!(
-          state.capitalPartnerLabels &&
-          Object.keys(state.capitalPartnerLabels).length > 0
+          state.ownerRegistryLabels &&
+          Object.keys(state.ownerRegistryLabels).length > 0
         );
       case "buildPartnerAsset":
         return !!(
@@ -815,8 +815,8 @@ export const labelsSlice: StateCreator<LabelsSlice> = (set, get) => ({
       case "buildPartner":
         labels = state.buildPartnerLabels;
         break;
-      case "capitalPartner":
-        labels = state.capitalPartnerLabels;
+      case "ownerRegistry":
+        labels = state.ownerRegistryLabels;
         break;
       case "buildPartnerAsset":
         labels = state.buildPartnerAssetLabels;
@@ -876,7 +876,8 @@ export const labelsSlice: StateCreator<LabelsSlice> = (set, get) => ({
     return {
       sidebar: state.sidebarLabelsLoading,
       buildPartner: state.buildPartnerLabelsLoading,
-      capitalPartner: state.capitalPartnerLabelsLoading,
+      ownerRegistry: state.ownerRegistryLabelsLoading,
+      capitalPartner: state.ownerRegistryLabelsLoading,
       buildPartnerAsset: state.buildPartnerAssetLabelsLoading,
       workflowAction: state.workflowActionLabelsLoading,
       workflowDefinition: state.workflowDefinitionLabelsLoading,
@@ -892,7 +893,7 @@ export const labelsSlice: StateCreator<LabelsSlice> = (set, get) => ({
       any:
         state.sidebarLabelsLoading ||
         state.buildPartnerLabelsLoading ||
-        state.capitalPartnerLabelsLoading ||
+        state.ownerRegistryLabelsLoading ||
         state.buildPartnerAssetLabelsLoading ||
         state.workflowActionLabelsLoading ||
         state.workflowDefinitionLabelsLoading ||

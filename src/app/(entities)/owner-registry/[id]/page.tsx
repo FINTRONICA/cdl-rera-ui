@@ -36,8 +36,8 @@ function InvestorStepPageContent() {
           parseInt(ownerRegistryId)
         )
         setOwnerRegistryData(data)
-      } catch (err: any) {
-        setError(err.message || 'Failed to fetch owner registry data')
+      } catch (err: unknown) {
+        setError(err instanceof Error ? err.message : 'Failed to fetch owner registry data')
       } finally {
         setIsLoading(false)
       }
@@ -97,7 +97,7 @@ function InvestorStepPageContent() {
           </label>
           <span className="font-outfit font-normal text-[16px] leading-[1] tracking-normal align-middle text-gray-900 dark:text-white">
             {ownerRegistryData
-              ? `${ownerRegistryData.capitalPartnerName || ''} ${ownerRegistryData.capitalPartnerMiddleName || ''} ${ownerRegistryData.capitalPartnerLastName || ''}`.trim() ||
+              ? `${ownerRegistryData.ownerRegistryName ?? ownerRegistryData.capitalPartnerName ?? ''} ${ownerRegistryData.ownerRegistryMiddleName ?? ownerRegistryData.capitalPartnerMiddleName ?? ''} ${ownerRegistryData.ownerRegistryLastName ?? ownerRegistryData.capitalPartnerLastName ?? ''}`.trim() ||
                 'N/A'
               : 'N/A'}
           </span>

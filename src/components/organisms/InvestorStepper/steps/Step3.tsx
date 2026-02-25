@@ -774,7 +774,7 @@ const Step3 = forwardRef<Step3Ref, Step3Props>(
                   sx={addPaymentPlanButtonSx}
                 >
                   {getLabel(
-                    'CDL_PAYMENT_PLAN_NEW',
+                    'CDL_OWNER_PAYMENT_PLAN_NEW',
                     currentLanguage,
                     'Add Payment Plan'
                   )}
@@ -787,27 +787,27 @@ const Step3 = forwardRef<Step3Ref, Step3Props>(
                   <TableRow>
                     <TableCell sx={tableHeaderCellSx}>
                       {getLabel(
-                        'CDL_CP_SEQ_NO',
+                        'CDL_OWNER_PAYMENT_SEQ_NO',
                         currentLanguage,
                         'Installment Number'
                       )}
                     </TableCell>
                     <TableCell sx={tableHeaderCellSx}>
                       {getLabel(
-                        'CDL_CP_DUE_DATE',
+                        'CDL_OWNER_PAYMENT_DUE_DATE',
                         currentLanguage,
                         'Installment Date'
                       )}
                     </TableCell>
                     <TableCell sx={tableHeaderCellSx}>
                       {getLabel(
-                        'CDL_CP_BOOKING_AMOUNT',
+                        'CDL_OWNER_PAYMENT_BOOKING_AMOUNT',
                         currentLanguage,
                         'Booking Amount'
                       )}
                     </TableCell>
                     <TableCell sx={tableHeaderCellSx}>
-                      {getLabel('CDL_CP_ACTION', currentLanguage, 'Action')}
+                      {getLabel('CDL_OWNER_ACTION', currentLanguage, 'Action')}
                     </TableCell>
                   </TableRow>
                 </TableHead>
@@ -911,7 +911,7 @@ const Step3 = forwardRef<Step3Ref, Step3Props>(
                               size="small"
                               fullWidth
                               placeholder={getLabel(
-                                'CDL_CP_AMOUNT',
+                                'CDL_OWNER_PAYMENT_AMOUNT',
                                 currentLanguage,
                                 'Amount'
                               )}
@@ -935,7 +935,7 @@ const Step3 = forwardRef<Step3Ref, Step3Props>(
                                 isViewMode || (!plan.isNewEntry && !isEditing)
                               }
                               placeholder={getLabel(
-                                'CDL_CP_AMOUNT',
+                                'CDL_OWNER_PAYMENT_AMOUNT',
                                 currentLanguage,
                                 'Amount'
                               )}
