@@ -44,13 +44,13 @@ const getTableColumns = (getLabel: (configId: string) => string) => [
     width: 'w-32',
     sortable: true,
   },
-  {
-    key: 'assetRegisterName',
-    label: getLabel('CDL_OWNER_AR_NAME'),
-    type: 'text' as const,
-    width: 'w-48',
-    sortable: true,
-  },
+  // {
+  //   key: 'assetRegisterName',
+  //   label: getLabel('CDL_OWNER_AR_NAME'),
+  //   type: 'text' as const,
+  //   width: 'w-48',
+  //   sortable: true,
+  // },
   {
     key: 'assetRegisterId',
     label: getLabel('CDL_OWNER_AR_ID'),
