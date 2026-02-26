@@ -94,10 +94,10 @@ export interface CapitalPartnerResponse {
 
 export interface PaymentPlanResponse {
   id?: number
-  cpppInstallmentNumber: number
-  cpppInstallmentDate: string
-  cpppBookingAmount: number
-  capitalPartnerDTO: {
+  ownppInstallmentNumber: number
+  ownppInstallmentDate: string
+  ownppBookingAmount: number
+  ownerRegistryDTO: {
     id: number
   }
   deleted: boolean
@@ -135,7 +135,7 @@ export interface BankDetailsResponse {
   cpbiBicCode: string
   cpbiBeneRoutingCode: string
   cpbiAccountNumber: string
-  capitalPartnerDTO: CapitalPartnerResponse
+  ownerRegistryDTO: CapitalPartnerResponse
   payModeDTO: PayModeDTO
   deleted: boolean
 
@@ -240,7 +240,7 @@ export interface CapitalPartnerUnitResponse {
   paymentPlanTypeDTO: any | null
   capitalPartnerUnitBookingDTO: any | null
   childCapitalPartnerUnitDTO: any | null
-  capitalPartnerDTOS: any | null
+  ownerRegistryDTOS: any | null
   deleted: boolean
 }
 
@@ -258,7 +258,7 @@ export interface CapitalPartnerUnitBookingResponse {
 }
 
 export interface CapitalPartnerUnitPurchaseResponse {
-  // id: number
+  id?: number
   // cpuPurchaseDate: string | null
   // cpupSaleRate: number | null
   // cpuPurchasePrice: number | null

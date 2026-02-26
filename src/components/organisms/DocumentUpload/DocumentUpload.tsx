@@ -318,7 +318,7 @@ const DocumentUpload = <
 
     try {
       const response = await apiClient.downloadFile(
-        API_ENDPOINTS.REAL_ESTATE_DOCUMENT.DOWNLOAD(doc.id),
+        API_ENDPOINTS.MANAGEMENT_FIRMS_DOCUMENT.DOWNLOAD(doc.id),
         {
           headers: {
             Accept: '*/*',
@@ -379,7 +379,7 @@ const DocumentUpload = <
           try {
             // If it's a delete action, call the DELETE API
             if (action.key === 'delete' && document.id) {
-              const deleteUrl = API_ENDPOINTS.REAL_ESTATE_DOCUMENT.DELETE(
+              const deleteUrl = API_ENDPOINTS.MANAGEMENT_FIRMS_DOCUMENT.DELETE(
                 document.id
               )
               await apiClient.delete(deleteUrl)

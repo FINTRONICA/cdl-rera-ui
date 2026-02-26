@@ -76,7 +76,7 @@ export function mapStep4ToCapitalPartnerBankInfoPayload(
   }
 
   // Add capital partner ID from Step1 response
-  payload.capitalPartnerDTO = {
+  payload.ownerRegistryDTO = {
     id: capitalPartnerId.toString(),
   }
 

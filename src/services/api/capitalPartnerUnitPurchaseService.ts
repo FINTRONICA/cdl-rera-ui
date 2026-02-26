@@ -38,7 +38,7 @@ export interface CapitalPartnerUnitPurchaseRequest {
   // cpuPurchasePriceCurrencyDTO?: any
   // capitalPartnerUnitDTO?: {
   //   id: number
-  //   capitalPartnerDTOS?: Array<{ id: number }>
+  //   ownerRegistryDTOS?: Array<{ id: number }>
   // }
   // deleted?: boolean
   ownuPurchaseDate?: string
@@ -119,7 +119,7 @@ export interface CapitalPartnerUnitPurchaseResponse {
   // cpuPurchasePriceCurrencyDTO?: any
   // capitalPartnerUnitDTO?: {
   //   id: number
-  //   capitalPartnerDTOS?: Array<{ id: number }>
+  //   ownerRegistryDTOS?: Array<{ id: number }>
   // }
   ownuPurchaseDate?: string
   ownupSaleRate?: number

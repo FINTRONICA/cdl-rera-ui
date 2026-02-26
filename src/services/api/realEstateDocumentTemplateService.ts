@@ -96,7 +96,7 @@ export class RealEstateDocumentTemplateService {
       }
 
       // Construct the download URL
-      const downloadUrl = API_ENDPOINTS.REAL_ESTATE_DOCUMENT.DOWNLOAD_TEMPLATE(fileName)
+      const downloadUrl = API_ENDPOINTS.MANAGEMENT_FIRMS_DOCUMENT.DOWNLOAD_TEMPLATE(fileName)
       
       // Make the download request
       const response: AxiosResponse<Blob> = await apiClient.get(downloadUrl, {

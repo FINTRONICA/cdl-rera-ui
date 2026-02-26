@@ -58,11 +58,15 @@ export function mapStep2ToCapitalPartnerUnitPayload(
   propertyIds: DropdownOption[] = []
 ): { unitPayload: any; bookingPayload: any; purchasePayload: any } {
   const selectedUnitStatus = unitStatuses.find(
-    (status) => status.settingValue === formData.unitStatus
+    (status) =>
+      status.settingValue === formData.unitStatus ||
+      (status as { displayName?: string }).displayName === formData.unitStatus
   )
 
   const selectedPropertyId = propertyIds.find(
-    (property) => property.settingValue === formData.propertyId
+    (property) =>
+      property.settingValue === formData.propertyId ||
+      (property as { displayName?: string }).displayName === formData.propertyId
   )
   const formatAgreementDate = (date: any): string | undefined => {
     if (!date) return undefined
@@ -111,9 +115,10 @@ export function mapStep2ToCapitalPartnerUnitPayload(
     payload.virtualAccNo = formData.unitIban
   }
 
-  if (selectedProject && selectedProject.id) {
+  const projectId = selectedProject?.id ?? (selectedProject as { projectId?: string | number })?.projectId
+  if (selectedProject && projectId != null) {
     payload.realEstateAssestDTO = {
-      id: selectedProject.id,
+      id: typeof projectId === 'number' ? projectId : parseInt(String(projectId), 10),
     }
   }
 
@@ -270,7 +275,7 @@ export function mapStep2ToCapitalPartnerUnitPayload(
   payload.isResale = false
   payload.isModified = true
 
-  payload.capitalPartnerDTOS = [
+  payload.ownerRegistryDTOS = [
     {
       id: capitalPartnerId,
     },

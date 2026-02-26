@@ -87,7 +87,7 @@ export interface RealEstateAssetResponse {
 class RealEstateAssetService {
   async getRealEstateAssetById(id: number): Promise<RealEstateAsset> {
     const url = buildApiUrl(
-      API_ENDPOINTS.REAL_ESTATE_ASSET.GET_BY_ID(id.toString())
+      API_ENDPOINTS.MANAGEMENT_FIRMS.GET_BY_ID(id.toString())
     )
     const data = await apiClient.get<RealEstateAsset>(url)
     return data
@@ -98,7 +98,7 @@ class RealEstateAssetService {
     payload: Partial<RealEstateAsset>
   ): Promise<RealEstateAsset> {
     const url = buildApiUrl(
-      API_ENDPOINTS.REAL_ESTATE_ASSET.UPDATE(id.toString())
+      API_ENDPOINTS.MANAGEMENT_FIRMS.UPDATE(id.toString())
     )
     const response = await apiClient.put(url, payload)
     return response as RealEstateAsset
@@ -106,19 +106,19 @@ class RealEstateAssetService {
 
   async deleteRealEstateAsset(id: number): Promise<void> {
     const url = buildApiUrl(
-      API_ENDPOINTS.REAL_ESTATE_ASSET.SOFT_DELETE(id.toString())
+      API_ENDPOINTS.MANAGEMENT_FIRMS.SOFT_DELETE(id.toString())
     )
     await apiClient.delete(url)
   }
 
   async createRealEstateAsset(payload: any): Promise<RealEstateAsset> {
-    const url = buildApiUrl(API_ENDPOINTS.REAL_ESTATE_ASSET.SAVE)
+    const url = buildApiUrl(API_ENDPOINTS.MANAGEMENT_FIRMS.SAVE)
     const response = await apiClient.post(url, payload)
     return response as RealEstateAsset
   }
 
   async findAllRealEstateAssets(): Promise<RealEstateAssetResponse> {
-    const url = buildApiUrl(API_ENDPOINTS.REAL_ESTATE_ASSET.GET_ALL)
+    const url = buildApiUrl(API_ENDPOINTS.MANAGEMENT_FIRMS.GET_ALL)
     const filteredUrl = `${url}`
     const data = await apiClient.get<RealEstateAssetResponse>(filteredUrl)
     return data
@@ -128,7 +128,7 @@ class RealEstateAssetService {
     page = 0,
     size = 1000
   ): Promise<RealEstateAssetResponse> {
-    const url = buildApiUrl(API_ENDPOINTS.REAL_ESTATE_ASSET.GET_ALL)
+    const url = buildApiUrl(API_ENDPOINTS.MANAGEMENT_FIRMS.GET_ALL)
     const queryParams = new URLSearchParams({
       page: page.toString(),
       size: size.toString(),

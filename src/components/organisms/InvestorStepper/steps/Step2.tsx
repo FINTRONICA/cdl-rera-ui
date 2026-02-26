@@ -160,12 +160,24 @@ const Step2 = forwardRef<Step2Ref, Step2Props>(
       }
     )
 
-    const unitId =
-      existingUnitData && existingUnitData.length > 0
-        ? existingUnitData[0]?.id
-        : null
+    // Normalize unit API response: may be array or { content/data/result/_embedded } or paginated
+    const unitArray = React.useMemo((): CapitalPartnerUnitResponse[] => {
+      if (!existingUnitData) return []
+      if (Array.isArray(existingUnitData)) return existingUnitData
+      const raw = existingUnitData as Record<string, unknown>
+      const content = raw?.content as CapitalPartnerUnitResponse[] | undefined
+      const data = raw?.data as CapitalPartnerUnitResponse[] | undefined
+      const result = raw?.result as CapitalPartnerUnitResponse[] | undefined
+      const embedded = raw?._embedded as Record<string, unknown> | undefined
+      const embeddedArr = embedded
+        ? (Object.values(embedded).flat() as CapitalPartnerUnitResponse[])
+        : undefined
+      return content ?? data ?? result ?? embeddedArr ?? []
+    }, [existingUnitData])
+
+    const unitId = unitArray.length > 0 ? unitArray[0]?.id ?? null : null
     const isUnitDataReady =
-      !isLoadingExistingUnit && !errorLoadingUnit && !!unitId
+      !isLoadingExistingUnit && !errorLoadingUnit && unitArray.length > 0
 
     const {
       data: existingUnitPurchaseData,
@@ -201,31 +213,44 @@ const Step2 = forwardRef<Step2Ref, Step2Props>(
       }
     )
 
+    // Normalize purchase API response: may be array or { content/data/result/_embedded }
+    const purchaseArray = React.useMemo((): CapitalPartnerUnitPurchaseResponse[] => {
+      if (!existingUnitPurchaseData) return []
+      if (Array.isArray(existingUnitPurchaseData)) return existingUnitPurchaseData
+      const raw = existingUnitPurchaseData as Record<string, unknown>
+      const content = raw?.content as CapitalPartnerUnitPurchaseResponse[] | undefined
+      const data = raw?.data as CapitalPartnerUnitPurchaseResponse[] | undefined
+      const result = raw?.result as CapitalPartnerUnitPurchaseResponse[] | undefined
+      const embedded = raw?._embedded as Record<string, unknown> | undefined
+      const embeddedArr = embedded
+        ? (Object.values(embedded).flat() as CapitalPartnerUnitPurchaseResponse[])
+        : undefined
+      return content ?? data ?? result ?? embeddedArr ?? []
+    }, [existingUnitPurchaseData])
+
+    // Prefill: run when we have unit data; re-run when purchase data arrives.
+    // Only mark initialized after purchase data is applied (or confirmed missing), so purchase fields get filled when the API returns later.
     useEffect(() => {
       if (
-        isEditMode &&
-        existingUnitData &&
-        existingUnitData.length > 0 &&
-        !isLoadingExistingUnit &&
-        !isLoadingExistingPurchase &&
-        !isLoadingExistingBooking &&
-        !isFormInitialized &&
-        projectOptions.length > 0 &&
-        propertyIds &&
-        propertyIds.length > 0
+        !isEditMode ||
+        unitArray.length === 0 ||
+        isLoadingExistingUnit
       ) {
-        const unitData = existingUnitData[0]
-        if (!unitData) return
+        return
+      }
+      const purchaseData = purchaseArray.length > 0 ? purchaseArray[0] : null
+      const purchaseHandled = purchaseData != null || !isLoadingExistingPurchase
+      if (isFormInitialized && purchaseHandled) {
+        return
+      }
 
-        const purchaseData =
-          existingUnitPurchaseData && existingUnitPurchaseData.length > 0
-            ? existingUnitPurchaseData[0]
-            : null
+      const unitData = unitArray[0]
+      if (!unitData) return
 
+      if (projectOptions.length > 0) {
         const projectOption = projectOptions.find(
           (project) => project.projectId === unitData.realEstateAssestDTO?.reaId
         )
-
         if (projectOption) {
           setSelectedProject(projectOption)
           setValue('projectNameDropdown', projectOption.settingValue)
@@ -233,96 +258,109 @@ const Step2 = forwardRef<Step2Ref, Step2Props>(
           setValue('developerIdInput', projectOption.developerId)
           setValue('developerNameInput', projectOption.developerName)
         }
+      }
 
-        setValue('floor', unitData.floor || '')
-        setValue('bedroomCount', unitData.noofBedroom || '')
-        setValue('unitNoQaqood', unitData.unitRefId || '')
-        setValue('unitStatus', unitData.unitStatusDTO?.settingValue || '')
-        setValue('buildingName', unitData.towerName || '')
-        setValue('plotSize', unitData.unitPlotSize || '')
-        const propertyIdOption = propertyIds?.find(
-          (property) => property.id === unitData.propertyIdDTO?.id
+      setValue('floor', unitData.floor || '')
+      setValue('bedroomCount', unitData.noofBedroom || '')
+      setValue('unitNoQaqood', unitData.unitRefId || '')
+      let unitStatusVal =
+        (unitData.unitStatusDTO as { settingValue?: string; configValue?: string })?.settingValue ??
+        (unitData.unitStatusDTO as { settingValue?: string; configValue?: string })?.configValue ??
+        ''
+      if (!unitStatusVal && unitData.unitStatusDTO?.id != null && unitStatuses?.length) {
+        const byId = unitStatuses.find((s: { id: number }) => s.id === Number(unitData.unitStatusDTO?.id))
+        if (byId?.settingValue) unitStatusVal = byId.settingValue
+      }
+      setValue('unitStatus', unitStatusVal)
+      setValue('buildingName', unitData.towerName || '')
+      setValue('plotSize', unitData.unitPlotSize || '')
+      if (propertyIds && propertyIds.length > 0) {
+        const propertyIdOption = propertyIds.find(
+          (property: { id: number }) => property.id === unitData.propertyIdDTO?.id
         )
-        setValue('propertyId', propertyIdOption?.settingValue || '')
-        setValue('unitIban', unitData.virtualAccNo || '')
+        const prop = propertyIdOption as { settingValue?: string; displayName?: string } | undefined
+        setValue('propertyId', prop?.settingValue ?? prop?.displayName ?? '')
+      }
+      setValue('unitIban', unitData.virtualAccNo || '')
 
-        if (purchaseData) {
-          setValue(
-            'registrationFees',
-            purchaseData.ownupUnitRegistrationFee?.toString() || ''
-          )
-          setValue('agentName', purchaseData.ownupAgentName || '')
-          setValue('agentNationalId', purchaseData.ownupAgentId || '')
-          setValue(
-            'grossSalePrice',
-            purchaseData.ownupGrossSaleprice?.toString() || ''
-          )
-          setValue('VatApplicable', purchaseData.ownupVatApplicable || false)
-          setValue(
-            'SalesPurchaseAgreement',
-            purchaseData.ownupSalePurchaseAgreement || false
-          )
-          setValue(
-            'ProjectPaymentPlan',
-            purchaseData.ownupProjectPaymentPlan || false
-          )
-          setValue('salePrice', purchaseData.ownupSalePrice?.toString() || '')
-          setValue('deedNo', purchaseData.ownupDeedNo || '')
-          setValue('contractNo', purchaseData.ownupAgreementNo || '')
-          setValue(
-            'agreementDate',
-            purchaseData.ownupAgreementDate
-              ? dayjs(purchaseData.ownupAgreementDate)
-              : null
-          )
-          setValue(
-            'ModificationFeeNeeded',
-            purchaseData.ownupModificationFeeNeeded || false
-          )
-          setValue(
-            'ReservationBookingForm',
-            purchaseData.ownupReservationBookingForm || false
-          )
-          setValue('OqoodPaid', purchaseData.ownupOqoodPaid || false)
-          setValue('worldCheck', purchaseData.ownupWorldCheck || false)
-          setValue(
-            'paidInEscrow',
-            purchaseData.ownupAmtPaidToDevInEscorw?.toString() || ''
-          )
-          setValue(
-            'paidOutEscrow',
-            purchaseData.ownupAmtPaidToDevOutEscorw?.toString() || ''
-          )
-          setValue(
-            'totalPaid',
-            purchaseData.ownupTotalAmountPaid?.toString() || ''
-          )
-          setValue('qaqoodAmount', purchaseData.ownupOqoodAmountPaid || '')
-          setValue('unitAreaSize', purchaseData.ownupUnitAreaSize || '')
-          setValue('forfeitAmount', purchaseData.ownupForfeitAmount || '')
-          setValue('dldAmount', purchaseData.ownupDldAmount || '')
-          setValue('refundAmount', purchaseData.ownupRefundAmount || '')
-          setValue(
-            'transferredAmount',
-            purchaseData.ownupTransferredAmount || ''
-          )
-          setValue('unitRemarks', purchaseData.ownupRemarks || '')
-        }
+      if (purchaseData) {
+        setValue(
+          'registrationFees',
+          purchaseData.ownupUnitRegistrationFee?.toString() || ''
+        )
+        setValue('agentName', purchaseData.ownupAgentName || '')
+        setValue('agentNationalId', purchaseData.ownupAgentId || '')
+        setValue(
+          'grossSalePrice',
+          purchaseData.ownupGrossSaleprice?.toString() || ''
+        )
+        setValue('VatApplicable', purchaseData.ownupVatApplicable ?? false)
+        setValue(
+          'SalesPurchaseAgreement',
+          purchaseData.ownupSalePurchaseAgreement ?? false
+        )
+        setValue(
+          'ProjectPaymentPlan',
+          purchaseData.ownupProjectPaymentPlan ?? false
+        )
+        setValue('salePrice', purchaseData.ownupSalePrice?.toString() || '')
+        setValue('deedNo', purchaseData.ownupDeedNo || '')
+        setValue('contractNo', purchaseData.ownupAgreementNo || '')
+        setValue(
+          'agreementDate',
+          purchaseData.ownupAgreementDate
+            ? dayjs(purchaseData.ownupAgreementDate)
+            : null
+        )
+        setValue(
+          'ModificationFeeNeeded',
+          purchaseData.ownupModificationFeeNeeded ?? false
+        )
+        setValue(
+          'ReservationBookingForm',
+          purchaseData.ownupReservationBookingForm ?? false
+        )
+        setValue('OqoodPaid', purchaseData.ownupOqoodPaid ?? false)
+        setValue('worldCheck', purchaseData.ownupWorldCheck ?? false)
+        setValue(
+          'paidInEscrow',
+          purchaseData.ownupAmtPaidToDevInEscorw?.toString() || ''
+        )
+        setValue(
+          'paidOutEscrow',
+          purchaseData.ownupAmtPaidToDevOutEscorw?.toString() || ''
+        )
+        setValue(
+          'totalPaid',
+          purchaseData.ownupTotalAmountPaid?.toString() || ''
+        )
+        setValue('qaqoodAmount', String(purchaseData.ownupOqoodAmountPaid ?? ''))
+        setValue('unitAreaSize', String(purchaseData.ownupUnitAreaSize ?? ''))
+        setValue('forfeitAmount', String(purchaseData.ownupForfeitAmount ?? ''))
+        setValue('dldAmount', String(purchaseData.ownupDldAmount ?? ''))
+        setValue('refundAmount', String(purchaseData.ownupRefundAmount ?? ''))
+        setValue(
+          'transferredAmount',
+          String(purchaseData.ownupTransferredAmount ?? '')
+        )
+        setValue('unitRemarks', purchaseData.ownupRemarks || '')
+      }
 
+      // Only mark initialized after purchase is handled (data set or load finished with none), so we re-run when purchase data arrives
+      if (purchaseData != null || !isLoadingExistingPurchase) {
         setIsFormInitialized(true)
       }
     }, [
-      existingUnitData,
-      existingUnitPurchaseData,
-      existingUnitBookingData,
+      isEditMode,
+      unitArray,
+      purchaseArray,
       isLoadingExistingUnit,
       isLoadingExistingPurchase,
-      isLoadingExistingBooking,
-      isEditMode,
+      isFormInitialized,
       setValue,
       projectOptions,
       propertyIds,
-      isFormInitialized,
+      unitStatuses,
     ])
     const handleProjectSelection = (projectId: string) => {
       const selectedProjectData = projectOptions.find(
@@ -357,13 +395,14 @@ const Step2 = forwardRef<Step2Ref, Step2Props>(
     const handleSaveAndNext = async () => {
       try {
         // Validate required fields first so UI shows errors immediately
+        // Management Firm / Asset Register fields (909–944) are hidden for now; bypass validation so step can submit
         const requiredValid = await (async () => {
           try {
             const result = CapitalPartnerStep2Schema.safeParse({
-              projectNameDropdown: watch('projectNameDropdown'),
-              projectId: watch('projectId'),
-              developerIdInput: watch('developerIdInput'),
-              developerNameInput: watch('developerNameInput'),
+              projectNameDropdown: watch('projectNameDropdown') || '_',
+              projectId: watch('projectId') || '_',
+              developerIdInput: watch('developerIdInput') || '_',
+              developerNameInput: watch('developerNameInput') || '_',
               unitNoQaqood: watch('unitNoQaqood'),
               unitStatus: watch('unitStatus'),
               plotSize: watch('plotSize'),
@@ -395,10 +434,10 @@ const Step2 = forwardRef<Step2Ref, Step2Props>(
           throw new Error('Capital Partner ID is required from Step1')
         }
         const formData: Step2FormData = {
-          projectNameDropdown: watch('projectNameDropdown'),
-          projectId: watch('projectId'),
-          developerIdInput: watch('developerIdInput'),
-          developerNameInput: watch('developerNameInput'),
+          projectNameDropdown: watch('projectNameDropdown') || '_',
+          projectId: watch('projectId') || '_',
+          developerIdInput: watch('developerIdInput') || '_',
+          developerNameInput: watch('developerNameInput') || '_',
           floor: watch('floor'),
           bedroomCount: watch('bedroomCount'),
           unitNoQaqood: watch('unitNoQaqood'),
@@ -460,8 +499,8 @@ const Step2 = forwardRef<Step2Ref, Step2Props>(
         let unitResponse
         let existingUnitId = null
 
-        if (isEditMode && existingUnitData && existingUnitData.length > 0) {
-          existingUnitId = existingUnitData[0]?.id
+        if (isEditMode && unitArray.length > 0) {
+          existingUnitId = unitArray[0]?.id
           if (existingUnitId) {
             const updateUnitPayload = {
               ...unitPayload,
@@ -485,7 +524,13 @@ const Step2 = forwardRef<Step2Ref, Step2Props>(
             )
         }
 
-        const finalUnitId = existingUnitId || unitResponse.id
+        const unitIdFromResponse =
+          unitResponse?.id ??
+          (unitResponse as { data?: { id?: number } })?.data?.id
+        const finalUnitId = existingUnitId ?? unitIdFromResponse
+        if (finalUnitId == null) {
+          throw new Error('Failed to get unit ID from save response')
+        }
 
         let bookingResponse = null
         let purchaseResponse = null
@@ -522,10 +567,9 @@ const Step2 = forwardRef<Step2Ref, Step2Props>(
           try {
             if (
               isEditMode &&
-              existingUnitPurchaseData &&
-              existingUnitPurchaseData.length > 0
+              purchaseArray.length > 0
             ) {
-              const existingPurchaseId = existingUnitPurchaseData[0]?.id
+              const existingPurchaseId = purchaseArray[0]?.id
               if (existingPurchaseId) {
                 const updatePurchasePayload = {
                   ...purchasePayloadWithId,
@@ -906,7 +950,7 @@ const Step2 = forwardRef<Step2Ref, Step2Props>(
           <CardContent sx={{ color: valueStyles.color || undefined }}>
             {/* Removed top banner error; rely on inline field errors for consistency with Step 1 */}
             <Grid container rowSpacing={4} columnSpacing={2}>
-              {renderProjectSelectField(
+              {/* {renderProjectSelectField(
                 'projectNameDropdown',
                 'CDL_OWNER_UNIT_MF_NAME',
                 'Management Firm Name',
@@ -941,7 +985,7 @@ const Step2 = forwardRef<Step2Ref, Step2Props>(
                 6,
                 !selectedProject || isEditMode,
                 true
-              )}
+              )} */}
               {renderTextField('floor', 'CDL_OWNER_UNIT_FLOOR', 'Floor', '', 3)}
               {renderTextField(
                 'bedroomCount',

@@ -531,110 +531,219 @@ OWNER_REGISTRY_UNIT_PURCHASE: {
   },
 
   // Real Estate Assets
-  REAL_ESTATE_ASSET: {
-    GET_BY_ID: (id: string) => `/real-estate-assest/${id}`,
-    UPDATE: (id: string) => `/real-estate-assest/${id}`,
-    DELETE: (id: string) => `/real-estate-assest/${id}`,
-    SOFT_DELETE: (id: string) => `/real-estate-assest/soft/${id}`,
-    GET_ALL: '/real-estate-assest?deleted.equals=false&enabled.equals=true',
-    SAVE: '/real-estate-assest',
+  // REAL_ESTATE_ASSET: {
+  //   GET_BY_ID: (id: string) => `/real-estate-assest/${id}`,
+  //   UPDATE: (id: string) => `/real-estate-assest/${id}`,
+  //   DELETE: (id: string) => `/real-estate-assest/${id}`,
+  //   SOFT_DELETE: (id: string) => `/real-estate-assest/soft/${id}`,
+  //   GET_ALL: '/real-estate-assest?deleted.equals=false&enabled.equals=true',
+  //   SAVE: '/real-estate-assest',
+  //   FIND_ALL:
+  //     '/real-estate-assest/find-all?deleted.equals=false&enabled.equals=true',
+  // },
+
+  // REAL_ESTATE_BANK_ACCOUNT: {
+  //   GET_BY_ID: (id: string) => `/real-estate-bank-account/${id}`,
+  //   SAVE: '/real-estate-bank-account',
+  //   UPDATE: (id: string) => `/real-estate-bank-account/${id}`,
+  //   DELETE: (id: string) => `/real-estate-bank-account/${id}`,
+  //   GET_ALL: '/real-estate-bank-account',
+  //   FIND_ALL: '/real-estate-bank-account/find-all',
+  //   GET_BY_PROJECT_ID: (projectId: string) =>
+  //     `/real-estate-bank-account?realEstateAssestId.equals=${projectId}`,
+  // },
+
+  // REAL_ESTATE_ASSET_FEE: {
+  //   GET_BY_ID: (id: string) => `/real-estate-asset-fee/${id}`,
+  //   UPDATE: (id: string) => `/real-estate-asset-fee/${id}`,
+  //   DELETE: (id: string) => `/real-estate-asset-fee/${id}`,
+  //   SOFT_DELETE: (id: string) => `/real-estate-asset-fee/soft/${id}`,
+  //   GET_ALL: '/real-estate-asset-fee',
+  //   SAVE: '/real-estate-asset-fee',
+  //   FIND_ALL: '/real-estate-asset-fee/find-all',
+  //   GET_BY_PROJECT_ID: (projectId: string) =>
+  //     `/real-estate-asset-fee?realEstateAssestId.equals=${projectId}`,
+  // },
+
+  // REAL_ESTATE_ASSET_BENEFICIARY: {
+  //   GET_BY_ID: (id: string) => `/real-estate-assest-beneficiary/${id}`,
+  //   UPDATE: (id: string) => `/real-estate-assest-beneficiary/${id}`,
+  //   DELETE: (id: string) => `/real-estate-assest-beneficiary/${id}`,
+  //   SOFT_DELETE: (id: string) => `/real-estate-assest-beneficiary/soft/${id}`,
+  //   GET_ALL: '/real-estate-assest-beneficiary',
+  //   SAVE: '/real-estate-assest-beneficiary',
+  //   FIND_ALL: '/real-estate-assest-beneficiary/find-all',
+  //   GET_BY_PROJECT_ID: (projectId: string) =>
+  //     `/real-estate-assest-beneficiary?realEstateAssestId.equals=${projectId}`,
+  // },
+
+  // REAL_ESTATE_ASSET_PAYMENT_PLAN: {
+  //   GET_BY_ID: (id: string) => `/real-estate-assest-payment-plan/${id}`,
+  //   UPDATE: (id: string) => `/real-estate-assest-payment-plan/${id}`,
+  //   DELETE: (id: string) => `/real-estate-assest-payment-plan/${id}`,
+  //   SOFT_DELETE: (id: string) => `/real-estate-assest-payment-plan/soft/${id}`,
+  //   GET_ALL: '/real-estate-assest-payment-plan',
+  //   SAVE: '/real-estate-assest-payment-plan',
+  //   FIND_ALL: '/real-estate-assest-payment-plan/find-all',
+  //   GET_BY_PROJECT_ID: (projectId: string) =>
+  //     `/real-estate-assest-payment-plan?realEstateAssestId.equals=${projectId}&deleted.equals=false&enabled.equals=true`,
+  // },
+
+  // REAL_ESTATE_ASSET_FINANCIAL_SUMMARY: {
+  //   GET_BY_ID: (id: string) => `/real-estate-asset-financial-summary/${id}`,
+  //   UPDATE: (id: string) => `/real-estate-asset-financial-summary/${id}`,
+  //   DELETE: (id: string) => `/real-estate-asset-financial-summary/${id}`,
+  //   GET_ALL: '/real-estate-asset-financial-summary',
+  //   SAVE: '/real-estate-asset-financial-summary',
+  //   FIND_ALL: '/real-estate-asset-financial-summary/find-all',
+  //   DELETE_SOFT: '/real-estate-asset-financial-summary/soft/',
+  //   GET_BY_PROJECT_ID: (projectId: string) =>
+  //     `/real-estate-asset-financial-summary?realEstateAssestId.equals=${projectId}`,
+  // },
+
+  // REAL_ESTATE_ASSET_CLOSURE: {
+  //   GET_BY_ID: (id: string) => `/real-estate-assest-closure/${id}`,
+  //   UPDATE: (id: string) => `/real-estate-assest-closure/${id}`,
+  //   DELETE: (id: string) => `/real-estate-assest-closure/${id}`,
+  //   GET_ALL: '/real-estate-assest-closure',
+  //   SAVE: '/real-estate-assest-closure',
+  //   FIND_ALL: '/real-estate-assest-closure/find-all',
+  //   GET_BY_PROJECT_ID: (projectId: string) =>
+  //     `/real-estate-assest-closure?realEstateAssestId.equals=${projectId}`,
+  // },
+
+  // REAL_ESTATE_ASSET_FEE_HISTORY: {
+  //   GET_BY_ID: (id: string) => `/real-estate-asset-fee-history/${id}`,
+  //   UPDATE: (id: string) => `/real-estate-asset-fee-history/${id}`,
+  //   DELETE: (id: string) => `/real-estate-asset-fee-history/${id}`,
+  //   GET_ALL: '/real-estate-asset-fee-history',
+  //   SAVE: '/real-estate-asset-fee-history',
+  //   FIND_ALL: '/real-estate-asset-fee-history/find-all',
+  //   FEE_REPUSH: (id: string) =>
+  //     `/real-estate-asset-fee-history/fee-repush/${id}`,
+  // },
+
+  // REAL_ESTATE_DOCUMENT: {
+  //   GET_BY_ID: (id: string) => `/real-estate-document/${id}`,
+  //   UPDATE: (id: string) => `/real-estate-document/${id}`,
+  //   DELETE: (id: string) => `/real-estate-document/${id}`,
+  //   GET_ALL: '/real-estate-document',
+  //   SAVE: '/real-estate-document',
+  //   FIND_ALL: '/real-estate-document/find-all',
+  //   UPLOAD: '/real-estate-document/upload',
+  //   DOWNLOAD: (id: string) => `/real-estate-document/download/${id}`,
+  //   DOWNLOAD_TEMPLATE: (fileName: string) =>
+  //     `/real-estate-document/download/templates/${fileName}`,
+  // },
+
+
+
+  // MANAGEMENT FIRMS START APIs
+
+  MANAGEMENT_FIRMS: {
+    GET_BY_ID: (id: string) => `/management-firms/${id}`,
+    UPDATE: (id: string) => `/management-firms/${id}`,
+    DELETE: (id: string) => `/management-firms/${id}`,
+    SOFT_DELETE: (id: string) => `/management-firms/soft/${id}`,
+    GET_ALL: '/management-firms?deleted.equals=false&enabled.equals=true',
+    SAVE: '/management-firms',
     FIND_ALL:
-      '/real-estate-assest/find-all?deleted.equals=false&enabled.equals=true',
+      '/management-firms/find-all?deleted.equals=false&enabled.equals=true',
   },
 
-  REAL_ESTATE_ASSET_BENEFICIARY: {
-    GET_BY_ID: (id: string) => `/real-estate-assest-beneficiary/${id}`,
-    UPDATE: (id: string) => `/real-estate-assest-beneficiary/${id}`,
-    DELETE: (id: string) => `/real-estate-assest-beneficiary/${id}`,
-    SOFT_DELETE: (id: string) => `/real-estate-assest-beneficiary/soft/${id}`,
-    GET_ALL: '/real-estate-assest-beneficiary',
-    SAVE: '/real-estate-assest-beneficiary',
-    FIND_ALL: '/real-estate-assest-beneficiary/find-all',
+  MANAGEMENT_FIRMS_BANK_ACCOUNT: {
+    GET_BY_ID: (id: string) => `/management-firms-bank-account/${id}`,
+    SAVE: '/management-firms-bank-account',
+    UPDATE: (id: string) => `/management-firms-bank-account/${id}`,
+    DELETE: (id: string) => `/management-firms-bank-account/${id}`,
+    GET_ALL: '/management-firms-bank-account',
+    FIND_ALL: '/management-firms-bank-account/find-all',
     GET_BY_PROJECT_ID: (projectId: string) =>
-      `/real-estate-assest-beneficiary?realEstateAssestId.equals=${projectId}`,
+      `/management-firms-bank-account?managementFirmsId.equals=${projectId}`,
   },
-
-  REAL_ESTATE_ASSET_CLOSURE: {
-    GET_BY_ID: (id: string) => `/real-estate-assest-closure/${id}`,
-    UPDATE: (id: string) => `/real-estate-assest-closure/${id}`,
-    DELETE: (id: string) => `/real-estate-assest-closure/${id}`,
-    GET_ALL: '/real-estate-assest-closure',
-    SAVE: '/real-estate-assest-closure',
-    FIND_ALL: '/real-estate-assest-closure/find-all',
+  
+  MANAGEMENT_FIRMS_FEE: {
+    GET_BY_ID: (id: string) => `/management-firms-fee/${id}`,
+    UPDATE: (id: string) => `/management-firms-fee/${id}`,
+    DELETE: (id: string) => `/management-firms-fee/${id}`,
+    SOFT_DELETE: (id: string) => `/management-firms-fee/soft/${id}`,
+    GET_ALL: '/management-firms-fee',
+    SAVE: '/management-firms-fee',
+    FIND_ALL: '/management-firms-fee/find-all',
     GET_BY_PROJECT_ID: (projectId: string) =>
-      `/real-estate-assest-closure?realEstateAssestId.equals=${projectId}`,
+      `/management-firms-fee?managementFirmsId.equals=${projectId}`,
   },
 
-  REAL_ESTATE_ASSET_FEE: {
-    GET_BY_ID: (id: string) => `/real-estate-asset-fee/${id}`,
-    UPDATE: (id: string) => `/real-estate-asset-fee/${id}`,
-    DELETE: (id: string) => `/real-estate-asset-fee/${id}`,
-    SOFT_DELETE: (id: string) => `/real-estate-asset-fee/soft/${id}`,
-    GET_ALL: '/real-estate-asset-fee',
-    SAVE: '/real-estate-asset-fee',
-    FIND_ALL: '/real-estate-asset-fee/find-all',
+  MANAGEMENT_FIRMS_BENEFICIARY: {
+    GET_BY_ID: (id: string) => `/management-firms-beneficiary/${id}`,
+    UPDATE: (id: string) => `/management-firms-beneficiary/${id}`,
+    DELETE: (id: string) => `/management-firms-beneficiary/${id}`,
+    SOFT_DELETE: (id: string) => `/management-firms-beneficiary/soft/${id}`,
+    GET_ALL: '/management-firms-beneficiary',
+    SAVE: '/management-firms-beneficiary',
+    FIND_ALL: '/management-firms-beneficiary/find-all',
     GET_BY_PROJECT_ID: (projectId: string) =>
-      `/real-estate-asset-fee?realEstateAssestId.equals=${projectId}`,
+      `/management-firms-beneficiary?managementFirmsId.equals=${projectId}`,
+  },
+  MANAGEMENT_FIRMS_PAYMENT_PLAN: {
+    GET_BY_ID: (id: string) => `/management-firms-payment-plan/${id}`,
+    UPDATE: (id: string) => `/management-firms-payment-plan/${id}`,
+    DELETE: (id: string) => `/management-firms-payment-plan/${id}`,
+    SOFT_DELETE: (id: string) => `/management-firms-payment-plan/soft/${id}`,
+    GET_ALL: '/management-firms-payment-plan',
+    SAVE: '/management-firms-payment-plan',
+    FIND_ALL: '/management-firms-payment-plan/find-all',
+    GET_BY_PROJECT_ID: (projectId: string) =>
+      `/management-firms-payment-plan?managementFirmsId.equals=${projectId}&deleted.equals=false&enabled.equals=true`,
   },
 
-  REAL_ESTATE_ASSET_FEE_HISTORY: {
-    GET_BY_ID: (id: string) => `/real-estate-asset-fee-history/${id}`,
-    UPDATE: (id: string) => `/real-estate-asset-fee-history/${id}`,
-    DELETE: (id: string) => `/real-estate-asset-fee-history/${id}`,
-    GET_ALL: '/real-estate-asset-fee-history',
-    SAVE: '/real-estate-asset-fee-history',
-    FIND_ALL: '/real-estate-asset-fee-history/find-all',
+  MANAGEMENT_FIRMS_FINANCIAL_SUMMARY: {
+    GET_BY_ID: (id: string) => `/management-firms-financial-summary/${id}`,
+    UPDATE: (id: string) => `/management-firms-financial-summary/${id}`,
+    DELETE: (id: string) => `/management-firms-financial-summary/${id}`,
+    GET_ALL: '/management-firms-financial-summary',
+    SAVE: '/management-firms-financial-summary',
+    FIND_ALL: '/management-firms-financial-summary/find-all',
+    DELETE_SOFT: '/management-firms-financial-summary/soft/',
+    GET_BY_PROJECT_ID: (projectId: string) =>
+      `/management-firms-financial-summary?managementFirmsId.equals=${projectId}`,
+  },
+
+  MANAGEMENT_FIRMS_CLOSURE: {
+    GET_BY_ID: (id: string) => `/management-firms-closure/${id}`,
+    UPDATE: (id: string) => `/management-firms-closure/${id}`,
+    DELETE: (id: string) => `/management-firms-closure/${id}`,
+    GET_ALL: '/management-firms-closure',
+    SAVE: '/management-firms-closure',
+    FIND_ALL: '/management-firms-closure/find-all',
+    GET_BY_PROJECT_ID: (projectId: string) =>
+      `/management-firms-closure?managementFirmsId.equals=${projectId}`,
+  },
+
+  MANAGEMENT_FIRMS_FEE_HISTORY: {
+    GET_BY_ID: (id: string) => `/management-firms-fee-history/${id}`,
+    UPDATE: (id: string) => `/management-firms-fee-history/${id}`,
+    DELETE: (id: string) => `/management-firms-fee-history/${id}`,
+    GET_ALL: '/management-firms-fee-history',
+    SAVE: '/management-firms-fee-history',
+    FIND_ALL: '/management-firms-fee-history/find-all',
     FEE_REPUSH: (id: string) =>
-      `/real-estate-asset-fee-history/fee-repush/${id}`,
+      `/management-firms-fee-history/fee-repush/${id}`,
   },
 
-  REAL_ESTATE_ASSET_FINANCIAL_SUMMARY: {
-    GET_BY_ID: (id: string) => `/real-estate-asset-financial-summary/${id}`,
-    UPDATE: (id: string) => `/real-estate-asset-financial-summary/${id}`,
-    DELETE: (id: string) => `/real-estate-asset-financial-summary/${id}`,
-    GET_ALL: '/real-estate-asset-financial-summary',
-    SAVE: '/real-estate-asset-financial-summary',
-    FIND_ALL: '/real-estate-asset-financial-summary/find-all',
-    DELETE_SOFT: '/real-estate-asset-financial-summary/soft/',
-    GET_BY_PROJECT_ID: (projectId: string) =>
-      `/real-estate-asset-financial-summary?realEstateAssestId.equals=${projectId}`,
-  },
-
-  REAL_ESTATE_ASSET_PAYMENT_PLAN: {
-    GET_BY_ID: (id: string) => `/real-estate-assest-payment-plan/${id}`,
-    UPDATE: (id: string) => `/real-estate-assest-payment-plan/${id}`,
-    DELETE: (id: string) => `/real-estate-assest-payment-plan/${id}`,
-    SOFT_DELETE: (id: string) => `/real-estate-assest-payment-plan/soft/${id}`,
-    GET_ALL: '/real-estate-assest-payment-plan',
-    SAVE: '/real-estate-assest-payment-plan',
-    FIND_ALL: '/real-estate-assest-payment-plan/find-all',
-    GET_BY_PROJECT_ID: (projectId: string) =>
-      `/real-estate-assest-payment-plan?realEstateAssestId.equals=${projectId}&deleted.equals=false&enabled.equals=true`,
-  },
-
-  REAL_ESTATE_BANK_ACCOUNT: {
-    GET_BY_ID: (id: string) => `/real-estate-bank-account/${id}`,
-    SAVE: '/real-estate-bank-account',
-    UPDATE: (id: string) => `/real-estate-bank-account/${id}`,
-    DELETE: (id: string) => `/real-estate-bank-account/${id}`,
-    GET_ALL: '/real-estate-bank-account',
-    FIND_ALL: '/real-estate-bank-account/find-all',
-    GET_BY_PROJECT_ID: (projectId: string) =>
-      `/real-estate-bank-account?realEstateAssestId.equals=${projectId}`,
-  },
-
-  REAL_ESTATE_DOCUMENT: {
-    GET_BY_ID: (id: string) => `/real-estate-document/${id}`,
-    UPDATE: (id: string) => `/real-estate-document/${id}`,
-    DELETE: (id: string) => `/real-estate-document/${id}`,
-    GET_ALL: '/real-estate-document',
-    SAVE: '/real-estate-document',
-    FIND_ALL: '/real-estate-document/find-all',
-    UPLOAD: '/real-estate-document/upload',
-    DOWNLOAD: (id: string) => `/real-estate-document/download/${id}`,
+  MANAGEMENT_FIRMS_DOCUMENT: {
+    GET_BY_ID: (id: string) => `/management-firms-document/${id}`,
+    UPDATE: (id: string) => `/management-firms-document/${id}`,
+    DELETE: (id: string) => `/management-firms-document/${id}`,
+    GET_ALL: '/management-firms-document',
+    SAVE: '/management-firms-document',
+    FIND_ALL: '/management-firms-document/find-all',
+    UPLOAD: '/management-firms-document/upload',
+    DOWNLOAD: (id: string) => `/management-firms-document/download/${id}`,
     DOWNLOAD_TEMPLATE: (fileName: string) =>
-      `/real-estate-document/download/templates/${fileName}`,
+      `/management-firms-document/download/templates/${fileName}`,
   },
+  // END MANAGEMENT_FIRMS_DOCUMENT APIs
 
   // Secondary Bank Account
   SECONDARY_BANK_ACCOUNT: {

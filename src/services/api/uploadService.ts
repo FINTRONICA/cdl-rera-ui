@@ -59,7 +59,7 @@ class UploadService {
 
     try {
       const response: AxiosResponse<UploadResponse> = await apiClient.post(
-        buildApiUrl(request.uploadEndpoint || API_ENDPOINTS.REAL_ESTATE_DOCUMENT.UPLOAD),
+        buildApiUrl(request.uploadEndpoint || API_ENDPOINTS.MANAGEMENT_FIRMS_DOCUMENT.UPLOAD),
         formData,
         {
           headers: {
@@ -229,7 +229,7 @@ class UploadService {
       })
       
       const response: AxiosResponse<UploadResponse[]> = await apiClient.get(
-        `${buildApiUrl(API_ENDPOINTS.REAL_ESTATE_DOCUMENT.UPLOAD)}/history?${params}`
+        `${buildApiUrl(API_ENDPOINTS.MANAGEMENT_FIRMS_DOCUMENT.UPLOAD)}/history?${params}`
       )
       
       return response.data
@@ -246,7 +246,7 @@ class UploadService {
    */
   async deleteFile(fileId: string): Promise<{ success: boolean; message: string }> {
     try {
-      await apiClient.delete(buildApiUrl(`${API_ENDPOINTS.REAL_ESTATE_DOCUMENT.UPLOAD}/${fileId}`))
+      await apiClient.delete(buildApiUrl(`${API_ENDPOINTS.MANAGEMENT_FIRMS_DOCUMENT.UPLOAD}/${fileId}`))
       
       return {
         success: true,

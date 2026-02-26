@@ -1603,16 +1603,16 @@ const Step5: React.FC<Step5Props> = ({
                   {paymentPlanData.map((plan, index) => (
                     <TableRow key={plan.id || index} sx={tableRowHoverSx}>
                       <TableCell sx={tableBodyCellSx}>
-                        {plan.cpppInstallmentNumber || '-'}
+                        {plan.ownppInstallmentNumber || '-'}
                       </TableCell>
                       <TableCell sx={tableBodyCellSx}>
-                        {plan.cpppInstallmentDate
-                          ? formatDate(plan.cpppInstallmentDate)
+                        {plan.ownppInstallmentDate
+                          ? formatDate(plan.ownppInstallmentDate)
                           : '-'}
                       </TableCell>
                       <TableCell sx={tableBodyCellSx}>
-                        {plan.cpppBookingAmount
-                          ? formatCurrency(plan.cpppBookingAmount)
+                        {plan.ownppBookingAmount
+                          ? formatCurrency(plan.ownppBookingAmount)
                           : '-'}
                       </TableCell>
                     </TableRow>

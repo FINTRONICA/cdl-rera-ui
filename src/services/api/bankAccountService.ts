@@ -49,7 +49,7 @@ export class BankAccountService {
       
       
       const saveResponse = await apiClient.post(
-        API_ENDPOINTS.REAL_ESTATE_BANK_ACCOUNT.SAVE,
+        API_ENDPOINTS.MANAGEMENT_FIRMS_BANK_ACCOUNT.SAVE,
         bankAccountData,
         {
           headers: {
@@ -86,7 +86,7 @@ export class BankAccountService {
      
       
       const updateResponse = await apiClient.put(
-        API_ENDPOINTS.REAL_ESTATE_BANK_ACCOUNT.UPDATE(bankAccountData.id.toString()),
+        API_ENDPOINTS.MANAGEMENT_FIRMS_BANK_ACCOUNT.UPDATE(bankAccountData.id.toString()),
         bankAccountData,
         {
           headers: {

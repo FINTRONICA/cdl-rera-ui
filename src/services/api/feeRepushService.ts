@@ -256,7 +256,7 @@ export class FeeRepushService {
     data: Partial<FeeRepushRecord>
   ): Promise<FeeRepushRecord> {
     try {
-      const url = buildApiUrl(API_ENDPOINTS.REAL_ESTATE_ASSET_FEE_HISTORY.SAVE)
+      const url = buildApiUrl(API_ENDPOINTS.MANAGEMENT_FIRMS_FEE_HISTORY.SAVE)
       const result = await apiClient.post<FeeRepushRecord>(url, data)
       return result
     } catch (error) {
@@ -270,7 +270,7 @@ export class FeeRepushService {
   ): Promise<FeeRepushRecord> {
     try {
       const url = buildApiUrl(
-        API_ENDPOINTS.REAL_ESTATE_ASSET_FEE_HISTORY.UPDATE(id)
+        API_ENDPOINTS.MANAGEMENT_FIRMS_FEE_HISTORY.UPDATE(id)
       )
       const result = await apiClient.put<FeeRepushRecord>(url, updates)
       return result
@@ -282,7 +282,7 @@ export class FeeRepushService {
   async deleteFeeRepush(id: string): Promise<void> {
     try {
       const url = buildApiUrl(
-        API_ENDPOINTS.REAL_ESTATE_ASSET_FEE_HISTORY.DELETE(id)
+        API_ENDPOINTS.MANAGEMENT_FIRMS_FEE_HISTORY.DELETE(id)
       )
       await apiClient.delete(url)
     } catch (error) {
@@ -332,7 +332,7 @@ export class FeeRepushService {
     apiFilters['size'] = String(size)
 
     const queryString = new URLSearchParams(apiFilters).toString()
-    const url = `${buildApiUrl(API_ENDPOINTS.REAL_ESTATE_ASSET_FEE_HISTORY.GET_ALL)}?${queryString}`
+    const url = `${buildApiUrl(API_ENDPOINTS.MANAGEMENT_FIRMS_FEE_HISTORY.GET_ALL)}?${queryString}`
 
 
     try {
@@ -361,7 +361,7 @@ export class FeeRepushService {
   async getFeeRepushRecord(id: string): Promise<FeeRepushRecord> {
     try {
       const result = await apiClient.get<FeeRepushRecord>(
-        buildApiUrl(API_ENDPOINTS.REAL_ESTATE_ASSET_FEE_HISTORY.GET_BY_ID(id))
+        buildApiUrl(API_ENDPOINTS.MANAGEMENT_FIRMS_FEE_HISTORY.GET_BY_ID(id))
       )
       return result
     } catch (error) {
@@ -418,7 +418,7 @@ export class FeeRepushService {
   // - Force repush: await feeRepushService.feeRepush('123', { forceRepush: true })
   async feeRepush(id: string, request?: FeeRepushRequest): Promise<FeeRepushResponse> {
     try {
-      const url = buildApiUrl(API_ENDPOINTS.REAL_ESTATE_ASSET_FEE_HISTORY.FEE_REPUSH(id))
+      const url = buildApiUrl(API_ENDPOINTS.MANAGEMENT_FIRMS_FEE_HISTORY.FEE_REPUSH(id))
       const requestBody: FeeRepushRequest = {
         remarks: request?.remarks || 'Fee repush initiated via dedicated endpoint',
         forceRepush: request?.forceRepush || false,

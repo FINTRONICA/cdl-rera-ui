@@ -280,18 +280,18 @@ const Step3 = forwardRef<Step3Ref, Step3Props>(
         const mappedPaymentPlan: PaymentPlanData[] =
           existingPaymentPlanData.map((plan, index) => {
             // Set the installment date in the form
-            if (plan.cpppInstallmentDate) {
+            if (plan.ownppInstallmentDate) {
               setValue(
                 `installmentDate${index}`,
-                dayjs(plan.cpppInstallmentDate)
+                dayjs(plan.ownppInstallmentDate)
               )
             }
 
             return {
-              installmentNumber: plan.cpppInstallmentNumber || index + 1,
+              installmentNumber: plan.ownppInstallmentNumber || index + 1,
               installmentPercentage: '',
               projectCompletionPercentage:
-                plan.cpppBookingAmount?.toString() || '',
+                plan.ownppBookingAmount?.toString() || '',
               isNewEntry: false, // Explicitly mark existing entries as confirmed
             }
           })
@@ -525,12 +525,12 @@ const Step3 = forwardRef<Step3Ref, Step3Props>(
             const existingPlan = currentExistingPaymentPlanData[index]
             const payload = {
               id: existingPaymentPlanId,
-              cpppInstallmentNumber: updatedEntry.installmentNumber,
-              cpppInstallmentDate: editingData.date
+              ownppInstallmentNumber: updatedEntry.installmentNumber,
+              ownppInstallmentDate: editingData.date
                 ?.startOf?.('day')
                 ?.toISOString?.(),
-              cpppBookingAmount: parseFloat(editingData.amount) || 0,
-              capitalPartnerDTO: {
+              ownppBookingAmount: parseFloat(editingData.amount) || 0,
+              ownerRegistryDTO: {
                 id: capitalPartnerId,
               },
               deleted: existingPlan?.deleted ?? false,
@@ -595,12 +595,12 @@ const Step3 = forwardRef<Step3Ref, Step3Props>(
         })
 
         const payload = {
-          cpppInstallmentNumber: plan.installmentNumber,
-          cpppInstallmentDate: installmentDate
+          ownppInstallmentNumber: plan.installmentNumber,
+          ownppInstallmentDate: installmentDate
             ?.startOf?.('day')
             ?.toISOString?.(),
-          cpppBookingAmount: parseFloat(plan.projectCompletionPercentage) || 0,
-          capitalPartnerDTO: {
+          ownppBookingAmount: parseFloat(plan.projectCompletionPercentage) || 0,
+          ownerRegistryDTO: {
             id: capitalPartnerId,
           },
           deleted: false,

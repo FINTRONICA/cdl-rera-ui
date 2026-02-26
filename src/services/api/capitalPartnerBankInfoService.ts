@@ -11,7 +11,7 @@ export interface CapitalPartnerBankInfoRequest {
   cpbiBeneRoutingCode?: string
   cpbiAccountNumber?: string
   cpbiIban?: string
-  capitalPartnerDTO?: { id: string }
+  ownerRegistryDTO?: { id: string }
   payModeDTO?: {
     id: number
   }
@@ -29,7 +29,7 @@ export interface CapitalPartnerBankInfoResponse {
   cpbiBeneRoutingCode?: string
   cpbiAccountNumber?: string
   cpbiIban?: string
-  capitalPartnerDTO?: { id: string }
+  ownerRegistryDTO?: { id: string }
   payModeDTO?: {
     id: number
     settingKey?: string

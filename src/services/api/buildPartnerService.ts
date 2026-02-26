@@ -1116,7 +1116,7 @@ export class BuildPartnerService {
         page: page.toString(),
         size: size.toString(),
       })
-      const url = `${buildApiUrl(API_ENDPOINTS.REAL_ESTATE_DOCUMENT.GET_ALL)}?${params.toString()}`
+      const url = `${buildApiUrl(API_ENDPOINTS.MANAGEMENT_FIRMS_DOCUMENT.GET_ALL)}?${params.toString()}`
 
       const result = await apiClient.get<PaginatedDocumentResponse>(url)
 
@@ -1160,7 +1160,7 @@ export class BuildPartnerService {
         params.append('documentType', documentType)
       }
 
-      const url = `${buildApiUrl(API_ENDPOINTS.REAL_ESTATE_DOCUMENT.UPLOAD)}?${params.toString()}`
+      const url = `${buildApiUrl(API_ENDPOINTS.MANAGEMENT_FIRMS_DOCUMENT.UPLOAD)}?${params.toString()}`
 
       // Override Content-Type header to let browser set it automatically for FormData
       const config = {

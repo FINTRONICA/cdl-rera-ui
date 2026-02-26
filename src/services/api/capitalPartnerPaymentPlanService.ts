@@ -3,10 +3,10 @@ import { buildApiUrl, API_ENDPOINTS } from '@/constants/apiEndpoints'
 
 // ---------- Request DTO ----------
 export interface CapitalPartnerPaymentPlanRequest {
-  cpppInstallmentNumber?: number
-  cpppInstallmentDate?: string
-  cpppBookingAmount?: number
-  capitalPartnerDTO?: {
+  ownppInstallmentNumber?: number
+  ownppInstallmentDate?: string
+  ownppBookingAmount?: number
+  ownerRegistryDTO?: {
     id: number
   }
   deleted?: boolean
@@ -16,10 +16,10 @@ export interface CapitalPartnerPaymentPlanRequest {
 // ---------- Response DTO ----------
 export interface CapitalPartnerPaymentPlanResponse {
   id: number
-  cpppInstallmentNumber: number
-  cpppInstallmentDate: string
-  cpppBookingAmount: number
-  capitalPartnerDTO: any
+  ownppInstallmentNumber: number
+  ownppInstallmentDate: string
+  ownppBookingAmount: number
+  ownerRegistryDTO: any
   deleted: boolean
   enabled: boolean
 }
