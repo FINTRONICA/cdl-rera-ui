@@ -68,36 +68,36 @@ export const validateAndSanitizeBeneficiaryData = (data: any) => {
 
 // Project-specific validation schema for beneficiary details
 export const projectBeneficiaryValidationSchema = z.object({
-  reaBeneficiaryId: z.string()
+  mfBeneficiaryId: z.string()
     .min(1, 'Beneficiary ID is required')
     .max(50, 'Beneficiary ID must be less than 50 characters')
     .regex(/^[A-Za-z0-9_-]+$/, 'Beneficiary ID can only contain letters, numbers, hyphens, and underscores'),
   
-  reaBeneficiaryType: z.union([z.string(), z.number()])
+  mfBeneficiaryType: z.union([z.string(), z.number()])
     .transform((val) => String(val))
     .refine((val) => val && val.length > 0, {
       message: 'Beneficiary type is required'
     }),
   
-  reaName: z.string()
+  mfName: z.string()
     .min(1, 'Name is required')
     .min(2, 'Name must be at least 2 characters')
     .max(100, 'Name must be less than 100 characters')
     .regex(/^[A-Za-z\s.-]+$/, 'Name can only contain letters, spaces, dots, and hyphens'),
   
-  reaBankName: z.union([z.string(), z.number()])
+  mfBankName: z.union([z.string(), z.number()])
     .transform((val) => String(val))
     .refine((val) => val && val.length > 0, {
       message: 'Bank name is required'
     }),
   
-  reaSwiftCode: z.string()
+  mfSwiftCode: z.string()
     .min(1, 'Swift code is required')
     .min(2, 'Swift code must be at least 2 characters')
     .max(11, 'Swift code must be less than 11 characters')
     .regex(/^[A-Za-z0-9]+$/, 'Swift code can only contain letters and numbers'),
   
-  reaRoutingCode: z.string()
+  mfRoutingCode: z.string()
     .optional()
     .refine((val) => !val || val.length >= 2, {
       message: 'Routing code must be at least 2 characters if provided'
@@ -106,7 +106,7 @@ export const projectBeneficiaryValidationSchema = z.object({
       message: 'Routing code can only contain letters and numbers'
     }),
   
-  reaAccountNumber: z.string()
+  mfAccountNumber: z.string()
     .min(1, 'Account number is required')
     .min(2, 'Account number must be at least 2 characters')
     .max(34, 'Account number must be less than 34 characters (IBAN standard)')
@@ -116,13 +116,13 @@ export const projectBeneficiaryValidationSchema = z.object({
 // Project-specific data sanitization functions
 export const sanitizeProjectBeneficiaryData = (data: any) => {
   return {
-    reaBeneficiaryId: data.reaBeneficiaryId?.toString().trim().toUpperCase(),
-    reaBeneficiaryType: data.reaBeneficiaryType?.toString().trim(),
-    reaName: data.reaName?.toString().trim().replace(/\s+/g, ' '), // Normalize whitespace
-    reaBankName: data.reaBankName?.toString().trim(),
-    reaSwiftCode: data.reaSwiftCode?.toString().trim().toUpperCase(),
-    reaRoutingCode: data.reaRoutingCode?.toString().trim() || undefined,
-    reaAccountNumber: data.reaAccountNumber?.toString().trim().toUpperCase(),
+    mfBeneficiaryId: data.mfBeneficiaryId?.toString().trim().toUpperCase(),
+    mfBeneficiaryType: data.mfBeneficiaryType?.toString().trim(),
+    mfName: data.mfName?.toString().trim().replace(/\s+/g, ' '), // Normalize whitespace
+    mfBankName: data.mfBankName?.toString().trim(),
+    mfSwiftCode: data.mfSwiftCode?.toString().trim().toUpperCase(),
+    mfRoutingCode: data.mfRoutingCode?.toString().trim() || undefined,
+    mfAccountNumber: data.mfAccountNumber?.toString().trim().toUpperCase(),
   };
 };
 

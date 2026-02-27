@@ -31,8 +31,8 @@ export const useRealEstateAssetAutocomplete = (
         )
 
         const mappedResults = results.map((asset) => ({
-          value: asset.reaId || asset.id.toString(),
-          label: asset.reaName || 'Unnamed Asset',
+          value: asset.mfId || asset.id.toString(),
+          label: asset.mfName || 'Unnamed Asset',
           // Store the complete real estate asset object for later use
           realEstateAsset: asset,
         }))

@@ -51,9 +51,9 @@ const mapApiToTransactionData = (
     id: apiData.id,
     tranReference:
       apiData.ptfiTransactionRefId || apiData.ptfiTransactionId || '—',
-    managementFirmName: apiData.realEstateAssestDTO?.reaName || '—',
-    managementFirmRegulatorId: apiData.realEstateAssestDTO?.reaId ?? '—',
-    assetRegisterName: apiData.realEstateAssestDTO?.reaManagedBy || '—',
+    managementFirmName: apiData.managementFirmDTO?.mfName || '—',
+    managementFirmRegulatorId: apiData.managementFirmDTO?.mfId ?? '—',
+    assetRegisterName: apiData.managementFirmDTO?.mfManagedBy || '—',
     narration: apiData.ptfiNarration || '—',
     tranDate: apiData.ptfiTransactionDate
       ? new Date(apiData.ptfiTransactionDate).toLocaleDateString('en-GB')

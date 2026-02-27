@@ -44,7 +44,7 @@ const ReportDetailPage = () => {
       .filter((project) => project.id) // Only include projects with valid IDs
       .map((project, index) => ({
         value: project.id?.toString(), // Use actual API id field
-        label: project.reaName || `Unnamed Project ${index + 1}`,
+        label: project.mfName || `Unnamed Project ${index + 1}`,
         originalId: project.id?.toString(), // Use actual API id field
       }))
       .filter((option) => option.value && option.value !== '')
@@ -56,7 +56,7 @@ const ReportDetailPage = () => {
       .filter((buildPartner) => buildPartner.id) // Only include developers with valid IDs
       .map((buildPartner, index) => ({
         value: buildPartner.id?.toString(), // Use actual API id field
-        label: buildPartner.bpName || `Developer ${index + 1}`,
+        label: buildPartner.arName || `Developer ${index + 1}`,
         originalId: buildPartner.id?.toString(), // Use actual API id field
       }))
       .filter((option) => option.value && option.value !== '')

@@ -174,45 +174,45 @@ export interface PropertyIdDTO {
   deleted: boolean
 }
 
-export interface RealEstateAssetDTO {
+export interface managementFirmAssetDTO {
   id: number
-  reaId: string
-  reaCif: string
-  reaName: string
-  reaNameLocal: string
-  reaLocation: string
-  reaReraNumber: string
-  reaStartDate: string
-  reaCompletionDate: string
-  reaPercentComplete: string
-  reaConstructionCost: number
+  mfId: string
+  mfCif: string
+  mfName: string
+  mfNameLocal: string
+  mfLocation: string
+  mfReraNumber: string
+  mfStartDate: string
+  mfCompletionDate: string
+  mfPercentComplete: string
+  mfConstructionCost: number
   reaAccStatusDate: string
-  reaRegistrationDate: string
-  reaNoOfUnits: number
-  reaRemarks: string
-  reaSpecialApproval: string
-  reaManagedBy: string
-  reaBackupUser: string
-  reaRetentionPercent: string
-  reaAdditionalRetentionPercent: string
-  reaTotalRetentionPercent: string
-  reaRetentionEffectiveDate: string
-  reaManagementExpenses: string
-  reaMarketingExpenses: string
-  reaAccoutStatusDate: string
-  reaTeamLeadName: string
-  reaRelationshipManagerName: string
-  reaAssestRelshipManagerName: string
-  reaRealEstateBrokerExp: number
-  reaAdvertisementExp: number
-  reaLandOwnerName: string
-  buildPartnerDTO: any | null
-  reaStatusDTO: any | null
-  reaTypeDTO: any | null
-  reaAccountStatusDTO: any | null
-  reaConstructionCostCurrencyDTO: any | null
+  mfRegistrationDate: string
+  mfNoOfUnits: number
+  mfRemarks: string
+  mfSpecialApproval: string
+  mfManagedBy: string
+  mfBackupUser: string
+  mfRetentionPercent: string
+  mfAdditionalRetentionPercent: string
+  mfTotalRetentionPercent: string
+  mfRetentionEffectiveDate: string
+  mfManagementExpenses: string
+  mfMarketingExpenses: string
+  mfAccoutStatusDate: string
+  mfTeamLeadName: string
+  mfRelationshipManagerName: string
+  mfAssestRelshipManagerName: string
+  mfRealEstateBrokerExp: number
+  mfAdvertisementExp: number
+  mfLandOwnerName: string
+  assetRegisterDTO: any | null
+  mfStatusDTO: any | null
+  mfTypeDTO: any | null
+  mfAccountStatusDTO: any | null
+  mfConstructionCostCurrencyDTO: any | null
   status: any | null
-  reaBlockPaymentTypeDTO: any | null
+  mfBlockPaymentTypeDTO: any | null
   deleted: boolean
   taskStatusDTO: any | null
 }
@@ -234,7 +234,7 @@ export interface CapitalPartnerUnitResponse {
   isModified: boolean
   partnerUnitDTO: any | null
   capitalPartnerUnitTypeDTO: any | null
-  realEstateAssestDTO: RealEstateAssetDTO
+  managementFirmDTO: managementFirmAssetDTO
   unitStatusDTO: UnitStatusDTO
   propertyIdDTO: PropertyIdDTO
   paymentPlanTypeDTO: any | null

@@ -23,23 +23,23 @@ export const feeValidationSchema = z.object({
 
 // Project-specific fee validation schema
 export const projectFeeValidationSchema = z.object({
-  reafCategoryDTO: z.object({
+  mffCategoryDTO: z.object({
     id: z.number().min(1, 'Fee category is required'),
   }),
-  reafFrequencyDTO: z.object({
+  mffFrequencyDTO: z.object({
     id: z.number().min(1, 'Fee frequency is required'),
   }),
-  reafAccountTypeDTO: z.object({
+  mffAccountTypeDTO: z.object({
     id: z.number().min(1, 'Account type is required'),
   }),
-  reafDebitAmount: z.number().min(0, 'Debit amount must be positive'),
-  reafTotalAmount: z.number().min(0, 'Total amount must be positive').refine((val) => val > 0, 'Total amount is required'),
-  reafCollectionDate: z.string().min(1, 'Fee collection date is required'),
-  reafNextRecoveryDate: z.string().optional(),
-  reafFeePercentage: z.number().min(0, 'Fee percentage must be positive'),
-  reafVatPercentage: z.number().min(0, 'VAT percentage must be positive'),
-  reafCurrencyDTO: z.object({
-    id: z.number().min(1, 'Currency is required'),
+  mffDebitAmount: z.number().min(0, 'Debit amount must be positive'),
+  mffTotalAmount: z.number().min(0, 'Total amount must be positive').refine((val) => val > 0, 'Total amount is required'),
+  mffCollectionDate: z.string().min(1, 'Fee collection date is required'),
+  mffNextRecoveryDate: z.string().optional(),
+  mffFeePercentage: z.number().min(0, 'Fee percentage must be positive'),
+  mffVatPercentage: z.number().min(0, 'VAT percentage must be positive'),
+  mffCurrencyDTO: z.object({
+    id: z.number().min(0, 'Currency id must be non-negative'),
   }),
 });
 

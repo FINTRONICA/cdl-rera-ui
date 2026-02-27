@@ -36,52 +36,52 @@ const ProjectDetailsStepper: React.FC = () => {
   const theme = useTheme()
   const [activeStep, setActiveStep] = useState(0)
   const [projectData, setProjectData] = useState<ProjectData>({
-    reaId: 'PROJ7102',
-    reaCif: '',
-    reaName: '',
-    reaLocation: '',
-    reaReraNumber: '',
-    reaAccoutStatusDate: null,
+    mfId: 'PROJ7102',
+    mfCif: '',
+    mfName: '',
+    mfLocation: '',
+    mfReraNumber: '',
+    mfAccoutStatusDate: null,
     reaAccStatusDate: null,
-    reaRegistrationDate: null,
-    reaStartDate: null,
-    reaCompletionDate: null,
-    reaRetentionPercent: '5.00',
-    reaAdditionalRetentionPercent: '8.00',
-    reaTotalRetentionPercent: '13.00',
-    reaRetentionEffectiveDate: dayjs('2022-03-31'),
-    reaManagementExpenses: '5.00',
-    reaMarketingExpenses: '10.00',
-    reaRealEstateBrokerExp: 0,
-    reaAdvertisementExp: 0,
-    reaLandOwnerName: '',
-    reaPercentComplete: '',
-    reaConstructionCost: 0,
-    reaNoOfUnits: 12,
-    reaRemarks: '',
-    reaSpecialApproval: '',
-    reaManagedBy: 'erm_checker1,erm_checker1,erm_checker1',
-    reaBackupUser: 'Master ENBD_robust_maker1',
-    reaRelationshipManagerName: '',
-    reaAssestRelshipManagerName: '',
-    reaTeamLeadName: '',
-    buildPartnerDTO: {
+    mfRegistrationDate: null,
+    mfStartDate: null,
+    mfCompletionDate: null,
+    mfRetentionPercent: '5.00',
+    mfAdditionalRetentionPercent: '8.00',
+    mfTotalRetentionPercent: '13.00',
+    mfRetentionEffectiveDate: dayjs('2022-03-31'),
+    mfManagementExpenses: '5.00',
+    mfMarketingExpenses: '10.00',
+    mfRealEstateBrokerExp: 0,
+    mfAdvertisementExp: 0,
+    mfLandOwnerName: '',
+    mfPercentComplete: '',
+    mfConstructionCost: 0,
+    mfNoOfUnits: 12,
+    mfRemarks: '',
+    mfSpecialApproval: '',
+    mfManagedBy: 'erm_checker1,erm_checker1,erm_checker1',
+    mfBackupUser: 'Master ENBD_robust_maker1',
+    mfRelationshipManagerName: '',
+    mfAssestRelshipManagerName: '',
+    mfTeamLeadName: '',
+    assetRegisterDTO: {
       id: 0,
     },
-    reaStatusDTO: {
+    mfStatusDTO: {
       id: 0,
     },
-    reaTypeDTO: {
+    mfTypeDTO: {
       id: 0,
     },
-    reaAccountStatusDTO: {
+    mfAccountStatusDTO: {
       id: 0,
     },
-    reaConstructionCostCurrencyDTO: {
+    mfConstructionCostCurrencyDTO: {
       id: 0,
     },
     status: null,
-    reaBlockPaymentTypeDTO: {
+    mfBlockPaymentTypeDTO: {
       id: 0,
     },
     accounts: [
@@ -246,7 +246,7 @@ const ProjectDetailsStepper: React.FC = () => {
             <FormProvider {...methods}>
               <DocumentUploadFactory
                 type="BUILD_PARTNER_ASSET"
-                entityId={projectData.reaId || 'temp_project_id'}
+                entityId={projectData.mfId || 'temp_project_id'}
                 isOptional={true}
                 onDocumentsChange={(documents: DocumentItem[]) => {
                   setProjectData((prev) => ({

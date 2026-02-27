@@ -7,14 +7,14 @@ export interface FeeCategoryResponse {
   id: number
   settingKey: string
   settingValue: string
-  languageTranslationId: {
+  languageTranslationId?: {
     id: number
     configId: string        // Stable identifier (e.g., "CDL_UNIT_REG_FEE")
     configValue: string     // Display value (e.g., "Unit Registration Fee")
     content: string | null
     status: string | null
     enabled: boolean
-  }
+  } | null
   remarks: string | null
   status: string | null
   enabled: boolean
@@ -32,6 +32,17 @@ export type ProcessedFeeDropdowns = Record<string, FeeDropdownOption[]>
 
 const ERROR_MESSAGE = 'Failed to fetch fee dropdown data'
 
+/** Normalize API response to array (handles { content: [] }, { data: [] }, or raw array) */
+function normalizeToArray<T>(response: unknown): T[] {
+  if (Array.isArray(response)) return response
+  if (response && typeof response === 'object') {
+    const obj = response as Record<string, unknown>
+    if (Array.isArray(obj.content)) return obj.content as T[]
+    if (Array.isArray(obj.data)) return obj.data as T[]
+  }
+  return []
+}
+
 export class FeeDropdownService {
   /**
    * Fetch fee categories from the API
@@ -44,7 +55,7 @@ export class FeeDropdownService {
         throw new Error('Authentication token not found')
       }
       
-      const categories = await apiClient.get<FeeCategoryResponse[]>(
+      const response = await apiClient.get<unknown>(
         API_ENDPOINTS.FEE_DROPDOWNS.CATEGORIES,
         {
           headers: {
@@ -52,8 +63,7 @@ export class FeeDropdownService {
           }
         }
       )
-      
-     
+      const categories = normalizeToArray<FeeCategoryResponse>(response)
       return categories
     } catch (error) {
       
@@ -72,7 +82,7 @@ export class FeeDropdownService {
         throw new Error('Authentication token not found')
       }
       
-      const frequencies = await apiClient.get<FeeCategoryResponse[]>(
+      const response = await apiClient.get<unknown>(
         API_ENDPOINTS.FEE_DROPDOWNS.FREQUENCIES,
         {
           headers: {
@@ -80,8 +90,7 @@ export class FeeDropdownService {
           }
         }
       )
-      
-   
+      const frequencies = normalizeToArray<FeeCategoryResponse>(response)
       return frequencies
     } catch (error) {
      
@@ -100,7 +109,7 @@ export class FeeDropdownService {
         throw new Error('Authentication token not found')
       }
       
-      const debitAccounts = await apiClient.get<FeeCategoryResponse[]>(
+      const response = await apiClient.get<unknown>(
         API_ENDPOINTS.FEE_DROPDOWNS.DEBIT_ACCOUNTS,
         {
           headers: {
@@ -108,7 +117,7 @@ export class FeeDropdownService {
           }
         }
       )
-    
+      const debitAccounts = normalizeToArray<FeeCategoryResponse>(response)
       return debitAccounts
     } catch (error) {
       
@@ -127,7 +136,7 @@ export class FeeDropdownService {
         throw new Error('Authentication token not found')
       }
       
-      const currencies = await apiClient.get<FeeCategoryResponse[]>(
+      const response = await apiClient.get<unknown>(
         API_ENDPOINTS.FEE_DROPDOWNS.CURRENCIES,
         {
           headers: {
@@ -135,8 +144,7 @@ export class FeeDropdownService {
           }
         }
       )
-      
-   
+      const currencies = normalizeToArray<FeeCategoryResponse>(response)
       return currencies
     } catch (error) {
       
@@ -155,7 +163,7 @@ export class FeeDropdownService {
         throw new Error('Authentication token not found')
       }
       
-      const countries = await apiClient.get<FeeCategoryResponse[]>(
+      const response = await apiClient.get<unknown>(
         API_ENDPOINTS.FEE_DROPDOWNS.COUNTRIES,
         {
           headers: {
@@ -163,8 +171,7 @@ export class FeeDropdownService {
           }
         }
       )
-      
-     
+      const countries = normalizeToArray<FeeCategoryResponse>(response)
       return countries
     } catch (error) {
       
@@ -178,14 +185,15 @@ export class FeeDropdownService {
    */
   static processFeeCategories(categories: FeeCategoryResponse[]): FeeDropdownOption[] {
     return categories
-      .filter(category => category.enabled)
+      .filter(category => category?.enabled && category?.languageTranslationId)
       .map(category => ({
         id: category.id,
-        configId: category.languageTranslationId.configId,
-        configValue: category.languageTranslationId.configValue,
+        configId: category.languageTranslationId?.configId ?? '',
+        configValue: category.languageTranslationId?.configValue ?? category.settingValue ?? '',
         settingValue: category.settingValue,
         enabled: category.enabled
       }))
+      .filter(opt => opt.configId !== undefined && opt.configId !== '')
   }
 
   /**
@@ -193,14 +201,15 @@ export class FeeDropdownService {
    */
   static processDropdownOptions(options: FeeCategoryResponse[]): FeeDropdownOption[] {
     return options
-      .filter(option => option.enabled)
+      .filter(option => option?.enabled && option?.languageTranslationId)
       .map(option => ({
         id: option.id,
-        configId: option.languageTranslationId.configId,
-        configValue: option.languageTranslationId.configValue,
+        configId: option.languageTranslationId?.configId ?? '',
+        configValue: option.languageTranslationId?.configValue ?? option.settingValue ?? '',
         settingValue: option.settingValue,
         enabled: option.enabled
       }))
+      .filter(opt => opt.configId !== undefined && opt.configId !== '')
   }
 
   /**

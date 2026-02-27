@@ -66,9 +66,9 @@ const transformSuretyBondToGuarantee = (
     referenceNumber: suretyBond.suretyBondReferenceNumber || 'N/A',
     type:
       suretyBond.suretyBondTypeDTO?.languageTranslationId?.configValue || 'N/A',
-    projectName: suretyBond.realEstateAssestDTO?.reaName || 'N/A',
+    projectName: suretyBond.managementFirmDTO?.mfName || 'N/A',
     buildPartnerName:
-      suretyBond.realEstateAssestDTO?.buildPartnerDTO?.bpName || 'N/A',
+      suretyBond.managementFirmDTO?.assetRegisterDTO?.arName || 'N/A',
     amount: suretyBond.suretyBondAmount || 0,
     expirationDate: suretyBond.suretyBondExpirationDate
       ? new Date(suretyBond.suretyBondExpirationDate).toLocaleDateString(
@@ -351,7 +351,7 @@ const GuaranteePage: React.FC = () => {
   }
 
   const renderExpandedContent = (row: GuaranteeData) => (
-    <div className="p-4 bg-gray-50 border-t">
+    <div className="p-4 border-t bg-gray-50">
       <div className="grid grid-cols-2 gap-4 text-sm">
         <div>
           <strong>Issuer Bank:</strong> {row.issuerBank}
@@ -373,7 +373,7 @@ const GuaranteePage: React.FC = () => {
   if (loading) {
     return (
       <DashboardLayout title={guaranteeTitle}>
-        <div className="bg-white/75 dark:bg-gray-800/80 rounded-2xl flex flex-col h-full">
+        <div className="flex flex-col h-full bg-white/75 dark:bg-gray-800/80 rounded-2xl">
           <GlobalLoading fullHeight />
         </div>
       </DashboardLayout>
@@ -384,7 +384,7 @@ const GuaranteePage: React.FC = () => {
   if (error) {
     return (
       <DashboardLayout title={guaranteeTitle}>
-        <div className="bg-white/75 dark:bg-gray-800/80 rounded-2xl flex flex-col h-full">
+        <div className="flex flex-col h-full bg-white/75 dark:bg-gray-800/80 rounded-2xl">
           <GlobalError
             error={error}
             onRetry={() => window.location.reload()}
@@ -400,7 +400,7 @@ const GuaranteePage: React.FC = () => {
   if (!loading && !error && guaranteesData.length === 0) {
     return (
       <DashboardLayout title={guaranteeTitle}>
-        <div className="bg-white/75 dark:bg-gray-800/80 rounded-2xl flex flex-col h-full">
+        <div className="flex flex-col h-full bg-white/75 dark:bg-gray-800/80 rounded-2xl">
           <div className="p-4">
             <PageActionButtons
               entityType="suretyBond"
@@ -414,13 +414,13 @@ const GuaranteePage: React.FC = () => {
               }}
             />
           </div>
-          <div className="flex-1 flex items-center justify-center">
+          <div className="flex items-center justify-center flex-1">
             <div className="text-center">
-              <div className="text-gray-400 text-6xl mb-4">📋</div>
-              <p className="text-gray-600 dark:text-gray-400 text-lg font-semibold">
+              <div className="mb-4 text-6xl text-gray-400">📋</div>
+              <p className="text-lg font-semibold text-gray-600 dark:text-gray-400">
                 No Surety Bonds Found
               </p>
-              <p className="text-gray-500 dark:text-gray-500 mt-2">
+              <p className="mt-2 text-gray-500 dark:text-gray-500">
                 You haven't created any surety bonds yet.
               </p>
               <p className="text-gray-500 dark:text-gray-500">
@@ -428,7 +428,7 @@ const GuaranteePage: React.FC = () => {
               </p>
               <button
                 onClick={handleCreateNew}
-                className="mt-6 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+                className="px-6 py-3 mt-6 font-medium text-white transition-colors bg-blue-600 rounded-lg hover:bg-blue-700"
               >
                 Create Your First Surety Bond
               </button>
@@ -450,7 +450,7 @@ const GuaranteePage: React.FC = () => {
 
       {/* Download Error Alert */}
       {downloadError && (
-        <div className="fixed top-4 right-4 z-50 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded shadow-lg">
+        <div className="fixed z-50 px-4 py-3 text-red-700 bg-red-100 border border-red-400 rounded shadow-lg top-4 right-4">
           <div className="flex items-center justify-between">
             <span className="text-sm font-medium">
               Download Error: {downloadError}
@@ -466,9 +466,9 @@ const GuaranteePage: React.FC = () => {
       )}
 
       <DashboardLayout title={guaranteeTitle}>
-        <div className="bg-white/75 dark:bg-gray-800/80 rounded-2xl flex flex-col h-full">
+        <div className="flex flex-col h-full bg-white/75 dark:bg-gray-800/80 rounded-2xl">
           {/* Sticky Header Section */}
-          <div className="sticky top-0 z-10 bg-white/75 dark:bg-gray-800/80 border-b border-gray-200 dark:border-gray-700 rounded-t-2xl">
+          <div className="sticky top-0 z-10 border-b border-gray-200 bg-white/75 dark:bg-gray-800/80 dark:border-gray-700 rounded-t-2xl">
             {/* Action Buttons */}
             <div className="p-4">
               <PageActionButtons
@@ -486,7 +486,7 @@ const GuaranteePage: React.FC = () => {
           </div>
 
           {/* Table Container with Fixed Pagination */}
-          <div className="flex-1 flex flex-col min-h-0">
+          <div className="flex flex-col flex-1 min-h-0">
             <div className="flex-1 overflow-auto">
               <PermissionAwareDataTable<GuaranteeData>
                 data={filteredData}

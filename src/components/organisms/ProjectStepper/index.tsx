@@ -163,106 +163,106 @@ export default function StepperWrapper({
 
             if (activeStep === 0) {
               if (
-                stepData.reaStartDate &&
-                typeof stepData.reaStartDate === 'string'
+                stepData.mfStartDate &&
+                typeof stepData.mfStartDate === 'string'
               ) {
-                ;(processedData as any).reaStartDate = dayjs(
-                  stepData.reaStartDate
+                ;(processedData as any).mfStartDate = dayjs(
+                  stepData.mfStartDate
                 )
               }
               if (
-                stepData.reaCompletionDate &&
-                typeof stepData.reaCompletionDate === 'string'
+                stepData.mfCompletionDate &&
+                typeof stepData.mfCompletionDate === 'string'
               ) {
-                ;(processedData as any).reaCompletionDate = dayjs(
-                  stepData.reaCompletionDate
+                ;(processedData as any).mfCompletionDate = dayjs(
+                  stepData.mfCompletionDate
                 )
               }
               if (
-                stepData.reaRetentionEffectiveDate &&
-                typeof stepData.reaRetentionEffectiveDate === 'string'
+                stepData.mfRetentionEffectiveDate &&
+                typeof stepData.mfRetentionEffectiveDate === 'string'
               ) {
-                ;(processedData as any).reaRetentionEffectiveDate = dayjs(
-                  stepData.reaRetentionEffectiveDate
+                ;(processedData as any).mfRetentionEffectiveDate = dayjs(
+                  stepData.mfRetentionEffectiveDate
                 )
               }
               if (
-                stepData.reaAccoutStatusDate &&
-                typeof stepData.reaAccoutStatusDate === 'string'
+                stepData.mfAccoutStatusDate &&
+                typeof stepData.mfAccoutStatusDate === 'string'
               ) {
-                ;(processedData as any).reaAccoutStatusDate = dayjs(
-                  stepData.reaAccoutStatusDate
+                ;(processedData as any).mfAccoutStatusDate = dayjs(
+                  stepData.mfAccoutStatusDate
                 )
               }
               if (
-                stepData.reaRegistrationDate &&
-                typeof stepData.reaRegistrationDate === 'string'
+                stepData.mfRegistrationDate &&
+                typeof stepData.mfRegistrationDate === 'string'
               ) {
-                ;(processedData as any).reaRegistrationDate = dayjs(
-                  stepData.reaRegistrationDate
+                ;(processedData as any).mfRegistrationDate = dayjs(
+                  stepData.mfRegistrationDate
                 )
               }
 
               if (
-                stepData.buildPartnerDTO &&
-                typeof stepData.buildPartnerDTO === 'object'
+                stepData.assetRegisterDTO &&
+                typeof stepData.assetRegisterDTO === 'object'
               ) {
-                // Extract only necessary fields from buildPartnerDTO
-                ;(processedData as any).buildPartnerDTO = {
-                  id: stepData.buildPartnerDTO.id,
-                  bpCifrera: stepData.buildPartnerDTO.bpCifrera,
-                  bpName: stepData.buildPartnerDTO.bpName,
-                  bpMasterName: stepData.buildPartnerDTO.bpMasterName,
+                // Extract only necessary fields from assetRegisterDTO
+                ;(processedData as any).assetRegisterDTO = {
+                  id: stepData.assetRegisterDTO.id,
+                  arCifrera: stepData.assetRegisterDTO.arCifrera,
+                  arName: stepData.assetRegisterDTO.arName,
+                  arMasterName: stepData.assetRegisterDTO.arMasterName,
                 }
 
-                if (stepData.buildPartnerDTO.bpCifrera) {
-                  ;(processedData as any).reaCif =
-                    stepData.buildPartnerDTO.bpCifrera
+                if (stepData.assetRegisterDTO.arCifrera) {
+                  ;(processedData as any).mfCif =
+                    stepData.assetRegisterDTO.arCifrera
                 }
               }
-              // Extract only the id from reaStatusDTO
+              // Extract only the id from mfStatusDTO
               if (
-                stepData.reaStatusDTO &&
-                typeof stepData.reaStatusDTO === 'object'
+                stepData.mfStatusDTO &&
+                typeof stepData.mfStatusDTO === 'object'
               ) {
-                ;(processedData as any).reaStatusDTO = {
-                  id: stepData.reaStatusDTO.id,
+                ;(processedData as any).mfStatusDTO = {
+                  id: stepData.mfStatusDTO.id,
                 }
               }
-              // Extract only the id from reaTypeDTO
+              // Extract only the id from mfTypeDTO
               if (
-                stepData.reaTypeDTO &&
-                typeof stepData.reaTypeDTO === 'object'
+                stepData.mfTypeDTO &&
+                typeof stepData.mfTypeDTO === 'object'
               ) {
-                ;(processedData as any).reaTypeDTO = {
-                  id: stepData.reaTypeDTO.id,
+                ;(processedData as any).mfTypeDTO = {
+                  id: stepData.mfTypeDTO.id,
                 }
               }
-              // Extract only the id from reaAccountStatusDTO
+              // Extract only the id from mfAccountStatusDTO
               if (
-                stepData.reaAccountStatusDTO &&
-                typeof stepData.reaAccountStatusDTO === 'object'
+                stepData.mfAccountStatusDTO &&
+                typeof stepData.mfAccountStatusDTO === 'object'
               ) {
-                ;(processedData as any).reaAccountStatusDTO = {
-                  id: stepData.reaAccountStatusDTO.id,
+                ;(processedData as any).mfAccountStatusDTO = {
+                  id: stepData.mfAccountStatusDTO.id,
                 }
               }
-              // Extract only the id from reaConstructionCostCurrencyDTO
+              // Extract only the id from mfConstructionCostCurrencyDTO
               if (
-                stepData.reaConstructionCostCurrencyDTO &&
-                typeof stepData.reaConstructionCostCurrencyDTO === 'object'
+                stepData.mfConstructionCostCurrencyDTO &&
+                typeof stepData.mfConstructionCostCurrencyDTO === 'object'
               ) {
-                ;(processedData as any).reaConstructionCostCurrencyDTO = {
-                  id: stepData.reaConstructionCostCurrencyDTO.id,
+                ;(processedData as any).mfConstructionCostCurrencyDTO = {
+                  id: stepData.mfConstructionCostCurrencyDTO.id,
                 }
               }
-              // Extract only the id from reaBlockPaymentTypeDTO (Restricted Payment Type)
+              // Extract only the id from mfBlockPaymentTypeDTO (Restricted Payment Type)
               if (
-                stepData.reaBlockPaymentTypeDTO &&
-                typeof stepData.reaBlockPaymentTypeDTO === 'object'
+                stepData.mfBlockPaymentTypeDTO &&
+                typeof stepData.mfBlockPaymentTypeDTO === 'object'
               ) {
-                ;(processedData as any).reaBlockPaymentTypeDTO = {
-                  id: stepData.reaBlockPaymentTypeDTO.id,
+                ;(processedData as any).mfBlockPaymentTypeDTO = {
+                  id: stepData.mfBlockPaymentTypeDTO.id,
                 }
               }
             }
@@ -344,81 +344,81 @@ export default function StepperWrapper({
                   (fee: any) => ({
                     id: fee.id?.toString() || '',
                     FeeType:
-                      fee.reafCategoryDTO?.languageTranslationId?.configValue ||
-                      fee.reafCategoryDTO?.settingValue ||
+                      fee.mffCategoryDTO?.languageTranslationId?.configValue ||
+                      fee.mffCategoryDTO?.settingValue ||
                       fee.feeType ||
                       fee.FeeType ||
                       '',
                     Frequency:
-                      fee.reafFrequencyDTO?.languageTranslationId
+                      fee.mffFrequencyDTO?.languageTranslationId
                         ?.configValue ||
-                      fee.reafFrequencyDTO?.settingValue ||
+                      fee.mffFrequencyDTO?.settingValue ||
                       fee.frequency ||
                       fee.Frequency ||
                       'N/A',
                     DebitAmount:
-                      fee.reafDebitAmount?.toString() ||
+                      fee.mffDebitAmount?.toString() ||
                       fee.debitAmount ||
                       fee.DebitAmount ||
                       '',
                     Feetobecollected:
-                      fee.reafCollectionDate ||
+                      fee.mffCollectionDate ||
                       fee.feeToBeCollected ||
                       fee.Feetobecollected ||
                       '',
-                    NextRecoveryDate: fee.reafNextRecoveryDate
-                      ? dayjs(fee.reafNextRecoveryDate).format('YYYY-MM-DD')
+                    NextRecoveryDate: fee.mffNextRecoveryDate
+                      ? dayjs(fee.mffNextRecoveryDate).format('YYYY-MM-DD')
                       : fee.nextRecoveryDate
                         ? dayjs(fee.nextRecoveryDate).format('YYYY-MM-DD')
                         : fee.NextRecoveryDate || '',
                     FeePercentage:
-                      fee.reafFeePercentage?.toString() ||
+                      fee.mffFeePercentage?.toString() ||
                       fee.feePercentage ||
                       fee.FeePercentage ||
                       '',
                     Amount:
-                      fee.reafTotalAmount?.toString() ||
+                      fee.mffTotalAmount?.toString() ||
                       fee.amount ||
                       fee.Amount ||
                       '',
                     VATPercentage:
-                      fee.reafVatPercentage?.toString() ||
+                      fee.mffVatPercentage?.toString() ||
                       fee.vatPercentage ||
                       fee.VATPercentage ||
                       '',
 
                     feeType:
-                      fee.reafCategoryDTO?.languageTranslationId?.configValue ||
-                      fee.reafCategoryDTO?.settingValue ||
+                      fee.mffCategoryDTO?.languageTranslationId?.configValue ||
+                      fee.mffCategoryDTO?.settingValue ||
                       fee.feeType ||
                       '',
                     frequency:
-                      fee.reafFrequencyDTO?.languageTranslationId
+                      fee.mffFrequencyDTO?.languageTranslationId
                         ?.configValue ||
-                      fee.reafFrequencyDTO?.settingValue ||
+                      fee.mffFrequencyDTO?.settingValue ||
                       fee.frequency ||
                       'N/A',
                     debitAmount:
-                      fee.reafDebitAmount?.toString() || fee.debitAmount || '',
+                      fee.mffDebitAmount?.toString() || fee.debitAmount || '',
                     feeToBeCollected:
-                      fee.reafCollectionDate || fee.feeToBeCollected || '',
-                    nextRecoveryDate: fee.reafNextRecoveryDate
-                      ? dayjs(fee.reafNextRecoveryDate)
+                      fee.mffCollectionDate || fee.feeToBeCollected || '',
+                    nextRecoveryDate: fee.mffNextRecoveryDate
+                      ? dayjs(fee.mffNextRecoveryDate)
                       : fee.nextRecoveryDate
                         ? dayjs(fee.nextRecoveryDate)
                         : null,
                     feePercentage:
-                      fee.reafFeePercentage?.toString() ||
+                      fee.mffFeePercentage?.toString() ||
                       fee.feePercentage ||
                       '',
-                    amount: fee.reafTotalAmount?.toString() || fee.amount || '',
+                    amount: fee.mffTotalAmount?.toString() || fee.amount || '',
                     vatPercentage:
-                      fee.reafVatPercentage?.toString() ||
+                      fee.mffVatPercentage?.toString() ||
                       fee.vatPercentage ||
                       '',
                     currency:
-                      fee.reafCurrencyDTO?.languageTranslationId?.configValue ||
-                      fee.reafCurrencyDTO?.settingValue ||
+                      fee.mffCurrencyDTO?.languageTranslationId?.configValue ||
+                      fee.mffCurrencyDTO?.settingValue ||
                       fee.currency ||
                       '',
                   })
@@ -437,40 +437,40 @@ export default function StepperWrapper({
                   stepData as any
                 ).beneficiaries.map((beneficiary: any) => ({
                   id: beneficiary.id?.toString() || '',
-                  reaBeneficiaryId:
+                  mfBeneficiaryId:
                     beneficiary.reabBeneficiaryId ||
                     beneficiary.beneficiaryId ||
-                    beneficiary.reaBeneficiaryId ||
+                    beneficiary.mfBeneficiaryId ||
                     '',
-                  reaBeneficiaryType:
+                  mfBeneficiaryType:
                     beneficiary.reabType ||
                     beneficiary.beneficiaryType ||
-                    beneficiary.reaBeneficiaryType ||
+                    beneficiary.mfBeneficiaryType ||
                     '',
-                  reaName:
+                  mfName:
                     beneficiary.reabName ||
                     beneficiary.name ||
-                    beneficiary.reaName ||
+                    beneficiary.mfName ||
                     '',
-                  reaBankName:
+                  mfBankName:
                     beneficiary.reabBank ||
                     beneficiary.bankName ||
-                    beneficiary.reaBankName ||
+                    beneficiary.mfBankName ||
                     '',
-                  reaSwiftCode:
+                  mfSwiftCode:
                     beneficiary.reabSwift ||
                     beneficiary.swiftCode ||
-                    beneficiary.reaSwiftCode ||
+                    beneficiary.mfSwiftCode ||
                     '',
-                  reaRoutingCode:
+                  mfRoutingCode:
                     beneficiary.reabRoutingCode ||
                     beneficiary.routingCode ||
-                    beneficiary.reaRoutingCode ||
+                    beneficiary.mfRoutingCode ||
                     '',
-                  reaAccountNumber:
+                  mfAccountNumber:
                     beneficiary.reabBeneAccount ||
                     beneficiary.accountNumber ||
-                    beneficiary.reaAccountNumber ||
+                    beneficiary.mfAccountNumber ||
                     '',
 
                   beneficiaryId:
@@ -573,45 +573,45 @@ export default function StepperWrapper({
             if (activeStep === 0) {
               processedData = {
                 ...apiData,
-                reaStartDate: apiData.reaStartDate
-                  ? dayjs(apiData.reaStartDate)
+                mfStartDate: apiData.mfStartDate
+                  ? dayjs(apiData.mfStartDate)
                   : null,
-                reaCompletionDate: apiData.reaCompletionDate
-                  ? dayjs(apiData.reaCompletionDate)
+                mfCompletionDate: apiData.mfCompletionDate
+                  ? dayjs(apiData.mfCompletionDate)
                   : null,
-                reaRetentionEffectiveDate: apiData.reaRetentionEffectiveDate
-                  ? dayjs(apiData.reaRetentionEffectiveDate)
+                mfRetentionEffectiveDate: apiData.mfRetentionEffectiveDate
+                  ? dayjs(apiData.mfRetentionEffectiveDate)
                   : null,
-                reaAccoutStatusDate: apiData.reaAccoutStatusDate
-                  ? dayjs(apiData.reaAccoutStatusDate)
+                mfAccoutStatusDate: apiData.mfAccoutStatusDate
+                  ? dayjs(apiData.mfAccoutStatusDate)
                   : null,
-                reaRegistrationDate: apiData.reaRegistrationDate
-                  ? dayjs(apiData.reaRegistrationDate)
+                mfRegistrationDate: apiData.mfRegistrationDate
+                  ? dayjs(apiData.mfRegistrationDate)
                   : null,
                 // Extract only necessary fields from nested DTOs
-                buildPartnerDTO: apiData.buildPartnerDTO
+                assetRegisterDTO: apiData.assetRegisterDTO
                   ? {
-                      id: apiData.buildPartnerDTO.id,
-                      bpCifrera: apiData.buildPartnerDTO.bpCifrera,
-                      bpName: apiData.buildPartnerDTO.bpName,
-                      bpMasterName: apiData.buildPartnerDTO.bpMasterName,
+                      id: apiData.assetRegisterDTO.id,
+                      arCifrera: apiData.assetRegisterDTO.arCifrera,
+                      arName: apiData.assetRegisterDTO.arName,
+                      arMasterName: apiData.assetRegisterDTO.arMasterName,
                     }
                   : undefined,
-                reaStatusDTO: apiData.reaStatusDTO
-                  ? { id: apiData.reaStatusDTO.id }
+                mfStatusDTO: apiData.mfStatusDTO
+                  ? { id: apiData.mfStatusDTO.id }
                   : undefined,
-                reaTypeDTO: apiData.reaTypeDTO
-                  ? { id: apiData.reaTypeDTO.id }
+                mfTypeDTO: apiData.mfTypeDTO
+                  ? { id: apiData.mfTypeDTO.id }
                   : undefined,
-                reaAccountStatusDTO: apiData.reaAccountStatusDTO
-                  ? { id: apiData.reaAccountStatusDTO.id }
+                mfAccountStatusDTO: apiData.mfAccountStatusDTO
+                  ? { id: apiData.mfAccountStatusDTO.id }
                   : undefined,
-                reaConstructionCostCurrencyDTO:
-                  apiData.reaConstructionCostCurrencyDTO
-                    ? { id: apiData.reaConstructionCostCurrencyDTO.id }
+                mfConstructionCostCurrencyDTO:
+                  apiData.mfConstructionCostCurrencyDTO
+                    ? { id: apiData.mfConstructionCostCurrencyDTO.id }
                     : undefined,
-                reaBlockPaymentTypeDTO: apiData.reaBlockPaymentTypeDTO
-                  ? { id: apiData.reaBlockPaymentTypeDTO.id }
+                mfBlockPaymentTypeDTO: apiData.mfBlockPaymentTypeDTO
+                  ? { id: apiData.mfBlockPaymentTypeDTO.id }
                   : undefined,
               }
             } else if (activeStep === 2) {
@@ -687,41 +687,41 @@ export default function StepperWrapper({
               const processedFees = feesArray.map((fee: any) => ({
                 id: fee.id?.toString() || '',
                 FeeType:
-                  fee.reafCategoryDTO?.languageTranslationId?.configValue ||
-                  fee.reafCategoryDTO?.settingValue ||
+                  fee.mffCategoryDTO?.languageTranslationId?.configValue ||
+                  fee.mffCategoryDTO?.settingValue ||
                   '',
                 Frequency:
-                  fee.reafFrequencyDTO?.languageTranslationId?.configValue ||
-                  fee.reafFrequencyDTO?.settingValue ||
+                  fee.mffFrequencyDTO?.languageTranslationId?.configValue ||
+                  fee.mffFrequencyDTO?.settingValue ||
                   'N/A',
-                DebitAmount: fee.reafDebitAmount?.toString() || '',
-                Feetobecollected: fee.reafCollectionDate || '',
-                NextRecoveryDate: fee.reafNextRecoveryDate
-                  ? dayjs(fee.reafNextRecoveryDate).format('YYYY-MM-DD')
+                DebitAmount: fee.mffDebitAmount?.toString() || '',
+                Feetobecollected: fee.mffCollectionDate || '',
+                NextRecoveryDate: fee.mffNextRecoveryDate
+                  ? dayjs(fee.mffNextRecoveryDate).format('YYYY-MM-DD')
                   : '',
-                FeePercentage: fee.reafFeePercentage?.toString() || '',
-                Amount: fee.reafTotalAmount?.toString() || '',
-                VATPercentage: fee.reafVatPercentage?.toString() || '',
+                FeePercentage: fee.mffFeePercentage?.toString() || '',
+                Amount: fee.mffTotalAmount?.toString() || '',
+                VATPercentage: fee.mffVatPercentage?.toString() || '',
 
                 feeType:
-                  fee.reafCategoryDTO?.languageTranslationId?.configValue ||
-                  fee.reafCategoryDTO?.settingValue ||
+                  fee.mffCategoryDTO?.languageTranslationId?.configValue ||
+                  fee.mffCategoryDTO?.settingValue ||
                   '',
                 frequency:
-                  fee.reafFrequencyDTO?.languageTranslationId?.configValue ||
-                  fee.reafFrequencyDTO?.settingValue ||
+                  fee.mffFrequencyDTO?.languageTranslationId?.configValue ||
+                  fee.mffFrequencyDTO?.settingValue ||
                   'N/A',
-                debitAmount: fee.reafDebitAmount?.toString() || '',
-                feeToBeCollected: fee.reafCollectionDate || '',
-                nextRecoveryDate: fee.reafNextRecoveryDate
-                  ? dayjs(fee.reafNextRecoveryDate)
+                debitAmount: fee.mffDebitAmount?.toString() || '',
+                feeToBeCollected: fee.mffCollectionDate || '',
+                nextRecoveryDate: fee.mffNextRecoveryDate
+                  ? dayjs(fee.mffNextRecoveryDate)
                   : null,
-                feePercentage: fee.reafFeePercentage?.toString() || '',
-                amount: fee.reafTotalAmount?.toString() || '',
-                vatPercentage: fee.reafVatPercentage?.toString() || '',
+                feePercentage: fee.mffFeePercentage?.toString() || '',
+                amount: fee.mffTotalAmount?.toString() || '',
+                vatPercentage: fee.mffVatPercentage?.toString() || '',
                 currency:
-                  fee.reafCurrencyDTO?.languageTranslationId?.configValue ||
-                  fee.reafCurrencyDTO?.settingValue ||
+                  fee.mffCurrencyDTO?.languageTranslationId?.configValue ||
+                  fee.mffCurrencyDTO?.settingValue ||
                   '',
               }))
 
@@ -734,15 +734,15 @@ export default function StepperWrapper({
               processedData = {
                 beneficiaries: beneficiariesArray.map((beneficiary: any) => ({
                   id: beneficiary.id?.toString() || '',
-                  reaBeneficiaryId: beneficiary.reabBeneficiaryId || '',
-                  reaBeneficiaryType:
+                  mfBeneficiaryId: beneficiary.reabBeneficiaryId || '',
+                  mfBeneficiaryType:
                     beneficiary.reabTranferTypeDTO?.languageTranslationId
                       ?.configValue || '',
-                  reaName: beneficiary.reabName || '',
-                  reaBankName: beneficiary.reabBank || '',
-                  reaSwiftCode: beneficiary.reabSwift || '',
-                  reaRoutingCode: beneficiary.reabRoutingCode || '',
-                  reaAccountNumber: beneficiary.reabBeneAccount || '',
+                  mfName: beneficiary.reabName || '',
+                  mfBankName: beneficiary.reabBank || '',
+                  mfSwiftCode: beneficiary.reabSwift || '',
+                  mfRoutingCode: beneficiary.reabRoutingCode || '',
+                  mfAccountNumber: beneficiary.reabBeneAccount || '',
 
                   beneficiaryId: beneficiary.reabBeneficiaryId || '',
                   beneficiaryType:
@@ -827,41 +827,41 @@ export default function StepperWrapper({
             const processedFees = feesArray.map((fee: any) => ({
               id: fee.id?.toString() || '',
               FeeType:
-                fee.reafCategoryDTO?.languageTranslationId?.configValue ||
-                fee.reafCategoryDTO?.settingValue ||
+                fee.mffCategoryDTO?.languageTranslationId?.configValue ||
+                fee.mffCategoryDTO?.settingValue ||
                 '',
               Frequency:
-                fee.reafFrequencyDTO?.languageTranslationId?.configValue ||
-                fee.reafFrequencyDTO?.settingValue ||
+                fee.mffFrequencyDTO?.languageTranslationId?.configValue ||
+                fee.mffFrequencyDTO?.settingValue ||
                 'N/A',
-              DebitAmount: fee.reafDebitAmount?.toString() || '',
-              Feetobecollected: fee.reafCollectionDate || '',
-              NextRecoveryDate: fee.reafNextRecoveryDate
-                ? dayjs(fee.reafNextRecoveryDate).format('YYYY-MM-DD')
+              DebitAmount: fee.mffDebitAmount?.toString() || '',
+              Feetobecollected: fee.mffCollectionDate || '',
+              NextRecoveryDate: fee.mffNextRecoveryDate
+                ? dayjs(fee.mffNextRecoveryDate).format('YYYY-MM-DD')
                 : '',
-              FeePercentage: fee.reafFeePercentage?.toString() || '',
-              Amount: fee.reafTotalAmount?.toString() || '',
-              VATPercentage: fee.reafVatPercentage?.toString() || '',
+              FeePercentage: fee.mffFeePercentage?.toString() || '',
+              Amount: fee.mffTotalAmount?.toString() || '',
+              VATPercentage: fee.mffVatPercentage?.toString() || '',
 
               feeType:
-                fee.reafCategoryDTO?.languageTranslationId?.configValue ||
-                fee.reafCategoryDTO?.settingValue ||
+                fee.mffCategoryDTO?.languageTranslationId?.configValue ||
+                fee.mffCategoryDTO?.settingValue ||
                 '',
               frequency:
-                fee.reafFrequencyDTO?.languageTranslationId?.configValue ||
-                fee.reafFrequencyDTO?.settingValue ||
+                fee.mffFrequencyDTO?.languageTranslationId?.configValue ||
+                fee.mffFrequencyDTO?.settingValue ||
                 'N/A',
-              debitAmount: fee.reafDebitAmount?.toString() || '',
-              feeToBeCollected: fee.reafCollectionDate || '',
-              nextRecoveryDate: fee.reafNextRecoveryDate
-                ? dayjs(fee.reafNextRecoveryDate)
+              debitAmount: fee.mffDebitAmount?.toString() || '',
+              feeToBeCollected: fee.mffCollectionDate || '',
+              nextRecoveryDate: fee.mffNextRecoveryDate
+                ? dayjs(fee.mffNextRecoveryDate)
                 : null,
-              feePercentage: fee.reafFeePercentage?.toString() || '',
-              amount: fee.reafTotalAmount?.toString() || '',
-              vatPercentage: fee.reafVatPercentage?.toString() || '',
+              feePercentage: fee.mffFeePercentage?.toString() || '',
+              amount: fee.mffTotalAmount?.toString() || '',
+              vatPercentage: fee.mffVatPercentage?.toString() || '',
               currency:
-                fee.reafCurrencyDTO?.languageTranslationId?.configValue ||
-                fee.reafCurrencyDTO?.settingValue ||
+                fee.mffCurrencyDTO?.languageTranslationId?.configValue ||
+                fee.mffCurrencyDTO?.settingValue ||
                 '',
             }))
 
@@ -890,15 +890,15 @@ export default function StepperWrapper({
             const processedBeneficiaries = beneficiariesArray.map(
               (beneficiary: any) => ({
                 id: beneficiary.id?.toString() || '',
-                reaBeneficiaryId: beneficiary.reabBeneficiaryId || '',
-                reaBeneficiaryType:
+                mfBeneficiaryId: beneficiary.reabBeneficiaryId || '',
+                mfBeneficiaryType:
                   beneficiary.reabTranferTypeDTO?.languageTranslationId
                     ?.configValue || '',
-                reaName: beneficiary.reabName || '',
-                reaBankName: beneficiary.reabBank || '',
-                reaSwiftCode: beneficiary.reabSwift || '',
-                reaRoutingCode: beneficiary.reabRoutingCode || '',
-                reaAccountNumber: beneficiary.reabBeneAccount || '',
+                mfName: beneficiary.reabName || '',
+                mfBankName: beneficiary.reabBank || '',
+                mfSwiftCode: beneficiary.reabSwift || '',
+                mfRoutingCode: beneficiary.reabRoutingCode || '',
+                mfAccountNumber: beneficiary.reabBeneAccount || '',
 
                 beneficiaryId: beneficiary.reabBeneficiaryId || '',
                 beneficiaryType:
@@ -1016,20 +1016,20 @@ export default function StepperWrapper({
           if (apiData) {
             const processedProjectData = {
               ...apiData,
-              reaStartDate: apiData.reaStartDate
-                ? dayjs(apiData.reaStartDate)
+              mfStartDate: apiData.mfStartDate
+                ? dayjs(apiData.mfStartDate)
                 : null,
-              reaCompletionDate: apiData.reaCompletionDate
-                ? dayjs(apiData.reaCompletionDate)
+              mfCompletionDate: apiData.mfCompletionDate
+                ? dayjs(apiData.mfCompletionDate)
                 : null,
-              reaRetentionEffectiveDate: apiData.reaRetentionEffectiveDate
-                ? dayjs(apiData.reaRetentionEffectiveDate)
+              mfRetentionEffectiveDate: apiData.mfRetentionEffectiveDate
+                ? dayjs(apiData.mfRetentionEffectiveDate)
                 : null,
-              reaAccoutStatusDate: apiData.reaAccoutStatusDate
-                ? dayjs(apiData.reaAccoutStatusDate)
+              mfAccoutStatusDate: apiData.mfAccoutStatusDate
+                ? dayjs(apiData.mfAccoutStatusDate)
                 : null,
-              reaRegistrationDate: apiData.reaRegistrationDate
-                ? dayjs(apiData.reaRegistrationDate)
+              mfRegistrationDate: apiData.mfRegistrationDate
+                ? dayjs(apiData.mfRegistrationDate)
                 : null,
             }
 
@@ -1261,7 +1261,7 @@ export default function StepperWrapper({
       case 3:
         const watchedFees = methods.watch('fees')
         const buildPartnerIdForFees = methods
-          .watch('buildPartnerDTO.id')
+          .watch('assetRegisterDTO.id')
           ?.toString()
 
         return (
@@ -1279,7 +1279,7 @@ export default function StepperWrapper({
         )
       case 4:
         const buildPartnerIdForBeneficiaries = methods
-          .watch('buildPartnerDTO.id')
+          .watch('assetRegisterDTO.id')
           ?.toString()
         const watchedBeneficiaries = methods.watch('beneficiaries')
 
@@ -1334,87 +1334,87 @@ export default function StepperWrapper({
 
   const transformDetailsData = (formData: ProjectData) => ({
     ...(projectId && { id: projectId }),
-    reaId: formData.reaId,
-    reaCif: formData.reaCif,
-    reaName: formData.reaName,
-    reaLocation: formData.reaLocation,
-    reaReraNumber: formData.reaReraNumber,
-    reaStartDate: formData.reaStartDate
+    mfId: formData.mfId,
+    mfCif: formData.mfCif,
+    mfName: formData.mfName,
+    mfLocation: formData.mfLocation,
+    mfReraNumber: formData.mfReraNumber,
+    mfStartDate: formData.mfStartDate
       ? convertDatePickerToZonedDateTime(
-          formData.reaStartDate.format('YYYY-MM-DD')
+          formData.mfStartDate.format('YYYY-MM-DD')
         )
       : null,
-    reaCompletionDate: formData.reaCompletionDate
+    mfCompletionDate: formData.mfCompletionDate
       ? convertDatePickerToZonedDateTime(
-          formData.reaCompletionDate.format('YYYY-MM-DD')
+          formData.mfCompletionDate.format('YYYY-MM-DD')
         )
       : null,
-    reaRegistrationDate: formData.reaRegistrationDate
+    mfRegistrationDate: formData.mfRegistrationDate
       ? convertDatePickerToZonedDateTime(
-          formData.reaRegistrationDate.format('YYYY-MM-DD')
+          formData.mfRegistrationDate.format('YYYY-MM-DD')
         )
       : null,
-    reaAccoutStatusDate: formData.reaAccoutStatusDate
+    mfAccoutStatusDate: formData.mfAccoutStatusDate
       ? convertDatePickerToZonedDateTime(
-          formData.reaAccoutStatusDate.format('YYYY-MM-DD')
+          formData.mfAccoutStatusDate.format('YYYY-MM-DD')
         )
       : null,
-    reaConstructionCost:
-      typeof formData.reaConstructionCost === 'number'
-        ? formData.reaConstructionCost
-        : parseFloat(String(formData.reaConstructionCost || '0')),
-    reaNoOfUnits:
-      typeof formData.reaNoOfUnits === 'number'
-        ? formData.reaNoOfUnits
-        : parseInt(String(formData.reaNoOfUnits || '0')),
-    reaRemarks: formData.reaRemarks,
-    reaSpecialApproval: formData.reaSpecialApproval,
-    reaManagedBy: formData.reaManagedBy,
-    reaBackupUser: formData.reaBackupUser,
-    reaTeamLeadName: formData.reaTeamLeadName,
-    reaRelationshipManagerName: formData.reaRelationshipManagerName,
-    reaAssestRelshipManagerName: formData.reaAssestRelshipManagerName,
-    reaLandOwnerName: formData.reaLandOwnerName,
-    reaRetentionPercent: formData.reaRetentionPercent,
-    reaAdditionalRetentionPercent: formData.reaAdditionalRetentionPercent,
-    reaTotalRetentionPercent: formData.reaTotalRetentionPercent,
-    reaRetentionEffectiveDate: formData.reaRetentionEffectiveDate
+    mfConstructionCost:
+      typeof formData.mfConstructionCost === 'number'
+        ? formData.mfConstructionCost
+        : parseFloat(String(formData.mfConstructionCost || '0')),
+    mfNoOfUnits:
+      typeof formData.mfNoOfUnits === 'number'
+        ? formData.mfNoOfUnits
+        : parseInt(String(formData.mfNoOfUnits || '0')),
+    mfRemarks: formData.mfRemarks,
+    mfSpecialApproval: formData.mfSpecialApproval,
+    mfManagedBy: formData.mfManagedBy,
+    mfBackupUser: formData.mfBackupUser,
+    mfTeamLeadName: formData.mfTeamLeadName,
+    mfRelationshipManagerName: formData.mfRelationshipManagerName,
+    mfAssestRelshipManagerName: formData.mfAssestRelshipManagerName,
+    mfLandOwnerName: formData.mfLandOwnerName,
+    mfRetentionPercent: formData.mfRetentionPercent,
+    mfAdditionalRetentionPercent: formData.mfAdditionalRetentionPercent,
+    mfTotalRetentionPercent: formData.mfTotalRetentionPercent,
+    mfRetentionEffectiveDate: formData.mfRetentionEffectiveDate
       ? convertDatePickerToZonedDateTime(
-          formData.reaRetentionEffectiveDate.format('YYYY-MM-DD')
+          formData.mfRetentionEffectiveDate.format('YYYY-MM-DD')
         )
       : null,
-    reaManagementExpenses: formData.reaManagementExpenses,
-    reaMarketingExpenses: formData.reaMarketingExpenses,
-    reaRealEstateBrokerExp:
-      typeof formData.reaRealEstateBrokerExp === 'number'
-        ? formData.reaRealEstateBrokerExp
-        : parseFloat(String(formData.reaRealEstateBrokerExp || '0')),
-    reaAdvertisementExp:
-      typeof formData.reaAdvertisementExp === 'number'
-        ? formData.reaAdvertisementExp
-        : parseFloat(String(formData.reaAdvertisementExp || '0')),
-    reaPercentComplete: formData.reaPercentComplete,
-    reaConstructionCostCurrencyDTO: {
+    mfManagementExpenses: formData.mfManagementExpenses,
+    mfMarketingExpenses: formData.mfMarketingExpenses,
+    mfRealEstateBrokerExp:
+      typeof formData.mfRealEstateBrokerExp === 'number'
+        ? formData.mfRealEstateBrokerExp
+        : parseFloat(String(formData.mfRealEstateBrokerExp || '0')),
+    mfAdvertisementExp:
+      typeof formData.mfAdvertisementExp === 'number'
+        ? formData.mfAdvertisementExp
+        : parseFloat(String(formData.mfAdvertisementExp || '0')),
+    mfPercentComplete: formData.mfPercentComplete,
+    mfConstructionCostCurrencyDTO: {
       id:
         parseInt(
-          formData.reaConstructionCostCurrencyDTO?.id?.toString() || '32'
+          formData.mfConstructionCostCurrencyDTO?.id?.toString() || '32'
         ) || 32,
     },
-    buildPartnerDTO: {
-      id: parseInt(formData.buildPartnerDTO?.id?.toString() || '501') || 501,
+    assetRegisterDTO: {
+      id: parseInt(formData.assetRegisterDTO?.id?.toString() || '501') || 501,
     },
-    reaStatusDTO: {
-      id: parseInt(formData.reaStatusDTO?.id?.toString() || '53') || 53,
+    mfStatusDTO: {
+      id: parseInt(formData.mfStatusDTO?.id?.toString() || '53') || 53,
     },
-    reaTypeDTO: {
-      id: parseInt(formData.reaTypeDTO?.id?.toString() || '51') || 51,
+    mfTypeDTO: {
+      id: parseInt(formData.mfTypeDTO?.id?.toString() || '51') || 51,
     },
-    reaAccountStatusDTO: {
-      id: parseInt(formData.reaAccountStatusDTO?.id?.toString() || '55') || 55,
+    mfAccountStatusDTO: {
+      id: parseInt(formData.mfAccountStatusDTO?.id?.toString() || '55') || 55,
     },
-    reaBlockPaymentTypeDTO: formData.reaBlockPaymentTypeDTO?.id
+    mfBlockPaymentTypeDTO: formData.mfBlockPaymentTypeDTO?.id
       ? {
-          id: parseInt(formData.reaBlockPaymentTypeDTO.id.toString()),
+          id: parseInt(formData.mfBlockPaymentTypeDTO.id.toString()),
         }
       : null,
     status: formData.status || 'ACTIVE',

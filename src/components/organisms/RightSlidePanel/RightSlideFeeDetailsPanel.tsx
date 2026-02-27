@@ -423,7 +423,7 @@ export const RightSlideFeeDetailsPanel: React.FC<RightSlidePanelProps> = ({
         bpFeeCurrencyDTO: {
           id: parseInt(data.currency) || 0,
         },
-        buildPartnerDTO: {
+        assetRegisterDTO: {
           id: buildPartnerId ? parseInt(buildPartnerId) : undefined,
         },
       }
@@ -514,7 +514,7 @@ export const RightSlideFeeDetailsPanel: React.FC<RightSlidePanelProps> = ({
           frequency: frequencyLabel,
           debitAccount: accountLabel,
           currency: currencyLabel,
-          buildPartnerDTO: {
+          assetRegisterDTO: {
             id: buildPartnerId ? parseInt(buildPartnerId) : undefined,
           },
         }

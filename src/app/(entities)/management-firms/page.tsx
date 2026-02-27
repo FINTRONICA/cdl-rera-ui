@@ -75,8 +75,12 @@ const ProjectsPage: React.FC = () => {
   } = useProjects(Math.max(0, currentApiPage - 1), currentApiSize)
 
 
-  const projectsData =
-    projectsResponse?.content?.map(mapRealEstateAssetToProjectData) || []
+  const rawContent = Array.isArray(projectsResponse)
+    ? projectsResponse
+    : (projectsResponse as { content?: unknown[] })?.content
+  const projectsData = (rawContent ?? []).map((item: unknown) =>
+    mapRealEstateAssetToProjectData(item as Parameters<typeof mapRealEstateAssetToProjectData>[0])
+  )
 
   const deleteMutation = useDeleteProject()
   const confirmDelete = useDeleteConfirmation()
@@ -228,7 +232,7 @@ const ProjectsPage: React.FC = () => {
     }
 
     confirmDelete({
-      itemName: `project: ${row.name}`,
+      itemName: `management firm: ${row.name}`,
       onConfirm: async () => {
         try {
           setIsDeleting(true)
@@ -269,29 +273,31 @@ const ProjectsPage: React.FC = () => {
   const handleDownloadTemplate = async () => {
     try {
       await downloadTemplate(TEMPLATE_FILES.BUILD_PARTNER_ASSET)
-    } catch (error) {}
+    } catch {
+      // Template download error handled by useTemplateDownload
+    }
   }
 
   const renderExpandedContent = (row: ProjectData) => (
     <div className="grid grid-cols-2 gap-8">
       <div className="space-y-4">
         <div>
-          <span className="font-semibold">Project Name:</span> {row.name}
+          <span className="font-semibold">{getBuildPartnerAssetLabelDynamic('CDL_MF_NAME')}:</span> {row.name}
         </div>
         <div>
-          <span className="font-semibold">Developer ID:</span> {row.developerId}
+          <span className="font-semibold">{getBuildPartnerAssetLabelDynamic('CDL_MF_AR_ID')}:</span> {row.managementFirmId ?? row.developerId}
         </div>
         <div>
-          <span className="font-semibold">Developer CIF:</span>{' '}
+          <span className="font-semibold">{getBuildPartnerAssetLabelDynamic('CDL_MF_AR_CIF')}:</span>{' '}
           {row.managementFirmCif}
         </div>
       </div>
       <div className="space-y-4">
         <div>
-          <span className="font-semibold">Status:</span> {row.projectStatus}
+          <span className="font-semibold">{getBuildPartnerAssetLabelDynamic('CDL_MF_AR_STATUS')}:</span> {row.projectStatus}
         </div>
         <div>
-          <span className="font-semibold">Approval:</span> {row.approvalStatus}
+          <span className="font-semibold">{getBuildPartnerAssetLabelDynamic('CDL_MF_AR_APPROVAL_STATUS')}:</span> {row.approvalStatus}
         </div>
       </div>
     </div>

@@ -15,29 +15,29 @@ export interface TaskStatusDTO {
 }
 
 // Real Estate Asset types matching the actual API response structure
-export interface BuildPartnerDTO {
+export interface assetRegisterDTO {
   id: number
-  bpDeveloperId: string
-  bpCifrera: string
-  bpDeveloperRegNo: string
-  bpName: string
-  bpMasterName: string
-  bpNameLocal?: string
-  bpOnboardingDate?: string
-  bpContactAddress?: string
-  bpContactTel?: string
-  bpPoBox?: string
-  bpMobile?: string
-  bpFax?: string
-  bpEmail?: string
-  bpLicenseNo?: string
-  bpLicenseExpDate?: string
-  bpWorldCheckFlag?: string
-  bpWorldCheckRemarks?: string
-  bpMigratedData?: string
-  bpremark?: string
-  bpRegulatorDTO?: any
-  bpActiveStatusDTO?: any
+  arDeveloperId: string
+  arCifrera: string
+  arDeveloperRegNo: string
+  arName: string
+  arMasterName: string
+  arNameLocal?: string
+  arOnboardingDate?: string
+  arContactAddress?: string
+  arContactTel?: string
+  arPoBox?: string
+  arMobile?: string
+  arFax?: string
+  arEmail?: string
+  arLicenseNo?: string
+  arLicenseExpDate?: string
+  arWorldCheckFlag?: string
+  arWorldCheckRemarks?: string
+  arMigratedData?: string
+  arremark?: string
+  arRegulatorDTO?: any
+  arActiveStatusDTO?: any
 }
 
 export interface StatusDTO {
@@ -59,52 +59,54 @@ export interface StatusDTO {
 
 export interface RealEstateAsset {
   id: number
-  reaId: string
-  reaCif: string
-  reaName: string
-  reaNameLocal: string
-  reaLocation: string
-  reaReraNumber: string
-  reaStartDate: string
-  reaCompletionDate: string
-  reaPercentComplete: string
-  reaConstructionCost: number
+  mfId: string
+  mfCif: string
+  mfName: string
+  mfNameLocal: string
+  mfLocation: string
+  mfReraNumber: string
+  mfStartDate: string
+  mfCompletionDate: string
+  mfPercentComplete: string
+  mfConstructionCost: number
   reaAccStatusDate: string
-  reaRegistrationDate: string
-  reaNoOfUnits: number
-  reaRemarks?: string
-  reaSpecialApproval?: string
-  reaManagedBy: string
-  reaBackupUser: string
-  reaRetentionPercent: string
-  reaAdditionalRetentionPercent: string
-  reaTotalRetentionPercent: string
-  reaRetentionEffectiveDate: string
-  reaManagementExpenses: string
-  reaMarketingExpenses: string
-  reaAccoutStatusDate: string
-  reaTeamLeadName: string
-  reaRelationshipManagerName: string
-  reaAssestRelshipManagerName: string
-  reaRealEstateBrokerExp: number
-  reaAdvertisementExp: number
-  reaLandOwnerName: string
-  buildPartnerDTO: BuildPartnerDTO
-  reaStatusDTO: StatusDTO
-  reaTypeDTO: StatusDTO
-  reaAccountStatusDTO: StatusDTO
-  reaConstructionCostCurrencyDTO: StatusDTO
+  mfRegistrationDate: string
+  mfNoOfUnits: number
+  mfRemarks?: string
+  mfSpecialApproval?: string
+  mfManagedBy: string
+  mfBackupUser: string
+  mfRetentionPercent: string
+  mfAdditionalRetentionPercent: string
+  mfTotalRetentionPercent: string
+  mfRetentionEffectiveDate: string
+  mfManagementExpenses: string
+  mfMarketingExpenses: string
+  mfAccoutStatusDate: string
+  mfTeamLeadName: string
+  mfRelationshipManagerName: string
+  mfAssestRelshipManagerName: string
+  mfRealEstateBrokerExp: number
+  mfAdvertisementExp: number
+  mfLandOwnerName: string
+  assetRegisterDTO?: assetRegisterDTO | null
+  mfStatusDTO?: StatusDTO | null
+  mfTypeDTO: StatusDTO
+  mfAccountStatusDTO: StatusDTO
+  mfConstructionCostCurrencyDTO: StatusDTO
   status: string
   taskStatusDTO: TaskStatusDTO | null
 }
 
-// For backward compatibility with existing UI
+// For backward compatibility with existing UI (management-firms table uses managementFirmId/Name)
 export interface ProjectData extends Record<string, unknown> {
   id: number
   name: string
   developerId: string
+  managementFirmId: string
   managementFirmCif: string
   developerName: string
+  managementFirmName: string
   projectStatus: string
   approvalStatus: string
   location: string
@@ -119,52 +121,52 @@ export interface ProjectData extends Record<string, unknown> {
 }
 
 export interface CreateRealEstateAssetRequest {
-  reaId?: string
-  reaCif?: string
-  reaName: string
-  reaLocation: string
-  reaReraNumber: string
-  reaAccoutStatusDate?: string
-  reaRegistrationDate?: string
-  reaStartDate: string
-  reaCompletionDate: string
-  reaPercentComplete?: string
-  reaConstructionCost: number
+  mfId?: string
+  mfCif?: string
+  mfName: string
+  mfLocation: string
+  mfReraNumber: string
+  mfAccoutStatusDate?: string
+  mfRegistrationDate?: string
+  mfStartDate: string
+  mfCompletionDate: string
+  mfPercentComplete?: string
+  mfConstructionCost: number
   reaAccStatusDate?: string
-  reaNoOfUnits: number
-  reaRemarks?: string
-  reaSpecialApproval?: string
-  reaManagedBy: string
-  reaBackupUser: string
-  reaRetentionPercent?: string
-  reaAdditionalRetentionPercent?: string
-  reaTotalRetentionPercent?: string
-  reaRetentionEffectiveDate?: string
-  reaManagementExpenses?: string
-  reaMarketingExpenses?: string
-  reaTeamLeadName: string
-  reaRelationshipManagerName: string
-  reaAssestRelshipManagerName: string
-  reaRealEstateBrokerExp?: number
-  reaAdvertisementExp?: number
-  reaLandOwnerName: string
-  buildPartnerDTO: {
+  mfNoOfUnits: number
+  mfRemarks?: string
+  mfSpecialApproval?: string
+  mfManagedBy: string
+  mfBackupUser: string
+  mfRetentionPercent?: string
+  mfAdditionalRetentionPercent?: string
+  mfTotalRetentionPercent?: string
+  mfRetentionEffectiveDate?: string
+  mfManagementExpenses?: string
+  mfMarketingExpenses?: string
+  mfTeamLeadName: string
+  mfRelationshipManagerName: string
+  mfAssestRelshipManagerName: string
+  mfRealEstateBrokerExp?: number
+  mfAdvertisementExp?: number
+  mfLandOwnerName: string
+  assetRegisterDTO: {
     id: number
   }
-  reaStatusDTO: {
+  mfStatusDTO: {
     id: number
   }
-  reaTypeDTO: {
+  mfTypeDTO: {
     id: number
   }
-  reaAccountStatusDTO: {
+  mfAccountStatusDTO: {
     id: number
   }
-  reaConstructionCostCurrencyDTO: {
+  mfConstructionCostCurrencyDTO: {
     id: number
   }
   status?: string
-  reaBlockPaymentTypeDTO?: any
+  mfBlockPaymentTypeDTO?: any
 }
 
 export interface UpdateRealEstateAssetRequest
@@ -204,7 +206,7 @@ export class RealEstateAssetService {
     return RealEstateAssetService.instance
   }
 
-  // Get projects with filtering and pagination (matching useBuildPartners pattern)
+  // Get projects (management firms) with filtering and pagination
   async getProjects(
     page: number = 0,
     size: number = 20,
@@ -220,16 +222,52 @@ export class RealEstateAssetService {
       ),
     })
 
-    return apiClient.get<PaginatedResponse<RealEstateAsset>>(
-      `${API_ENDPOINTS.MANAGEMENT_FIRMS.GET_ALL}&${params.toString()}`
-    )
+    const response = await apiClient.get<
+      | PaginatedResponse<RealEstateAsset>
+      | RealEstateAsset[]
+      | { content: RealEstateAsset[]; totalElements?: number; totalPages?: number }
+    >(`${API_ENDPOINTS.MANAGEMENT_FIRMS.GET_ALL}&${params.toString()}`)
+
+    if (Array.isArray(response)) {
+      return {
+        content: response,
+        page: {
+          size,
+          number: page,
+          totalElements: response.length,
+          totalPages: Math.max(1, Math.ceil(response.length / size)),
+        },
+      }
+    }
+    const raw = response as Record<string, unknown>
+    const content = (raw.content as RealEstateAsset[]) ?? []
+    const totalElements = (raw.totalElements as number) ?? content.length
+    const totalPages = (raw.totalPages as number) ?? Math.max(1, Math.ceil(totalElements / size))
+    if (!raw.page && (raw.totalElements != null || content.length > 0)) {
+      return {
+        content,
+        page: {
+          size,
+          number: page,
+          totalElements,
+          totalPages,
+        },
+      }
+    }
+    return response as PaginatedResponse<RealEstateAsset>
   }
 
-  // Get single project by ID
+  // Get single management firm by ID
   async getProject(id: number): Promise<RealEstateAsset> {
-    return apiClient.get<RealEstateAsset>(
-      API_ENDPOINTS.MANAGEMENT_FIRMS.GET_BY_ID(id.toString())
-    )
+    const response = await apiClient.get<
+      RealEstateAsset | { data?: RealEstateAsset; content?: RealEstateAsset }
+    >(API_ENDPOINTS.MANAGEMENT_FIRMS.GET_BY_ID(id.toString()))
+    if (response && typeof response === 'object' && !Array.isArray(response)) {
+      const raw = response as Record<string, unknown>
+      const entity = (raw.data ?? raw.content) as RealEstateAsset | undefined
+      if (entity) return entity
+    }
+    return response as RealEstateAsset
   }
 
   // Create new project
@@ -413,7 +451,7 @@ export class RealEstateAssetService {
         reacTotalPayment: parseValue(
           closureData.reacTotalPayment ?? closureData.totalPayment ?? 0
         ),
-        realEstateAssestDTO: {
+        managementFirmDTO: {
           id: projectId,
         },
         deleted: false,
@@ -751,7 +789,7 @@ export class RealEstateAssetService {
         data.breakdown?.[32]?.exceptionalCapValue || '',
 
       // Project reference
-      realEstateAssestDTO: {
+      managementFirmDTO: {
         id: parseInt(projectId),
       },
 
@@ -1069,7 +1107,7 @@ export class RealEstateAssetService {
       reafsCreditInterestProfit: parseValue(additional?.creditInterestEscrow),
 
       // Project reference
-      realEstateAssestDTO: {
+      managementFirmDTO: {
         id: projectId || 0,
       },
 
@@ -1152,7 +1190,7 @@ export class RealEstateAssetService {
         reappInstallmentNumber: finalInstallmentNumber,
         reappInstallmentPercentage: installmentPercentage,
         reappProjectCompletionPercentage: projectCompletionPercentage,
-        realEstateAssestDTO: {
+        managementFirmDTO: {
           id: projectId || paymentPlanData.projectId,
         },
       }
@@ -1197,7 +1235,7 @@ export class RealEstateAssetService {
         reappProjectCompletionPercentage: projectCompletionPercentage,
         deleted: false,
         enabled: true,
-        realEstateAssestDTO: {
+        managementFirmDTO: {
           id: paymentPlanData.projectId || id,
         },
       }
@@ -1261,7 +1299,7 @@ export class RealEstateAssetService {
         reacTotalPayment: parseValue(
           closureData.totalPayment || closureData.actualCost || 0
         ),
-        realEstateAssestDTO: {
+        managementFirmDTO: {
           id: projectId || closureData.projectId,
         },
       }
@@ -1308,9 +1346,9 @@ export class RealEstateAssetService {
 
       projects.forEach((project) => {
         const status =
-          project.reaStatusDTO?.languageTranslationId?.configValue?.toLowerCase()
+          project.mfStatusDTO?.languageTranslationId?.configValue?.toLowerCase()
         const accountStatus =
-          project.reaAccountStatusDTO?.languageTranslationId?.configValue?.toLowerCase()
+          project.mfAccountStatusDTO?.languageTranslationId?.configValue?.toLowerCase()
 
         if (status?.includes('active')) stats.active++
         if (status?.includes('closed')) stats.closed++
@@ -1380,18 +1418,68 @@ export class RealEstateAssetService {
       const response = await apiClient.get(url)
 
       // Handle different response formats
+      let baseFees: any[] = []
+
       if (Array.isArray(response)) {
-        return response
+        baseFees = response
       } else if (
         response &&
         typeof response === 'object' &&
         'content' in response
       ) {
-        return Array.isArray((response as any).content)
+        baseFees = Array.isArray((response as any).content)
           ? (response as any).content
           : []
       }
-      return []
+
+      // Enrich fees that are missing frequency information by fetching them individually.
+      // The list API may return mffFrequencyDTO as null, while the GET_BY_ID API
+      // returns a populated mffFrequencyDTO (with the id we need to prefill the form).
+      const enrichedFees = await Promise.all(
+        baseFees.map(async (fee) => {
+          // If frequency DTO is already present, use as-is
+          if (fee?.mffFrequencyDTO || !fee?.id) {
+            return fee
+          }
+
+          try {
+            const rawDetail = await apiClient.get(
+              API_ENDPOINTS.MANAGEMENT_FIRMS_FEE.GET_BY_ID(
+                fee.id.toString()
+              )
+            )
+
+            // Unwrap common response shapes: { data: entity }, { content: entity }, or raw entity
+            let detail: any = rawDetail
+            if (
+              rawDetail &&
+              typeof rawDetail === 'object' &&
+              !Array.isArray(rawDetail) &&
+              ('data' in (rawDetail as any) || 'content' in (rawDetail as any))
+            ) {
+              const obj = rawDetail as any
+              detail = obj.data ?? obj.content ?? rawDetail
+            }
+            // If unwrapped value is not the entity (no id), use rawDetail (backend may return fee at top level)
+            if (detail && typeof detail === 'object' && !detail.id && rawDetail && (rawDetail as any).id) {
+              detail = rawDetail
+            }
+
+            if (detail && detail.mffFrequencyDTO) {
+              return {
+                ...fee,
+                mffFrequencyDTO: detail.mffFrequencyDTO,
+              }
+            }
+          } catch {
+            // If the detail call fails, fall back to original fee
+          }
+
+          return fee
+        })
+      )
+
+      return enrichedFees
     } catch (error) {
       return []
     }
@@ -1618,7 +1706,7 @@ export class ProjectStepService {
 export const realEstateAssetService = RealEstateAssetService.getInstance()
 export const projectStepService = new ProjectStepService()
 
-// Utility function to map API response to UI format
+// Utility function to map Management Firm API response to UI format (MF + Asset Register)
 export function mapRealEstateAssetToProjectData(
   asset: RealEstateAsset
 ): ProjectData {
@@ -1626,34 +1714,39 @@ export function mapRealEstateAssetToProjectData(
     if (!taskStatusDTO) {
       return 'INITIATED'
     }
-
-    // Use the code from taskStatusDTO directly as it matches our new status options
     return taskStatusDTO.code || 'INITIATED'
   }
 
+  const ar = asset.assetRegisterDTO
+  const mfStatus =
+    asset.mfStatusDTO?.languageTranslationId?.configValue ||
+    asset.mfStatusDTO?.settingValue ||
+    'N/A'
+
   const result: ProjectData = {
     id: asset.id,
-    name: asset.reaName,
-    developerId: asset.buildPartnerDTO.bpDeveloperId,
-    managementFirmCif: asset.buildPartnerDTO.bpCifrera,
-    developerName: asset.buildPartnerDTO.bpName,
-    projectStatus:
-      asset.reaAccountStatusDTO?.languageTranslationId?.configValue || 'N/A',
+    name: asset.mfName ?? '',
+    developerId: ar?.arDeveloperId ?? '',
+    managementFirmId: ar?.arDeveloperId ?? '',
+    managementFirmCif: ar?.arCifrera ?? '',
+    developerName: ar?.arName ?? '',
+    managementFirmName: ar?.arName ?? '',
+    projectStatus: mfStatus,
     approvalStatus: mapApiStatus(asset.taskStatusDTO),
-    location: asset.reaLocation,
-    reraNumber: asset.reaReraNumber,
-    startDate: asset.reaStartDate,
-    completionDate: asset.reaCompletionDate,
-    percentComplete: asset.reaPercentComplete,
-    constructionCost: asset.reaConstructionCost,
+    location: asset.mfLocation ?? '',
+    reraNumber: asset.mfReraNumber ?? '',
+    startDate: asset.mfStartDate ?? '',
+    completionDate: asset.mfCompletionDate ?? '',
+    percentComplete: asset.mfPercentComplete ?? '',
+    constructionCost: asset.mfConstructionCost ?? 0,
     currency:
-      asset.reaConstructionCostCurrencyDTO?.languageTranslationId
+      asset.mfConstructionCostCurrencyDTO?.languageTranslationId
         ?.configValue || 'N/A',
-    totalUnits: asset.reaNoOfUnits,
+    totalUnits: asset.mfNoOfUnits ?? 0,
   }
 
-  if (asset.reaRemarks) {
-    result.remarks = asset.reaRemarks
+  if (asset.mfRemarks) {
+    result.remarks = asset.mfRemarks
   }
 
   return result

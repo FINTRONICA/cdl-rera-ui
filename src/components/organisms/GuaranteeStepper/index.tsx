@@ -71,7 +71,7 @@ export default function GuaranteeStepperWrapper({
   const [isEditMode, setIsEditMode] = useState(false)
   const [savedId, setSavedId] = useState<string | null>(null)
   const [buildPartners, setBuildPartners] = useState<
-    Array<{ id: number; bpName: string | null }>
+    Array<{ id: number; arName: string | null }>
   >([])
   const [originalSuretyBondData, setOriginalSuretyBondData] =
     useState<SuretyBondResponse | null>(null)
@@ -239,7 +239,7 @@ export default function GuaranteeStepperWrapper({
 
         // Find the selected build partner ID from the name
         const selectedDeveloper = buildPartners.find(
-          (bp) => bp.bpName === formValues.developerName
+          (bp) => bp.arName === formValues.developerName
         )
         const developerId = selectedDeveloper?.id || null
 
@@ -280,14 +280,14 @@ export default function GuaranteeStepperWrapper({
             ? { id: parseInt(formValues.guaranteeType) }
             : originalSuretyBondData.suretyBondTypeDTO,
 
-          realEstateAssestDTO: formValues.projectName
+          managementFirmDTO: formValues.projectName
             ? { id: parseInt(formValues.projectName) }
-            : originalSuretyBondData.realEstateAssestDTO,
+            : originalSuretyBondData.managementFirmDTO,
 
           // Build Partner can be updated by the user
-          buildPartnerDTO: developerId
+          assetRegisterDTO: developerId
             ? { id: developerId }
-            : originalSuretyBondData.buildPartnerDTO,
+            : originalSuretyBondData.assetRegisterDTO,
 
           issuerBankDTO: formValues.issuerBank
             ? { id: parseInt(formValues.issuerBank) }
@@ -376,7 +376,7 @@ export default function GuaranteeStepperWrapper({
 
       // Find the selected build partner ID from the name
       const selectedDeveloper = buildPartners.find(
-        (bp) => bp.bpName === formValues.developerName
+        (bp) => bp.arName === formValues.developerName
       )
       const developerId = selectedDeveloper?.id || null
 
@@ -388,10 +388,10 @@ export default function GuaranteeStepperWrapper({
         suretyBondTypeDTO: formValues.guaranteeType
           ? { id: parseInt(formValues.guaranteeType) }
           : null,
-        realEstateAssestDTO: formValues.projectName
+        managementFirmDTO: formValues.projectName
           ? { id: parseInt(formValues.projectName) }
           : null,
-        buildPartnerDTO: developerId ? { id: developerId } : null,
+        assetRegisterDTO: developerId ? { id: developerId } : null,
         suretyBondOpenEnded: formValues.openEndedGuarantee || false,
         suretyBondNoOfAmendment: formValues.noOfAmendments || null,
         suretyBondExpirationDate: formValues.guaranteeExpirationDate
@@ -467,7 +467,7 @@ export default function GuaranteeStepperWrapper({
 
       // Find the selected build partner ID from the name
       const selectedDeveloper = buildPartners.find(
-        (bp) => bp.bpName === formValues.developerName
+        (bp) => bp.arName === formValues.developerName
       )
       const developerId = selectedDeveloper?.id || null
 
@@ -508,14 +508,14 @@ export default function GuaranteeStepperWrapper({
           ? { id: parseInt(formValues.guaranteeType) }
           : originalSuretyBondData.suretyBondTypeDTO,
 
-        realEstateAssestDTO: formValues.projectName
+        managementFirmDTO: formValues.projectName
           ? { id: parseInt(formValues.projectName) }
-          : originalSuretyBondData.realEstateAssestDTO,
+          : originalSuretyBondData.managementFirmDTO,
 
         // Build Partner can be updated by the user
-        buildPartnerDTO: developerId
+        assetRegisterDTO: developerId
           ? { id: developerId }
-          : originalSuretyBondData.buildPartnerDTO,
+          : originalSuretyBondData.assetRegisterDTO,
 
         issuerBankDTO: formValues.issuerBank
           ? { id: parseInt(formValues.issuerBank) }

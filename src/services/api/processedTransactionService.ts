@@ -40,11 +40,11 @@ export interface ProcessedTransaction {
   pfiCreditedEscrow: boolean | null
   pfiCbsResponse: string | null
   pfiPaymentRefNo: string | null
-  realEstateAssestDTO: {
+  managementFirmDTO: {
     id?: number
-    reaName?: string
-    reaId?: string
-    reaCif?: string
+    mfName?: string
+    mfId?: string
+    mfCif?: string
     reaUnitNumber?: string
     reaassetRegisterName?: string
     reaOqoodFormat?: string
@@ -149,16 +149,16 @@ export const mapProcessedTransactionToUIData = (
     id: String(apiData.id),
     date: formatDate(apiData.pfiTransactionDate),
     transId: apiData.pfiTransactionId || '—',
-    assetRegisterAccountId: apiData.realEstateAssestDTO?.reaCif || '—',
+    assetRegisterAccountId: apiData.managementFirmDTO?.mfCif || '—',
     assetRegisterName:
-      apiData.realEstateAssestDTO?.reaassetRegisterName ||
+      apiData.managementFirmDTO?.reaassetRegisterName ||
       apiData.pfiPrimaryUnitHolderName ||
       '—',
-    managementFirmName: apiData.realEstateAssestDTO?.reaName || '—',
-    managementFirmRegulatorId: apiData.realEstateAssestDTO?.reaId || '—',
+    managementFirmName: apiData.managementFirmDTO?.mfName || '—',
+    managementFirmRegulatorId: apiData.managementFirmDTO?.mfId || '—',
     unitNo:
-      apiData.realEstateAssestDTO?.reaUnitNumber ||
-      apiData.realEstateAssestDTO?.reaOqoodFormat ||
+      apiData.managementFirmDTO?.reaUnitNumber ||
+      apiData.managementFirmDTO?.reaOqoodFormat ||
       apiData.pfiUnitRefNumber ||
       '—',
     receivableCategory: '—',

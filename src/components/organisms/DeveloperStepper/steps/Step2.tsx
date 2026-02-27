@@ -56,8 +56,8 @@ interface Step2Props {
 //     mobileno: apiContact.bpcContactMobNo,
 //     telephoneno: apiContact.bpcContactTelNo,
 //     fax: apiContact.bpcContactFaxNo,
-//     ...(apiContact.buildPartnerDTO && {
-//       buildPartnerDTO: { id: apiContact.buildPartnerDTO.id },
+//     ...(apiContact.assetRegisterDTO && {
+//       assetRegisterDTO: { id: apiContact.assetRegisterDTO.id },
 //     }),
 //   }
 // }

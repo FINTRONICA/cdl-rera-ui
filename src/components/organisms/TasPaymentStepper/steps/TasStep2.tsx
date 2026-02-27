@@ -315,7 +315,7 @@ const TasStep2: React.FC = () => {
           'EN',
           MANUAL_PAYMENT_LABELS.FALLBACKS.FORM_FIELDS.ASSET_REGISTER_NAME
         ) + '*',
-      value: fundEgressData?.buildPartnerDTO?.bpName || '-',
+      value: fundEgressData?.assetRegisterDTO?.arName || '-',
     },
     {
       gridSize: 6,
@@ -325,7 +325,7 @@ const TasStep2: React.FC = () => {
           'EN',
           MANUAL_PAYMENT_LABELS.FALLBACKS.FORM_FIELDS.DEVELOPER_ID
         ) + '*',
-      value: fundEgressData?.buildPartnerDTO?.bpDeveloperId || '-',
+      value: fundEgressData?.assetRegisterDTO?.arDeveloperId || '-',
     },
     {
       gridSize: 6,
@@ -335,7 +335,7 @@ const TasStep2: React.FC = () => {
           'EN',
           MANUAL_PAYMENT_LABELS.FALLBACKS.FORM_FIELDS.MANAGEMENT_FIRM_NAME
         ) + '*',
-      value: fundEgressData?.realEstateAssestDTO?.reaName || '-',
+      value: fundEgressData?.managementFirmDTO?.mfName || '-',
     },
     {
       gridSize: 6,
@@ -346,8 +346,8 @@ const TasStep2: React.FC = () => {
           MANUAL_PAYMENT_LABELS.FALLBACKS.FORM_FIELDS.PROJECT_ID
         ) + '*',
       value:
-        (fundEgressData?.realEstateAssestDTO as any)?.reaCif ||
-        fundEgressData?.realEstateAssestDTO?.reaId ||
+        (fundEgressData?.managementFirmDTO as any)?.mfCif ||
+        fundEgressData?.managementFirmDTO?.mfId ||
         '-',
     },
     {
@@ -358,11 +358,11 @@ const TasStep2: React.FC = () => {
         MANUAL_PAYMENT_LABELS.FALLBACKS.FORM_FIELDS.PROJECT_STATUS
       ),
       value:
-        (fundEgressData?.realEstateAssestDTO?.reaAccountStatusDTO as any)
+        (fundEgressData?.managementFirmDTO?.mfAccountStatusDTO as any)
           ?.languageTranslationId?.configValue ||
-        fundEgressData?.realEstateAssestDTO?.reaAccountStatusDTO
+        fundEgressData?.managementFirmDTO?.mfAccountStatusDTO
           ?.settingValue ||
-        (fundEgressData?.realEstateAssestDTO?.reaAccountStatusDTO as any)
+        (fundEgressData?.managementFirmDTO?.mfAccountStatusDTO as any)
           ?.name ||
         '-',
     },

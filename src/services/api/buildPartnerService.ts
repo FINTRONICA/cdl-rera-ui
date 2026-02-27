@@ -25,27 +25,27 @@ export interface TaskStatusDTO {
 // Build Partner types - Updated to match API response structure
 export interface BuildPartner {
   // id: number
-  // bpDeveloperId: string
-  // bpCifrera: string | null
-  // bpDeveloperRegNo: string
-  // bpName: string | null
-  // bpMasterName: string | null
-  // bpNameLocal: string | null
-  // bpOnboardingDate: string | null
-  // bpContactAddress: string | null
-  // bpContactTel: string | null
-  // bpPoBox: string | null
-  // bpMobile: string | null
-  // bpFax: string | null
-  // bpEmail: string | null
-  // bpLicenseNo: string | null
-  // bpLicenseExpDate: string | null
-  // bpWorldCheckFlag: string | null
-  // bpWorldCheckRemarks: string | null
-  // bpMigratedData: boolean | null
-  // bpremark: string | null
-  // bpRegulatorDTO: unknown | null
-  // bpActiveStatusDTO: unknown | null
+  // arDeveloperId: string
+  // arCifrera: string | null
+  // arDeveloperRegNo: string
+  // arName: string | null
+  // arMasterName: string | null
+  // arNameLocal: string | null
+  // arOnboardingDate: string | null
+  // arContactAddress: string | null
+  // arContactTel: string | null
+  // arPoBox: string | null
+  // arMobile: string | null
+  // arFax: string | null
+  // arEmail: string | null
+  // arLicenseNo: string | null
+  // arLicenseExpDate: string | null
+  // arWorldCheckFlag: string | null
+  // arWorldCheckRemarks: string | null
+  // arMigratedData: boolean | null
+  // arremark: string | null
+  // arRegulatorDTO: unknown | null
+  // arActiveStatusDTO: unknown | null
   // buildPartnerBeneficiaryDTOS: unknown[] | null
   // buildPartnerContactDTOS: unknown[] | null
   // taskStatusDTO: TaskStatusDTO | null

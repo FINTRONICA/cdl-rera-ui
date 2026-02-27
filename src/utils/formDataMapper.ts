@@ -134,7 +134,7 @@ function createDefaultDTO(id: number = 0) {
 
 // Helper function to find real estate asset by name
 function findRealEstateAssetByName(assets: RealEstateAsset[], name: string): RealEstateAsset | undefined {
-  return assets.find(asset => asset.reaName === name);
+  return assets.find(asset => asset.mfName === name);
 }
 
 // Helper function to find build partner by name or developerId
@@ -144,7 +144,7 @@ function findBuildPartner(partners: any[], developerName?: string, developerId?:
   // First try to match by developerId if available (more reliable)
   if (developerId) {
     const partnerById = partners.find(partner => 
-      partner.bpDeveloperId === developerId || 
+      partner.arDeveloperId === developerId || 
       partner.id?.toString() === developerId.toString()
     );
     if (partnerById) return partnerById;
@@ -153,8 +153,8 @@ function findBuildPartner(partners: any[], developerName?: string, developerId?:
   // Then try to match by name
   if (developerName) {
     const partnerByName = partners.find(partner => 
-      partner.bpName === developerName ||
-      partner.bpName?.trim() === developerName.trim()
+      partner.arName === developerName ||
+      partner.arName?.trim() === developerName.trim()
     );
     if (partnerByName) return partnerByName;
   }
@@ -208,13 +208,13 @@ export function mapFormDataToFundEgress(
   );
   
   // Fallback: if partner not found but we have a selected asset, try to get partner from asset
-  if (!selectedPartner && selectedAsset && (selectedAsset as any).buildPartnerDTO) {
-    const assetPartner = (selectedAsset as any).buildPartnerDTO;
+  if (!selectedPartner && selectedAsset && (selectedAsset as any).assetRegisterDTO) {
+    const assetPartner = (selectedAsset as any).assetRegisterDTO;
     // Try to find the partner in buildPartners array using the asset's partner info
     if (assetPartner.id) {
       selectedPartner = buildPartners.find(p => p.id === assetPartner.id);
-    } else if (assetPartner.bpDeveloperId) {
-      selectedPartner = buildPartners.find(p => p.bpDeveloperId === assetPartner.bpDeveloperId);
+    } else if (assetPartner.arDeveloperId) {
+      selectedPartner = buildPartners.find(p => p.arDeveloperId === assetPartner.arDeveloperId);
     }
   }
   
@@ -224,8 +224,8 @@ export function mapFormDataToFundEgress(
       developerName: formData.developerName,
       developerId: formData.developerId,
       buildPartnersCount: buildPartners?.length || 0,
-      availablePartnerIds: buildPartners?.slice(0, 5).map(p => ({ id: p.id, bpDeveloperId: p.bpDeveloperId, bpName: p.bpName })) || [],
-      selectedAssetPartner: selectedAsset ? (selectedAsset as any).buildPartnerDTO : null
+      availablePartnerIds: buildPartners?.slice(0, 5).map(p => ({ id: p.id, arDeveloperId: p.arDeveloperId, arName: p.arName })) || [],
+      selectedAssetPartner: selectedAsset ? (selectedAsset as any).assetRegisterDTO : null
     });
   }
 
@@ -411,18 +411,18 @@ export function mapFormDataToFundEgress(
     transactionTypeDTO: formData.engineerFeePayment ? { id: parseInt(formData.engineerFeePayment) } : null,
 
     // Real estate asset - use projectName directly (id) if available
-    realEstateAssestDTO: formData.projectName
+    managementFirmDTO: formData.projectName
       ? { id: parseInt(formData.projectName) }
       : selectedAsset
       ? { id: selectedAsset.id }
       : null,
 
     // Build partner - try to use ID from formData if partner not found but developerId is numeric
-    // Also try to get ID from selected asset's buildPartnerDTO as fallback
-    buildPartnerDTO: selectedPartner 
+    // Also try to get ID from selected asset's assetRegisterDTO as fallback
+    assetRegisterDTO: selectedPartner 
       ? { id: selectedPartner.id } 
-      : (selectedAsset && (selectedAsset as any).buildPartnerDTO?.id)
-        ? { id: (selectedAsset as any).buildPartnerDTO.id }
+      : (selectedAsset && (selectedAsset as any).assetRegisterDTO?.id)
+        ? { id: (selectedAsset as any).assetRegisterDTO.id }
         : (formData.developerId && !isNaN(parseInt(formData.developerId)))
           ? { id: parseInt(formData.developerId) }
           : null,
@@ -445,7 +445,7 @@ export function mapFormDataToFundEgress(
       isModified: false,
       partnerUnitDTO: null,
       capitalPartnerUnitTypeDTO: null,
-      realEstateAssestDTO: selectedAsset!,
+      managementFirmDTO: selectedAsset!,
       unitStatusDTO: formData.unitStatus ? {
         id: 0,
         settingKey: 'UNIT_STATUS',
@@ -579,13 +579,13 @@ export function mapFormDataToFundEgressSimplified(
   );
   
   // Fallback: if partner not found but we have a selected asset, try to get partner from asset
-  if (!selectedPartner && selectedAsset && (selectedAsset as any).buildPartnerDTO) {
-    const assetPartner = (selectedAsset as any).buildPartnerDTO;
+  if (!selectedPartner && selectedAsset && (selectedAsset as any).assetRegisterDTO) {
+    const assetPartner = (selectedAsset as any).assetRegisterDTO;
     // Try to find the partner in buildPartners array using the asset's partner info
     if (assetPartner.id) {
       selectedPartner = buildPartners.find(p => p.id === assetPartner.id);
-    } else if (assetPartner.bpDeveloperId) {
-      selectedPartner = buildPartners.find(p => p.bpDeveloperId === assetPartner.bpDeveloperId);
+    } else if (assetPartner.arDeveloperId) {
+      selectedPartner = buildPartners.find(p => p.arDeveloperId === assetPartner.arDeveloperId);
     }
   }
   
@@ -595,8 +595,8 @@ export function mapFormDataToFundEgressSimplified(
       developerName: formData.developerName,
       developerId: formData.developerId,
       buildPartnersCount: buildPartners?.length || 0,
-      availablePartnerIds: buildPartners?.slice(0, 5).map(p => ({ id: p.id, bpDeveloperId: p.bpDeveloperId, bpName: p.bpName })) || [],
-      selectedAssetPartner: selectedAsset ? (selectedAsset as any).buildPartnerDTO : null
+      availablePartnerIds: buildPartners?.slice(0, 5).map(p => ({ id: p.id, arDeveloperId: p.arDeveloperId, arName: p.arName })) || [],
+      selectedAssetPartner: selectedAsset ? (selectedAsset as any).assetRegisterDTO : null
     });
   }
 
@@ -745,18 +745,18 @@ export function mapFormDataToFundEgressSimplified(
     transactionTypeDTO: formData.engineerFeePayment ? { id: parseInt(formData.engineerFeePayment) } : null,
 
     // Real estate asset - use projectName directly (id) if available
-    realEstateAssestDTO: formData.projectName
+    managementFirmDTO: formData.projectName
       ? { id: parseInt(formData.projectName) }
       : selectedAsset
       ? { id: selectedAsset.id }
       : null,
 
     // Build partner - try to use ID from formData if partner not found but developerId is numeric
-    // Also try to get ID from selected asset's buildPartnerDTO as fallback
-    buildPartnerDTO: selectedPartner 
+    // Also try to get ID from selected asset's assetRegisterDTO as fallback
+    assetRegisterDTO: selectedPartner 
       ? { id: selectedPartner.id } 
-      : (selectedAsset && (selectedAsset as any).buildPartnerDTO?.id)
-        ? { id: (selectedAsset as any).buildPartnerDTO.id }
+      : (selectedAsset && (selectedAsset as any).assetRegisterDTO?.id)
+        ? { id: (selectedAsset as any).assetRegisterDTO.id }
         : (formData.developerId && !isNaN(parseInt(formData.developerId)))
           ? { id: parseInt(formData.developerId) }
           : null,

@@ -139,7 +139,7 @@ export {
   mapWorkflowRequestLogResponseToModel,
   mapWorkflowRequestLogResponseToUIData,
   type LanguageTranslationDTO,
-  type BpRegulatorDTO,
+  type arRegulatorDTO,
   type DetailsJsonDTO,
   type WorkflowRequestDTO,
   type WorkflowRequestLogContent,

@@ -122,13 +122,13 @@ export const RightSlideProjectBeneficiaryDetailsPanel: React.FC<
       resolver: zodResolver(projectBeneficiaryFormValidationSchema),
       mode: 'onChange', // Validate on every change
       defaultValues: {
-        reaBeneficiaryId: editingBeneficiary?.reaBeneficiaryId || '',
-        reaBeneficiaryType: editingBeneficiary?.reaBeneficiaryType || '',
-        reaName: editingBeneficiary?.reaName || '',
-        reaBankName: editingBeneficiary?.reaBankName || '',
-        reaSwiftCode: editingBeneficiary?.reaSwiftCode || '',
-        reaRoutingCode: editingBeneficiary?.reaRoutingCode || '',
-        reaAccountNumber: editingBeneficiary?.reaAccountNumber || '',
+        mfBeneficiaryId: editingBeneficiary?.mfBeneficiaryId || '',
+        mfBeneficiaryType: editingBeneficiary?.mfBeneficiaryType || '',
+        mfName: editingBeneficiary?.mfName || '',
+        mfBankName: editingBeneficiary?.mfBankName || '',
+        mfSwiftCode: editingBeneficiary?.mfSwiftCode || '',
+        mfRoutingCode: editingBeneficiary?.mfRoutingCode || '',
+        mfAccountNumber: editingBeneficiary?.mfAccountNumber || '',
       },
     })
 
@@ -139,30 +139,30 @@ export const RightSlideProjectBeneficiaryDetailsPanel: React.FC<
       const beneficiaryType = beneficiaryTypes.find(
         (type: unknown) =>
           (type as { configValue: string }).configValue ===
-          editingBeneficiary.reaBeneficiaryType
+          editingBeneficiary.mfBeneficiaryType
       )
 
       reset({
-        reaBeneficiaryId: editingBeneficiary.reaBeneficiaryId || '',
-        reaBeneficiaryType:
+        mfBeneficiaryId: editingBeneficiary.mfBeneficiaryId || '',
+        mfBeneficiaryType:
           (beneficiaryType as { id?: string })?.id?.toString() ||
-          editingBeneficiary.reaBeneficiaryType ||
+          editingBeneficiary.mfBeneficiaryType ||
           '',
-        reaName: editingBeneficiary.reaName || '',
-        reaBankName: editingBeneficiary.reaBankName || '',
-        reaSwiftCode: editingBeneficiary.reaSwiftCode || '',
-        reaRoutingCode: editingBeneficiary.reaRoutingCode || '',
-        reaAccountNumber: editingBeneficiary.reaAccountNumber || '',
+        mfName: editingBeneficiary.mfName || '',
+        mfBankName: editingBeneficiary.mfBankName || '',
+        mfSwiftCode: editingBeneficiary.mfSwiftCode || '',
+        mfRoutingCode: editingBeneficiary.mfRoutingCode || '',
+        mfAccountNumber: editingBeneficiary.mfAccountNumber || '',
       })
     } else {
       reset({
-        reaBeneficiaryId: '',
-        reaBeneficiaryType: '',
-        reaName: '',
-        reaBankName: '',
-        reaSwiftCode: '',
-        reaRoutingCode: '',
-        reaAccountNumber: '',
+        mfBeneficiaryId: '',
+        mfBeneficiaryType: '',
+        mfName: '',
+        mfBankName: '',
+        mfSwiftCode: '',
+        mfRoutingCode: '',
+        mfAccountNumber: '',
       })
     }
   }, [editingBeneficiary, reset])
@@ -235,16 +235,16 @@ export const RightSlideProjectBeneficiaryDetailsPanel: React.FC<
         ...(editingBeneficiary?.id && {
           id: parseInt(editingBeneficiary.id.toString()),
         }),
-        reabBeneficiaryId: data.reaBeneficiaryId,
+        reabBeneficiaryId: data.mfBeneficiaryId,
         reabTranferTypeDTO: {
-          id: parseInt(data.reaBeneficiaryType.toString()) || 0,
+          id: parseInt(data.mfBeneficiaryType.toString()) || 0,
         },
-        reabName: data.reaName,
-        reabBank: data.reaBankName,
-        reabSwift: data.reaSwiftCode,
-        reabRoutingCode: data.reaRoutingCode,
-        reabBeneAccount: data.reaAccountNumber,
-        realEstateAssestDTO: [
+        reabName: data.mfName,
+        reabBank: data.mfBankName,
+        reabSwift: data.mfSwiftCode,
+        reabRoutingCode: data.mfRoutingCode,
+        reabBeneAccount: data.mfAccountNumber,
+        managementFirmDTO: [
           {
             id: projectId ? parseInt(projectId) : undefined,
           },
@@ -274,22 +274,22 @@ export const RightSlideProjectBeneficiaryDetailsPanel: React.FC<
           (
             beneficiaryTypes.find(
               (type: unknown) =>
-                (type as { id: string }).id === data.reaBeneficiaryType
+                (type as { id: string }).id === data.mfBeneficiaryType
             ) as { configValue: string }
-          )?.configValue || `Type ${data.reaBeneficiaryType}`
+          )?.configValue || `Type ${data.mfBeneficiaryType}`
 
         const beneficiaryForForm = {
           // Map to table column names with display labels
-          reaBeneficiaryId: data.reaBeneficiaryId,
-          reaBeneficiaryType: beneficiaryTypeLabel,
-          reaName: data.reaName,
-          reaBankName: data.reaBankName, // Now a text field, use value directly
-          reaSwiftCode: data.reaSwiftCode,
-          reaRoutingCode: data.reaRoutingCode,
-          reaAccountNumber: data.reaAccountNumber,
+          mfBeneficiaryId: data.mfBeneficiaryId,
+          mfBeneficiaryType: beneficiaryTypeLabel,
+          mfName: data.mfName,
+          mfBankName: data.mfBankName, // Now a text field, use value directly
+          mfSwiftCode: data.mfSwiftCode,
+          mfRoutingCode: data.mfRoutingCode,
+          mfAccountNumber: data.mfAccountNumber,
           // Keep original fields for reference
-          reaBeneficiaryTypeId: data.reaBeneficiaryType,
-          realEstateAssetDTO: {
+          mfBeneficiaryTypeId: data.mfBeneficiaryType,
+          managementFirmAssetDTO: {
             id: projectId ? parseInt(projectId) : undefined,
           },
         }
@@ -500,7 +500,7 @@ export const RightSlideProjectBeneficiaryDetailsPanel: React.FC<
           }}
         >
           {getLabel(
-            'CDL_BPA_BENE_INFO',
+            'CDL_MF_BENE_INFO',
             language,
             'Beneficiary Banking Details'
           )}
@@ -551,9 +551,9 @@ export const RightSlideProjectBeneficiaryDetailsPanel: React.FC<
 
             <Grid container rowSpacing={4} columnSpacing={2} mt={3}>
               {renderTextField(
-                'reaBeneficiaryId',
+                'mfBeneficiaryId',
                 getLabel(
-                  'CDL_BPA_BENE_REFID',
+                  'CDL_MF_BENE_REFID',
                   language,
                   'Beneficiary Reference ID'
                 ),
@@ -563,17 +563,17 @@ export const RightSlideProjectBeneficiaryDetailsPanel: React.FC<
                 16 // Max length
               )}
               {renderSelectField(
-                'reaBeneficiaryType',
-                getLabel('CDL_BPA_BENE_TRANSFER', language, 'Transfer Method'),
+                'mfBeneficiaryType',
+                getLabel('CDL_MF_BENE_TRANSFER', language, 'Transfer Method'),
                 beneficiaryTypes,
                 6,
                 true, // Required
                 dropdownsLoading
               )}
               {renderTextField(
-                'reaName',
+                'mfName',
                 getLabel(
-                  'CDL_BPA_BENE_NAME',
+                  'CDL_MF_BENE_NAME',
                   language,
                   'Beneficiary Full Name'
                 ),
@@ -583,30 +583,30 @@ export const RightSlideProjectBeneficiaryDetailsPanel: React.FC<
                 35 // Max length
               )}
               {renderTextField(
-                'reaBankName',
-                getLabel('CDL_BPA_BENE_BANK', language, 'Bank Name'),
+                'mfBankName',
+                getLabel('CDL_MF_BENE_BANK', language, 'Bank Name'),
                 '',
                 6,
                 true // Required
               )}
               {renderTextField(
-                'reaSwiftCode',
-                getLabel('CDL_BPA_BENE_BIC', language, 'SWIFT/BIC Code'),
+                'mfSwiftCode',
+                getLabel('CDL_MF_BENE_BIC', language, 'SWIFT/BIC Code'),
                 '',
                 6,
                 true // Required
               )}
               {renderTextField(
-                'reaRoutingCode',
-                getLabel('CDL_BPA_BENE_ROUTING', language, 'Routing Number'),
+                'mfRoutingCode',
+                getLabel('CDL_MF_BENE_ROUTING', language, 'Routing Number'),
                 '',
                 6,
                 true, // Required
                 10 // Max length
               )}
               {renderTextField(
-                'reaAccountNumber',
-                getLabel('CDL_BPA_BENE_ACC', language, 'Bank Account Number'),
+                'mfAccountNumber',
+                getLabel('CDL_MF_BENE_ACC', language, 'Bank Account Number'),
                 '',
                 6,
                 true // Required
@@ -654,7 +654,7 @@ export const RightSlideProjectBeneficiaryDetailsPanel: React.FC<
                         : undefined,
                   }}
                 >
-                  {getLabel('CDL_BPA_CANCEL', language, 'Cancel')}
+                  {getLabel('CDL_MF_CANCEL', language, 'Cancel')}
                 </Button>
               </Grid>
               <Grid size={{ xs: 6 }}>
@@ -703,11 +703,11 @@ export const RightSlideProjectBeneficiaryDetailsPanel: React.FC<
                   {addBeneficiaryMutation.isPending ||
                   updateBeneficiaryMutation.isPending
                     ? editingBeneficiary?.id
-                      ? getLabel('CDL_BPA_UPDATING', language, 'Updating...')
-                      : getLabel('CDL_BPA_ADDING', language, 'Adding...')
+                      ? getLabel('CDL_MF_UPDATING', language, 'Updating...')
+                      : getLabel('CDL_MF_ADDING', language, 'Adding...')
                     : editingBeneficiary?.id
-                      ? getLabel('CDL_BPA_UPDATE', language, 'Update')
-                      : getLabel('CDL_BPA_ADD', language, 'Add')}
+                      ? getLabel('CDL_MF_UPDATE', language, 'Update')
+                      : getLabel('CDL_MF_ADD', language, 'Add')}
                 </Button>
               </Grid>
             </Grid>

@@ -169,20 +169,20 @@ const Step8: React.FC<Step8Props> = ({
     {
       gridSize: 6,
       // label: 'Project Type*',
-      label: getLabel('CDL_BPA_TP_TYPE', language, 'Assets Type'),
+      label: getLabel('CDL_MF_TP_TYPE', language, 'Assets Type'),
       value: reviewData.projectDetails?.projectType || '',
     },
     {
       gridSize: 12,
       // label: 'Project Location*',
-      label: getLabel('CDL_BPA_LOCATION', language, 'Asset Location'),
+      label: getLabel('CDL_MF_LOCATION', language, 'Asset Location'),
       value: reviewData.projectDetails?.projectLocation || '',
     },
     {
       gridSize: 3,
       // label: 'Project Account CIF*',
       label: getLabel(
-        'CDL_BPA_CIF',
+        'CDL_MF_CIF',
         language,
         'Customer Information File (CIF) Number'
       ),
@@ -191,20 +191,20 @@ const Step8: React.FC<Step8Props> = ({
     {
       gridSize: 3,
       // label: 'Project Status*',
-      label: getLabel('CDL_BPA_STATUS', language, 'Asset Status'),
+      label: getLabel('CDL_MF_STATUS', language, 'Asset Status'),
       value: reviewData.projectDetails?.projectStatus || '',
     },
     {
       gridSize: 6,
       // label: 'Project Account Status*',
-      label: getLabel('CDL_BPA_ACC_STATUS', language, 'Asset Account Status'),
+      label: getLabel('CDL_MF_ACC_STATUS', language, 'Asset Account Status'),
       value: reviewData.projectDetails?.projectAccountStatus || '',
     },
     {
       gridSize: 3,
       // label: 'Project Account Status Date',
       label: getLabel(
-        'CDL_BPA_ACC_STATUS_DATE',
+        'CDL_MF_ACC_STATUS_DATE',
         language,
         'Asset Account Status Date'
       ),
@@ -218,7 +218,7 @@ const Step8: React.FC<Step8Props> = ({
     {
       gridSize: 3,
       // label: 'Project Registration Date*',
-      label: getLabel('CDL_BPA_REG_DATE', language, 'Asset Registration Date'),
+      label: getLabel('CDL_MF_REG_DATE', language, 'Asset Registration Date'),
       value: reviewData.projectDetails?.projectRegistrationDate
         ? formatDate(
             reviewData.projectDetails.projectRegistrationDate,
@@ -230,7 +230,7 @@ const Step8: React.FC<Step8Props> = ({
       gridSize: 3,
       // label: 'Project Start Date Est.*',
       label: getLabel(
-        'CDL_BPA_EST_DATE',
+        'CDL_MF_EST_DATE',
         language,
         'Estimated Commencement Date'
       ),
@@ -245,7 +245,7 @@ const Step8: React.FC<Step8Props> = ({
       gridSize: 3,
       // label: 'Project Start Date*',
       label: getLabel(
-        'CDL_BPA_RETENTION_START_DATE',
+        'CDL_MF_RETENTION_START_DATE',
         language,
         'Retention Start Date'
       ),
@@ -257,7 +257,7 @@ const Step8: React.FC<Step8Props> = ({
       gridSize: 3,
       // label: 'Retention %*',
       label: getLabel(
-        'CDL_BPA_PRIMARY_RETENTION',
+        'CDL_MF_PRIMARY_RETENTION',
         language,
         'Primary Retention(%)'
       ),
@@ -267,7 +267,7 @@ const Step8: React.FC<Step8Props> = ({
       gridSize: 3,
       // label: 'Additional Retention %',
       label: getLabel(
-        'CDL_BPA_SECONDARY_RETENTION',
+        'CDL_MF_SECONDARY_RETENTION',
         language,
         'Supplementary Retention(%)'
       ),
@@ -277,7 +277,7 @@ const Step8: React.FC<Step8Props> = ({
       gridSize: 3,
       // label: 'Total Retention %',
       label: getLabel(
-        'CDL_BPA_AGG_RETENTION',
+        'CDL_MF_AGG_RETENTION',
         language,
         'Aggregate Retention(%)'
       ),
@@ -305,17 +305,17 @@ const Step8: React.FC<Step8Props> = ({
     },
     {
       gridSize: 6,
-      label: getLabel('CDL_BPA_BROK_FEES', language, 'Brokerage Fees'),
+      label: getLabel('CDL_MF_BROK_FEES', language, 'Brokerage Fees'),
       value: reviewData.projectDetails?.realEstateBrokerExpense || '',
     },
     {
       gridSize: 6,
-      label: getLabel('CDL_BPA_ADVTG_COST', language, 'Advertising Costs'),
+      label: getLabel('CDL_MF_ADVTG_COST', language, 'Advertising Costs'),
       value: reviewData.projectDetails?.advertisingExpense || '',
     },
     {
       gridSize: 6,
-      label: getLabel('CDL_BPA_LANDOWNER_NAME', language, 'Land Owner Name'),
+      label: getLabel('CDL_MF_LANDOWNER_NAME', language, 'Land Owner Name'),
       value: reviewData.projectDetails?.landOwnerName || '',
     },
     {
@@ -325,7 +325,7 @@ const Step8: React.FC<Step8Props> = ({
     },
     {
       gridSize: 3,
-      label: getLabel('CDL_BPA_TRAN_CUR', language, 'Transaction Currency'),
+      label: getLabel('CDL_MF_TRAN_CUR', language, 'Transaction Currency'),
       value: reviewData.projectDetails?.currency || 'AED',
     },
     {
@@ -340,18 +340,18 @@ const Step8: React.FC<Step8Props> = ({
     },
     {
       gridSize: 12,
-      label: getLabel('CDL_BPA_ADD_NOTES', language, 'Additional Notes'),
+      label: getLabel('CDL_MF_ADD_NOTES', language, 'Additional Notes'),
       value: reviewData.projectDetails?.remarks || '',
     },
     {
       gridSize: 12,
-      label: getLabel('CDL_BPA_SP_REG_APPROVAL', language, 'Special Approval'),
+      label: getLabel('CDL_MF_SP_REG_APPROVAL', language, 'Special Approval'),
       value: reviewData.projectDetails?.specialApproval || '',
     },
     {
       gridSize: 6,
       label: getLabel(
-        'CDL_BPA_RES_PAYMENT_TYPE',
+        'CDL_MF_RES_PAYMENT_TYPE',
         language,
         'Payment Type to be Blocked'
       ),
@@ -359,24 +359,24 @@ const Step8: React.FC<Step8Props> = ({
     },
     {
       gridSize: 6,
-      label: getLabel('CDL_BPA_ASS_MANAGER', language, 'Asset Manager'),
+      label: getLabel('CDL_MF_ASS_MANAGER', language, 'Asset Manager'),
       value:
         reviewData.projectDetails?.managedBy || 'ems_checker1, ems_checker1',
     },
     {
       gridSize: 6,
-      label: getLabel('CDL_BPA_BACKUP_MANAGER', language, 'Backup By*'),
+      label: getLabel('CDL_MF_BACKUP_MANAGER', language, 'Backup By*'),
       value: reviewData.projectDetails?.backupRef || 'Maker ENBD;[enbd_maker]',
     },
     {
       gridSize: 6,
-      label: getLabel('CDL_BPA_REL_MANAGER', language, 'Relationship Manager'),
+      label: getLabel('CDL_MF_REL_MANAGER', language, 'Relationship Manager'),
       value: reviewData.projectDetails?.relationshipManager || '',
     },
     {
       gridSize: 6,
       label: getLabel(
-        'CDL_BPA_ASS_REL_MANAGER',
+        'CDL_MF_ASS_REL_MANAGER',
         language,
         'Assistant Relationship Manager'
       ),
@@ -384,7 +384,7 @@ const Step8: React.FC<Step8Props> = ({
     },
     {
       gridSize: 6,
-      label: getLabel('CDL_BPA_TL', language, 'Team Leader Name'),
+      label: getLabel('CDL_MF_TL', language, 'Team Leader Name'),
       value: reviewData.projectDetails?.teamLeaderName || '',
     },
   ]
@@ -395,7 +395,7 @@ const Step8: React.FC<Step8Props> = ({
       {
         gridSize: 6,
         label: getLabel(
-          'CDL_BPA_ACCOUNT_NUMBER',
+          'CDL_MF_ACCOUNT_NUMBER',
           language,
           `${account.accountType || 'Account'} Number*`
         ),
@@ -403,24 +403,24 @@ const Step8: React.FC<Step8Props> = ({
       },
       {
         gridSize: 6,
-        label: getLabel('CDL_BPA_IBAN_NUMBER', language, 'IBAN Number*'),
+        label: getLabel('CDL_MF_IBAN_NUMBER', language, 'IBAN Number*'),
         value: account.ibanNumber || '',
       },
       {
         gridSize: 3,
-        label: getLabel('CDL_BPA_DATE_OPENED', language, 'Date Opened*'),
+        label: getLabel('CDL_MF_DATE_OPENED', language, 'Date Opened*'),
         value: account.dateOpened
           ? formatDate(account.dateOpened, 'MM/DD/YYYY')
           : '-',
       },
       {
         gridSize: 3,
-        label: getLabel('CDL_BPA_ACCOUNT_TITLE', language, 'Account Title*'),
+        label: getLabel('CDL_MF_ACCOUNT_TITLE', language, 'Account Title*'),
         value: account.accountTitle || 'dev',
       },
       {
         gridSize: 6,
-        label: getLabel('CDL_BPA_TRAN_CUR', language, 'Currency'),
+        label: getLabel('CDL_MF_TRAN_CUR', language, 'Currency'),
         value: account.currency || '-',
       },
     ])
@@ -767,7 +767,7 @@ const Step8: React.FC<Step8Props> = ({
                   <Grid container spacing={3}>
                     <Grid size={{ xs: 12, md: 6 }}>
                       {renderDisplayField(
-                        getLabel('CDL_BPA_FEES_TYPE', language, 'Type of Fee'),
+                        getLabel('CDL_MF_FEES_TYPE', language, 'Type of Fee'),
                         fee.feeType,
                         theme
                       )}
@@ -775,7 +775,7 @@ const Step8: React.FC<Step8Props> = ({
                     <Grid size={{ xs: 12, md: 6 }}>
                       {renderDisplayField(
                         getLabel(
-                          'CDL_BPA_FEES_FREQUENCY',
+                          'CDL_MF_FEES_FREQUENCY',
                           language,
                           'Collection Frequency'
                         ),
@@ -786,7 +786,7 @@ const Step8: React.FC<Step8Props> = ({
                     <Grid size={{ xs: 12, md: 6 }}>
                       {renderDisplayField(
                         getLabel(
-                          'CDL_BPA_FEES_ACCOUNT',
+                          'CDL_MF_FEES_ACCOUNT',
                           language,
                           'Debit Amount'
                         ),
@@ -797,7 +797,7 @@ const Step8: React.FC<Step8Props> = ({
                     <Grid size={{ xs: 12, md: 6 }}>
                       {renderDisplayField(
                         getLabel(
-                          'CDL_BPA_FEE_COLLECTION_DATE',
+                          'CDL_MF_FEE_COLLECTION_DATE',
                           language,
                           'Fee Collection Date'
                         ),
@@ -808,7 +808,7 @@ const Step8: React.FC<Step8Props> = ({
                     <Grid size={{ xs: 12, md: 6 }}>
                       {renderDisplayField(
                         getLabel(
-                          'CDL_BPA_FEES_DATE',
+                          'CDL_MF_FEES_DATE',
                           language,
                           'Next Collection Date'
                         ),
@@ -818,14 +818,14 @@ const Step8: React.FC<Step8Props> = ({
                     </Grid>
                     <Grid size={{ xs: 12, md: 6 }}>
                       {renderDisplayField(
-                        getLabel('CDL_BPA_FEES_RATE', language, 'Fee Rate (%)'),
+                        getLabel('CDL_MF_FEES_RATE', language, 'Fee Rate (%)'),
                         fee.feePercentage,
                         theme
                       )}
                     </Grid>
                     <Grid size={{ xs: 12, md: 6 }}>
                       {renderDisplayField(
-                        getLabel('CDL_BPA_FEES_AMOUNT', language, 'Fee Amount'),
+                        getLabel('CDL_MF_FEES_AMOUNT', language, 'Fee Amount'),
                         fee.amount,
                         theme
                       )}
@@ -833,7 +833,7 @@ const Step8: React.FC<Step8Props> = ({
                     <Grid size={{ xs: 12, md: 6 }}>
                       {renderDisplayField(
                         getLabel(
-                          'CDL_BPA_FEES_VAT',
+                          'CDL_MF_FEES_VAT',
                           language,
                           'Applicable VAT (%)'
                         ),
@@ -844,7 +844,7 @@ const Step8: React.FC<Step8Props> = ({
                     <Grid size={{ xs: 12, md: 6 }}>
                       {renderDisplayField(
                         getLabel(
-                          'CDL_BPA_FEES_CURRENCY',
+                          'CDL_MF_FEES_CURRENCY',
                           language,
                           'Transaction Currency'
                         ),
@@ -927,7 +927,7 @@ const Step8: React.FC<Step8Props> = ({
                     <Grid size={{ xs: 12, md: 6 }}>
                       {renderDisplayField(
                         getLabel(
-                          'CDL_BPA_BENE_REFID',
+                          'CDL_MF_BENE_REFID',
                           language,
                           'Beneficiary Reference ID'
                         ),
@@ -938,7 +938,7 @@ const Step8: React.FC<Step8Props> = ({
                     <Grid size={{ xs: 12, md: 6 }}>
                       {renderDisplayField(
                         getLabel(
-                          'CDL_BPA_RES_PAYMENT_TYPE',
+                          'CDL_MF_RES_PAYMENT_TYPE',
                           language,
                           'Restricted Payment Type'
                         ),
@@ -949,7 +949,7 @@ const Step8: React.FC<Step8Props> = ({
                     <Grid size={{ xs: 12, md: 6 }}>
                       {renderDisplayField(
                         getLabel(
-                          'CDL_BPA_BENE_NAME',
+                          'CDL_MF_BENE_NAME',
                           language,
                           'Beneficiary Full Name'
                         ),
@@ -959,7 +959,7 @@ const Step8: React.FC<Step8Props> = ({
                     </Grid>
                     <Grid size={{ xs: 12, md: 6 }}>
                       {renderDisplayField(
-                        getLabel('CDL_BPA_BENE_BANK', language, 'Bank Name'),
+                        getLabel('CDL_MF_BENE_BANK', language, 'Bank Name'),
                         beneficiary.bankName,
                         theme
                       )}
@@ -967,7 +967,7 @@ const Step8: React.FC<Step8Props> = ({
                     <Grid size={{ xs: 12, md: 6 }}>
                       {renderDisplayField(
                         getLabel(
-                          'CDL_BPA_BENE_ACC',
+                          'CDL_MF_BENE_ACC',
                           language,
                           'Bank Account Number'
                         ),
@@ -978,7 +978,7 @@ const Step8: React.FC<Step8Props> = ({
                     <Grid size={{ xs: 12, md: 6 }}>
                       {renderDisplayField(
                         getLabel(
-                          'CDL_BPA_BENE_BIC',
+                          'CDL_MF_BENE_BIC',
                           language,
                           'SWIFT/BIC Code'
                         ),
@@ -989,7 +989,7 @@ const Step8: React.FC<Step8Props> = ({
                     <Grid size={{ xs: 12, md: 6 }}>
                       {renderDisplayField(
                         getLabel(
-                          'CDL_BPA_BENE_ROUTING',
+                          'CDL_MF_BENE_ROUTING',
                           language,
                           'Routing Number'
                         ),
@@ -1076,7 +1076,7 @@ const Step8: React.FC<Step8Props> = ({
                       }}
                     >
                       {getLabel(
-                        'CDL_BPA_INSTALLMENT_NO',
+                        'CDL_MF_INSTALLMENT_NO',
                         language,
                         'Installment Sequence Number'
                       )}
@@ -1091,7 +1091,7 @@ const Step8: React.FC<Step8Props> = ({
                       }}
                     >
                       {getLabel(
-                        'CDL_BPA_INSTALLMENT_PER',
+                        'CDL_MF_INSTALLMENT_PER',
                         language,
                         'Installment Percentage (%)'
                       )}
@@ -1106,7 +1106,7 @@ const Step8: React.FC<Step8Props> = ({
                       }}
                     >
                       {getLabel(
-                        'CDL_BPA_ASST_COMP_PER',
+                        'CDL_MF_ASST_COMP_PER',
                         language,
                         'Asset Completion Percentage'
                       )}
@@ -1409,66 +1409,66 @@ const Step8: React.FC<Step8Props> = ({
 
           const breakdownSectionTitles = [
             getLabel(
-              'CDL_BPA_CASH_FROM_UNIT',
+              'CDL_MF_CASH_FROM_UNIT',
               language,
               'Cash Inflow from Unit Holders'
             ),
             getLabel(
-              'CDL_BPA_LAND_ACQ_COST',
+              'CDL_MF_LAND_ACQ_COST',
               language,
               'Land Acquisition Cost'
             ),
-            getLabel('CDL_BPA_BUILD_COST', language, 'Build Cost'),
-            getLabel('CDL_BPA_MARK_EXP', language, 'Marketing Expense'),
+            getLabel('CDL_MF_BUILD_COST', language, 'Build Cost'),
+            getLabel('CDL_MF_MARK_EXP', language, 'Marketing Expense'),
             getLabel(
-              'CDL_BPA_ASST_MGMT_EXP',
+              'CDL_MF_ASST_MGMT_EXP',
               language,
               'Asset Management Expense'
             ),
-            getLabel('CDL_BPA_MORTGAGE_AMT', language, 'Mortgage Amount'),
-            getLabel('CDL_BPA_VAT_AMT', language, 'VAT Payment'),
-            getLabel('CDL_BPA_TOTAL_AMOUNT', language, 'Total Amount'),
-            getLabel('CDL_BPA_REFUND_AMT', language, 'Refund Amount'),
+            getLabel('CDL_MF_MORTGAGE_AMT', language, 'Mortgage Amount'),
+            getLabel('CDL_MF_VAT_AMT', language, 'VAT Payment'),
+            getLabel('CDL_MF_TOTAL_AMOUNT', language, 'Total Amount'),
+            getLabel('CDL_MF_REFUND_AMT', language, 'Refund Amount'),
             getLabel(
-              'CDL_BPA_RETEN_ACC_BAL',
+              'CDL_MF_RETEN_ACC_BAL',
               language,
               'Retention Account Balance'
             ),
             getLabel(
-              'CDL_BPA_TRUST_ACC_BAL',
+              'CDL_MF_TRUST_ACC_BAL',
               language,
               'Trust Account Balance'
             ),
             getLabel(
-              'CDL_BPA_SUBCONS_ACC_BAL',
+              'CDL_MF_SUBCONS_ACC_BAL',
               language,
               'Sub-Construction Account Balance'
             ),
-            getLabel('CDL_BPA_TECH_FEES', language, 'Technical Fees'),
-            getLabel('CDL_BPA_UNALLO_COST', language, 'Unallocated Costs'),
-            getLabel('CDL_BPA_LOAN', language, 'Loan/Installment Payments'),
+            getLabel('CDL_MF_TECH_FEES', language, 'Technical Fees'),
+            getLabel('CDL_MF_UNALLO_COST', language, 'Unallocated Costs'),
+            getLabel('CDL_MF_LOAN', language, 'Loan/Installment Payments'),
             getLabel(
-              'CDL_BPA_INFRA_COST',
+              'CDL_MF_INFRA_COST',
               language,
               'Infrastructure Development Cost'
             ),
-            getLabel('CDL_BPA_OTHER_EXP', language, 'Other Expenses'),
-            getLabel('CDL_BPA_TRANS_AMT', language, 'Transferred Amount'),
-            getLabel('CDL_BPA_FORFEIT_AMT', language, 'Forfeited Amount'),
+            getLabel('CDL_MF_OTHER_EXP', language, 'Other Expenses'),
+            getLabel('CDL_MF_TRANS_AMT', language, 'Transferred Amount'),
+            getLabel('CDL_MF_FORFEIT_AMT', language, 'Forfeited Amount'),
             getLabel(
-              'CDL_BPA_DEV_EQUITY_CONT',
+              'CDL_MF_DEV_EQUITY_CONT',
               language,
               'Developer Equity Contribution'
             ),
-            getLabel('CDL_BPA_AMANAT_FUND', language, 'Amanat Fund Allocation'),
-            getLabel('CDL_BPA_OTHER_WITHDRAW', language, 'Other Withdrawals'),
+            getLabel('CDL_MF_AMANAT_FUND', language, 'Amanat Fund Allocation'),
+            getLabel('CDL_MF_OTHER_WITHDRAW', language, 'Other Withdrawals'),
             getLabel(
-              'CDL_BPA_OQOOD_OTHER_PMT',
+              'CDL_MF_OQOOD_OTHER_PMT',
               language,
               'Oqood and Other Payments'
             ),
             getLabel(
-              'CDL_BPA_VAT_DEPOSIT_AMT',
+              'CDL_MF_VAT_DEPOSIT_AMT',
               language,
               'VAT Deposited Amount'
             ),
@@ -1498,7 +1498,7 @@ const Step8: React.FC<Step8Props> = ({
                     }}
                   >
                     {getLabel(
-                      'CDL_BPA_FINANCIAL',
+                      'CDL_MF_FINANCIAL',
                       language,
                       'Asset Financial Overview'
                     )}
@@ -1535,7 +1535,7 @@ const Step8: React.FC<Step8Props> = ({
                       }}
                     >
                       {getLabel(
-                        'CDL_BPA_FINANCIAL',
+                        'CDL_MF_FINANCIAL',
                         language,
                         'Asset Financial Overview'
                       )}
@@ -1544,7 +1544,7 @@ const Step8: React.FC<Step8Props> = ({
                   <Grid size={{ xs: 12, md: 6 }}>
                     {renderDisplayField(
                       getLabel(
-                        'CDL_BPA_TOTAL_REVENUE',
+                        'CDL_MF_TOTAL_REVENUE',
                         language,
                         'Total Revenue'
                       ),
@@ -1554,7 +1554,7 @@ const Step8: React.FC<Step8Props> = ({
                   </Grid>
                   <Grid size={{ xs: 12, md: 6 }}>
                     {renderDisplayField(
-                      getLabel('CDL_BPA_BUILD_COST', language, 'Build Cost'),
+                      getLabel('CDL_MF_BUILD_COST', language, 'Build Cost'),
                       normalized.estimate.constructionCost || 'N/A',
                       theme
                     )}
@@ -1562,7 +1562,7 @@ const Step8: React.FC<Step8Props> = ({
                   <Grid size={{ xs: 12, md: 6 }}>
                     {renderDisplayField(
                       getLabel(
-                        'CDL_BPA_ASST_MGMT_EXP',
+                        'CDL_MF_ASST_MGMT_EXP',
                         language,
                         'Asset Management Expense'
                       ),
@@ -1573,7 +1573,7 @@ const Step8: React.FC<Step8Props> = ({
                   <Grid size={{ xs: 12, md: 6 }}>
                     {renderDisplayField(
                       getLabel(
-                        'CDL_BPA_LAND_ACQ_COST',
+                        'CDL_MF_LAND_ACQ_COST',
                         language,
                         'Land Acquisition Cost'
                       ),
@@ -1584,7 +1584,7 @@ const Step8: React.FC<Step8Props> = ({
                   <Grid size={{ xs: 12, md: 6 }}>
                     {renderDisplayField(
                       getLabel(
-                        'CDL_BPA_MARK_EXP',
+                        'CDL_MF_MARK_EXP',
                         language,
                         'Marketing Expense'
                       ),
@@ -1595,7 +1595,7 @@ const Step8: React.FC<Step8Props> = ({
                   <Grid size={{ xs: 12, md: 6 }}>
                     {renderDisplayField(
                       getLabel(
-                        'CDL_BPA_TRAN_DATE',
+                        'CDL_MF_TRAN_DATE',
                         language,
                         'Transaction Date'
                       ),
@@ -1623,7 +1623,7 @@ const Step8: React.FC<Step8Props> = ({
                       }}
                     >
                       {getLabel(
-                        'CDL_BPA_ACTUAL_ASSEST_COST',
+                        'CDL_MF_ACTUAL_ASSEST_COST',
                         language,
                         'Actual Asset Cost'
                       )}
@@ -1632,7 +1632,7 @@ const Step8: React.FC<Step8Props> = ({
                   <Grid size={{ xs: 12, md: 6 }}>
                     {renderDisplayField(
                       getLabel(
-                        'CDL_BPA_TOTAL_UNIT_SOLD',
+                        'CDL_MF_TOTAL_UNIT_SOLD',
                         language,
                         'Total Units Sold Value'
                       ),
@@ -1642,7 +1642,7 @@ const Step8: React.FC<Step8Props> = ({
                   </Grid>
                   <Grid size={{ xs: 12, md: 6 }}>
                     {renderDisplayField(
-                      getLabel('CDL_BPA_BUILD_COST', language, 'Build Cost'),
+                      getLabel('CDL_MF_BUILD_COST', language, 'Build Cost'),
                       normalized.actual.constructionCost || 'N/A',
                       theme
                     )}
@@ -1650,7 +1650,7 @@ const Step8: React.FC<Step8Props> = ({
                   <Grid size={{ xs: 12, md: 4 }}>
                     {renderDisplayField(
                       getLabel(
-                        'CDL_BPA_INFRA_COST',
+                        'CDL_MF_INFRA_COST',
                         language,
                         'Infrastructure Development Cost'
                       ),
@@ -1661,7 +1661,7 @@ const Step8: React.FC<Step8Props> = ({
                   <Grid size={{ xs: 12, md: 4 }}>
                     {renderDisplayField(
                       getLabel(
-                        'CDL_BPA_LAND_ACQ_COST',
+                        'CDL_MF_LAND_ACQ_COST',
                         language,
                         'Land Acquisition Cost'
                       ),
@@ -1672,7 +1672,7 @@ const Step8: React.FC<Step8Props> = ({
                   <Grid size={{ xs: 12, md: 4 }}>
                     {renderDisplayField(
                       getLabel(
-                        'CDL_BPA_ASST_MGMT_EXP',
+                        'CDL_MF_ASST_MGMT_EXP',
                         language,
                         'Asset Management Expense'
                       ),
@@ -1683,7 +1683,7 @@ const Step8: React.FC<Step8Props> = ({
                   <Grid size={{ xs: 12, md: 6 }}>
                     {renderDisplayField(
                       getLabel(
-                        'CDL_BPA_MARK_EXP',
+                        'CDL_MF_MARK_EXP',
                         language,
                         'Marketing Expense'
                       ),
@@ -1694,7 +1694,7 @@ const Step8: React.FC<Step8Props> = ({
                   <Grid size={{ xs: 12, md: 6 }}>
                     {renderDisplayField(
                       getLabel(
-                        'CDL_BPA_TRAN_DATE',
+                        'CDL_MF_TRAN_DATE',
                         language,
                         'Transaction Date'
                       ),
@@ -1730,7 +1730,7 @@ const Step8: React.FC<Step8Props> = ({
                       <Grid size={{ xs: 12, md: 3 }}>
                         {renderDisplayField(
                           getLabel(
-                            'CDL_BPA_FUND_OUT_ESCROW',
+                            'CDL_MF_FUND_OUT_ESCROW',
                             language,
                             'Funds Outside Escrow'
                           ),
@@ -1743,7 +1743,7 @@ const Step8: React.FC<Step8Props> = ({
                       <Grid size={{ xs: 12, md: 3 }}>
                         {renderDisplayField(
                           getLabel(
-                            'CDL_BPA_FUND_WITHIN_ESCROW',
+                            'CDL_MF_FUND_WITHIN_ESCROW',
                             language,
                             'Funds Within Escrow'
                           ),
@@ -1756,7 +1756,7 @@ const Step8: React.FC<Step8Props> = ({
                       <Grid size={{ xs: 12, md: 3 }}>
                         {renderDisplayField(
                           getLabel(
-                            'CDL_BPA_TOTAL_AMOUNT',
+                            'CDL_MF_TOTAL_AMOUNT',
                             language,
                             'Total Amount'
                           ),
@@ -1769,7 +1769,7 @@ const Step8: React.FC<Step8Props> = ({
                       <Grid size={{ xs: 12, md: 3 }}>
                         {renderDisplayField(
                           getLabel(
-                            'CDL_BPA_EXCEP_CAP_VAL',
+                            'CDL_MF_EXCEP_CAP_VAL',
                             language,
                             'Exceptional Capital Value'
                           ),
@@ -1789,7 +1789,7 @@ const Step8: React.FC<Step8Props> = ({
                   <Grid size={{ xs: 12, md: 6 }}>
                     {renderDisplayField(
                       getLabel(
-                        'CDL_BPA_PROFIT_ERND',
+                        'CDL_MF_PROFIT_ERND',
                         language,
                         'Credit Interest/Profit Earned for Retention A/c'
                       ),
@@ -1800,7 +1800,7 @@ const Step8: React.FC<Step8Props> = ({
                   <Grid size={{ xs: 12, md: 6 }}>
                     {renderDisplayField(
                       getLabel(
-                        'CDL_BPA_PMT_FRM_RETENTION',
+                        'CDL_MF_PMT_FRM_RETENTION',
                         language,
                         'Payments for Retention Account'
                       ),
@@ -1811,7 +1811,7 @@ const Step8: React.FC<Step8Props> = ({
                   <Grid size={{ xs: 12, md: 6 }}>
                     {renderDisplayField(
                       getLabel(
-                        'CDL_BPA_REIMB_AMT',
+                        'CDL_MF_REIMB_AMT',
                         language,
                         'Reimbursement Amount'
                       ),
@@ -1822,7 +1822,7 @@ const Step8: React.FC<Step8Props> = ({
                   <Grid size={{ xs: 12, md: 6 }}>
                     {renderDisplayField(
                       getLabel(
-                        'CDL_BPA_UNIT_REG_FEES',
+                        'CDL_MF_UNIT_REG_FEES',
                         language,
                         'Unit Registration Fees'
                       ),
@@ -1833,7 +1833,7 @@ const Step8: React.FC<Step8Props> = ({
                   <Grid size={{ xs: 12, md: 6 }}>
                     {renderDisplayField(
                       getLabel(
-                        'CDL_BPA_INT_ERND_ESCROW',
+                        'CDL_MF_INT_ERND_ESCROW',
                         language,
                         'Credit Interest/Profit Earned for ESCROW A/c'
                       ),
@@ -1843,7 +1843,7 @@ const Step8: React.FC<Step8Props> = ({
                   </Grid>
                   <Grid size={{ xs: 12, md: 6 }}>
                     {renderDisplayField(
-                      getLabel('CDL_BPA_CAP_VAT_AMT', language, 'VAT Capped*'),
+                      getLabel('CDL_MF_CAP_VAT_AMT', language, 'VAT Capped*'),
                       normalized.additional.vatCapped || 'N/A',
                       theme
                     )}
@@ -1879,7 +1879,7 @@ const Step8: React.FC<Step8Props> = ({
                   color: textPrimary,
                 }}
               >
-                {getLabel('CDL_BPA_CLOSURE', language, 'Asset Closure')}
+                {getLabel('CDL_MF_CLOSURE', language, 'Asset Closure')}
               </Typography>
               {!isViewMode && (
                 <Button
@@ -1907,7 +1907,7 @@ const Step8: React.FC<Step8Props> = ({
               <Grid size={{ xs: 12, md: 6 }}>
                 {renderDisplayField(
                   getLabel(
-                    'CDL_BPA_TOTAL_INCOME_FUND',
+                    'CDL_MF_TOTAL_INCOME_FUND',
                     language,
                     'Total Income Fund'
                   ),
@@ -1917,7 +1917,7 @@ const Step8: React.FC<Step8Props> = ({
               </Grid>
               <Grid size={{ xs: 12, md: 6 }}>
                 {renderDisplayField(
-                  getLabel('CDL_BPA_TOTAL_PAYMENT', language, 'Total Payment'),
+                  getLabel('CDL_MF_TOTAL_PAYMENT', language, 'Total Payment'),
                   reviewData.closureData[0]?.totalPayment || 'N/A',
                   theme
                 )}

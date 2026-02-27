@@ -622,22 +622,22 @@ const Step5: React.FC<Step5Props> = ({
       {
         gridSize: 6,
         label: getLabel('CDL_OWNER_UNIT_MF_NAME', currentLanguage, 'Management Firm Name*'),
-        value: unitData.realEstateAssestDTO?.reaName || '-',
+        value: unitData.managementFirmDTO?.mfName || '-',
       },
       {
         gridSize: 6,
         label: getLabel('CDL_OWNER_UNIT_MF_ID', currentLanguage, 'Management Firm ID*'),
-        value: unitData.realEstateAssestDTO?.reaId || '-',
+        value: unitData.managementFirmDTO?.mfId || '-',
       },
       {
         gridSize: 6,
         label: getLabel('CDL_OWNER_UNIT_AR_ID', currentLanguage, 'Asset Register ID*'),
-        value: unitData.realEstateAssestDTO?.reaReraNumber || '-',
+        value: unitData.managementFirmDTO?.mfReraNumber || '-',
       },
       {
         gridSize: 6,
         label: getLabel('CDL_OWNER_UNIT_AR_NAME', currentLanguage, 'Asset Register Name*'),
-        value: unitData.realEstateAssestDTO?.reaManagedBy || '-',
+        value: unitData.managementFirmDTO?.mfManagedBy || '-',
       },
       {
         gridSize: 3,

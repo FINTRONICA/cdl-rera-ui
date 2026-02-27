@@ -622,7 +622,7 @@ const Step5: React.FC<Step5Props> = ({
                 }}
               >
                 {getLabel(
-                  'CDL_BPA_ADD_INSTALLMENT',
+                  'CDL_MF_ADD_INSTALLMENT',
                   language,
                   'Add New Installment'
                 )}
@@ -638,27 +638,27 @@ const Step5: React.FC<Step5Props> = ({
                 <TableRow>
                   <TableCell sx={compactValueSx}>
                     {getLabel(
-                      'CDL_BPA_INSTALLMENT_NO',
+                      'CDL_MF_INSTALLMENT_NO',
                       language,
                       'Installment Sequence Number'
                     )}
                   </TableCell>
                   <TableCell sx={compactValueSx}>
                     {getLabel(
-                      'CDL_BPA_INSTALLMENT_PER',
+                      'CDL_MF_INSTALLMENT_PER',
                       language,
                       'Installment Percentage (%)'
                     )}
                   </TableCell>
                   <TableCell sx={compactValueSx}>
                     {getLabel(
-                      'CDL_BPA_PROJ_COM_PER',
+                      'CDL_MF_PROJ_COM_PER',
                       language,
                       'Asset Completion Percentage (%)'
                     )}
                   </TableCell>
                   <TableCell sx={compactValueSx}>
-                    {getLabel('CDL_BPA_ACTION', language, 'Action')}
+                    {getLabel('CDL_MF_ACTION', language, 'Action')}
                   </TableCell>
                 </TableRow>
               </TableHead>
@@ -678,7 +678,7 @@ const Step5: React.FC<Step5Props> = ({
                           fullWidth
                           required
                           placeholder={getLabel(
-                            'CDL_BPA_INSTALLMENT_PER',
+                            'CDL_MF_INSTALLMENT_PER',
                             language,
                             'Installment Percentage'
                           )}
@@ -714,7 +714,7 @@ const Step5: React.FC<Step5Props> = ({
                           required
                           disabled={isRowDisabled}
                           placeholder={getLabel(
-                            'CDL_BPA_PROJ_COM_PER',
+                            'CDL_MF_PROJ_COM_PER',
                             language,
                             'Asset Completion Percentage (%)'
                           )}

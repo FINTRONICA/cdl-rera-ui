@@ -32,6 +32,7 @@ import {
 } from '@/lib/validation/feeSchemas'
 import { convertDatePickerToZonedDateTime } from '@/utils'
 import { useFeeDropdownLabels } from '@/hooks/useFeeDropdowns'
+import type { FeeDropdownOption } from '@/services/api/feeDropdownService'
 import { getFeeCategoryLabel } from '@/constants/mappings/feeDropdownMapping'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
@@ -108,43 +109,61 @@ export const RightSlideProjectFeeDetailsPanel: React.FC<
     setIsResetting(true)
 
     if (editingFee) {
-      // Map display values back to IDs for editing
-      const feeCategory = feeCategories.find(
-        (category: unknown) =>
-          (category as { configValue: string }).configValue ===
-          editingFee.FeeType
-      )
-      const feeFrequency = feeFrequencies.find(
-        (frequency: unknown) =>
-          (frequency as { configValue: string }).configValue ===
-          editingFee.Frequency
-      )
-      const debitAccount = debitAccounts.find(
-        (account: unknown) =>
-          (account as { configValue: string }).configValue ===
-          editingFee.DebitAccount
-      )
-      const currency = currencies.find(
-        (curr: unknown) =>
-          (curr as { configValue: string }).configValue === editingFee.Currency
-      )
+      // Prefer raw ID fields passed from Step3 (feeType, frequency, debitAccount, currency)
+      // Fallback to matching by display labels if IDs are not present
+      const feeTypeIdFromEditing =
+        (editingFee as { feeType?: string | number }).feeType ?? ''
+      const frequencyIdFromEditing =
+        (editingFee as { frequency?: string | number }).frequency ?? ''
+      const debitAccountIdFromEditing =
+        (editingFee as { debitAccount?: string | number }).debitAccount ?? ''
+      const currencyIdFromEditing =
+        (editingFee as { currency?: string | number }).currency ?? ''
+
+      const feeCategory =
+        feeCategories.find(
+          (category: unknown) =>
+            (category as { configValue?: string }).configValue ===
+            editingFee.FeeType
+        ) ?? null
+      const feeFrequency =
+        feeFrequencies.find(
+          (frequency: unknown) =>
+            (frequency as { configValue?: string }).configValue ===
+            editingFee.Frequency
+        ) ?? null
+      const debitAccount =
+        debitAccounts.find(
+          (account: unknown) =>
+            (account as { configValue?: string }).configValue ===
+            editingFee.DebitAccount
+        ) ?? null
+      const currency =
+        currencies.find(
+          (curr: unknown) =>
+            (curr as { configValue?: string }).configValue ===
+            editingFee.Currency
+        ) ?? null
 
       const resetData = {
         feeType:
-          (feeCategory as { id?: number })?.id?.toString() ||
-          editingFee.FeeType ||
-          '',
+          (feeTypeIdFromEditing !== ''
+            ? String(feeTypeIdFromEditing)
+            : (feeCategory as { id?: number })?.id?.toString() ||
+              editingFee.FeeType) || '',
         frequency:
-          (feeFrequency as { id?: number })?.id?.toString() ||
-          editingFee.Frequency ||
-          '',
+          (frequencyIdFromEditing !== ''
+            ? String(frequencyIdFromEditing)
+            : (feeFrequency as { id?: number })?.id?.toString() ||
+              editingFee.Frequency) || '',
         debitAmount: editingFee.DebitAmount
           ? editingFee.DebitAmount.toString()
           : '',
         debitAccount:
-          (debitAccount as { id?: number })?.id?.toString() ||
-          editingFee.DebitAccount ||
-          '',
+          (debitAccountIdFromEditing !== ''
+            ? String(debitAccountIdFromEditing)
+            : (debitAccount as { id?: number })?.id?.toString() ||
+              editingFee.DebitAccount) || '',
         feeToBeCollected: editingFee.Feetobecollected
           ? dayjs(editingFee.Feetobecollected, 'DD/MM/YYYY')
           : null,
@@ -158,8 +177,10 @@ export const RightSlideProjectFeeDetailsPanel: React.FC<
           ? editingFee.VATPercentage.toString()
           : '',
         currency:
-          (currency as { id?: number })?.id?.toString() ||
-          editingFee.Currency ||
+          (currencyIdFromEditing !== ''
+            ? String(currencyIdFromEditing)
+            : (currency as { id?: number })?.id?.toString() ||
+              editingFee.Currency) ||
           '',
         totalAmount: editingFee.Amount ? editingFee.Amount.toString() : '',
       }
@@ -220,44 +241,42 @@ export const RightSlideProjectFeeDetailsPanel: React.FC<
       const feeData = {
         // Include ID for updates
         ...(editingFee?.id && { id: parseInt(editingFee.id.toString()) }),
-        reafCategoryDTO: {
+        mffCategoryDTO: {
           id: parseInt(data.feeType) || 0,
         },
-        reafFrequencyDTO: {
+        mffFrequencyDTO: {
           id: parseInt(data.frequency) || 0,
         },
-        reafAccountTypeDTO: {
+        mffAccountTypeDTO: {
           id: parseInt(data.debitAccount) || 0,
         },
-        reafDebitAmount:
+        mffDebitAmount:
           parseFloat(data.debitAmount?.replace(/,/g, '') || '0') || 0,
-        reafTotalAmount:
+        mffTotalAmount:
           parseFloat(data.totalAmount?.replace(/,/g, '') || '0') || 0,
-        reafCollectionDate: data.feeToBeCollected
+        mffCollectionDate: data.feeToBeCollected
           ? convertDatePickerToZonedDateTime(
               (data.feeToBeCollected as any).format('YYYY-MM-DD')
             )
           : '',
-        reafNextRecoveryDate: data.nextRecoveryDate
+        mffNextRecoveryDate: data.nextRecoveryDate
           ? convertDatePickerToZonedDateTime(
               (data.nextRecoveryDate as any).format('YYYY-MM-DD')
             )
           : '',
-        reafFeePercentage:
+        mffFeePercentage:
           parseFloat(data.feePercentage?.replace(/%/g, '') || '0') || 0,
-        reafVatPercentage:
+        mffVatPercentage:
           parseFloat(data.vatPercentage?.replace(/%/g, '') || '0') || 0,
-        reafCurrencyDTO: {
+        mffCurrencyDTO: {
           id: parseInt(data.currency || '0') || 0,
         },
-        realEstateAssestDTO: {
+        managementFirmDTO: {
           id: projectId ? parseInt(projectId) : undefined,
         },
-        // Add deleted and enabled fields when editing
-        ...(editingFee?.id && {
-          deleted: false,
-          enabled: true,
-        }),
+        // Always send so backend persists correctly and fee appears in list (deleted.equals=false, enabled.equals=true)
+        deleted: false,
+        enabled: true,
       }
 
       const validationResult = projectFeeValidationSchema.safeParse(feeData)
@@ -271,7 +290,7 @@ export const RightSlideProjectFeeDetailsPanel: React.FC<
             issue.path.some(
               (path) =>
                 typeof path === 'string' &&
-                (path.includes('reafCategoryDTO') || path.includes('feeType'))
+                (path.includes('mffCategoryDTO') || path.includes('feeType'))
             ) ||
             issue.message.toLowerCase().includes('fee') ||
             issue.message.toLowerCase().includes('category')
@@ -353,7 +372,7 @@ export const RightSlideProjectFeeDetailsPanel: React.FC<
           feePercentage: data.feePercentage,
           vatPercentage: data.vatPercentage,
           totalAmount: data.totalAmount,
-          realEstateAssetDTO: {
+          managementFirmDTO: {
             id: projectId ? parseInt(projectId) : undefined,
           },
         }
@@ -390,34 +409,41 @@ export const RightSlideProjectFeeDetailsPanel: React.FC<
   const labelSx = tokens.label
   const valueSx = tokens.value
 
-  const selectStyles = React.useMemo(
-    () => ({
+  const selectStyles = React.useMemo(() => {
+    const isDark = theme.palette.mode === 'dark'
+
+    return {
       height: '46px',
       '& .MuiOutlinedInput-root': {
         height: '46px',
         borderRadius: '8px',
-        backgroundColor: alpha('#1E293B', 0.5), // Darker background for inputs
+        backgroundColor: isDark
+          ? alpha('#1E293B', 0.5) // darker background for dark mode
+          : theme.palette.background.paper, // light background for light mode
         '& fieldset': {
-          borderColor: alpha('#FFFFFF', 0.3), // White border with opacity
-        borderWidth: '1px',
+          borderColor: isDark
+            ? alpha('#FFFFFF', 0.3)
+            : alpha(theme.palette.text.primary, 0.3),
+          borderWidth: '1px',
         },
         '&:hover fieldset': {
-          borderColor: alpha('#FFFFFF', 0.5), // Brighter on hover
+          borderColor: isDark
+            ? alpha('#FFFFFF', 0.5)
+            : alpha(theme.palette.text.primary, 0.5),
         },
         '&.Mui-focused fieldset': {
           borderColor: theme.palette.primary.main,
         },
       },
       '& .MuiSelect-icon': {
-        color: '#FFFFFF', // White icon
+        color: isDark ? '#FFFFFF' : theme.palette.text.primary,
         fontSize: '20px',
       },
       '& .MuiInputBase-input': {
-        color: '#FFFFFF', // White text in inputs
+        color: isDark ? '#FFFFFF' : theme.palette.text.primary,
       },
-    }),
-    [theme]
-  )
+    }
+  }, [theme])
 
   const renderTextField = (
     name: keyof FeeDetailsFormData,
@@ -470,45 +496,63 @@ export const RightSlideProjectFeeDetailsPanel: React.FC<
         name={name}
         control={control}
         defaultValue={''}
-        render={({ field, fieldState: { error } }) => (
-          <FormControl
-            fullWidth
-            error={!!error && !isResetting}
-            required={required}
-          >
-            <InputLabel sx={labelSx}>
-              {loading ? `Loading...` : label}
-            </InputLabel>
-            <Select
-              {...field}
-              input={<OutlinedInput label={loading ? `Loading...` : label} />}
-              label={loading ? `Loading...` : label}
-              sx={{ ...selectStyles, ...valueSx }}
-              IconComponent={KeyboardArrowDownIcon}
-              disabled={loading}
+        render={({ field, fieldState: { error } }) => {
+          // Use string for value so it always matches MenuItem value (MUI/React often pass string in onChange)
+          const rawValue = field.value
+          const value =
+            rawValue !== undefined && rawValue !== null && rawValue !== ''
+              ? String(rawValue)
+              : ''
+          return (
+            <FormControl
+              fullWidth
+              error={!!error && !isResetting}
+              required={required}
             >
-              {options.map((option) => (
-                <MenuItem
-                  key={(option as { configId?: string }).configId}
-                  value={(option as { id?: string }).id}
-                >
-                  {getDisplayLabel(
-                    option as any,
-                    getFeeCategoryLabel(
-                      (option as { configId?: string }).configId
+              <InputLabel sx={labelSx} id={`${name}-select-label`}>
+                {loading ? `Loading...` : label}
+              </InputLabel>
+              <Select
+                name={field.name}
+                value={value}
+                onChange={(e) => field.onChange(e.target.value)}
+                onBlur={field.onBlur}
+                inputRef={field.ref}
+                input={<OutlinedInput label={loading ? `Loading...` : label} />}
+                label={loading ? `Loading...` : label}
+                labelId={`${name}-select-label`}
+                sx={{ ...selectStyles, ...valueSx }}
+                IconComponent={KeyboardArrowDownIcon}
+                disabled={loading}
+              >
+                {Array.isArray(options) &&
+                  options.map((option) => {
+                    const opt = option as { id?: number; configId?: string }
+                    const optionValue =
+                      opt?.id != null ? String(opt.id) : ''
+                    if (!optionValue) return null
+                    return (
+                      <MenuItem
+                        key={opt.configId ?? optionValue}
+                        value={optionValue}
+                      >
+                        {getDisplayLabel(
+                          option as FeeDropdownOption,
+                          getFeeCategoryLabel(opt.configId)
+                        )}
+                      </MenuItem>
                     )
-                  )}
-                </MenuItem>
-              ))}
-            </Select>
-            {!isResetting && (
-              <FormError
-                error={(error?.message as string) || ''}
-                touched={true}
-              />
-            )}
-          </FormControl>
-        )}
+                  })}
+              </Select>
+              {!isResetting && (
+                <FormError
+                  error={(error?.message as string) || ''}
+                  touched={true}
+                />
+              )}
+            </FormControl>
+          )
+        }}
       />
     </Grid>
   )
@@ -598,7 +642,7 @@ export const RightSlideProjectFeeDetailsPanel: React.FC<
             pl: 3,
           }}
         >
-          {getLabel('CDL_BPA_FEES', 'Escrow Fee & Collection Details')}
+          {getLabel('CDL_MF_FEES', 'Escrow Fee & Collection Details')}
           <IconButton
             onClick={handleClose}
             sx={{
@@ -662,7 +706,7 @@ export const RightSlideProjectFeeDetailsPanel: React.FC<
               {/* Fee Category * - Mandatory Dropdown */}
               {renderApiSelectField(
                 'feeType',
-                getLabel('CDL_BPA_FEES_TYPE', 'Type of Fee'),
+                getLabel('CDL_MF_FEES_TYPE', 'Type of Fee'),
                 feeCategories,
                 6,
                 true, // Required
@@ -670,7 +714,7 @@ export const RightSlideProjectFeeDetailsPanel: React.FC<
               )}
               {renderApiSelectField(
                 'frequency',
-                getLabel('CDL_BPA_FEES_FREQUENCY', 'Collection Frequency'),
+                getLabel('CDL_MF_FEES_FREQUENCY', 'Collection Frequency'),
                 feeFrequencies,
                 6,
                 true, // Required
@@ -678,7 +722,7 @@ export const RightSlideProjectFeeDetailsPanel: React.FC<
               )}
               {renderApiSelectField(
                 'currency',
-                getLabel('CDL_BPA_FEES_CURRENCY', 'Transaction Currency'),
+                getLabel('CDL_MF_FEES_CURRENCY', 'Transaction Currency'),
                 currencies,
                 6,
                 false, // Not required
@@ -686,7 +730,7 @@ export const RightSlideProjectFeeDetailsPanel: React.FC<
               )}
               {renderApiSelectField(
                 'debitAccount',
-                getLabel('CDL_BPA_FEES_ACCOUNT', 'Designated Debit Account'),
+                getLabel('CDL_MF_FEES_ACCOUNT', 'Designated Debit Account'),
                 debitAccounts,
                 6,
                 true, // Required
@@ -694,26 +738,26 @@ export const RightSlideProjectFeeDetailsPanel: React.FC<
               )}
               {renderDatePickerField(
                 'feeToBeCollected',
-                getLabel('CDL_BPA_FEE_COLLECTION_DATE', 'Fee Collection Date'),
+                getLabel('CDL_MF_FEE_COLLECTION_DATE', 'Fee Collection Date'),
                 6,
                 true // Required
               )}
               {renderDatePickerField(
                 'nextRecoveryDate',
-                getLabel('CDL_BPA_FEES_DATE', 'Next Collection Date'),
+                getLabel('CDL_MF_FEES_DATE', 'Next Collection Date'),
                 6,
                 false // Not required
               )}
               {renderTextField(
                 'feePercentage',
-                getLabel('CDL_BPA_FEES_RATE', 'Fee Rate (%)'),
+                getLabel('CDL_MF_FEES_RATE', 'Fee Rate (%)'),
                 '2%',
                 6,
                 false // Not required
               )}
               {renderTextField(
                 'debitAmount',
-                getLabel('CDL_BPA_FEES_AMOUNT', 'Fee Amount'),
+                getLabel('CDL_MF_FEES_AMOUNT', 'Fee Amount'),
                 '50,000',
                 6,
                 true, // Required
@@ -723,7 +767,7 @@ export const RightSlideProjectFeeDetailsPanel: React.FC<
               {/* VAT Percentage - Optional */}
               {renderTextField(
                 'vatPercentage',
-                getLabel('CDL_BPA_FEES_VAT', 'Applicable VAT (%)'),
+                getLabel('CDL_MF_FEES_VAT', 'Applicable VAT (%)'),
                 '18%',
                 6,
                 false // Not required
@@ -732,7 +776,7 @@ export const RightSlideProjectFeeDetailsPanel: React.FC<
               {/* Total Amount - Required */}
               {renderTextField(
                 'totalAmount',
-                getLabel('CDL_BPA_FEES_TOTAL_AMOUNT', 'Collected Amount'),
+                getLabel('CDL_MF_FEES_TOTAL_AMOUNT', 'Collected Amount'),
                 '50,000',
                 12,
                 true // Required
@@ -789,7 +833,7 @@ export const RightSlideProjectFeeDetailsPanel: React.FC<
                     },
                   }}
                 >
-                  {getLabel('CDL_BPA_CANCEL', 'Cancel')}
+                  {getLabel('CDL_MF_CANCEL', 'Cancel')}
                 </Button>
               </Grid>
               <Grid size={{ xs: 6 }}>
@@ -840,8 +884,8 @@ export const RightSlideProjectFeeDetailsPanel: React.FC<
                   }}
                 >
                   {addFeeMutation.isPending
-                    ? getLabel('CDL_BPA_ADDING', 'Adding...')
-                    : getLabel('CDL_BPA_ADD', 'Add')}
+                    ? getLabel('CDL_MF_ADDING', 'Adding...')
+                    : getLabel('CDL_MF_ADD', 'Add')}
                 </Button>
               </Grid>
             </Grid>

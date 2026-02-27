@@ -39,7 +39,7 @@ export interface PendingTransaction {
   ptfiCreditedEscrow: boolean | null
   ptfiCbsResponse: string | null
   ptfiPaymentRefNo: string | null
-  realEstateAssestDTO: any | null
+  managementFirmDTO: any | null
   capitalPartnerUnitDTO: any | null
   bucketTypeDTO: any | null
   depositModeDTO: any | null
@@ -147,8 +147,8 @@ export const mapPendingTransactionToUIData = (
     allocated: apiData.ptfiIsAllocated ? 'Yes' : 'No',
     discard: apiData.ptfiDiscard ? 'Yes' : 'No',
     tasUpdate: String(apiData.ptfiTasUpdate),
-    managementFirmName: apiData?.realEstateAssestDTO?.reaName || '—',
-    managementFirmRegulatorId: apiData?.realEstateAssestDTO?.reaId || '—',
+    managementFirmName: apiData?.managementFirmDTO?.mfName || '—',
+    managementFirmRegulatorId: apiData?.managementFirmDTO?.mfId || '—',
     assetRegisterName: apiData.ptfiPrimaryUnitHolderName || '—',
     taskStatusDTO: apiData.taskStatusDTO || null,
   }

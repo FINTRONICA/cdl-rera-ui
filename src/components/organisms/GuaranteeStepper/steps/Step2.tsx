@@ -223,11 +223,11 @@ const Step2 = ({
       setValue('projectCif', '') // This would need to be fetched from the real estate asset
       setValue(
         'projectName',
-        suretyBond.realEstateAssestDTO?.id?.toString() || ''
+        suretyBond.managementFirmDTO?.id?.toString() || ''
       )
       setValue(
         'developerName',
-        suretyBond.buildPartnerDTO?.id?.toString() || ''
+        suretyBond.assetRegisterDTO?.id?.toString() || ''
       )
       setValue('openEndedGuarantee', suretyBond.suretyBondOpenEnded || false)
       setValue('projectCompletionDate', null) // This would need to be fetched from the real estate asset
@@ -337,17 +337,17 @@ const Step2 = ({
     {
       gridSize: 6,
       label: getTranslatedLabel('CDL_SB_BPA_CIF'),
-      value: suretyBond?.realEstateAssestDTO?.reaCif || '-',
+      value: suretyBond?.managementFirmDTO?.mfCif || '-',
     },
     {
       gridSize: 6,
       label: getTranslatedLabel('CDL_SB_BPA_NAME'),
-      value: suretyBond?.realEstateAssestDTO?.reaName || '-',
+      value: suretyBond?.managementFirmDTO?.mfName || '-',
     },
     {
       gridSize: 6,
       label: getTranslatedLabel('CDL_SB_BP_NAME'),
-      value: suretyBond?.realEstateAssestDTO?.buildPartnerDTO?.bpName || '-',
+      value: suretyBond?.managementFirmDTO?.assetRegisterDTO?.arName || '-',
     },
   ]
 
@@ -360,8 +360,8 @@ const Step2 = ({
     {
       gridSize: 3,
       label: getTranslatedLabel('CDL_SB_BPA_COMPLETION_DATE'),
-      value: suretyBond?.realEstateAssestDTO?.reaCompletionDate
-        ? dayjs(suretyBond.realEstateAssestDTO.reaCompletionDate).format(
+      value: suretyBond?.managementFirmDTO?.mfCompletionDate
+        ? dayjs(suretyBond.managementFirmDTO.mfCompletionDate).format(
             'DD/MM/YYYY'
           )
         : '-',

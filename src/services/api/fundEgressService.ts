@@ -22,73 +22,73 @@ export interface StatusDTO {
   deleted: boolean | null
 }
 
-export interface BuildPartnerDTO {
+export interface assetRegisterDTO {
   id: number
-  bpDeveloperId: string
-  bpCifrera: string
-  bpDeveloperRegNo: string
-  bpName: string
-  bpMasterName: string
-  bpNameLocal: string | null
-  bpOnboardingDate: string | null
-  bpContactAddress: string | null
-  bpContactTel: string | null
-  bpPoBox: string | null
-  bpMobile: string | null
-  bpFax: string | null
-  bpEmail: string | null
-  bpLicenseNo: string | null
-  bpLicenseExpDate: string | null
-  bpWorldCheckFlag: string | null
-  bpWorldCheckRemarks: string | null
-  bpMigratedData: boolean | null
-  bpremark: string | null
-  bpRegulatorDTO: StatusDTO | null
-  bpActiveStatusDTO: StatusDTO | null
+  arDeveloperId: string
+  arCifrera: string
+  arDeveloperRegNo: string
+  arName: string
+  arMasterName: string
+  arNameLocal: string | null
+  arOnboardingDate: string | null
+  arContactAddress: string | null
+  arContactTel: string | null
+  arPoBox: string | null
+  arMobile: string | null
+  arFax: string | null
+  arEmail: string | null
+  arLicenseNo: string | null
+  arLicenseExpDate: string | null
+  arWorldCheckFlag: string | null
+  arWorldCheckRemarks: string | null
+  arMigratedData: boolean | null
+  arremark: string | null
+  arRegulatorDTO: StatusDTO | null
+  arActiveStatusDTO: StatusDTO | null
   beneficiaryIds: number[]
   deleted: boolean | null
   taskStatusDTO: any | null
 }
 
-export interface RealEstateAssetDTO {
+export interface managementFirmAssetDTO {
   id: number
-  reaId: string
-  reaCif: string
-  reaName: string
-  reaNameLocal: string | null
-  reaLocation: string
-  reaReraNumber: string
-  reaStartDate: string | null
-  reaCompletionDate: string | null
-  reaPercentComplete: string | null
-  reaConstructionCost: number
+  mfId: string
+  mfCif: string
+  mfName: string
+  mfNameLocal: string | null
+  mfLocation: string
+  mfReraNumber: string
+  mfStartDate: string | null
+  mfCompletionDate: string | null
+  mfPercentComplete: string | null
+  mfConstructionCost: number
   reaAccStatusDate: string | null
-  reaRegistrationDate: string | null
-  reaNoOfUnits: number
-  reaRemarks: string | null
-  reaSpecialApproval: string | null
-  reaManagedBy: string | null
-  reaBackupUser: string | null
-  reaRetentionPercent: string | null
-  reaAdditionalRetentionPercent: string | null
-  reaTotalRetentionPercent: string | null
-  reaRetentionEffectiveDate: string | null
-  reaManagementExpenses: string | null
-  reaMarketingExpenses: string | null
-  reaAccoutStatusDate: string | null
-  reaTeamLeadName: string | null
-  reaRelationshipManagerName: string | null
-  reaAssestRelshipManagerName: string | null
-  reaRealEstateBrokerExp: number
-  reaAdvertisementExp: number
-  reaLandOwnerName: string | null
-  buildPartnerDTO: BuildPartnerDTO
-  reaStatusDTO: StatusDTO
-  reaTypeDTO: StatusDTO
-  reaAccountStatusDTO: StatusDTO
-  reaConstructionCostCurrencyDTO: StatusDTO
+  mfRegistrationDate: string | null
+  mfNoOfUnits: number
+  mfRemarks: string | null
+  mfSpecialApproval: string | null
+  mfManagedBy: string | null
+  mfBackupUser: string | null
+  mfRetentionPercent: string | null
+  mfAdditionalRetentionPercent: string | null
+  mfTotalRetentionPercent: string | null
+  mfRetentionEffectiveDate: string | null
+  mfManagementExpenses: string | null
+  mfMarketingExpenses: string | null
+  mfAccoutStatusDate: string | null
+  mfTeamLeadName: string | null
+  mfRelationshipManagerName: string | null
+  mfAssestRelshipManagerName: string | null
+  mfRealEstateBrokerExp: number
+  mfAdvertisementExp: number
+  mfLandOwnerName: string | null
+  assetRegisterDTO: assetRegisterDTO
+  mfStatusDTO: StatusDTO
+  mfTypeDTO: StatusDTO
+  mfAccountStatusDTO: StatusDTO
+  mfConstructionCostCurrencyDTO: StatusDTO
   status: string | null
-  reaBlockPaymentTypeDTO: StatusDTO | null
+  mfBlockPaymentTypeDTO: StatusDTO | null
   deleted: boolean | null
   taskStatusDTO: any | null
 }
@@ -110,7 +110,7 @@ export interface CapitalPartnerUnitDTO {
   isModified: boolean
   partnerUnitDTO: string | null
   capitalPartnerUnitTypeDTO: any | null
-  realEstateAssestDTO: RealEstateAssetDTO
+  managementFirmDTO: managementFirmAssetDTO
   unitStatusDTO: StatusDTO
   propertyIdDTO: StatusDTO
   paymentPlanTypeDTO: StatusDTO
@@ -224,10 +224,10 @@ export interface FundEgressRequest {
   transactionTypeDTO?: { id: number }
   beneficiaryFeePaymentDTO?: StatusDTO | { id: number }
   payoutToBeMadeFromCbsDTO?: StatusDTO | { id: number }
-  realEstateAssestDTO?: RealEstateAssetDTO | { id: number }
+  managementFirmDTO?: managementFirmAssetDTO | { id: number }
   capitalPartnerUnitDTO?: CapitalPartnerUnitDTO | { id: number }
   transferCapitalPartnerUnitDTO?: CapitalPartnerUnitDTO | { id: number }
-  buildPartnerDTO?: BuildPartnerDTO | { id: number }
+  assetRegisterDTO?: assetRegisterDTO | { id: number }
   realEstateAssestBeneficiaryDTO?: any
   suretyBondDTO?: any
   deleted?: boolean
@@ -340,17 +340,17 @@ export interface FundEgressData {
   constructionAccountNumber?: string
   corporateAccountNumber?: string
   retentionAccountNumber?: string
-  buildPartnerDTO?: {
+  assetRegisterDTO?: {
     id: number
-    bpName: string
-    bpDeveloperId: string
+    arName: string
+    arDeveloperId: string
   }
-  realEstateAssestDTO?: {
+  managementFirmDTO?: {
     id: number
-    reaName: string
-    reaId: string
-    reaNoOfUnits?: number
-    reaAccountStatusDTO?: {
+    mfName: string
+    mfId: string
+    mfNoOfUnits?: number
+    mfAccountStatusDTO?: {
       settingValue: string
     }
   }
@@ -461,8 +461,8 @@ export class FundEgressService {
     }
 
     const dtoFields = [
-      'buildPartnerDTO',
-      'realEstateAssestDTO',
+      'assetRegisterDTO',
+      'managementFirmDTO',
       'voucherPaymentTypeDTO',
       'voucherPaymentSubTypeDTO',
       'invoiceCurrencyDTO',
@@ -624,10 +624,10 @@ export class FundEgressService {
       fePaymentRefNumber: 'PAY-20250914-TEST001',
       fePaymentDate: '2025-09-14T12:00:00.000Z',
       fePaymentAmount: 100000.0,
-      buildPartnerDTO: {
+      assetRegisterDTO: {
         id: 501,
       },
-      realEstateAssestDTO: {
+      managementFirmDTO: {
         id: 201,
       },
       feCurBalInEscrowAcc: 100000.5,

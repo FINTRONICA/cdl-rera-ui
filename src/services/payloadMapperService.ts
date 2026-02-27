@@ -29,14 +29,14 @@ interface PayloadFieldMapping {
 
 const PAYLOAD_FIELD_MAPPINGS: Record<ModuleName, PayloadFieldMapping> = {
   BUILD_PARTNER: {
-    displayName: ['bpName', 'bpMasterName'],
-    identifier: ['bpCifrera', 'bpDeveloperId'],
+    displayName: ['arName', 'arMasterName'],
+    identifier: ['arCifrera', 'arDeveloperId'],
     status: ['taskStatusDTO', 'name'],
     additionalFields: {
-      bpLicenseNo: ['bpLicenseNo'],
-      bpEmail: ['bpEmail'],
-      bpMobile: ['bpMobile'],
-      bpContactAddress: ['bpContactAddress'],
+      arLicenseNo: ['arLicenseNo'],
+      arEmail: ['arEmail'],
+      arMobile: ['arMobile'],
+      arContactAddress: ['arContactAddress'],
     },
   },
   BUILD_PARTNER_ASSET: {
@@ -44,7 +44,7 @@ const PAYLOAD_FIELD_MAPPINGS: Record<ModuleName, PayloadFieldMapping> = {
     identifier: ['projectId', 'assetId', 'id'],
     status: ['status', 'taskStatusDTO', 'name'],
     additionalFields: {
-      developerId: ['developerId', 'bpDeveloperId'],
+      developerId: ['developerId', 'arDeveloperId'],
       projectCode: ['projectCode', 'code'],
     },
   },

@@ -138,7 +138,7 @@ export const processBeneficiaryData = (beneficiaryStepData: any): BeneficiaryDat
     routingCode: beneficiary.bpbRoutingCode || '',
     account: beneficiary.bpbAccountNumber || '',
     assetRegisterDTO: beneficiary.assetRegisterDTO,
-    buildPartnerDTO: beneficiary.buildPartnerDTO,
+    assetRegisterDTO: beneficiary.assetRegisterDTO,
     ...(typeof beneficiary.enabled === 'boolean' && {
       enabled: beneficiary.enabled,
     }),

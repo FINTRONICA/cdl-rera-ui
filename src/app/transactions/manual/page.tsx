@@ -57,8 +57,8 @@ const transformFundEgressToManualPayment = (
     id: fundEgress.id || 0,
     date: new Date(fundEgress.fePaymentDate).toLocaleDateString('en-GB'),
     takermsPaymentRefNo: fundEgress.fePaymentRefNumber || '',
-    assetRegisterName: fundEgress.buildPartnerDTO?.bpName || 'N/A',
-    managementFirmName: fundEgress.realEstateAssestDTO?.reaName || 'N/A',
+    assetRegisterName: fundEgress.assetRegisterDTO?.arName || 'N/A',
+    managementFirmName: fundEgress.managementFirmDTO?.mfName || 'N/A',
     paymentType:
       fundEgress.expenseTypeDTO?.languageTranslationId?.configValue ||
       'Manual Payment',
@@ -68,7 +68,7 @@ const transformFundEgressToManualPayment = (
     corporatePayment: fundEgress.feCorporatePayment ? 'Yes' : 'No',
     beneficiaryName:
       fundEgress.realEstateAssestBeneficiaryDTO?.name ||
-      fundEgress.buildPartnerDTO?.bpName ||
+      fundEgress.assetRegisterDTO?.arName ||
       'N/A',
     responsePaymentRefNo: fundEgress.fePaymentRefNumber || 'N/A',
     timestamp: new Date(fundEgress.fePaymentDate).toLocaleString('en-GB'),

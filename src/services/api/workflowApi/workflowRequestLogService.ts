@@ -16,7 +16,7 @@
 //   configValue: string
 // }
 
-// export interface BpRegulatorDTO {
+// export interface arRegulatorDTO {
 //   id: number
 //   status: string | null
 //   deleted: boolean
@@ -29,30 +29,30 @@
 
 // export interface DetailsJsonDTO {
 //   id: number
-//   bpFax: string
-//   bpName: string
-//   bpEmail: string
-//   bpPoBox: string
+//   arFax: string
+//   arName: string
+//   arEmail: string
+//   arPoBox: string
 //   deleted: boolean | null
-//   bpMobile: string
-//   bpremark: string
-//   bpCifrera: string
-//   bpLicenseNo: string
-//   bpNameLocal: string
-//   bpContactTel: string
-//   bpMasterName: string
-//   bpDeveloperId: string
+//   arMobile: string
+//   arremark: string
+//   arCifrera: string
+//   arLicenseNo: string
+//   arNameLocal: string
+//   arContactTel: string
+//   arMasterName: string
+//   arDeveloperId: string
 //   taskStatusDTO: unknown | null
 //   beneficiaryIds: string[] | number[]
-//   bpMigratedData: boolean
-//   bpRegulatorDTO: BpRegulatorDTO
-//   bpContactAddress: string
-//   bpDeveloperRegNo: string
-//   bpLicenseExpDate: string
-//   bpOnboardingDate: string
-//   bpWorldCheckFlag: string
-//   bpActiveStatusDTO: unknown | null
-//   bpWorldCheckRemarks: string
+//   arMigratedData: boolean
+//   arRegulatorDTO: arRegulatorDTO
+//   arContactAddress: string
+//   arDeveloperRegNo: string
+//   arLicenseExpDate: string
+//   arOnboardingDate: string
+//   arWorldCheckFlag: string
+//   arActiveStatusDTO: unknown | null
+//   arWorldCheckRemarks: string
 // }
 
 // export interface WorkflowRequestDTO {
@@ -135,9 +135,9 @@
 //   currentStageOrder: number
 //   createdBy: string
 //   createdAt: string
-//   bpDeveloperId: string
-//   bpName: string
-//   bpCifrera: string
+//   arDeveloperId: string
+//   arName: string
+//   arCifrera: string
 //   [key: string]: unknown
 // }
 
@@ -183,9 +183,9 @@
 //     currentStageOrder: apiData.workflowRequestDTO?.currentStageOrder || 0,
 //     createdBy: formatValue(apiData.workflowRequestDTO?.createdBy),
 //     createdAt: apiData.workflowRequestDTO?.createdAt || apiData.eventAt,
-//     bpDeveloperId: formatValue(apiData.detailsJson?.bpDeveloperId),
-//     bpName: formatValue(apiData.detailsJson?.bpName),
-//     bpCifrera: formatValue(apiData.detailsJson?.bpCifrera),
+//     arDeveloperId: formatValue(apiData.detailsJson?.arDeveloperId),
+//     arName: formatValue(apiData.detailsJson?.arName),
+//     arCifrera: formatValue(apiData.detailsJson?.arCifrera),
 //   }
 // }
 

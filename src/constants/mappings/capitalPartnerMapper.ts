@@ -12,8 +12,8 @@ export const mapCapitalPartnerToInvestorData = (
     }
     const src = cp as Record<string, unknown>
     const unitDto = (src.ownerRegistryUnitDTO ?? (src as any).capitalPartnerUnitDTO) as Record<string, unknown> | undefined
-    const rea = unitDto?.realEstateAssestDTO as Record<string, unknown> | undefined
-    const assetDto = rea?.buildPartnerDTO as Record<string, unknown> | undefined
+    const rea = unitDto?.managementFirmDTO as Record<string, unknown> | undefined
+    const assetDto = rea?.assetRegisterDTO as Record<string, unknown> | undefined
     const ownerName =
       (src.ownerRegistryName ?? src.capitalPartnerName) as string ?? '-'
     const ownerRefId =
@@ -22,11 +22,11 @@ export const mapCapitalPartnerToInvestorData = (
       id: (src.id as number) ?? 0,
       owner: ownerName,
       ownerId: ownerRefId,
-      assetRegisterName: (assetDto?.bpName as string) ?? '-',
-      assetRegisterId: (assetDto?.bpDeveloperId as string) ?? '-',
-      assetRegisterCif: (assetDto?.bpCifrera as string) ?? '-',
-      managementFirmName: (rea?.reaName as string) ?? '-',
-      managementFirmCif: (rea?.reaCif as string) ?? '-',
+      assetRegisterName: (assetDto?.arName as string) ?? '-',
+      assetRegisterId: (assetDto?.arDeveloperId as string) ?? '-',
+      assetRegisterCif: (assetDto?.arCifrera as string) ?? '-',
+      managementFirmName: (rea?.mfName as string) ?? '-',
+      managementFirmCif: (rea?.mfCif as string) ?? '-',
       unitNumber: String(unitDto?.unitRefId ?? '-'),
       approvalStatus: mapApiStatus((src.taskStatusDTO as any) ?? null),
     }

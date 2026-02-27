@@ -117,7 +117,7 @@ export function mapStep2ToCapitalPartnerUnitPayload(
 
   const projectId = selectedProject?.id ?? (selectedProject as { projectId?: string | number })?.projectId
   if (selectedProject && projectId != null) {
-    payload.realEstateAssestDTO = {
+    payload.managementFirmDTO = {
       id: typeof projectId === 'number' ? projectId : parseInt(String(projectId), 10),
     }
   }

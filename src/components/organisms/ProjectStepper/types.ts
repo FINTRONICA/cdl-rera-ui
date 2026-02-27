@@ -2,35 +2,35 @@ import { Dayjs } from 'dayjs'
 
 export interface ProjectDetailsData {
   // API fields matching the JSON payload exactly
-  reaId: string
-  reaCif: string
-  reaName: string
-  reaLocation: string
-  reaReraNumber: string
-  reaAccoutStatusDate: Dayjs | null
-  reaRegistrationDate: Dayjs | null
-  reaStartDate: Dayjs | null
-  reaCompletionDate: Dayjs | null
-  reaRetentionPercent: string
-  reaPercentComplete: string
-  reaConstructionCost: number
+  mfId: string
+  mfCif: string
+  mfName: string
+  mfLocation: string
+  mfReraNumber: string
+  mfAccoutStatusDate: Dayjs | null
+  mfRegistrationDate: Dayjs | null
+  mfStartDate: Dayjs | null
+  mfCompletionDate: Dayjs | null
+  mfRetentionPercent: string
+  mfPercentComplete: string
+  mfConstructionCost: number
   reaAccStatusDate: Dayjs | null
-  reaNoOfUnits: number
-  reaRemarks: string
-  reaSpecialApproval: string
-  reaManagedBy: string
-  reaBackupUser: string
-  reaAdditionalRetentionPercent: string
-  reaTotalRetentionPercent: string
-  reaRetentionEffectiveDate: Dayjs | null
-  reaManagementExpenses: string
-  reaMarketingExpenses: string
-  reaTeamLeadName: string
-  reaRelationshipManagerName: string
-  reaAssestRelshipManagerName: string
-  reaRealEstateBrokerExp: number
-  reaAdvertisementExp: number
-  reaLandOwnerName: string
+  mfNoOfUnits: number
+  mfRemarks: string
+  mfSpecialApproval: string
+  mfManagedBy: string
+  mfBackupUser: string
+  mfAdditionalRetentionPercent: string
+  mfTotalRetentionPercent: string
+  mfRetentionEffectiveDate: Dayjs | null
+  mfManagementExpenses: string
+  mfMarketingExpenses: string
+  mfTeamLeadName: string
+  mfRelationshipManagerName: string
+  mfAssestRelshipManagerName: string
+  mfRealEstateBrokerExp: number
+  mfAdvertisementExp: number
+  mfLandOwnerName: string
 
   // New fields from table specifications
   unitReferenceNumber?: string
@@ -64,25 +64,25 @@ export interface ProjectDetailsData {
   additionalRemarks?: string
 
   // DTO objects matching API structure exactly
-  buildPartnerDTO: {
+  assetRegisterDTO: {
     id: number
-    bpCifrera?: string
-    bpName?: string
-    bpMasterName?: string
+    arCifrera?: string
+    arName?: string
+    arMasterName?: string
   }
-  reaStatusDTO: {
-    id: number
-  }
-  reaTypeDTO: {
+  mfStatusDTO: {
     id: number
   }
-  reaAccountStatusDTO: {
+  mfTypeDTO: {
     id: number
   }
-  reaConstructionCostCurrencyDTO: {
+  mfAccountStatusDTO: {
     id: number
   }
-  reaBlockPaymentTypeDTO: {
+  mfConstructionCostCurrencyDTO: {
+    id: number
+  }
+  mfBlockPaymentTypeDTO: {
     id: number
   }
 

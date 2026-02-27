@@ -117,7 +117,7 @@ const Step1 = ({
     string[]
   >([])
   const [additionalProjectAssets, setAdditionalProjectAssets] = useState<
-    { id: number; reaName: string; reaId: string }[]
+    { id: number; mfName: string; mfId: string }[]
   >([])
 
   // Budget Details state
@@ -155,11 +155,11 @@ const Step1 = ({
   const selectedBuildPartner = useMemo(() => {
     if (!selectedDeveloperName) return null
     return allBuildPartners.find(
-      (bp: any) => bp.bpName === selectedDeveloperName
+      (bp: any) => bp.arName === selectedDeveloperName
     )
   }, [selectedDeveloperName, allBuildPartners])
 
-  // Get the build partner ID for API calls (numeric ID, not bpDeveloperId)
+  // Get the build partner ID for API calls (numeric ID, not arDeveloperId)
   // This ID (e.g., 3325) will be used in the API call: buildPartnerId.equals=3325
   const selectedBuildPartnerId = useMemo(() => {
     if (!selectedBuildPartner) return undefined
@@ -181,9 +181,9 @@ const Step1 = ({
     return id
   }, [selectedBuildPartner, allBuildPartners])
 
-  // Get bpDeveloperId for display in the text field (e.g., "DEV-20251013-105916-YXUM1")
+  // Get arDeveloperId for display in the text field (e.g., "DEV-20251013-105916-YXUM1")
   const selectedBuildPartnerDeveloperId = useMemo(() => {
-    return selectedBuildPartner?.bpDeveloperId || ''
+    return selectedBuildPartner?.arDeveloperId || ''
   }, [selectedBuildPartner])
 
   // Clear developer name selection if the build partner ID doesn't exist in the list
@@ -196,7 +196,7 @@ const Step1 = ({
       // The selected build partner name doesn't match any valid build partner
       // Clear the selection to prevent API calls with invalid IDs
       const existsByName = allBuildPartners.some(
-        (bp: any) => bp.bpName === selectedDeveloperName
+        (bp: any) => bp.arName === selectedDeveloperName
       )
       if (!existsByName) {
         setValue('developerName', '', {
@@ -430,7 +430,7 @@ const Step1 = ({
     const baseNames =
       allBuildPartners && allBuildPartners.length > 0
         ? allBuildPartners
-            .map((bp: any) => bp.bpName)
+            .map((bp: any) => bp.arName)
             .filter((name: string | null) => !!name)
         : []
 
@@ -440,7 +440,7 @@ const Step1 = ({
   }, [allBuildPartners, additionalDeveloperNames])
 
   // Memoize build partner options for Autocomplete
-  // Use exact API response fields - bpName for display, id for value
+  // Use exact API response fields - arName for display, id for value
   // Preserve exact sequence as returned by API (no sorting, no filtering except invalid entries)
   const buildPartnerOptions = useMemo(() => {
     if (!allBuildPartners || allBuildPartners.length === 0) {
@@ -454,7 +454,7 @@ const Step1 = ({
     // Iterate in exact order from API response
     for (const bp of allBuildPartners) {
       // Only filter out completely invalid entries (no id or no name)
-      if (!bp || !bp.id || !bp.bpName) {
+      if (!bp || !bp.id || !bp.arName) {
         continue
       }
 
@@ -467,7 +467,7 @@ const Step1 = ({
       // Add option in exact API response order
       options.push({
         value: bp.id.toString(), // Use numeric ID as value
-        label: bp.bpName, // Use bpName directly from API response
+        label: bp.arName, // Use arName directly from API response
         buildPartner: bp, // Store full API response object
       })
     }
@@ -477,7 +477,7 @@ const Step1 = ({
   }, [allBuildPartners])
 
   // Memoize project assets - only show assets when build partner is selected
-  // If no build partner is selected (buildPartnerDTO is null), return empty array
+  // If no build partner is selected (assetRegisterDTO is null), return empty array
   const projectAssets = useMemo(() => {
     // If no build partner is selected, return empty array (project dropdown should be disabled)
     if (!selectedBuildPartner || !selectedBuildPartnerId) {
@@ -506,10 +506,10 @@ const Step1 = ({
         asset &&
         asset.id &&
         typeof asset.id === 'number' &&
-        asset.reaName &&
-        typeof asset.reaName === 'string' &&
-        asset.reaName.trim() !== '' &&
-        asset.reaName.toLowerCase() !== 'new project' && // Filter out placeholder "new project"
+        asset.mfName &&
+        typeof asset.mfName === 'string' &&
+        asset.mfName.trim() !== '' &&
+        asset.mfName.toLowerCase() !== 'new project' && // Filter out placeholder "new project"
         !acc.find((a: any) => a.id === asset.id)
       ) {
         acc.push(asset)
@@ -543,12 +543,12 @@ const Step1 = ({
             tasReference: savedData.fePaymentRefNumber || '',
 
             // Developer Information
-            developerName: savedData.buildPartnerDTO?.bpName || '',
-            developerId: savedData.buildPartnerDTO?.id?.toString() || '',
+            developerName: savedData.assetRegisterDTO?.arName || '',
+            developerId: savedData.assetRegisterDTO?.id?.toString() || '',
 
             // Project Information
-            projectName: savedData.realEstateAssestDTO?.id?.toString() || '',
-            projectId: (savedData.realEstateAssestDTO as any)?.reaCif || '',
+            projectName: savedData.managementFirmDTO?.id?.toString() || '',
+            projectId: (savedData.managementFirmDTO as any)?.mfCif || '',
 
             // Narrations and Remarks
             narration1: savedData.feNarration1 || '',
@@ -835,8 +835,8 @@ const Step1 = ({
 
           // Pre-populate Build Partner/Project Account Status
           try {
-            const accountStatusDTO = (savedData.realEstateAssestDTO as any)
-              ?.reaAccountStatusDTO
+            const accountStatusDTO = (savedData.managementFirmDTO as any)
+              ?.mfAccountStatusDTO
 
             if (
               accountStatusDTO &&
@@ -897,7 +897,7 @@ const Step1 = ({
           }
 
           // Add project asset to additional assets if not in current list (by ID)
-          if (savedData.realEstateAssestDTO && formData.projectName) {
+          if (savedData.managementFirmDTO && formData.projectName) {
             const projectId = parseInt(formData.projectName)
             const existingAsset = projectAssets.find(
               (asset: any) => asset.id === projectId
@@ -905,9 +905,9 @@ const Step1 = ({
 
             if (!existingAsset) {
               const newAsset = {
-                id: savedData.realEstateAssestDTO.id,
-                reaName: savedData.realEstateAssestDTO.reaName,
-                reaId: savedData.realEstateAssestDTO.reaId,
+                id: savedData.managementFirmDTO.id,
+                mfName: savedData.managementFirmDTO.mfName,
+                mfId: savedData.managementFirmDTO.mfId,
               }
               setAdditionalProjectAssets((prev) => [...prev, newAsset])
             }
@@ -1058,7 +1058,7 @@ const Step1 = ({
       if (name === 'developerName') {
         if (value.developerName) {
           const selectedPartner = allBuildPartners.find(
-            (bp: any) => bp.bpName === value.developerName
+            (bp: any) => bp.arName === value.developerName
           )
           if (selectedPartner) {
             setValue('developerId', selectedPartner.id?.toString() || '', {
@@ -1133,8 +1133,8 @@ const Step1 = ({
 
           if (selectedAsset) {
             // Always update projectId, even if it already has a value
-            if (selectedAsset.reaCif) {
-              setValue('projectId', selectedAsset.reaCif, {
+            if (selectedAsset.mfCif) {
+              setValue('projectId', selectedAsset.mfCif, {
                 shouldDirty: true,
                 shouldTouch: true,
                 shouldValidate: true,
@@ -1150,10 +1150,10 @@ const Step1 = ({
             }
 
             // Always update projectStatus, even if it already has a value
-            if (selectedAsset.reaAccountStatusDTO?.id) {
+            if (selectedAsset.mfAccountStatusDTO?.id) {
               setValue(
                 'projectStatus',
-                String(selectedAsset.reaAccountStatusDTO.id),
+                String(selectedAsset.mfAccountStatusDTO.id),
                 {
                   shouldDirty: true,
                   shouldTouch: true,
@@ -1212,7 +1212,7 @@ const Step1 = ({
       allBuildPartners.length > 0
     ) {
       const selectedPartner = allBuildPartners.find(
-        (bp: any) => bp.bpName === currentDeveloperName
+        (bp: any) => bp.arName === currentDeveloperName
       )
       if (selectedPartner) {
         setValue('developerId', selectedPartner.id?.toString() || '', {
@@ -1241,8 +1241,8 @@ const Step1 = ({
       if (selectedAsset) {
         // Always update projectId, even if it already has a value
         const currentProjectId = watch('projectId')
-        if (selectedAsset.reaCif && currentProjectId !== selectedAsset.reaCif) {
-          setValue('projectId', selectedAsset.reaCif, {
+        if (selectedAsset.mfCif && currentProjectId !== selectedAsset.mfCif) {
+          setValue('projectId', selectedAsset.mfCif, {
             shouldDirty: true,
             shouldTouch: true,
             shouldValidate: true,
@@ -1252,8 +1252,8 @@ const Step1 = ({
 
         // Always update projectStatus, even if it already has a value
         const currentProjectStatus = watch('projectStatus')
-        const expectedStatus = selectedAsset.reaAccountStatusDTO?.id
-          ? String(selectedAsset.reaAccountStatusDTO.id)
+        const expectedStatus = selectedAsset.mfAccountStatusDTO?.id
+          ? String(selectedAsset.mfAccountStatusDTO.id)
           : ''
 
         if (expectedStatus && currentProjectStatus !== expectedStatus) {
@@ -1525,7 +1525,7 @@ const Step1 = ({
                 if (currentDeveloperName) {
                   return (
                     opt.label === currentDeveloperName ||
-                    opt.buildPartner?.bpName === currentDeveloperName
+                    opt.buildPartner?.arName === currentDeveloperName
                   )
                 }
                 return false
@@ -1547,17 +1547,17 @@ const Step1 = ({
                 value={selectedOption}
                 onChange={(_event, newValue) => {
                   if (newValue) {
-                    // Store bpName in developerName field and numeric id in developerId field
+                    // Store arName in developerName field and numeric id in developerId field
                     // Use exact fields from API response
-                    const bpName =
-                      newValue.buildPartner?.bpName || newValue.label || ''
+                    const arName =
+                      newValue.buildPartner?.arName || newValue.label || ''
                     const partnerId =
                       newValue.buildPartner?.id?.toString() ||
                       newValue.value ||
                       ''
 
                     // Update both fields immediately
-                    field.onChange(bpName) // Store name for display and matching
+                    field.onChange(arName) // Store name for display and matching
                     // Store numeric ID (from API response) so mapper can use it directly
                     setValue('developerId', partnerId, {
                       shouldDirty: true,
@@ -1568,7 +1568,7 @@ const Step1 = ({
                     trigger('developerId' as any)
 
                     // Clear project fields when build partner changes to show fresh assets
-                    if (bpName !== field.value) {
+                    if (arName !== field.value) {
                       setValue('projectName', '', {
                         shouldDirty: true,
                         shouldTouch: false,
@@ -1723,14 +1723,14 @@ const Step1 = ({
           control={control}
           defaultValue=""
           render={({ field, fieldState: { error } }) => {
-            // Display bpDeveloperId in the text field, but keep numeric id in form value
+            // Display arDeveloperId in the text field, but keep numeric id in form value
             const displayValue =
               selectedBuildPartnerDeveloperId || field.value || ''
 
             return (
               <TextField
                 {...field}
-                value={displayValue} // Display bpDeveloperId
+                value={displayValue} // Display arDeveloperId
                 label={label}
                 fullWidth
                 error={!!error}
@@ -1925,8 +1925,8 @@ const Step1 = ({
 
                     if (selectedAsset) {
                       // Update projectId immediately
-                      if (selectedAsset.reaCif) {
-                        setValue('projectId', selectedAsset.reaCif, {
+                      if (selectedAsset.mfCif) {
+                        setValue('projectId', selectedAsset.mfCif, {
                           shouldDirty: true,
                           shouldTouch: true,
                           shouldValidate: true,
@@ -1941,10 +1941,10 @@ const Step1 = ({
                       }
 
                       // Update projectStatus immediately
-                      if (selectedAsset.reaAccountStatusDTO?.id) {
+                      if (selectedAsset.mfAccountStatusDTO?.id) {
                         setValue(
                           'projectStatus',
-                          String(selectedAsset.reaAccountStatusDTO.id),
+                          String(selectedAsset.mfAccountStatusDTO.id),
                           {
                             shouldDirty: true,
                             shouldTouch: true,
@@ -2068,7 +2068,7 @@ const Step1 = ({
                       },
                     }}
                   >
-                    {asset.reaName}
+                    {asset.mfName}
                   </MenuItem>
                 ))}
               </Select>

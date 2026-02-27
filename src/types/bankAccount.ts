@@ -44,7 +44,7 @@ export interface BankAccountData {
   accountTitle: string;
   currencyCode: string;
   isValidated: boolean;
-  realEstateAssestDTO: {
+  managementFirmDTO: {
     id: number;
   };
 }

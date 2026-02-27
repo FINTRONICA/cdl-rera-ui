@@ -31,8 +31,8 @@ export const useBuildPartnerAutocomplete = (
         )
 
         const mappedResults = results.map((partner) => ({
-          value: partner.bpDeveloperId || partner.id.toString(),
-          label: partner.bpName || partner.bpMasterName || 'Unnamed Partner',
+          value: partner.arDeveloperId || partner.id.toString(),
+          label: partner.arName || partner.arMasterName || 'Unnamed Partner',
           // Store the complete build partner object for later use
           buildPartner: partner,
         }))

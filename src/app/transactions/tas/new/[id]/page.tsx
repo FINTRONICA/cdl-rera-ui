@@ -27,39 +27,39 @@ export default function TasPaymentWithIdPage() {
         setError(null)
         const data = await fundEgressService.getFundEgressById(tasPaymentId)
 
-        // If buildPartnerDTO is missing or only has id without bpName, fetch full build partner details
+        // If assetRegisterDTO is missing or only has id without arName, fetch full build partner details
         let buildPartnerId: number | null = null
 
-        // Check if buildPartnerDTO exists and has an ID
-        if (data?.buildPartnerDTO?.id) {
-          buildPartnerId = data.buildPartnerDTO.id
+        // Check if assetRegisterDTO exists and has an ID
+        if (data?.assetRegisterDTO?.id) {
+          buildPartnerId = data.assetRegisterDTO.id
         }
-        // Fallback: try to get build partner ID from realEstateAssestDTO (if it exists in the actual response)
-        else if ((data?.realEstateAssestDTO as any)?.buildPartnerDTO?.id) {
-          buildPartnerId = (data.realEstateAssestDTO as any).buildPartnerDTO.id
-          // Initialize buildPartnerDTO if it doesn't exist
-          if (!data.buildPartnerDTO) {
-            data.buildPartnerDTO = { id: buildPartnerId } as any
+        // Fallback: try to get build partner ID from managementFirmDTO (if it exists in the actual response)
+        else if ((data?.managementFirmDTO as any)?.assetRegisterDTO?.id) {
+          buildPartnerId = (data.managementFirmDTO as any).assetRegisterDTO.id
+          // Initialize assetRegisterDTO if it doesn't exist
+          if (!data.assetRegisterDTO) {
+            data.assetRegisterDTO = { id: buildPartnerId } as any
           }
         }
 
-        // If we have an ID but no bpName, fetch full build partner details
+        // If we have an ID but no arName, fetch full build partner details
         if (
           buildPartnerId &&
-          (!data?.buildPartnerDTO?.bpName || data.buildPartnerDTO.bpName === '')
+          (!data?.assetRegisterDTO?.arName || data.assetRegisterDTO.arName === '')
         ) {
           try {
             const buildPartner = await buildPartnerService.getBuildPartner(
               buildPartnerId.toString()
             )
-            // Merge the full build partner data into buildPartnerDTO
-            data.buildPartnerDTO = {
-              ...(data.buildPartnerDTO || {}),
+            // Merge the full build partner data into assetRegisterDTO
+            data.assetRegisterDTO = {
+              ...(data.assetRegisterDTO || {}),
               id: buildPartnerId,
-              bpName: buildPartner.bpName || '',
-              bpDeveloperId: buildPartner.bpDeveloperId || '',
-              bpCifrera: buildPartner.bpCifrera || '',
-              bpMasterName: buildPartner.bpMasterName || '',
+              arName: buildPartner.arName || '',
+              arDeveloperId: buildPartner.arDeveloperId || '',
+              arCifrera: buildPartner.arCifrera || '',
+              arMasterName: buildPartner.arMasterName || '',
             } as any
           } catch (partnerErr) {
             console.warn(
@@ -68,15 +68,15 @@ export default function TasPaymentWithIdPage() {
             )
             // Continue even if partner fetch fails - will show N/A
           }
-        } else if (!data?.buildPartnerDTO && data?.id) {
-          // Log warning if buildPartnerDTO is completely missing
+        } else if (!data?.assetRegisterDTO && data?.id) {
+          // Log warning if assetRegisterDTO is completely missing
           console.warn(
-            'buildPartnerDTO is null or missing in TAS payment data:',
+            'assetRegisterDTO is null or missing in TAS payment data:',
             {
               paymentId: data.id,
-              hasRealEstateAsset: !!data.realEstateAssestDTO,
-              realEstateAssetPartnerId: (data.realEstateAssestDTO as any)
-                ?.buildPartnerDTO?.id,
+              hasRealEstateAsset: !!data.managementFirmDTO,
+              realEstateAssetPartnerId: (data.managementFirmDTO as any)
+                ?.assetRegisterDTO?.id,
             }
           )
         }
@@ -137,7 +137,7 @@ export default function TasPaymentWithIdPage() {
               Build Partner Name
             </label>
             <span className="font-outfit font-normal text-[16px] leading-[1] tracking-normal align-middle text-gray-900 dark:text-gray-100">
-              {tasPaymentData.buildPartnerDTO?.bpName || 'N/A'}
+              {tasPaymentData.assetRegisterDTO?.arName || 'N/A'}
             </span>
           </div>
         </div>

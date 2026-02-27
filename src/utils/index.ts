@@ -439,7 +439,7 @@ export function generateDeveloperId(): string {
   return generateId('DEV');
 }
 
-export function generateReaId(): string {
+export function generatemfId(): string {
   return generateId('REA');
 }
 

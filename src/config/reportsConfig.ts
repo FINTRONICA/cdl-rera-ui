@@ -344,10 +344,10 @@ export const BUSINESS_REPORTS_CONFIG: Record<string, ReportConfiguration> = {
       downloadEndpoint: '/business-objects/asset-registry/download',
       columns: [
         { key: 'serialNo', title: 'S.No', type: 'number' },
-        { key: 'bpName', title: 'Name', type: 'text' },
-        { key: 'bpCifrera', title: 'CIF rera', type: 'text' },
-        { key: 'bpDeveloperRegNo', title: 'Reg No.', type: 'number' },
-        { key: 'bpLicenseNo', title: 'License No.', type: 'text' },
+        { key: 'arName', title: 'Name', type: 'text' },
+        { key: 'arCifrera', title: 'CIF rera', type: 'text' },
+        { key: 'arDeveloperRegNo', title: 'Reg No.', type: 'number' },
+        { key: 'arLicenseNo', title: 'License No.', type: 'text' },
         { key: 'bpActiveStatus', title: 'Status', type: 'status' }
       ],
       // Add transformation function specific to beneficiary report
@@ -360,10 +360,10 @@ export const BUSINESS_REPORTS_CONFIG: Record<string, ReportConfiguration> = {
         return data.content.map((item: any, index: number) => ({
           id: item.serialNo?.toString() || item.id?.toString() || index.toString(),
           serialNo: item.serialNo,
-          bpName: item.bpName || '',
-          bpCifrera: item.bpCifrera || '',
-          bpDeveloperRegNo: item.bpDeveloperRegNo || '',
-          bpLicenseNo: item.bpLicenseNo || '',
+          arName: item.arName || '',
+          arCifrera: item.arCifrera || '',
+          arDeveloperRegNo: item.arDeveloperRegNo || '',
+          arLicenseNo: item.arLicenseNo || '',
           bpActiveStatus: item.bpActiveStatus || ''
         }))
       }

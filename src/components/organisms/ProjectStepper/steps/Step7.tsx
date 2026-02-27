@@ -53,7 +53,7 @@ const Step7: React.FC<Step7Props> = ({ isViewMode = false }) => {
                     disabled={isViewMode}
                     required
                     label={getLabel(
-                      'CDL_BPA_TOTAL_AMT_RECEIVED',
+                      'CDL_MF_TOTAL_AMT_RECEIVED',
                       language,
                       'Total Income Received'
                     )}
@@ -97,7 +97,7 @@ const Step7: React.FC<Step7Props> = ({ isViewMode = false }) => {
                     disabled={isViewMode}
                     required
                     label={getLabel(
-                      'CDL_BPA_TOTAL_DIS_PMT',
+                      'CDL_MF_TOTAL_DIS_PMT',
                       language,
                       'Total Disbursed Payments'
                     )}

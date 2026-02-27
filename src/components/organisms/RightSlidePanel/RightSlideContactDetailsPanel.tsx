@@ -55,7 +55,7 @@ interface RightSlidePanelProps {
     telephoneno?: string
     fax?: string
     assetRegisterDTO?: { id: number }
-    buildPartnerDTO?: { id: number }
+    assetRegisterDTO?: { id: number }
   }
   contactIndex?: number
 }

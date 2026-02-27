@@ -143,27 +143,27 @@ const Step6: React.FC<Step6Props> = ({ isViewMode = false }) => {
     () => [
       {
         title: getLabel(
-          'CDL_BPA_FINANCIAL',
+          'CDL_MF_FINANCIAL',
           language,
           'Asset Financial Overview'
         ),
         fields: [
           renderTextField(
             'estimate.revenue',
-            getLabel('CDL_BPA_EST_ASS_COST', language, 'Estimated Asset Cost'),
+            getLabel('CDL_MF_EST_ASS_COST', language, 'Estimated Asset Cost'),
             6,
             true
           ),
           renderTextField(
             'estimate.constructionCost',
-            getLabel('CDL_BPA_BUILD_COST', language, 'Build Cost'),
+            getLabel('CDL_MF_BUILD_COST', language, 'Build Cost'),
             6,
             true
           ),
           renderTextField(
             'estimate.projectManagementExpense',
             getLabel(
-              'CDL_BPA_ASST_MGMT_EXP',
+              'CDL_MF_ASST_MGMT_EXP',
               language,
               'Asset Management Expense'
             ),
@@ -172,26 +172,26 @@ const Step6: React.FC<Step6Props> = ({ isViewMode = false }) => {
           ),
           renderTextField(
             'estimate.landCost',
-            getLabel('CDL_BPA_LAND_ACQ_COST', language, 'Land Acquisition Cost'),
+            getLabel('CDL_MF_LAND_ACQ_COST', language, 'Land Acquisition Cost'),
             6,
             true
           ),
           renderTextField(
             'estimate.marketingExpense',
-            getLabel('CDL_BPA_MARK_EXP', language, 'Marketing Expense'),
+            getLabel('CDL_MF_MARK_EXP', language, 'Marketing Expense'),
             6,
             true
           ),
           renderDateField(
             'estimate.date',
-            getLabel('CDL_BPA_TRAN_DATE', language, 'Transaction Date'),
+            getLabel('CDL_MF_TRAN_DATE', language, 'Transaction Date'),
             6
           ),
         ],
       },
       {
         title: getLabel(
-          'CDL_BPA_ACTUAL_ASSEST_COST',
+          'CDL_MF_ACTUAL_ASSEST_COST',
           language,
           'Actual Asset Cost'
         ),
@@ -199,7 +199,7 @@ const Step6: React.FC<Step6Props> = ({ isViewMode = false }) => {
           renderTextField(
             'actual.soldValue',
             getLabel(
-              'CDL_BPA_TOTAL_UNIT_SOLD',
+              'CDL_MF_TOTAL_UNIT_SOLD',
               language,
               'Total Units Sold Value'
             ),
@@ -208,14 +208,14 @@ const Step6: React.FC<Step6Props> = ({ isViewMode = false }) => {
           ),
           renderTextField(
             'actual.constructionCost',
-            getLabel('CDL_BPA_BUILD_COST', language, 'Build Cost'),
+            getLabel('CDL_MF_BUILD_COST', language, 'Build Cost'),
             6,
             true
           ),
           renderTextField(
             'actual.infraCost',
             getLabel(
-              'CDL_BPA_INFRA_COST',
+              'CDL_MF_INFRA_COST',
               language,
               'Infrastructure Development Cost'
             ),
@@ -224,14 +224,14 @@ const Step6: React.FC<Step6Props> = ({ isViewMode = false }) => {
           ),
           renderTextField(
             'actual.landCost',
-            getLabel('CDL_BPA_LAND_ACQ_COST', language, 'Land Acquisition Cost'),
+            getLabel('CDL_MF_LAND_ACQ_COST', language, 'Land Acquisition Cost'),
             4,
             true
           ),
           renderTextField(
             'actual.projectManagementExpense',
             getLabel(
-              'CDL_BPA_ASST_MGMT_EXP',
+              'CDL_MF_ASST_MGMT_EXP',
               language,
               'Asset Management Expense'
             ),
@@ -240,13 +240,13 @@ const Step6: React.FC<Step6Props> = ({ isViewMode = false }) => {
           ),
           renderTextField(
             'actual.marketingExpense',
-            getLabel('CDL_BPA_MARK_EXP', language, 'Marketing Expense'),
+            getLabel('CDL_MF_MARK_EXP', language, 'Marketing Expense'),
             6,
             true
           ),
           renderDateField(
             'actual.date',
-            getLabel('CDL_BPA_TRAN_DATE', language, 'Transaction Date'),
+            getLabel('CDL_MF_TRAN_DATE', language, 'Transaction Date'),
             6
           ),
         ],
@@ -259,41 +259,41 @@ const Step6: React.FC<Step6Props> = ({ isViewMode = false }) => {
   const breakdownSections = useMemo(
     () => [
     getLabel(
-      'CDL_BPA_CASH_FROM_UNIT',
+      'CDL_MF_CASH_FROM_UNIT',
       language,
       'Cash Inflow from Unit Holders'
     ),
-    getLabel('CDL_BPA_LAND_ACQ_COST', language, 'Land Acquisition Cost'),
-    getLabel('CDL_BPA_BUILD_COST', language, 'Build Cost'),
-    getLabel('CDL_BPA_MARK_EXP', language, 'Marketing Expense'),
-    getLabel('CDL_BPA_ASST_MGMT_EXP', language, 'Asset Management Expense'),
-    getLabel('CDL_BPA_MORTGAGE_AMT', language, 'Mortgage Amount'),
-    getLabel('CDL_BPA_VAT_AMT', language, 'VAT Payment'),
-    getLabel('CDL_BPA_TOTAL_AMOUNT', language, 'Total Amount'),
-    getLabel('CDL_BPA_REFUND_AMT', language, 'Refund Amount'),
-    getLabel('CDL_BPA_RETEN_ACC_BAL', language, 'Retention Account Balance'),
-    getLabel('CDL_BPA_TRUST_ACC_BAL', language, 'Trust Account Balance'),
+    getLabel('CDL_MF_LAND_ACQ_COST', language, 'Land Acquisition Cost'),
+    getLabel('CDL_MF_BUILD_COST', language, 'Build Cost'),
+    getLabel('CDL_MF_MARK_EXP', language, 'Marketing Expense'),
+    getLabel('CDL_MF_ASST_MGMT_EXP', language, 'Asset Management Expense'),
+    getLabel('CDL_MF_MORTGAGE_AMT', language, 'Mortgage Amount'),
+    getLabel('CDL_MF_VAT_AMT', language, 'VAT Payment'),
+    getLabel('CDL_MF_TOTAL_AMOUNT', language, 'Total Amount'),
+    getLabel('CDL_MF_REFUND_AMT', language, 'Refund Amount'),
+    getLabel('CDL_MF_RETEN_ACC_BAL', language, 'Retention Account Balance'),
+    getLabel('CDL_MF_TRUST_ACC_BAL', language, 'Trust Account Balance'),
     getLabel(
-      'CDL_BPA_SUBCONS_ACC_BAL',
+      'CDL_MF_SUBCONS_ACC_BAL',
       language,
       'Sub-Construction Account Balance'
     ),
-    getLabel('CDL_BPA_TECH_FEES', language, 'Technical Fees'),
-    getLabel('CDL_BPA_UNALLO_COST', language, 'Unallocated Costs'),
-    getLabel('CDL_BPA_LOAN', language, 'Loan/Installment Payments'),
-    getLabel('CDL_BPA_INFRA_COST', language, 'Infrastructure Development Cost'),
-    getLabel('CDL_BPA_OTHER_EXP', language, 'Other Expenses'),
-    getLabel('CDL_BPA_TRANS_AMT', language, 'Transferred Amount'),
-    getLabel('CDL_BPA_FORFEIT_AMT', language, 'Forfeited Amount'),
+    getLabel('CDL_MF_TECH_FEES', language, 'Technical Fees'),
+    getLabel('CDL_MF_UNALLO_COST', language, 'Unallocated Costs'),
+    getLabel('CDL_MF_LOAN', language, 'Loan/Installment Payments'),
+    getLabel('CDL_MF_INFRA_COST', language, 'Infrastructure Development Cost'),
+    getLabel('CDL_MF_OTHER_EXP', language, 'Other Expenses'),
+    getLabel('CDL_MF_TRANS_AMT', language, 'Transferred Amount'),
+    getLabel('CDL_MF_FORFEIT_AMT', language, 'Forfeited Amount'),
     getLabel(
-      'CDL_BPA_DEV_EQUITY_CONT',
+      'CDL_MF_DEV_EQUITY_CONT',
       language,
       'Developer Equity Contribution'
     ),
-    getLabel('CDL_BPA_AMANAT_FUND', language, 'Amanat Fund Allocation'),
-    getLabel('CDL_BPA_OTHER_WITHDRAW', language, 'Other Withdrawals'),
-    getLabel('CDL_BPA_OQOOD_OTHER_PMT', language, 'Oqood and Other Payments'),
-    getLabel('CDL_BPA_VAT_DEPOSIT_AMT', language, 'VAT Deposited Amount'),
+    getLabel('CDL_MF_AMANAT_FUND', language, 'Amanat Fund Allocation'),
+    getLabel('CDL_MF_OTHER_WITHDRAW', language, 'Other Withdrawals'),
+    getLabel('CDL_MF_OQOOD_OTHER_PMT', language, 'Oqood and Other Payments'),
+    getLabel('CDL_MF_VAT_DEPOSIT_AMT', language, 'VAT Deposited Amount'),
   ],
     [getLabel, language]
   )
@@ -341,7 +341,7 @@ const Step6: React.FC<Step6Props> = ({ isViewMode = false }) => {
                 {renderTextField(
                   `breakdown.${index}.outOfEscrow`,
                   getLabel(
-                    'CDL_BPA_FUND_OUT_ESCROW',
+                    'CDL_MF_FUND_OUT_ESCROW',
                     language,
                     'Funds Outside Escrow'
                   ),
@@ -350,7 +350,7 @@ const Step6: React.FC<Step6Props> = ({ isViewMode = false }) => {
                 {renderTextField(
                   `breakdown.${index}.withinEscrow`,
                   getLabel(
-                    'CDL_BPA_FUND_WITHIN_ESCROW',
+                    'CDL_MF_FUND_WITHIN_ESCROW',
                     language,
                     'Funds Within Escrow'
                   ),
@@ -358,13 +358,13 @@ const Step6: React.FC<Step6Props> = ({ isViewMode = false }) => {
                 )}
                 {renderTextField(
                   `breakdown.${index}.total`,
-                  getLabel('CDL_BPA_TOTAL_AMOUNT', language, 'Total Amount'),
+                  getLabel('CDL_MF_TOTAL_AMOUNT', language, 'Total Amount'),
                   3
                 )}
                 {renderTextField(
                   `breakdown.${index}.exceptionalCapValue`,
                   getLabel(
-                    'CDL_BPA_EXCEP_CAP_VAL',
+                    'CDL_MF_EXCEP_CAP_VAL',
                     language,
                     'Exceptional Capital Value'
                   ),
@@ -380,7 +380,7 @@ const Step6: React.FC<Step6Props> = ({ isViewMode = false }) => {
                 {renderTextField(
                   'additional.creditInterestRetention',
                   getLabel(
-                    'CDL_BPA_PROFIT_ERND',
+                    'CDL_MF_PROFIT_ERND',
                     language,
                     'Credit Interest/Profit Earned for Retention A/c'
                   ),
@@ -392,7 +392,7 @@ const Step6: React.FC<Step6Props> = ({ isViewMode = false }) => {
                 {renderTextField(
                   'additional.paymentsRetentionAccount',
                   getLabel(
-                    'CDL_BPA_PMT_FRM_RETENTION',
+                    'CDL_MF_PMT_FRM_RETENTION',
                     language,
                     'Payments for Retention Account'
                   ),
@@ -404,7 +404,7 @@ const Step6: React.FC<Step6Props> = ({ isViewMode = false }) => {
                 {renderTextField(
                   'additional.reimbursementsDeveloper',
                   getLabel(
-                    'CDL_BPA_REIMB_AMT',
+                    'CDL_MF_REIMB_AMT',
                     language,
                     'Re-Imbursements (Developer)'
                   ),
@@ -416,7 +416,7 @@ const Step6: React.FC<Step6Props> = ({ isViewMode = false }) => {
                 {renderTextField(
                   'additional.unitRegistrationFees',
                   getLabel(
-                    'CDL_BPA_UNIT_REG_FEES',
+                    'CDL_MF_UNIT_REG_FEES',
                     language,
                     'Unit Registration Fees'
                   ),
@@ -428,7 +428,7 @@ const Step6: React.FC<Step6Props> = ({ isViewMode = false }) => {
                 {renderTextField(
                   'additional.creditInterestEscrow',
                   getLabel(
-                    'CDL_BPA_INT_ERND_ESCROW',
+                    'CDL_MF_INT_ERND_ESCROW',
                     language,
                     'Credit Interest/Profit Earned for ESCROW A/c'
                   ),
@@ -439,7 +439,7 @@ const Step6: React.FC<Step6Props> = ({ isViewMode = false }) => {
               <Grid size={{ xs: 12, md: 6 }}>
                 {renderTextField(
                   'additional.vatCapped',
-                  getLabel('CDL_BPA_CAP_VAT_AMT', language, 'VAT Capped'),
+                  getLabel('CDL_MF_CAP_VAT_AMT', language, 'VAT Capped'),
                   12,
                   false
                 )}

@@ -354,7 +354,7 @@ export const RightSlideBeneficiaryDetailsPanel: React.FC<
             account: allValues.bpbAccountNumber,
             swiftCode: allValues.bpbSwiftCode,
             routingCode: allValues.bpbRoutingCode || '',
-            buildPartnerDTO: {
+            assetRegisterDTO: {
               id: buildPartnerId ? parseInt(buildPartnerId) : undefined,
             },
           },
@@ -459,11 +459,11 @@ export const RightSlideBeneficiaryDetailsPanel: React.FC<
           bpbTransferTypeDTO: {
             id: parseInt(String(validatedData.bpbBeneficiaryType)) || 41,
           },
-          // Simplify buildPartnerDTO to just the ID
-          buildPartnerDTO: [
+          // Simplify assetRegisterDTO to just the ID
+          assetRegisterDTO: [
             {
               id:
-                (apiBeneficiaryData as any).buildPartnerDTO?.[0]?.id ||
+                (apiBeneficiaryData as any).assetRegisterDTO?.[0]?.id ||
                 (buildPartnerId ? parseInt(buildPartnerId) : undefined),
             },
           ],
@@ -483,7 +483,7 @@ export const RightSlideBeneficiaryDetailsPanel: React.FC<
           bpbTransferTypeDTO: {
             id: parseInt(String(validatedData.bpbBeneficiaryType)) || 41,
           },
-          buildPartnerDTO: [
+          assetRegisterDTO: [
             {
               id: buildPartnerId ? parseInt(buildPartnerId) : undefined,
             },

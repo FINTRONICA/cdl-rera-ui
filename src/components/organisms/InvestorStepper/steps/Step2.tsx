@@ -249,7 +249,7 @@ const Step2 = forwardRef<Step2Ref, Step2Props>(
 
       if (projectOptions.length > 0) {
         const projectOption = projectOptions.find(
-          (project) => project.projectId === unitData.realEstateAssestDTO?.reaId
+          (project) => project.projectId === unitData.managementFirmDTO?.mfId
         )
         if (projectOption) {
           setSelectedProject(projectOption)

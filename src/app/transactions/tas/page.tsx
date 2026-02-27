@@ -43,8 +43,8 @@ const transformFundEgressToTasPayment = (
       ? new Date(fundEgress.fePaymentDate).toLocaleDateString('en-GB')
       : 'N/A',
     takermsPaymentRefNo: fundEgress.fePaymentRefNumber || 'N/A',
-    assetRegisterName: fundEgress.buildPartnerDTO?.bpName || 'N/A',
-    managementFirmName: fundEgress.realEstateAssestDTO?.reaName || 'N/A',
+    assetRegisterName: fundEgress.assetRegisterDTO?.arName || 'N/A',
+    managementFirmName: fundEgress.managementFirmDTO?.mfName || 'N/A',
     paymentType: fundEgress.voucherPaymentTypeDTO?.name || 'N/A',
     approvalStatus: mapApiStatus(fundEgress.taskStatusDTO),
   }

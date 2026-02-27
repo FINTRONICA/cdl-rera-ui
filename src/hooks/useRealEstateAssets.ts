@@ -77,14 +77,14 @@ export function useRealEstateAssets(
 
   const findAssetByName = useCallback(
     (name: string): RealEstateAsset | undefined => {
-      return assets.find((asset) => asset.reaName === name)
+      return assets.find((asset) => asset.mfName === name)
     },
     [assets]
   )
 
   const findAssetById = useCallback(
     (id: string): RealEstateAsset | undefined => {
-      return assets.find((asset) => asset.reaId === id)
+      return assets.find((asset) => asset.mfId === id)
     },
     [assets]
   )
@@ -120,16 +120,16 @@ export function useRealEstateAssetStats(): UseRealEstateAssetStatsReturn {
       const stats = {
         total: assets.length,
         approved: assets.filter(
-          (asset) => asset.reaStatusDTO?.settingValue === 'APPROVED'
+          (asset) => asset.mfStatusDTO?.settingValue === 'APPROVED'
         ).length,
         rejected: assets.filter(
-          (asset) => asset.reaStatusDTO?.settingValue === 'REJECTED'
+          (asset) => asset.mfStatusDTO?.settingValue === 'REJECTED'
         ).length,
         incomplete: assets.filter(
-          (asset) => asset.reaStatusDTO?.settingValue === 'INCOMPLETE'
+          (asset) => asset.mfStatusDTO?.settingValue === 'INCOMPLETE'
         ).length,
         inReview: assets.filter(
-          (asset) => asset.reaStatusDTO?.settingValue === 'IN_REVIEW'
+          (asset) => asset.mfStatusDTO?.settingValue === 'IN_REVIEW'
         ).length,
       }
 

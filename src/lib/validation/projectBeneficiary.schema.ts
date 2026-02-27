@@ -3,39 +3,39 @@ import { z } from 'zod';
 // Form-level validation schema for Project Beneficiary Details Panel
 export const projectBeneficiaryFormValidationSchema = z.object({
   // Transfer Type* - Dropdown - Mandatory
-  reaBeneficiaryType: z.any().refine((val) => val && val !== '' && val !== null && val !== undefined, {
+  mfBeneficiaryType: z.any().refine((val) => val && val !== '' && val !== null && val !== undefined, {
     message: 'Transfer Type is required'
   }),
   
   // Beneficiary ID* - Text - Mandatory, Numerical only, max 16 characters
-  reaBeneficiaryId: z.string()
+  mfBeneficiaryId: z.string()
     .min(1, 'Beneficiary ID is required')
     .max(16, 'Beneficiary ID must be maximum 16 characters')
     .regex(/^[0-9]+$/, 'Beneficiary ID must contain only numbers'),
   
   // Beneficiary Name* - Text - Mandatory, Alphabets only, max 35 characters
-  reaName: z.string()
+  mfName: z.string()
     .min(1, 'Beneficiary Name is required')
     .max(35, 'Beneficiary Name must be maximum 35 characters')
     .regex(/^[a-zA-Z\s]+$/, 'Beneficiary Name must contain only alphabets and spaces'),
   
   // Beneficiary Bank* - Dropdown - Mandatory
-  reaBankName: z.any().refine((val) => val && val !== '' && val !== null && val !== undefined, {
+  mfBankName: z.any().refine((val) => val && val !== '' && val !== null && val !== undefined, {
     message: 'Beneficiary Bank is required'
   }),
   
   // Beneficiary Account Number/IBAN* - Text - Mandatory, Numerical only
-  reaAccountNumber: z.string()
+  mfAccountNumber: z.string()
     .min(1, 'Account Number/IBAN is required')
     .regex(/^[0-9]+$/, 'Account Number/IBAN must contain only numbers'),
   
   // Beneficiary Swift* - Text - Mandatory, Alpha Numerical only
-  reaSwiftCode: z.string()
+  mfSwiftCode: z.string()
     .min(1, 'SWIFT Code is required')
     .regex(/^[a-zA-Z0-9]+$/, 'SWIFT Code must contain only alphabets and numbers'),
   
   // Beneficiary Routing Code* - Text - Mandatory, Alpha Numerical only, max 10 characters
-  reaRoutingCode: z.string()
+  mfRoutingCode: z.string()
     .min(1, 'Routing Code is required')
     .max(10, 'Routing Code must be maximum 10 characters')
     .regex(/^[a-zA-Z0-9]+$/, 'Routing Code must contain only alphabets and numbers'),
@@ -43,37 +43,37 @@ export const projectBeneficiaryFormValidationSchema = z.object({
 
 // Field-level validation rules for Project Beneficiary Details
 export const PROJECT_BENEFICIARY_FIELD_VALIDATION_RULES = {
-  reaBeneficiaryType: {
+  mfBeneficiaryType: {
     required: true,
     message: 'Transfer Type is required'
   },
-  reaBeneficiaryId: {
+  mfBeneficiaryId: {
     required: true,
     maxLength: 16,
     pattern: /^[0-9]+$/,
     message: 'Beneficiary ID is required and must contain only numbers (max 16 characters)'
   },
-  reaName: {
+  mfName: {
     required: true,
     maxLength: 35,
     pattern: /^[a-zA-Z\s]+$/,
     message: 'Beneficiary Name is required and must contain only alphabets and spaces (max 35 characters)'
   },
-  reaBankName: {
+  mfBankName: {
     required: true,
     message: 'Beneficiary Bank is required'
   },
-  reaAccountNumber: {
+  mfAccountNumber: {
     required: true,
     pattern: /^[0-9]+$/,
     message: 'Account Number/IBAN is required and must contain only numbers'
   },
-  reaSwiftCode: {
+  mfSwiftCode: {
     required: true,
     pattern: /^[a-zA-Z0-9]+$/,
     message: 'SWIFT Code is required and must contain only alphabets and numbers'
   },
-  reaRoutingCode: {
+  mfRoutingCode: {
     required: true,
     maxLength: 10,
     pattern: /^[a-zA-Z0-9]+$/,

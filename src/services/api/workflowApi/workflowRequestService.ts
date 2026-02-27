@@ -310,26 +310,26 @@ export interface WorkflowDefinitionDTO {
 
 export interface Step1Data {
   id?: number
-  bpDeveloperId?: string
-  bpCifrera?: string
-  bpDeveloperRegNo?: string
-  bpName?: string
-  bpMasterName?: string
-  bpNameLocal?: string
-  bpOnboardingDate?: string
-  bpContactAddress?: string
-  bpContactTel?: string
-  bpPoBox?: string
-  bpMobile?: string
-  bpFax?: string
-  bpEmail?: string
-  bpLicenseNo?: string
-  bpLicenseExpDate?: string
-  bpWorldCheckFlag?: string | boolean
-  bpWorldCheckRemarks?: string
-  bpMigratedData?: boolean
-  bpremark?: string
-  bpRegulatorDTO?: {
+  arDeveloperId?: string
+  arCifrera?: string
+  arDeveloperRegNo?: string
+  arName?: string
+  arMasterName?: string
+  arNameLocal?: string
+  arOnboardingDate?: string
+  arContactAddress?: string
+  arContactTel?: string
+  arPoBox?: string
+  arMobile?: string
+  arFax?: string
+  arEmail?: string
+  arLicenseNo?: string
+  arLicenseExpDate?: string
+  arWorldCheckFlag?: string | boolean
+  arWorldCheckRemarks?: string
+  arMigratedData?: boolean
+  arremark?: string
+  arRegulatorDTO?: {
     id?: number
     [key: string]: unknown
   }

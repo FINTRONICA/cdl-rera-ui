@@ -61,12 +61,12 @@ export const transformRealEstateAssetsForDropdown = (
 ) => {
   return assets.map((asset) => ({
     id: asset.id,
-    displayName: asset.reaName, // Project Name
-    settingValue: asset.reaId, // Project ID
+    displayName: asset.mfName, // Project Name
+    settingValue: asset.mfId, // Project ID
     // Additional data for dependent fields
-    projectId: asset.reaId,
-    developerId: asset.buildPartnerDTO?.bpDeveloperId || '',
-    developerName: asset.buildPartnerDTO?.bpName || '',
+    projectId: asset.mfId,
+    developerId: asset.assetRegisterDTO?.arDeveloperId || '',
+    developerName: asset.assetRegisterDTO?.arName || '',
     // Store the full asset for reference
     fullAsset: asset,
   }))

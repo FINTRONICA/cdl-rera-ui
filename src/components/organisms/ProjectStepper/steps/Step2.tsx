@@ -125,7 +125,7 @@ const Step2: React.FC<Step2Props> = ({ projectId, isViewMode = false }) => {
         accountTitle: account.accountTitle,
         currencyCode: account.currency,
         isValidated: true,
-        realEstateAssestDTO: {
+        managementFirmDTO: {
           id: projectId ? parseInt(projectId) : 9007199254740991,
         },
       }
@@ -185,7 +185,7 @@ const Step2: React.FC<Step2Props> = ({ projectId, isViewMode = false }) => {
         accountTitle: validationResponse.name,
         currencyCode: validationResponse.currencyCode,
         isValidated: true,
-        realEstateAssestDTO: {
+        managementFirmDTO: {
           id: projectId ? parseInt(projectId) : 9007199254740991, // Use project ID from Step 1, fallback to default
         },
       }
@@ -437,7 +437,7 @@ const Step2: React.FC<Step2Props> = ({ projectId, isViewMode = false }) => {
                           fullWidth
                           disabled={true} // Always disabled - fetched from backend
                           required={isRequired}
-                          label={getLabel('CDL_BPA_ACC_IBAN', language, 'IBAN')}
+                          label={getLabel('CDL_MF_ACC_IBAN', language, 'IBAN')}
                           error={!!errors.accounts?.[index]?.ibanNumber}
                           helperText={
                             (errors.accounts?.[index]?.ibanNumber
@@ -471,7 +471,7 @@ const Step2: React.FC<Step2Props> = ({ projectId, isViewMode = false }) => {
                         <DatePicker
                           disabled={true} // Always disabled - fetched from backend
                           label={getLabel(
-                            'CDL_BPA_ACC_OPENDATE',
+                            'CDL_MF_ACC_OPENDATE',
                             language,
                             'Account Opening Date'
                           )}
@@ -522,7 +522,7 @@ const Step2: React.FC<Step2Props> = ({ projectId, isViewMode = false }) => {
                           disabled={true} // Always disabled - fetched from backend
                           required={isRequired}
                           label={getLabel(
-                            'CDL_BPA_ACC_NAME',
+                            'CDL_MF_ACC_NAME',
                             language,
                             'Account Name'
                           )}
@@ -566,7 +566,7 @@ const Step2: React.FC<Step2Props> = ({ projectId, isViewMode = false }) => {
                               currenciesLoading
                                 ? 'Loading...'
                                 : getLabel(
-                                    'CDL_BPA_ACC_CUR',
+                                    'CDL_MF_ACC_CUR',
                                     language,
                                     'Account Currency'
                                   )

@@ -2,29 +2,29 @@ import { apiClient } from '@/lib/apiClient'
 import { buildApiUrl, API_ENDPOINTS } from '@/constants/apiEndpoints'
 
 // Real Estate Asset Response Types based on the API response
-export interface BuildPartnerDTO {
+export interface assetRegisterDTO {
   id: number
-  bpDeveloperId: string
-  bpCifrera: string
-  bpDeveloperRegNo: string
-  bpName: string
-  bpMasterName: string
-  bpNameLocal: string | null
-  bpOnboardingDate: string | null
-  bpContactAddress: string | null
-  bpContactTel: string | null
-  bpPoBox: string | null
-  bpMobile: string | null
-  bpFax: string | null
-  bpEmail: string | null
-  bpLicenseNo: string | null
-  bpLicenseExpDate: string | null
-  bpWorldCheckFlag: string | null
-  bpWorldCheckRemarks: string | null
-  bpMigratedData: boolean | null
-  bpremark: string | null
-  bpRegulatorDTO: any | null
-  bpActiveStatusDTO: any | null
+  arDeveloperId: string
+  arCifrera: string
+  arDeveloperRegNo: string
+  arName: string
+  arMasterName: string
+  arNameLocal: string | null
+  arOnboardingDate: string | null
+  arContactAddress: string | null
+  arContactTel: string | null
+  arPoBox: string | null
+  arMobile: string | null
+  arFax: string | null
+  arEmail: string | null
+  arLicenseNo: string | null
+  arLicenseExpDate: string | null
+  arWorldCheckFlag: string | null
+  arWorldCheckRemarks: string | null
+  arMigratedData: boolean | null
+  arremark: string | null
+  arRegulatorDTO: any | null
+  arActiveStatusDTO: any | null
   beneficiaryIds: any[]
   deleted: boolean | null
   taskStatusDTO: any | null
@@ -53,43 +53,43 @@ export interface StatusDTO {
 
 export interface RealEstateAsset {
   id: number
-  reaId: string
-  reaCif: string
-  reaName: string
-  reaNameLocal: string | null
-  reaLocation: string
-  reaReraNumber: string
-  reaStartDate: string | null
-  reaCompletionDate: string | null
-  reaPercentComplete: string | null
-  reaConstructionCost: number
+  mfId: string
+  mfCif: string
+  mfName: string
+  mfNameLocal: string | null
+  mfLocation: string
+  mfReraNumber: string
+  mfStartDate: string | null
+  mfCompletionDate: string | null
+  mfPercentComplete: string | null
+  mfConstructionCost: number
   reaAccStatusDate: string | null
-  reaRegistrationDate: string | null
-  reaNoOfUnits: number
-  reaRemarks: string | null
-  reaSpecialApproval: string | null
-  reaManagedBy: string | null
-  reaBackupUser: string | null
-  reaRetentionPercent: string | null
-  reaAdditionalRetentionPercent: string | null
-  reaTotalRetentionPercent: string | null
-  reaRetentionEffectiveDate: string | null
-  reaManagementExpenses: string | null
-  reaMarketingExpenses: string | null
-  reaAccoutStatusDate: string | null
-  reaTeamLeadName: string | null
-  reaRelationshipManagerName: string | null
-  reaAssestRelshipManagerName: string | null
-  reaRealEstateBrokerExp: number
-  reaAdvertisementExp: number
-  reaLandOwnerName: string | null
-  buildPartnerDTO: BuildPartnerDTO
-  reaStatusDTO: StatusDTO
-  reaTypeDTO: StatusDTO
-  reaAccountStatusDTO: StatusDTO
-  reaConstructionCostCurrencyDTO: StatusDTO
+  mfRegistrationDate: string | null
+  mfNoOfUnits: number
+  mfRemarks: string | null
+  mfSpecialApproval: string | null
+  mfManagedBy: string | null
+  mfBackupUser: string | null
+  mfRetentionPercent: string | null
+  mfAdditionalRetentionPercent: string | null
+  mfTotalRetentionPercent: string | null
+  mfRetentionEffectiveDate: string | null
+  mfManagementExpenses: string | null
+  mfMarketingExpenses: string | null
+  mfAccoutStatusDate: string | null
+  mfTeamLeadName: string | null
+  mfRelationshipManagerName: string | null
+  mfAssestRelshipManagerName: string | null
+  mfRealEstateBrokerExp: number
+  mfAdvertisementExp: number
+  mfLandOwnerName: string | null
+  assetRegisterDTO: assetRegisterDTO
+  mfStatusDTO: StatusDTO
+  mfTypeDTO: StatusDTO
+  mfAccountStatusDTO: StatusDTO
+  mfConstructionCostCurrencyDTO: StatusDTO
   status: string | null
-  reaBlockPaymentTypeDTO: StatusDTO | null
+  mfBlockPaymentTypeDTO: StatusDTO | null
   deleted: boolean | null
   taskStatusDTO: any | null
 }
@@ -162,7 +162,7 @@ export class RealEstateAssetService {
   async findAssetByName(name: string): Promise<RealEstateAsset | undefined> {
     try {
       const assets = await this.getRealEstateAssets(0, 100) // Get more assets for search
-      return assets.find((asset) => asset.reaName === name)
+      return assets.find((asset) => asset.mfName === name)
     } catch (error) {
       console.error('RealEstateAssetService.findAssetByName Failed:', {
         name,
@@ -181,7 +181,7 @@ export class RealEstateAssetService {
   async findAssetById(assetId: string): Promise<RealEstateAsset | undefined> {
     try {
       const assets = await this.getRealEstateAssets(0, 100) // Get more assets for search
-      return assets.find((asset) => asset.reaId === assetId)
+      return assets.find((asset) => asset.mfId === assetId)
     } catch (error) {
       console.error('RealEstateAssetService.findAssetById Failed:', {
         assetId,
@@ -229,7 +229,7 @@ export class RealEstateAssetService {
       }
 
       const params = new URLSearchParams({
-        'reaName.contains': query.trim(),
+        'mfName.contains': query.trim(),
         'page': page.toString(),
         'size': size.toString(),
         'deleted.equals': 'false',
@@ -249,7 +249,7 @@ export class RealEstateAssetService {
         if ('content' in response && Array.isArray(response.content)) {
           // Paginated response format
           assets = response.content
-        } else if ('id' in response || 'reaName' in response) {
+        } else if ('id' in response || 'mfName' in response) {
           // Single object response - wrap in array
           assets = [response as RealEstateAsset]
         }

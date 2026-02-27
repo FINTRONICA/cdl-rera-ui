@@ -12,53 +12,53 @@ export interface SuretyBondTypeDTO {
   deleted: boolean | null
 }
 
-export interface RealEstateAssetDTO {
+export interface managementFirmAssetDTO {
   id: number
-  reaId: string
-  reaCif: string
-  reaName: string
-  reaNameLocal: string
-  reaLocation: string
-  reaReraNumber: string
-  reaStartDate: string
-  reaCompletionDate: string
-  reaPercentComplete: string
-  reaConstructionCost: number
+  mfId: string
+  mfCif: string
+  mfName: string
+  mfNameLocal: string
+  mfLocation: string
+  mfReraNumber: string
+  mfStartDate: string
+  mfCompletionDate: string
+  mfPercentComplete: string
+  mfConstructionCost: number
   reaAccStatusDate: string
-  reaRegistrationDate: string
-  reaNoOfUnits: number
-  reaRemarks: string
-  reaSpecialApproval: string
-  reaManagedBy: string
-  reaBackupUser: string
-  reaRetentionPercent: string
-  reaAdditionalRetentionPercent: string
-  reaTotalRetentionPercent: string
-  reaRetentionEffectiveDate: string
-  reaManagementExpenses: string
-  reaMarketingExpenses: string
-  reaAccoutStatusDate: string
-  reaTeamLeadName: string
-  reaRelationshipManagerName: string
-  reaAssestRelshipManagerName: string
-  reaRealEstateBrokerExp: number
-  reaAdvertisementExp: number
-  reaLandOwnerName: string
-  buildPartnerDTO: BuildPartnerDTO | null
-  reaStatusDTO: any | null
-  reaTypeDTO: any | null
-  reaAccountStatusDTO: any | null
-  reaConstructionCostCurrencyDTO: any | null
+  mfRegistrationDate: string
+  mfNoOfUnits: number
+  mfRemarks: string
+  mfSpecialApproval: string
+  mfManagedBy: string
+  mfBackupUser: string
+  mfRetentionPercent: string
+  mfAdditionalRetentionPercent: string
+  mfTotalRetentionPercent: string
+  mfRetentionEffectiveDate: string
+  mfManagementExpenses: string
+  mfMarketingExpenses: string
+  mfAccoutStatusDate: string
+  mfTeamLeadName: string
+  mfRelationshipManagerName: string
+  mfAssestRelshipManagerName: string
+  mfRealEstateBrokerExp: number
+  mfAdvertisementExp: number
+  mfLandOwnerName: string
+  assetRegisterDTO: assetRegisterDTO | null
+  mfStatusDTO: any | null
+  mfTypeDTO: any | null
+  mfAccountStatusDTO: any | null
+  mfConstructionCostCurrencyDTO: any | null
   status: any | null
-  reaBlockPaymentTypeDTO: any | null
+  mfBlockPaymentTypeDTO: any | null
   deleted: boolean
   enabled: boolean
   taskStatusDTO: any | null
 }
 
-export interface BuildPartnerDTO {
+export interface assetRegisterDTO {
   id: number
-  bpName?: string | null
+  arName?: string | null
 }
 
 export interface IssuerBankDTO {
@@ -85,8 +85,8 @@ export interface SuretyBondRequest {
   suretyBondDate?: string | null
   suretyBondName?: string | null
   suretyBondTypeDTO?: { id: number } | null
-  realEstateAssestDTO?: { id: number } | null
-  buildPartnerDTO?: { id: number } | null
+  managementFirmDTO?: { id: number } | null
+  assetRegisterDTO?: { id: number } | null
   suretyBondOpenEnded?: boolean | null
   suretyBondNoOfAmendment?: string | null
   suretyBondExpirationDate?: string | null
@@ -110,11 +110,11 @@ export interface SuretyBondResponse {
   enabled: boolean | null
   suretyBondNewReadingAmendment: string
   suretyBondTypeDTO: SuretyBondTypeDTO
-  realEstateAssestDTO: RealEstateAssetDTO
+  managementFirmDTO: managementFirmAssetDTO
   issuerBankDTO: IssuerBankDTO
   suretyBondStatusDTO: any | null
   taskStatusDTO: any | null
-  buildPartnerDTO: BuildPartnerDTO | null
+  assetRegisterDTO: assetRegisterDTO | null
   createdDate?: string
   lastModifiedDate?: string
   createdBy?: string
@@ -389,17 +389,17 @@ export class SuretyBondService {
     }
 
     if (
-      data.realEstateAssestDTO !== null &&
-      data.realEstateAssestDTO !== undefined &&
-      (!data.realEstateAssestDTO || !data.realEstateAssestDTO?.id)
+      data.managementFirmDTO !== null &&
+      data.managementFirmDTO !== undefined &&
+      (!data.managementFirmDTO || !data.managementFirmDTO?.id)
     ) {
       throw new Error('Real estate asset is required')
     }
 
     if (
-      data.buildPartnerDTO !== null &&
-      data.buildPartnerDTO !== undefined &&
-      (!data.buildPartnerDTO || !data.buildPartnerDTO?.id)
+      data.assetRegisterDTO !== null &&
+      data.assetRegisterDTO !== undefined &&
+      (!data.assetRegisterDTO || !data.assetRegisterDTO?.id)
     ) {
       throw new Error('Build partner is required')
     }

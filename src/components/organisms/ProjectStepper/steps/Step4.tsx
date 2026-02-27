@@ -31,16 +31,16 @@ import { PageActionButtons } from '@/components/molecules/PageActionButtons'
 import { GlobalLoading } from '@/components/atoms'
 
 interface BeneficiaryDetails extends Record<string, unknown> {
-  reaBeneficiaryId: string
-  reaBeneficiaryType: string
-  reaName: string
-  reaBankName: string
-  reaSwiftCode: string
-  reaRoutingCode: string
-  reaAccountNumber: string
-  reaBeneficiaryTypeId?: string | number
-  reaBankNameId?: string | number
-  realEstateAssetDTO?: any
+  mfBeneficiaryId: string
+  mfBeneficiaryType: string
+  mfName: string
+  mfBankName: string
+  mfSwiftCode: string
+  mfRoutingCode: string
+  mfAccountNumber: string
+  mfBeneficiaryTypeId?: string | number
+  mfBankNameId?: string | number
+  managementFirmAssetDTO?: any
 }
 
 interface Step4Props {
@@ -89,13 +89,13 @@ const Step4: React.FC<Step4Props> = ({
   ): BeneficiaryData[] => {
     return beneficiaryDetails.map((beneficiary) => ({
       id: beneficiary.id?.toString() || '',
-      expenseType: beneficiary.reaBeneficiaryType || '',
-      transferType: beneficiary.reaBeneficiaryType || '',
-      name: beneficiary.reaName || '',
-      bankName: beneficiary.reaBankName || '',
-      swiftCode: beneficiary.reaSwiftCode || '',
-      routingCode: beneficiary.reaRoutingCode || '',
-      account: beneficiary.reaAccountNumber || '',
+      expenseType: beneficiary.mfBeneficiaryType || '',
+      transferType: beneficiary.mfBeneficiaryType || '',
+      name: beneficiary.mfName || '',
+      bankName: beneficiary.mfBankName || '',
+      swiftCode: beneficiary.mfSwiftCode || '',
+      routingCode: beneficiary.mfRoutingCode || '',
+      account: beneficiary.mfAccountNumber || '',
     }))
   }
 
@@ -114,17 +114,19 @@ const Step4: React.FC<Step4Props> = ({
         const allProcessedBeneficiaries = beneficiariesArray.map(
           (beneficiary: any) => ({
             id: beneficiary.id?.toString() || '',
-            reaBeneficiaryId: beneficiary.reabBeneficiaryId || '',
-            reaBeneficiaryType:
+            mfBeneficiaryId: beneficiary.reabBeneficiaryId || '',
+            mfBeneficiaryType:
+              beneficiary.reabTransferTypeDTO?.languageTranslationId
+                ?.configValue ||
               beneficiary.reabTranferTypeDTO?.languageTranslationId
                 ?.configValue ||
               beneficiary.reabType ||
               '',
-            reaName: beneficiary.reabName || '',
-            reaBankName: beneficiary.reabBank || '',
-            reaSwiftCode: beneficiary.reabSwift || '',
-            reaRoutingCode: beneficiary.reabRoutingCode || '',
-            reaAccountNumber: beneficiary.reabBeneAccount || '',
+            mfName: beneficiary.reabName || '',
+            mfBankName: beneficiary.reabBank || '',
+            mfSwiftCode: beneficiary.reabSwift || '',
+            mfRoutingCode: beneficiary.reabRoutingCode || '',
+            mfAccountNumber: beneficiary.reabBeneAccount || '',
 
             beneficiaryId: beneficiary.reabBeneficiaryId || '',
             beneficiaryType: beneficiary.reabType || '',
@@ -253,9 +255,9 @@ const Step4: React.FC<Step4Props> = ({
 
   const tableColumns = [
     {
-      key: 'reaBeneficiaryId',
+      key: 'mfBeneficiaryId',
       label: getLabel(
-        'CDL_BPA_BENE_REFID',
+        'CDL_MF_BENE_REFID',
         language,
         'Beneficiary Reference ID'
       ),
@@ -264,50 +266,50 @@ const Step4: React.FC<Step4Props> = ({
       sortable: true,
     },
     {
-      key: 'reaBeneficiaryType',
-      label: getLabel('CDL_BPA_BENE_TRANSFER', language, 'Transfer Method'),
+      key: 'mfBeneficiaryType',
+      label: getLabel('CDL_MF_BENE_TRANSFER', language, 'Transfer Method'),
       type: 'text' as const,
       width: 'w-28',
       sortable: true,
     },
     {
-      key: 'reaName',
-      label: getLabel('CDL_BPA_BENE_NAME', language, 'Beneficiary Full Name'),
+      key: 'mfName',
+      label: getLabel('CDL_MF_BENE_NAME', language, 'Beneficiary Full Name'),
       type: 'text' as const,
       width: 'w-30',
       sortable: true,
     },
     {
-      key: 'reaBankName',
-      label: getLabel('CDL_BPA_BENE_BANK', language, 'Bank Name'),
+      key: 'mfBankName',
+      label: getLabel('CDL_MF_BENE_BANK', language, 'Bank Name'),
       type: 'text' as const,
       width: 'w-32',
       sortable: true,
     },
     {
-      key: 'reaSwiftCode',
-      label: getLabel('CDL_BPA_BENE_BIC', language, 'SWIFT/BIC Code'),
+      key: 'mfSwiftCode',
+      label: getLabel('CDL_MF_BENE_BIC', language, 'SWIFT/BIC Code'),
       type: 'text' as const,
       width: 'w-24',
       sortable: true,
     },
     {
-      key: 'reaRoutingCode',
-      label: getLabel('CDL_BPA_BENE_ROUTING', language, 'Routing Number'),
+      key: 'mfRoutingCode',
+      label: getLabel('CDL_MF_BENE_ROUTING', language, 'Routing Number'),
       type: 'text' as const,
       width: 'w-24',
       sortable: true,
     },
     {
-      key: 'reaAccountNumber',
-      label: getLabel('CDL_BPA_BENE_ACC', language, 'Bank Account Number'),
+      key: 'mfAccountNumber',
+      label: getLabel('CDL_MF_BENE_ACC', language, 'Bank Account Number'),
       type: 'text' as const,
       width: 'w-24',
       sortable: true,
     },
     {
       key: 'actions',
-      label: getLabel('CDL_BPA_ACTION', language, 'Actions'),
+      label: getLabel('CDL_MF_ACTION', language, 'Actions'),
       type: 'actions' as const,
       width: 'w-24',
     },
@@ -332,13 +334,13 @@ const Step4: React.FC<Step4Props> = ({
   } = useTableState({
     data: beneficiaryDetails as unknown as BeneficiaryDetails[],
     searchFields: [
-      'reaBeneficiaryId',
-      'reaBeneficiaryType',
-      'reaName',
-      'reaBankName',
-      'reaSwiftCode',
-      'reaRoutingCode',
-      'reaAccountNumber',
+      'mfBeneficiaryId',
+      'mfBeneficiaryType',
+      'mfName',
+      'mfBankName',
+      'mfSwiftCode',
+      'mfRoutingCode',
+      'mfAccountNumber',
     ],
     initialRowsPerPage: currentApiSize,
   })
@@ -392,13 +394,13 @@ const Step4: React.FC<Step4Props> = ({
     // Filter fullApiBeneficiariesData based on search state (same logic as useTableState)
     return fullApiBeneficiariesData.filter((beneficiary) => {
       return [
-        'reaBeneficiaryId',
-        'reaBeneficiaryType',
-        'reaName',
-        'reaBankName',
-        'reaSwiftCode',
-        'reaRoutingCode',
-        'reaAccountNumber',
+        'mfBeneficiaryId',
+        'mfBeneficiaryType',
+        'mfName',
+        'mfBankName',
+        'mfSwiftCode',
+        'mfRoutingCode',
+        'mfAccountNumber',
       ].every((field) => {
         const searchVal = search[field]?.trim() || ''
         if (!searchVal) return true
@@ -635,7 +637,7 @@ const Step4: React.FC<Step4Props> = ({
         onClose={handleClosePanel}
         onBeneficiaryAdded={handleBeneficiaryAdded}
         title={getLabel(
-          'CDL_BPA_BENE_INFO',
+          'CDL_MF_BENE_INFO',
           language,
           'Beneficiary Banking Details'
         )}
@@ -707,7 +709,7 @@ const Step4: React.FC<Step4Props> = ({
             }}
           >
             Are you sure you want to delete the beneficiary &quot;
-            {beneficiaryToDelete?.reaName}&quot;? This action cannot be undone.
+            {beneficiaryToDelete?.mfName}&quot;? This action cannot be undone.
           </Typography>
         </DialogContent>
         <DialogActions sx={{ padding: '16px 24px', gap: 1 }}>

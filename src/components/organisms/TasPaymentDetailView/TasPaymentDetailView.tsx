@@ -178,12 +178,12 @@ const TasPaymentDetailView: React.FC<TasPaymentDetailViewProps> = ({
     {
       gridSize: 6,
       label: 'Build Partner*',
-      value: fundEgressData.buildPartnerDTO?.bpName || '-',
+      value: fundEgressData.assetRegisterDTO?.arName || '-',
     },
     {
       gridSize: 6,
       label: 'Real Estate Asset*',
-      value: fundEgressData.realEstateAssestDTO?.reaName || '-',
+      value: fundEgressData.managementFirmDTO?.mfName || '-',
     },
     {
       gridSize: 6,

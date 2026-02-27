@@ -51,7 +51,7 @@ interface FeeDetails extends Record<string, unknown> {
   vatPercentage?: string
   totalAmount?: string
   collectionDate?: string
-  realEstateAssetDTO?: any
+  managementFirmDTO?: any
 }
 
 interface Step3Props {
@@ -124,17 +124,17 @@ const Step3: React.FC<Step3Props> = ({
         // Process all fees data first
         const allProcessedFees = feesArray.map((fee: any) => {
           const currencyValue =
-            fee.reafCurrencyDTO?.languageTranslationId?.configValue || ''
+            fee.mffCurrencyDTO?.languageTranslationId?.configValue || ''
           const debitAccountValue =
-            fee.reafAccountTypeDTO?.languageTranslationId?.configValue || ''
+            fee.mffAccountTypeDTO?.languageTranslationId?.configValue || ''
           const frequencyValue =
-            fee.reafFrequencyDTO?.languageTranslationId?.configValue || ''
+            fee.mffFrequencyDTO?.languageTranslationId?.configValue || ''
           const feeCategoryValue =
-            fee.reafCategoryDTO?.languageTranslationId?.configValue || ''
-          const currencyId = fee.reafCurrencyDTO?.id?.toString() || ''
-          const debitAccountId = fee.reafAccountTypeDTO?.id?.toString() || ''
-          const frequencyId = fee.reafFrequencyDTO?.id?.toString() || ''
-          const feeCategoryId = fee.reafCategoryDTO?.id?.toString() || ''
+            fee.mffCategoryDTO?.languageTranslationId?.configValue || ''
+          const currencyId = fee.mffCurrencyDTO?.id?.toString() || ''
+          const debitAccountId = fee.mffAccountTypeDTO?.id?.toString() || ''
+          const frequencyId = fee.mffFrequencyDTO?.id?.toString() || ''
+          const feeCategoryId = fee.mffCategoryDTO?.id?.toString() || ''
 
           // Format dates to DD/MM/YYYY
           const formatDateToDDMMYYYY = (dateString: string) => {
@@ -152,12 +152,12 @@ const Step3: React.FC<Step3Props> = ({
             id: fee.id?.toString() || '',
             FeeType: feeCategoryValue,
             Frequency: frequencyValue,
-            DebitAmount: fee.reafDebitAmount || '',
-            Feetobecollected: formatDateToDDMMYYYY(fee.reafCollectionDate),
-            NextRecoveryDate: formatDateToDDMMYYYY(fee.reafNextRecoveryDate),
-            FeePercentage: fee.reafFeePercentage || '',
-            Amount: fee.reafAmount || fee.reafTotalAmount || '',
-            VATPercentage: fee.reafVatPercentage || '',
+            DebitAmount: fee.mffDebitAmount || '',
+            Feetobecollected: formatDateToDDMMYYYY(fee.mffCollectionDate),
+            NextRecoveryDate: formatDateToDDMMYYYY(fee.mffNextRecoveryDate),
+            FeePercentage: fee.mffFeePercentage || '',
+            Amount: fee.mffTotalAmount || '',
+            VATPercentage: fee.mffVatPercentage || '',
             Currency: currencyValue,
             DebitAccount: debitAccountValue,
             // Keep original field names for compatibility
@@ -165,13 +165,13 @@ const Step3: React.FC<Step3Props> = ({
             frequency: frequencyId,
             debitAccount: debitAccountId,
             currency: currencyId,
-            debitAmount: fee.reafDebitAmount || '',
-            feeToBeCollected: formatDateToDDMMYYYY(fee.reafCollectionDate),
-            nextRecoveryDate: formatDateToDDMMYYYY(fee.reafNextRecoveryDate),
-            feePercentage: fee.reafFeePercentage || '',
-            vatPercentage: fee.reafVatPercentage || '',
-            totalAmount: fee.reafTotalAmount || '',
-            collectionDate: formatDateToDDMMYYYY(fee.reafCollectionDate),
+            debitAmount: fee.mffDebitAmount || '',
+            feeToBeCollected: formatDateToDDMMYYYY(fee.mffCollectionDate),
+            nextRecoveryDate: formatDateToDDMMYYYY(fee.mffNextRecoveryDate),
+            feePercentage: fee.mffFeePercentage || '',
+            vatPercentage: fee.mffVatPercentage || '',
+            totalAmount: fee.mffTotalAmount || '',
+            collectionDate: formatDateToDDMMYYYY(fee.mffCollectionDate),
           }
         })
 
@@ -278,7 +278,7 @@ const Step3: React.FC<Step3Props> = ({
   const tableColumns = [
     {
       key: 'FeeType',
-      label: getLabel('CDL_BPA_FEES_TYPE', language, 'Type of Fee'),
+      label: getLabel('CDL_MF_FEES_TYPE', language, 'Type of Fee'),
       type: 'text' as const,
       width: 'w-40',
       sortable: true,
@@ -286,7 +286,7 @@ const Step3: React.FC<Step3Props> = ({
     {
       key: 'Frequency',
       label: getLabel(
-        'CDL_BPA_FEES_FREQUENCY',
+        'CDL_MF_FEES_FREQUENCY',
         language,
         'Collection Frequency'
       ),
@@ -297,7 +297,7 @@ const Step3: React.FC<Step3Props> = ({
     {
       key: 'Currency',
       label: getLabel(
-        'CDL_BPA_FEES_CURRENCY',
+        'CDL_MF_FEES_CURRENCY',
         language,
         'Transaction Currency'
       ),
@@ -308,7 +308,7 @@ const Step3: React.FC<Step3Props> = ({
     {
       key: 'DebitAccount',
       label: getLabel(
-        'CDL_BPA_FEES_DEBIT_ACCOUNT',
+        'CDL_MF_FEES_DEBIT_ACCOUNT',
         language,
         'Designated Debit Account'
       ),
@@ -319,7 +319,7 @@ const Step3: React.FC<Step3Props> = ({
     {
       key: 'Feetobecollected',
       label: getLabel(
-        'CDL_BPA_FEE_COLLECTION_DATE',
+        'CDL_MF_FEE_COLLECTION_DATE',
         language,
         'Fee Collection Date'
       ),
@@ -329,28 +329,28 @@ const Step3: React.FC<Step3Props> = ({
     },
     {
       key: 'NextRecoveryDate',
-      label: getLabel('CDL_BPA_FEES_DATE', language, 'Next Collection Date'),
+      label: getLabel('CDL_MF_FEES_DATE', language, 'Next Collection Date'),
       type: 'text' as const,
       width: 'w-32',
       sortable: true,
     },
     {
       key: 'FeePercentage',
-      label: getLabel('CDL_BPA_FEES_RATE', language, 'Fee Rate (%)'),
+      label: getLabel('CDL_MF_FEES_RATE', language, 'Fee Rate (%)'),
       type: 'text' as const,
       width: 'w-24',
       sortable: true,
     },
     {
       key: 'DebitAmount',
-      label: getLabel('CDL_BPA_FEES_AMOUNT', language, 'Fee Amount'),
+      label: getLabel('CDL_MF_FEES_AMOUNT', language, 'Fee Amount'),
       type: 'text' as const,
       width: 'w-24',
       sortable: true,
     },
     {
       key: 'VATPercentage',
-      label: getLabel('CDL_BPA_FEES_VAT', language, 'Applicable VAT (%)'),
+      label: getLabel('CDL_MF_FEES_VAT', language, 'Applicable VAT (%)'),
       type: 'text' as const,
       width: 'w-24',
       sortable: true,
@@ -358,7 +358,7 @@ const Step3: React.FC<Step3Props> = ({
     {
       key: 'Amount',
       label: getLabel(
-        'CDL_BPA_FEES_TOTAL_AMOUNT',
+        'CDL_MF_FEES_TOTAL_AMOUNT',
         language,
         'Collected Amount'
       ),
@@ -368,7 +368,7 @@ const Step3: React.FC<Step3Props> = ({
     },
     {
       key: 'actions',
-      label: getLabel('CDL_BPA_ACTION', language, 'Action'),
+      label: getLabel('CDL_MF_ACTION', language, 'Action'),
       type: 'actions' as const,
       width: 'w-20',
     },
@@ -485,7 +485,7 @@ const Step3: React.FC<Step3Props> = ({
                   verticalAlign: 'middle',
                 }}
               >
-                {getLabel('CDL_BPA_ADD_FEE', language, 'Add Fee')}
+                {getLabel('CDL_MF_ADD_FEE', language, 'Add Fee')}
               </Button>
             )}
           </Box>

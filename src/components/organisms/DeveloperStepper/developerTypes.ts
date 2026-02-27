@@ -153,7 +153,7 @@ export interface ContactData extends Record<string, unknown> {
   telephoneno?: string
   fax?: string
   assetRegisterDTO?: { id: number }
-  buildPartnerDTO?: { id: number }
+  assetRegisterDTO?: { id: number }
   arcFirstName?: string
   arcLastName?: string
   arcContactEmail?: string
@@ -177,7 +177,7 @@ export interface FeeData extends Record<string, unknown> {
   amount: string
   vatPercentage: string
   assetRegisterDTO?: { id: number }
-  buildPartnerDTO?: { id: number }
+  assetRegisterDTO?: { id: number }
 }
 
 export interface BeneficiaryData extends Record<string, unknown> {
@@ -189,7 +189,7 @@ export interface BeneficiaryData extends Record<string, unknown> {
   routingCode: string
   account: string
   assetRegisterDTO?: { id: number }
-  buildPartnerDTO?: { id: number }
+  assetRegisterDTO?: { id: number }
   bpbTransferTypeDTO?: {
     id: number
     settingKey: string

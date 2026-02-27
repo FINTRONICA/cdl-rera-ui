@@ -78,7 +78,7 @@ function ProjectDetailsPageContent() {
             onClick={() => router.push('/management-firms')}
             className="px-4 py-2 mt-4 text-white bg-blue-600 rounded hover:bg-blue-700"
           >
-            Back to Projects
+            Back to Management Firms
           </button>
         </div>
       </DashboardLayout>
@@ -106,7 +106,7 @@ function ProjectDetailsPageContent() {
             {getLabel('CDL_MF_NAME', language, 'Management Firm Name')}
           </label>
           <span className="font-outfit font-normal text-[16px] leading-[1] tracking-normal align-middle text-[#1E2939] dark:text-white">
-            {projectData?.reaName || 'N/A'}
+            {projectData?.mfName || 'N/A'}
           </span>
         </div>
         <div className="flex flex-col min-w-[200px] gap-1">
@@ -114,19 +114,19 @@ function ProjectDetailsPageContent() {
             {getLabel('CDL_MF_REGNO', language, 'Management Firm Registration Number')}
           </label>
           <span className="font-outfit font-normal text-[16px] leading-[1] tracking-normal align-middle text-[#1E2939] dark:text-white">
-            {projectData?.reaReraNumber || 'N/A'}
+            {projectData?.mfReraNumber || 'N/A'}
           </span>
         </div>
         {/* <div className="flex flex-col min-w-[200px] gap-1">
           <label className="font-sans font-normal text-[12px] leading-[1] tracking-normal text-[#4A5565]">
             {getLabel(
-              'CDL_BPA_CIF',,
+              'CDL_MF_CIF',
               language,
               'Management Firm Information File (CIF) Number'
             )}
           </label>
           <span className="font-outfit font-normal text-[16px] leading-[1] tracking-normal align-middle text-[#1E2939]">
-            {projectData?.reaCif || 'N/A'}
+            {projectData?.mfCif || 'N/A'}
           </span>
         </div> */}
       </div>

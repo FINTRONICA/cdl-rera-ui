@@ -21,45 +21,45 @@ export interface FeeRepushRecord {
   reafhSpecialField5: string | null
   reafhFeeRequestBody: string | null
   realEstateAssestFeeDTO: any | null
-  realEstateAssestDTO: {
+  managementFirmDTO: {
     id?: number
-    reaId?: string
-    reaCif?: string
-    reaName?: string
-    reaNameLocal?: string
-    reaLocation?: string
-    reaReraNumber?: string
-    reaStartDate?: string
-    reaCompletionDate?: string
-    reaPercentComplete?: string
-    reaConstructionCost?: number
+    mfId?: string
+    mfCif?: string
+    mfName?: string
+    mfNameLocal?: string
+    mfLocation?: string
+    mfReraNumber?: string
+    mfStartDate?: string
+    mfCompletionDate?: string
+    mfPercentComplete?: string
+    mfConstructionCost?: number
     reaAccStatusDate?: string
-    reaRegistrationDate?: string
-    reaNoOfUnits?: number
-    reaRemarks?: string
-    reaSpecialApproval?: string
-    reaManagedBy?: string
-    reaBackupUser?: string
-    reaRetentionPercent?: string
-    reaAdditionalRetentionPercent?: string
-    reaTotalRetentionPercent?: string
-    reaRetentionEffectiveDate?: string
-    reaManagementExpenses?: string
-    reaMarketingExpenses?: string
-    reaAccoutStatusDate?: string
-    reaTeamLeadName?: string
-    reaRelationshipManagerName?: string
-    reaAssestRelshipManagerName?: string
-    reaRealEstateBrokerExp?: number
-    reaAdvertisementExp?: number
-    reaLandOwnerName?: string
-    buildPartnerDTO?: any
-    reaStatusDTO?: any
-    reaTypeDTO?: any
-    reaAccountStatusDTO?: any
-    reaConstructionCostCurrencyDTO?: any
+    mfRegistrationDate?: string
+    mfNoOfUnits?: number
+    mfRemarks?: string
+    mfSpecialApproval?: string
+    mfManagedBy?: string
+    mfBackupUser?: string
+    mfRetentionPercent?: string
+    mfAdditionalRetentionPercent?: string
+    mfTotalRetentionPercent?: string
+    mfRetentionEffectiveDate?: string
+    mfManagementExpenses?: string
+    mfMarketingExpenses?: string
+    mfAccoutStatusDate?: string
+    mfTeamLeadName?: string
+    mfRelationshipManagerName?: string
+    mfAssestRelshipManagerName?: string
+    mfRealEstateBrokerExp?: number
+    mfAdvertisementExp?: number
+    mfLandOwnerName?: string
+    assetRegisterDTO?: any
+    mfStatusDTO?: any
+    mfTypeDTO?: any
+    mfAccountStatusDTO?: any
+    mfConstructionCostCurrencyDTO?: any
     status?: any
-    reaBlockPaymentTypeDTO?: any
+    mfBlockPaymentTypeDTO?: any
     deleted?: boolean
     taskStatusDTO?: any
   } | null
@@ -219,7 +219,7 @@ export const mapFeeRepushToUIData = (
 
   return {
     id: String(apiData.id),
-    managementFirmName: apiData.realEstateAssestDTO?.reaName || '—',
+    managementFirmName: apiData.managementFirmDTO?.mfName || '—',
     feeType: 'Fee Processing', // Default since feeType not in API response
     amount: apiData.reafhAmount ? formatAmount(apiData.reafhAmount) : '—',
     transactionDate: formatDate(apiData.reafhTransactionDate),
@@ -299,7 +299,7 @@ export class FeeRepushService {
     if (filters) {
       // Map filters to actual API field names
       if (filters.managementFirmName) {
-        // Since project name is nested in realEstateAssestDTO.reaName, we might need a different approach
+        // Since project name is nested in managementFirmDTO.mfName, we might need a different approach
         // For now, we'll skip project name filtering until we know the correct API parameter
       }
       if (filters.minAmount !== undefined)

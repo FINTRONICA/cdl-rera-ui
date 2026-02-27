@@ -2,51 +2,51 @@ import { z } from 'zod'
 
 // Step 1: Project Details Validation Schema
 export const ProjectStep1Schema = z.object({
-  reaName: z.string().min(1, 'Project name is required'),
-  reaLocation: z.string().min(1, 'Project location is required'),
-  reaReraNumber: z.string().min(1, 'RERA number is required'),
-  reaStartDate: z.any().nullable(),
-  reaCompletionDate: z.any().nullable(),
-  reaConstructionCost: z.string().min(1, 'Construction cost is required'),
-  reaNoOfUnits: z.string().min(1, 'Number of units is required'),
-  reaRemarks: z.string().optional(),
-  reaSpecialApproval: z.string().optional(),
-  reaManagedBy: z.string().optional(),
-  reaBackupUser: z.string().min(1, 'Backup user is required'),
-  reaTeamLeadName: z.string().min(1, 'Team lead name is required'),
-  reaRelationshipManagerName: z
+  mfName: z.string().min(1, 'Project name is required'),
+  mfLocation: z.string().min(1, 'Project location is required'),
+  mfReraNumber: z.string().min(1, 'RERA number is required'),
+  mfStartDate: z.any().nullable(),
+  mfCompletionDate: z.any().nullable(),
+  mfConstructionCost: z.string().min(1, 'Construction cost is required'),
+  mfNoOfUnits: z.string().min(1, 'Number of units is required'),
+  mfRemarks: z.string().optional(),
+  mfSpecialApproval: z.string().optional(),
+  mfManagedBy: z.string().optional(),
+  mfBackupUser: z.string().min(1, 'Backup user is required'),
+  mfTeamLeadName: z.string().min(1, 'Team lead name is required'),
+  mfRelationshipManagerName: z
     .string()
     .min(1, 'Relationship manager name is required'),
-  reaAssestRelshipManagerName: z
+  mfAssestRelshipManagerName: z
     .string()
     .min(1, 'Asset relationship manager name is required'),
-  reaLandOwnerName: z.string().min(1, 'Land owner name is required'),
-  reaRetentionPercent: z.string().min(1, 'Retention percent is required'),
-  reaAdditionalRetentionPercent: z
+  mfLandOwnerName: z.string().min(1, 'Land owner name is required'),
+  mfRetentionPercent: z.string().min(1, 'Retention percent is required'),
+  mfAdditionalRetentionPercent: z
     .string()
     .min(1, 'Additional retention percent is required'),
-  reaTotalRetentionPercent: z
+  mfTotalRetentionPercent: z
     .string()
     .min(1, 'Total retention percent is required'),
-  reaRetentionEffectiveDate: z.any().nullable(),
-  reaManagementExpenses: z.string().min(1, 'Management expenses is required'),
-  reaMarketingExpenses: z.string().min(1, 'Marketing expenses is required'),
-  reaRealEstateBrokerExp: z.string().optional(),
-  reaAdvertisementExp: z.string().optional(),
-  reaPercentComplete: z.string().optional(),
-  reaConstructionCostCurrencyDTO: z.object({
+  mfRetentionEffectiveDate: z.any().nullable(),
+  mfManagementExpenses: z.string().min(1, 'Management expenses is required'),
+  mfMarketingExpenses: z.string().min(1, 'Marketing expenses is required'),
+  mfRealEstateBrokerExp: z.string().optional(),
+  mfAdvertisementExp: z.string().optional(),
+  mfPercentComplete: z.string().optional(),
+  mfConstructionCostCurrencyDTO: z.object({
     id: z.number(),
   }),
-  buildPartnerDTO: z.object({
+  assetRegisterDTO: z.object({
     id: z.number(),
   }),
-  reaStatusDTO: z.object({
+  mfStatusDTO: z.object({
     id: z.number(),
   }),
-  reaTypeDTO: z.object({
+  mfTypeDTO: z.object({
     id: z.number(),
   }),
-  reaAccountStatusDTO: z.object({
+  mfAccountStatusDTO: z.object({
     id: z.number(),
   }),
   status: z.string().min(1, 'Status is required'),

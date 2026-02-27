@@ -18,7 +18,7 @@ export interface CapitalPartnerUnitRequest {
   isModified?: boolean
   partnerUnitDTO?: string
   capitalPartnerUnitTypeDTO?: any
-  realEstateAssestDTO?: any
+  managementFirmDTO?: any
   unitStatusDTO?: {
     id: number
     enabled?: boolean
@@ -64,7 +64,7 @@ export interface CapitalPartnerUnitResponse {
   isModified: boolean
   partnerUnitDTO: string
   capitalPartnerUnitTypeDTO: any
-  realEstateAssestDTO: any
+  managementFirmDTO: any
   unitStatusDTO: any
   propertyIdDTO: any
   paymentPlanTypeDTO: any
