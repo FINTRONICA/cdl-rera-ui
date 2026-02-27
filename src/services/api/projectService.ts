@@ -103,7 +103,7 @@ export interface ProjectData extends Record<string, unknown> {
   id: number
   name: string
   developerId: string
-  developerCif: string
+  managementFirmCif: string
   developerName: string
   projectStatus: string
   approvalStatus: string
@@ -1635,7 +1635,7 @@ export function mapRealEstateAssetToProjectData(
     id: asset.id,
     name: asset.reaName,
     developerId: asset.buildPartnerDTO.bpDeveloperId,
-    developerCif: asset.buildPartnerDTO.bpCifrera,
+    managementFirmCif: asset.buildPartnerDTO.bpCifrera,
     developerName: asset.buildPartnerDTO.bpName,
     projectStatus:
       asset.reaAccountStatusDTO?.languageTranslationId?.configValue || 'N/A',

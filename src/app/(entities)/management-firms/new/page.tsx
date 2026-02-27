@@ -11,10 +11,10 @@ export default function NewProjectPage() {
   const currentLanguage = useAppStore((state) => state.language)
   const { getLabelResolver } = useSidebarConfig()
   const projectsTitle = getLabelResolver
-    ? getLabelResolver('projects', 'Build Partner Assets')
-    : 'Build Partner Assets'
+    ? getLabelResolver('management-firm', 'Management Firm')
+    : 'Management Firm'
 
-  const projectsStepperTitle = getLabel('CDL_BPA_DETAILS', currentLanguage, 'Build Partner Asset Details')
+  const projectsStepperTitle = getLabel('CDL_MF_DETAILS', currentLanguage, 'Management Firm Details')
 
   return (
     <DashboardLayout

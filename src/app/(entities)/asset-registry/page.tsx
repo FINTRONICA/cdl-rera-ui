@@ -181,7 +181,7 @@ const DevelopersPageImpl: React.FC = () => {
       sortable: true,
     },
     {
-      key: 'developerCif',
+      key: 'managementFirmCif',
       label: getAssetRegisterLabelDynamic('CDL_AR_CIF'),
       type: 'text' as const,
       width: 'w-40',
@@ -232,7 +232,7 @@ const DevelopersPageImpl: React.FC = () => {
     searchFields: [
       'name',
       'developerId',
-      'developerCif',
+      'managementFirmCif',
       'localeNames',
       'status',
     ],

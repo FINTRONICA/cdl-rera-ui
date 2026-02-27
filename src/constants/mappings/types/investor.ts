@@ -3,7 +3,7 @@ export interface InvestorData {
   investorId: string
   developerName: string
   developerIdRera: string
-  developerCif: string
+  managementFirmCif: string
   projectName: string
   projectAddress: string
   approvalStatus: string

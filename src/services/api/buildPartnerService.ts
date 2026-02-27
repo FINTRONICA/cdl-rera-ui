@@ -178,7 +178,7 @@ export interface BuildPartnerUIData {
   id: string
   name: string
   developerId: string
-  developerCif: string
+  managementFirmCif: string
   localeNames: string
   status: string
   registrationDate?: string | undefined
@@ -210,7 +210,7 @@ export const mapBuildPartnerToUIData = (
     id: apiData.id.toString(),
     name: apiData.arName || 'N/A',
     developerId: apiData.arDeveloperId || 'N/A',
-    developerCif: apiData.arCifrera || 'N/A',
+    managementFirmCif: apiData.arCifrera || 'N/A',
     localeNames: apiData.arNameLocal || '---',
     status: mapApiStatus(apiData.taskStatusDTO),
     registrationDate: apiData.arOnboardingDate || undefined,

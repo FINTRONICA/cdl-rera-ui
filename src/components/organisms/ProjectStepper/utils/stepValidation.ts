@@ -7,7 +7,7 @@
 
 // Field mappings for each step
 export const STEP_FIELD_MAPPINGS = {
-  0: [ // Step 1: Build Partner Asset Details
+  0: [ // Step 1: Management Firm Details
     'reaId',
     'reaCif', 
     'reaName',

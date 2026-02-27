@@ -49,9 +49,9 @@ function ProjectDetailsPageContent() {
     return (
       <DashboardLayout
         title={getLabel(
-          'CDL_BPA_DETAILS',
+          'CDL_MF_DETAILS',
           language,
-          'Build Partner Assets Details'
+          'Management Firm Details'
         )}
         subtitle=""
       >
@@ -66,17 +66,17 @@ function ProjectDetailsPageContent() {
     return (
       <DashboardLayout
         title={getLabel(
-          'CDL_BPA_DETAILS',
+          'CDL_MF_DETAILS',
           language,
-          'Build Partner Assets Details'
+          'Management Firm Details'
         )}
-        subtitle="Error loading build partner assets details"
+        subtitle="Error loading management firm details"
       >
         <div className="p-6 text-red-600">
           <p>Error: {error}</p>
           <button
             onClick={() => router.push('/management-firms')}
-            className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+            className="px-4 py-2 mt-4 text-white bg-blue-600 rounded hover:bg-blue-700"
           >
             Back to Projects
           </button>
@@ -88,22 +88,22 @@ function ProjectDetailsPageContent() {
   return (
     <DashboardLayout
       title={getLabel(
-        'CDL_BPA_DETAILS',
+        'CDL_MF_DETAILS',
         language,
-        'Build Partner Assets Details'
+        'Management Firm Details'
       )}
       subtitle={
         mode === 'view'
-          ? 'View build partner assets details and configuration (Read-only)'
+          ? 'View management firm details and configuration (Read-only)'
           : editing === 'true'
-            ? 'Edit build partner assets details and configuration'
-            : 'Manage your build partner assets details and configuration'
+            ? 'Edit management firm details and configuration'
+            : 'Manage your management firm details and configuration'
       }
     >
-      <div className="flex gap-7 items-start px-7 py-2">
+      <div className="flex items-start py-2 gap-7 px-7">
         <div className="flex flex-col min-w-[200px] gap-1">
           <label className="font-sans font-normal text-[12px] leading-[1] tracking-normal text-[#4A5565] dark:text-white">
-            {getLabel('CDL_BPA_NAME', language, 'Asset Name')}
+            {getLabel('CDL_MF_NAME', language, 'Management Firm Name')}
           </label>
           <span className="font-outfit font-normal text-[16px] leading-[1] tracking-normal align-middle text-[#1E2939] dark:text-white">
             {projectData?.reaName || 'N/A'}
@@ -111,7 +111,7 @@ function ProjectDetailsPageContent() {
         </div>
         <div className="flex flex-col min-w-[200px] gap-1">
           <label className="font-sans font-normal text-[12px] leading-[1] tracking-normal text-[#4A5565] dark:text-white">
-            {getLabel('CDL_BPA_REGNO', language, 'RERA Registration Number')}
+            {getLabel('CDL_MF_REGNO', language, 'Management Firm Registration Number')}
           </label>
           <span className="font-outfit font-normal text-[16px] leading-[1] tracking-normal align-middle text-[#1E2939] dark:text-white">
             {projectData?.reaReraNumber || 'N/A'}
@@ -120,9 +120,9 @@ function ProjectDetailsPageContent() {
         {/* <div className="flex flex-col min-w-[200px] gap-1">
           <label className="font-sans font-normal text-[12px] leading-[1] tracking-normal text-[#4A5565]">
             {getLabel(
-              'CDL_BPA_CIF',
+              'CDL_BPA_CIF',,
               language,
-              'Customer Information File (CIF) Number'
+              'Management Firm Information File (CIF) Number'
             )}
           </label>
           <span className="font-outfit font-normal text-[16px] leading-[1] tracking-normal align-middle text-[#1E2939]">
@@ -145,7 +145,7 @@ export default function ProjectDetailsPage() {
   return (
     <Suspense
       fallback={
-        <DashboardLayout title="Build Partner Assets Details" subtitle="">
+        <DashboardLayout title="Management Firm Details" subtitle="">
           <div className="bg-[#FFFFFFBF] rounded-2xl flex flex-col h-full">
             <GlobalLoading fullHeight />
           </div>

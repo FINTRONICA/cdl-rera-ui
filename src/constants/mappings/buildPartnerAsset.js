@@ -2,11 +2,11 @@
 // Maps configId to configValue for easy lookup and usage in components
 
 export const BUILD_PARTNER_ASSET_LABELS = {
-  // Main Build Partner Asset Details
-  CDL_BPA_DETAILS: 'Build Partner Asset Details',
+  // Main Management Firm Details
+  CDL_MF_DETAILS: 'Management Firm Details',
   CDL_BPA_REFID: '',
-  CDL_BPA_REGNO: 'RERA Registration Number',
-  CDL_BPA_NAME: 'Asset Name',
+  CDL_MF_REGNO: 'RERA Registration Number',
+  CDL_MF_NAME: 'Asset Name',
   CDL_BPA_CLASSIFICATION: 'Asset Classification',
   CDL_BPA_LOCATION: 'Asset Location',
   CDL_BPA_CIF: 'Customer Information File (CIF) Number',
@@ -31,12 +31,46 @@ export const BUILD_PARTNER_ASSET_LABELS = {
   CDL_BPA_TOTAL_UNIT: 'Total Units',
   CDL_BPA_ADD_NOTES: 'Additional Notes',
 
+
+  // CDL_MF_DETAILS: 'Management Firms Asset Details',
+  // CDL_MF_REFID: '',
+  // CDL_MF_REGNO: 'HOA Regisntartion Number',
+  // CDL_MF_NAME: 'Asset Name',
+  // CDL_MF_CLASSIFICATION: 'Asset Classification',
+  // CDL_MF_LOCATION: 'Asset Location',
+  // CDL_MF_CIF: 'Customer Information File (CIF) Number',
+  // CDL_MF_STATUS: 'Asset Status',
+  // CDL_MF_ACC_STATUS: 'Asset Account Status',
+  // CDL_MF_ACC_STATUS_DATE: 'Asset Account Status Date',
+  // CDL_MF_REG_DATE: 'Asset Registration Date',
+  // CDL_MF_EST_DATE: 'Estimated Commencement Date',
+  // CDL_MF_EST_COMPLETION_DATE: 'Estimated Completion Date',
+  // CDL_MF_PRIMARY_RETENTION: 'Primary Retention(%)',
+  // CDL_MF_SECONDARY_RETENTION: 'Supplementary Retention(%)',
+  // CDL_MF_AGG_RETENTION: 'Aggregate Retention(%)',
+  // CDL_MF_RETENTION_START_DATE: 'Retention Start Date',
+  // CDL_MF_MGMT_EXPENSES: 'Asset Management Expenses(%)',
+  // CDL_MF_MARKETING_COST: 'Marketing Costs(%)',
+  // CDL_MF_BROK_FEES: 'Brokerage Fees',
+  // CDL_MF_ADVTG_COST: 'Advertising Costs',
+  // CDL_MF_LANDOWNER_NAMEOST: 'Landowner Name',
+  // CDL_MF_ASST_COMP_PER: 'Asset Completion Percentage',
+  // CDL_MF_TRAN_CUR: 'Transaction Currency',
+  // CDL_MF_ACT_COST: 'Actual Build Cost',
+  // CDL_MF_TOTAL_UNIT: 'Total Units',
+  // CDL_MF_ADD_NOTES: 'Additional Notes',
+
   // Build Partner Information
-  CDL_BPA_BP_ID: 'Developer Id',
-  CDL_BPA_BP_CIF: 'Developer CIF',
-  CDL_BPA_BP_NAME: 'Developer Name',
-  CDL_BPA_BP_STATUS: 'Project Status',
-  CDL_BPA_BP_APPROVAL_STATUS: 'Approval Status',
+  // CDL_MF_AR_ID: 'Developer Id',
+  // CDL_MF_AR_CIF: 'Developer CIF',
+  // CDL_MF_AR_NAME: 'Developer Name',
+  // CDL_MF_AR_STATUS: 'Project Status',
+  // CDL_MF_AR_APPROVAL_STATUS: 'Approval Status',
+  CDL_MF_AR_ID: 'Asset Registry ID',
+  CDL_MF_AR_CIF: 'Asset Registry CIF',
+  CDL_MF_AR_NAME: 'Master Asset Registry Name',
+  CDL_MF_AR_STATUS: 'Status',
+  CDL_MF_AR_APPROVAL_STATUS: 'Approval Status',
 
   // Special Regulatory and Management
   CDL_BPA_SP_REG_APPROVAL: 'Special Regulatory Approval 09876',
@@ -125,7 +159,7 @@ export const BUILD_PARTNER_ASSET_LABELS = {
   CDL_BPA_CLOSURE: 'Project Closure',
   CDL_BPA_TOTAL_AMT_RECEIVED: 'Total Income Fund',
   CDL_BPA_TOTAL_DIS_PMT: 'Total Payment',
-  CDL_BPA_DOC_ACTION: 'Available Actions',
+  CDL_MF_DOC_ACTION: 'Available Actions',
 }
 
 // Utility function to get label by configId
@@ -137,10 +171,10 @@ export const getBuildPartnerAssetLabel = (configId) => {
 export const getBuildPartnerAssetLabelsByCategory = (category) => {
   const categories = {
     details: [
-      'CDL_BPA_DETAILS',
+      'CDL_MF_DETAILS',
       'CDL_BPA_REFID',
-      'CDL_BPA_REGNO',
-      'CDL_BPA_NAME',
+      'CDL_MF_REGNO',
+      'CDL_MF_NAME',
       'CDL_BPA_CLASSIFICATION',
       'CDL_BPA_LOCATION',
       'CDL_BPA_CIF',
@@ -172,7 +206,7 @@ export const getBuildPartnerAssetLabelsByCategory = (category) => {
       'CDL_BPA_ARM',
       'CDL_BPA_TL',
       'CDL_BPA_DOC_VALIDITY',
-      'CDL_BPA_DOC_ACTION',
+      'CDL_MF_DOC_ACTION',
     ],
     account: [
       'CDL_BPA_ACC_NO',

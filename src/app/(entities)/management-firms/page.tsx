@@ -33,7 +33,7 @@ const statusOptions = [
   'INITIATED',
 ]
 
-const buildPartnerStatusOptions = ['ACTIVE', 'INACTIVE']
+const managementFirmStatusOptions = ['ACTIVE', 'INACTIVE']
 
 const ProjectsPage: React.FC = () => {
   const [isSidePanelOpen, setIsSidePanelOpen] = useState(false)
@@ -46,8 +46,8 @@ const ProjectsPage: React.FC = () => {
   const currentLanguage = useAppStore((state) => state.language)
   const { getLabelResolver } = useSidebarConfig()
   const projectsTitle = getLabelResolver
-    ? getLabelResolver('projects', 'Build Partner Assets')
-    : 'Build Partner Assets'
+    ? getLabelResolver('management-firms', 'Management Firms')
+    : 'Management Firms'
 
 
   const {
@@ -98,43 +98,43 @@ const ProjectsPage: React.FC = () => {
   const tableColumns = [
     {
       key: 'name',
-      label: getBuildPartnerAssetLabelDynamic('CDL_BPA_NAME'),
+      label: getBuildPartnerAssetLabelDynamic('CDL_MF_NAME'),
       type: 'text' as const,
       width: 'w-40',
       sortable: true,
     },
     {
-      key: 'developerId',
-      label: getBuildPartnerAssetLabelDynamic('CDL_BPA_BP_ID'),
+      key: 'managementFirmId',
+      label: getBuildPartnerAssetLabelDynamic('CDL_MF_AR_ID'),
       type: 'text' as const,
       width: 'w-48',
       sortable: true,
     },
     {
-      key: 'developerCif',
-      label: getBuildPartnerAssetLabelDynamic('CDL_BPA_BP_CIF'),
+      key: 'managementFirmCif',
+      label: getBuildPartnerAssetLabelDynamic('CDL_MF_AR_CIF'),
       type: 'text' as const,
       width: 'w-40',
       sortable: true,
     },
     {
-      key: 'developerName',
-      label: getBuildPartnerAssetLabelDynamic('CDL_BPA_BP_NAME'),
+      key: 'managementFirmName',
+      label: getBuildPartnerAssetLabelDynamic('CDL_MF_AR_NAME'),
       type: 'text' as const,
       width: 'w-48',
       sortable: true,
     },
     {
       key: 'projectStatus',
-      label: getBuildPartnerAssetLabelDynamic('CDL_BPA_BP_STATUS'),
+      label: getBuildPartnerAssetLabelDynamic('CDL_MF_AR_STATUS'),
       type: 'status' as const,
       width: 'w-40',
       sortable: true,
-      statusOptions: buildPartnerStatusOptions,
+      statusOptions: managementFirmStatusOptions,
     },
     {
       key: 'approvalStatus',
-      label: getBuildPartnerAssetLabelDynamic('CDL_BPA_BP_APPROVAL_STATUS'),
+      label: getBuildPartnerAssetLabelDynamic('CDL_MF_AR_APPROVAL_STATUS'),
       type: 'status' as const,
       width: 'w-40',
       sortable: true,
@@ -142,7 +142,7 @@ const ProjectsPage: React.FC = () => {
     },
     {
       key: 'actions',
-      label: getBuildPartnerAssetLabelDynamic('CDL_BPA_DOC_ACTION'),
+      label: getBuildPartnerAssetLabelDynamic('CDL_MF_DOC_ACTION'),
       type: 'actions' as const,
       width: 'w-24',
     },
@@ -169,12 +169,20 @@ const ProjectsPage: React.FC = () => {
   } = useTableState({
     data: projectsData,
     searchFields: [
-      'name',
-      'developerId',
-      'developerCif',
-      'developerName',
-      'projectStatus',
-      'approvalStatus',
+      // 'name',
+      // 'developerId',
+      // 'managementFirmCif',
+      // 'developerName',
+      // 'projectStatus',
+      // 'approvalStatus',
+
+
+        'name',
+        'managementFirmId',
+        'managementFirmCif',
+        'managementFirmName',
+        'projectStatus',
+        'approvalStatus',
     ],
     initialRowsPerPage: currentApiSize,
   })
@@ -226,9 +234,6 @@ const ProjectsPage: React.FC = () => {
           setIsDeleting(true)
 
           await deleteMutation.mutateAsync(row.id.toString())
-
-         
-
           await new Promise((resolve) => setTimeout(resolve, 500))
 
           await queryClient.invalidateQueries({
@@ -241,7 +246,7 @@ const ProjectsPage: React.FC = () => {
         } catch (error) {
           const errorMessage =
             error instanceof Error ? error.message : 'Unknown error occurred'
-          console.error(`Failed to delete project: ${errorMessage}`)
+          console.error(`Failed to delete management firm: ${errorMessage}`)
           throw error 
         } finally {
           setIsDeleting(false)
@@ -278,7 +283,7 @@ const ProjectsPage: React.FC = () => {
         </div>
         <div>
           <span className="font-semibold">Developer CIF:</span>{' '}
-          {row.developerCif}
+          {row.managementFirmCif}
         </div>
       </div>
       <div className="space-y-4">
@@ -295,7 +300,7 @@ const ProjectsPage: React.FC = () => {
   if (projectsLoading) {
     return (
       <DashboardLayout title={projectsTitle}>
-        <div className="bg-white/75 dark:bg-gray-800/80 rounded-2xl flex flex-col h-full">
+        <div className="flex flex-col h-full bg-white/75 dark:bg-gray-800/80 rounded-2xl">
           <GlobalLoading fullHeight />
         </div>
       </DashboardLayout>
@@ -305,11 +310,11 @@ const ProjectsPage: React.FC = () => {
   if (projectsError) {
     return (
       <DashboardLayout title={projectsTitle}>
-        <div className="bg-white/75 dark:bg-gray-800/80 rounded-2xl flex flex-col h-full">
+        <div className="flex flex-col h-full bg-white/75 dark:bg-gray-800/80 rounded-2xl">
           <GlobalError 
             error={projectsError} 
             onRetry={() => window.location.reload()}
-            title="Error loading build partner assets"
+            title="Error loading management firms"
             fullHeight
           />
         </div>
@@ -328,7 +333,7 @@ const ProjectsPage: React.FC = () => {
 
   
       {downloadError && (
-        <div className="fixed top-4 right-4 z-50 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded shadow-lg">
+        <div className="fixed z-50 px-4 py-3 text-red-700 bg-red-100 border border-red-400 rounded shadow-lg top-4 right-4">
           <div className="flex items-center justify-between">
             <span className="text-sm font-medium">
               Download Error: {downloadError}
@@ -344,19 +349,19 @@ const ProjectsPage: React.FC = () => {
       )}
 
       <DashboardLayout title={projectsTitle}>
-        <div className="bg-white/75 dark:bg-gray-800/80 rounded-2xl flex flex-col h-full">
-          <div className="sticky top-0 z-10 bg-white/75 dark:bg-gray-800/80 border-b border-gray-200 dark:border-gray-700 rounded-t-2xl">
+        <div className="flex flex-col h-full bg-white/75 dark:bg-gray-800/80 rounded-2xl">
+          <div className="sticky top-0 z-10 border-b border-gray-200 bg-white/75 dark:bg-gray-800/80 dark:border-gray-700 rounded-t-2xl">
             <PageActionButtons
-              entityType="project"
+              entityType="managementFirm"
               onDownloadTemplate={handleDownloadTemplate}
               isDownloading={isDownloading}
             />
           </div>
 
-          <div className="flex-1 flex flex-col min-h-0">
+          <div className="flex flex-col flex-1 min-h-0">
             <div className="flex-1 overflow-auto">
               <PermissionAwareDataTable<ProjectData>
-                key={`projects-table-${tableKey}`}
+                key={`management-firms-table-${tableKey}`}
                 data={paginated as ProjectData[]}
                 columns={tableColumns}
                 searchState={search}

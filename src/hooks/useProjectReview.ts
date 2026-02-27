@@ -47,7 +47,7 @@ export interface ProjectDetails {
   assistantRelationshipManager: string
   teamLeaderName: string
   // Developer fields
-  developerCif: string
+  managementFirmCif: string
   developerId: string
   developerName: string
   masterDeveloperName: string
@@ -201,7 +201,7 @@ export function useProjectReview(projectId: string) {
           assistantRelationshipManager: projectDetailsResult.reaAssestRelshipManagerName || '',
           teamLeaderName: projectDetailsResult.reaTeamLeadName || '',
           // Developer fields
-          developerCif: projectDetailsResult.buildPartnerDTO?.bpCifrera || '',
+          managementFirmCif: projectDetailsResult.buildPartnerDTO?.bpCifrera || '',
           developerId: projectDetailsResult.buildPartnerDTO?.bpDeveloperId || '',
           developerName: projectDetailsResult.buildPartnerDTO?.bpName || '',
           masterDeveloperName: projectDetailsResult.buildPartnerDTO?.bpMasterName || '',

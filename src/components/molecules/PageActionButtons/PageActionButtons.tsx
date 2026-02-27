@@ -6,7 +6,7 @@ import { Loader } from 'lucide-react'
 import { UploadDialog } from '@/components/molecules/UploadDialog'
 
 export type EntityType =
-  | 'project'
+  | 'managementFirm'
   | 'ownerRegistry'
   | 'developer'
   | 'manualPayment'
@@ -91,8 +91,8 @@ const PageActionButtonsComponent: React.FC<PageActionButtonsProps> = ({
 
   // Entity-specific configurations with permissions
   const entityConfig = {
-    project: {
-      label: 'Add New Build Partner Assest',
+    managementFirm: {
+      label: 'Add New Management Firm',
       route: '/management-firms/new',
       permissions: ['bpa_create'], // Only users with bpa_create permission
       downloadPermission: ['data_export'], // Unified download permission
@@ -280,7 +280,7 @@ const PageActionButtonsComponent: React.FC<PageActionButtonsProps> = ({
         return '/owner-registry/upload'
       case 'developer':
         return '/asset-registry-beneficiary/upload'
-      case 'project':
+      case 'managementFirm':
         return '/real-estate-assest/upload'
       case 'suretyBond':
         return '/surety-bond/upload'

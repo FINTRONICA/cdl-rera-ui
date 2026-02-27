@@ -1,6 +1,6 @@
 // Step names and configuration
 export const STEPS = [
-  'Build Partner Asset Details',
+  'Management Firm Details',
   'Documents',
   'Asset Account Details',
   'Escrow Fee & Collection Details',

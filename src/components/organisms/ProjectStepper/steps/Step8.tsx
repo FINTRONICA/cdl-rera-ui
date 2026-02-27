@@ -133,37 +133,37 @@ const Step8: React.FC<Step8Props> = ({
     {
       gridSize: 6,
       // label: 'Developer CIF/Name*',
-      label: getLabel('CDL_BPA_BP_CIF', language, 'Build Partner CIF'),
-      value: reviewData.projectDetails?.developerCif || '',
+      label: getLabel('CDL_MF_AR_CIF', language, 'Build Partner CIF'),
+      value: reviewData.projectDetails?.managementFirmCif || '',
     },
     {
       gridSize: 6,
       // label: 'Developer ID (RERA)*',
-      label: getLabel('CDL_BPA_BP_ID', language, 'Build Partner ID'),
+      label: getLabel('CDL_MF_AR_ID', language, 'Build Partner ID'),
       value: reviewData.projectDetails?.developerId || '',
     },
     {
       gridSize: 6,
       // label: 'Developer Name',
-      label: getLabel('CDL_BPA_BP_NAME', language, 'Build Partner Name'),
+      label: getLabel('CDL_MF_AR_NAME', language, 'Build Partner Name'),
       value: reviewData.projectDetails?.developerName || '',
     },
     {
       gridSize: 6,
       // label: 'Master Developer Name',
-      label: getLabel('CDL_BPA_BP_NAME', language, 'Master Build Partner Name'),
+      label: getLabel('CDL_MF_AR_NAME', language, 'Master Build Partner Name'),
       value: reviewData.projectDetails?.masterDeveloperName || '',
     },
     {
       gridSize: 6,
       // label: 'Project RERA Number*',
-      label: getLabel('CDL_BPA_REGNO', language, 'RERA Registration Number'),
+      label: getLabel('CDL_MF_REGNO', language, 'RERA Registration Number'),
       value: reviewData.projectDetails?.reraNumber || '',
     },
     {
       gridSize: 6,
       // label: 'Project Name*',
-      label: getLabel('CDL_BPA_NAME', language, 'Asset Name'),
+      label: getLabel('CDL_MF_NAME', language, 'Asset Name'),
       value: reviewData.projectDetails?.projectName || '',
     },
     {
@@ -464,9 +464,9 @@ const Step8: React.FC<Step8Props> = ({
               }}
             >
               {getLabel(
-                'CDL_BPA_DETAILS',
+                'CDL_MF_DETAILS',
                 language,
-                'Build Partner Asset Details'
+                'Management Firm Details'
               )}
             </Typography>
             {!isViewMode && (

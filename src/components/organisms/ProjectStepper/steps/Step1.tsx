@@ -571,7 +571,7 @@ const Step1: React.FC<Step1Props> = React.memo(
                           <TextField
                             {...params}
                             label={getLabel(
-                              'CDL_BPA_BP_CIF',
+                              'CDL_MF_AR_CIF',
                               language,
                               'Build Partner Asset CIF/Name'
                             )}
@@ -671,7 +671,7 @@ const Step1: React.FC<Step1Props> = React.memo(
                         fullWidth
                         disabled={true}
                         label={getLabel(
-                          'CDL_BPA_BP_ID',
+                          'CDL_MF_AR_ID',
                           language,
                           'Build Partner Assest ID (RERA)121212'
                         )}
@@ -703,7 +703,7 @@ const Step1: React.FC<Step1Props> = React.memo(
                       fullWidth
                       disabled={true}
                       label={getLabel(
-                        'CDL_BPA_BP_NAME',
+                        'CDL_MF_AR_NAME',
                         language,
                         'Build Partner Assest Name 123323'
                       )}
@@ -779,7 +779,7 @@ const Step1: React.FC<Step1Props> = React.memo(
                       fullWidth
                       disabled={isViewMode || isEditMode}
                       label={getLabel(
-                        'CDL_BPA_REGNO',
+                        'CDL_MF_REGNO',
                         language,
                         'Project RERA Number'
                       )}
@@ -818,7 +818,7 @@ const Step1: React.FC<Step1Props> = React.memo(
                         {...field}
                         fullWidth
                         disabled={isViewMode}
-                        label={getLabel('CDL_BPA_NAME', language, 'Asset Name')}
+                        label={getLabel('CDL_MF_NAME', language, 'Asset Name')}
                         error={hasError}
                         helperText={errors.reaName?.message}
                         required={true}
