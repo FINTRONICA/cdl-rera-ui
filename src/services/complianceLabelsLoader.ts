@@ -62,7 +62,7 @@ export class SimpleLabelsLoader {
       if (hasEnoughLabels) {
       } else {
         console.warn(
-          '⚠️ [LABELS] Not enough labels loaded:',
+          '[LABELS] Not enough labels loaded:',
           successCount,
           'out of 4'
         )

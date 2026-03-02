@@ -398,7 +398,7 @@
 //                 }}
 //               >
 //                 <Typography variant="body2" color="error">
-//                   ⚠️ Failed to load dropdown options. Using fallback values.
+//                    Failed to load dropdown options. Using fallback values.
 //                 </Typography>
 //               </Box>
 //             )}
@@ -415,7 +415,7 @@
 //                 }}
 //               >
 //                 <Typography variant="body2" color="error">
-//                   ⚠️ 678{saveError}
+//                    678{saveError}
 //                 </Typography>
 //               </Box>
 //             )}

@@ -713,7 +713,7 @@ export const labelsSlice: StateCreator<LabelsSlice> = (set, get) => ({
         labels = state.budgetManagementFirmLabels;
         break;
       default:
-        console.warn("⚠️ [COMPLIANCE] Unknown label type:", type);
+        console.warn(" [COMPLIANCE] Unknown label type:", type);
         return fallback;
     }
 

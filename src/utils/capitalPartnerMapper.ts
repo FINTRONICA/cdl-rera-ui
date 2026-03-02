@@ -11,7 +11,7 @@ export interface Step1FormData {
   ownership: string
   investorIdType: string
   idNumber: string
-  idExpiryDate: any // Dayjs object
+  idExpiaryDate: any // Dayjs object
   nationality: string
   accountContact: string
   mobileNumber: string
@@ -90,12 +90,15 @@ export function mapStep1ToCapitalPartnerPayload(
   if (formData.email) payload.ownerRegistryEmail = formData.email
   if (formData.arabicName) payload.ownerRegistryLocaleName = formData.arabicName
 
-  const expiryDate = formatExpiryDate(formData.idExpiryDate)
+  const expiryDate = formatExpiryDate(formData.idExpiaryDate)
   if (expiryDate) payload.idExpiaryDate = expiryDate
 
   if (selectedIdType) payload.documentTypeDTO = { id: selectedIdType.id }
   if (selectedCountry) payload.countryOptionDTO = { id: selectedCountry.id }
-  if (selectedInvestorType) payload.ownerRegistryTypeDTO = { id: selectedInvestorType.id }
+  if (selectedInvestorType) {
+    payload.ownerRegistryTypeDTO = { id: selectedInvestorType.id }
+    payload.investorTypeDTO = { id: selectedInvestorType.id }
+  }
 
   payload.ownerRegistryOwnerNumber = 1073741824
   payload.isCurrent = true

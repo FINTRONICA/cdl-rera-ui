@@ -42,7 +42,7 @@ export const CapitalPartnerStep1Schema = z.object({
     .optional()
     .or(z.literal('')),
 
-  idExpiryDate: dayjsSchema.optional(),
+  idExpiaryDate: dayjsSchema.optional(),
 
   // Align with Step 1 form field name
   accountContact: z

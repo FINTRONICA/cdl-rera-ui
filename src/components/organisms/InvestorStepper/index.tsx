@@ -203,7 +203,7 @@ export default function InvestorsStepperWrapper({
       investorIdType: '',
       idNumber: '',
       ownership: '',
-      idExpiryDate: null,
+      idExpiaryDate: null,
       nationality: '',
       accountContact: '',
       mobileNumber: '',

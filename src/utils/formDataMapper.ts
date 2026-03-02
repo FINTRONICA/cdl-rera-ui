@@ -220,7 +220,7 @@ export function mapFormDataToFundEgress(
   
   // Debug logging for partner finding
   if (!selectedPartner && (formData.developerName || formData.developerId)) {
-    console.warn('⚠️ Build partner not found:', {
+    console.warn(' Build partner not found:', {
       developerName: formData.developerName,
       developerId: formData.developerId,
       buildPartnersCount: buildPartners?.length || 0,
@@ -591,7 +591,7 @@ export function mapFormDataToFundEgressSimplified(
   
   // Debug logging for partner finding
   if (!selectedPartner && (formData.developerName || formData.developerId)) {
-    console.warn('⚠️ Build partner not found (Simplified):', {
+    console.warn(' Build partner not found (Simplified):', {
       developerName: formData.developerName,
       developerId: formData.developerId,
       buildPartnersCount: buildPartners?.length || 0,

@@ -780,7 +780,7 @@ const Step1 = ({ isReadOnly = false, developerId }: Step1Props) => {
               }}
             >
               <Typography variant="body2" color="error">
-                ⚠️ Failed to load dropdown options. Using fallback values.
+                 Failed to load dropdown options. Using fallback values.
               </Typography>
             </Box>
           )}

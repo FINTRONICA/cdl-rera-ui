@@ -149,7 +149,7 @@ const Step1 = forwardRef<Step1Ref, Step1Props>(
         existing = fromData ?? fromResult ?? fromContent ?? obj
       }
 
-      // Owner Type: API uses investorTypeDTO (or ownerRegistryTypeDTO / ownerTypeDTO); prefer matching dropdown by id so value is in options
+      // Owner Type: API may return ownerRegistryTypeDTO, investorTypeDTO, ownerTypeDTO, or string ownerType/ownerRegistryType
       const typeDto = (existing.ownerRegistryTypeDTO ?? existing.ownerTypeDTO ?? existing.investorTypeDTO) as Record<string, unknown> | undefined
       let typeVal = ''
       if (typeDto?.id != null && Array.isArray(investorTypes) && investorTypes.length > 0) {
@@ -159,6 +159,14 @@ const Step1 = forwardRef<Step1Ref, Step1Props>(
       if (!typeVal && typeDto) {
         typeVal =
           String(typeDto.settingValue ?? (typeDto.languageTranslationId as Record<string, unknown>)?.configValue ?? typeDto.configValue ?? '')
+      }
+      // Fallback: API may return type as string (ownerType, ownerRegistryType)
+      if (!typeVal && Array.isArray(investorTypes) && investorTypes.length > 0) {
+        const typeStr = String(existing.ownerType ?? existing.ownerRegistryType ?? '').trim()
+        if (typeStr) {
+          const bySetting = investorTypes.find((o: { settingValue: string }) => o.settingValue === typeStr)
+          if (bySetting?.settingValue) typeVal = bySetting.settingValue
+        }
       }
       setValue('investorType', typeVal)
 
@@ -192,17 +200,15 @@ const Step1 = forwardRef<Step1Ref, Step1Props>(
 
       setValue('idNumber', String(existing.ownerRegistryIdNo ?? existing.capitalPartnerIdNo ?? existing.ownerIdNumber ?? ''))
 
-      // ID Expiry Date: API key is idExpiaryDate (typo); form field is idExpiryDate. Same pattern as DeveloperStepper arOnboardingDate.
+      // ID Expiry Date: API key is idExpiaryDate
       const rawObj = raw as Record<string, unknown>
       const expiryRaw =
         existing.idExpiaryDate ??
-        existing.idExpiryDate ??
         existing.id_expiary_date ??
-        rawObj?.idExpiaryDate ??
-        rawObj?.idExpiryDate
+        rawObj?.idExpiaryDate
       if (expiryRaw != null && expiryRaw !== '') {
         setValue(
-          'idExpiryDate',
+          'idExpiaryDate',
           dayjs(expiryRaw as string).isValid() ? dayjs(expiryRaw as string) : null,
           { shouldValidate: true, shouldDirty: true }
         )
@@ -245,15 +251,13 @@ const Step1 = forwardRef<Step1Ref, Step1Props>(
       const entity = fromData ?? fromResult ?? fromContent ?? raw
       const expiryRaw =
         entity?.idExpiaryDate ??
-        entity?.idExpiryDate ??
         (entity?.id_expiary_date as string | undefined) ??
-        raw?.idExpiaryDate ??
-        raw?.idExpiryDate
+        raw?.idExpiaryDate
       if (expiryRaw == null || String(expiryRaw).trim() === '') return
       const parsed = dayjs(expiryRaw as string)
       if (!parsed.isValid()) return
       const rafId = requestAnimationFrame(() => {
-        setValue('idExpiryDate', parsed, { shouldValidate: false, shouldDirty: false })
+        setValue('idExpiaryDate', parsed, { shouldValidate: false, shouldDirty: false })
       })
       return () => cancelAnimationFrame(rafId)
     }, [isEditMode, existingCapitalPartnerData, isLoadingExistingData, setValue])
@@ -296,7 +300,7 @@ const Step1 = forwardRef<Step1Ref, Step1Props>(
           ownership: watch('ownership'),
           investorIdType: watch('investorIdType'),
           idNumber: watch('idNumber'),
-          idExpiryDate: watch('idExpiryDate'),
+          idExpiaryDate: watch('idExpiaryDate'),
           nationality: watch('nationality'),
           accountContact: watch('accountContact'),
           mobileNumber: watch('mobileNumber'),
@@ -723,12 +727,25 @@ const Step1 = forwardRef<Step1Ref, Step1Props>(
                     },
                   }}
                 >
-                  <InputLabel sx={getLabelSx()}>
+                  <InputLabel sx={getLabelSx()} shrink>
                     {loading ? `Loading...` : label}
                   </InputLabel>
                   <Select
                     {...field}
                     label={loading ? `Loading...` : label}
+                    displayEmpty
+                    value={field.value ?? ''}
+                    renderValue={(selected) => {
+                      if (selected == null || selected === '') {
+                        return (
+                          <span style={{ color: theme.palette.text.secondary }}>
+                            Select...
+                          </span>
+                        )
+                      }
+                      const opt = options.find((o) => o.settingValue === selected)
+                      return opt ? opt.displayName : String(selected)
+                    }}
                     sx={{
                       ...selectStyles,
                       ...valueSx,
@@ -765,6 +782,11 @@ const Step1 = forwardRef<Step1Ref, Step1Props>(
                     IconComponent={KeyboardArrowDownIcon}
                     disabled={loading || isViewMode}
                   >
+                    {!loading && options.length === 0 && (
+                      <MenuItem disabled value="">
+                        <em>No options available</em>
+                      </MenuItem>
+                    )}
                     {options.map((option) => (
                       <MenuItem key={option.id} value={option.settingValue}>
                         {option.displayName}
@@ -894,7 +916,7 @@ const Step1 = forwardRef<Step1Ref, Step1Props>(
                 }}
               >
                 <Typography variant="body2" color="error">
-                  ⚠️ Failed to load some dropdown options. Using fallback
+                   Failed to load some dropdown options. Using fallback
                   values.
                 </Typography>
               </Box>
@@ -957,7 +979,7 @@ const Step1 = forwardRef<Step1Ref, Step1Props>(
               )}
               {renderTextField('idNumber', 'CDL_OWNER_DOC_NO', 'ID No.', '', true)}
               {renderDatePickerField(
-                'idExpiryDate',
+                'idExpiaryDate',
                 getLabel('CDL_OWNER_ID_EXP', currentLanguage, 'ID Expiry Date'),
                 6,
                 false

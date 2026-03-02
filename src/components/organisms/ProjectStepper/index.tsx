@@ -1112,7 +1112,7 @@ export default function StepperWrapper({
         setFinancialSummaryId(financialData.id)
       } else {
         console.warn(
-          '⚠️ Financial data has no ID - financialSummaryId will remain null'
+          ' Financial data has no ID - financialSummaryId will remain null'
         )
       }
 
