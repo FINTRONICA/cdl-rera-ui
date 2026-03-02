@@ -7,148 +7,148 @@ import type { FinancialData } from '../types'
  */
 export const BREAKDOWN_MAP = {
   0: {
-    out: 'reafsCurCashRecvdOutEscrow',
-    within: 'reafsCurCashRecvdWithinEscrow',
-    total: 'reafsCurCashRecvdTotal',
-    except: 'reafsCurCashexceptCapVal',
+    out: 'mffsCurCashRecvdOutEscrow',
+    within: 'mffsCurCashRecvdWithinEscrow',
+    total: 'mffsCurCashRecvdTotal',
+    except: 'mffsCurCashexceptCapVal',
   },
   1: {
-    out: 'reafsCurLandCostOut',
-    within: 'reafsCurLandCostWithin',
-    total: 'reafsCurLandTotal',
-    except: 'reafsCurLandexceptCapVal',
+    out: 'mffsCurLandCostOut',
+    within: 'mffsCurLandCostWithin',
+    total: 'mffsCurLandTotal',
+    except: 'mffsCurLandexceptCapVal',
   },
   2: {
-    out: 'reafsCurConsCostOut',
-    within: 'reafsCurConsCostWithin',
-    total: 'reafsCurConsCostTotal',
-    except: 'reafsCurConsExcepCapVal',
+    out: 'mffsCurConsCostOut',
+    within: 'mffsCurConsCostWithin',
+    total: 'mffsCurConsCostTotal',
+    except: 'mffsCurConsExcepCapVal',
   },
   3: {
-    out: 'reafsCurrentMktgExpOut',
-    within: 'reafsCurrentMktgExpWithin',
-    total: 'reafsCurrentMktgExpTotal',
-    except: 'reafsCurrentmktgExcepCapVal',
+    out: 'mffsCurrentMktgExpOut',
+    within: 'mffsCurrentMktgExpWithin',
+    total: 'mffsCurrentMktgExpTotal',
+    except: 'mffsCurrentmktgExcepCapVal',
   },
   4: {
-    out: 'reafsCurProjMgmtExpOut',
-    within: 'reafsCurProjMgmtExpWithin',
-    total: 'reafsCurProjMgmtExpTotal',
-    except: 'reafsCurProjExcepCapVal',
+    out: 'mffsCurProjMgmtExpOut',
+    within: 'mffsCurProjMgmtExpWithin',
+    total: 'mffsCurProjMgmtExpTotal',
+    except: 'mffsCurProjExcepCapVal',
   },
   5: {
     out: 'currentMortgageOut',
-    within: 'reafsCurrentMortgageWithin',
-    total: 'reafsCurrentMortgageTotal',
-    except: 'reafsCurMortgageExceptCapVal',
+    within: 'mffsCurrentMortgageWithin',
+    total: 'mffsCurrentMortgageTotal',
+    except: 'mffsCurMortgageExceptCapVal',
   },
   6: {
-    out: 'reafsCurrentVatPaymentOut',
-    within: 'reafsCurrentVatPaymentWithin',
-    total: 'reafsCurrentVatPaymentTotal',
-    except: 'reafsCurVatExceptCapVal',
+    out: 'mffsCurrentVatPaymentOut',
+    within: 'mffsCurrentVatPaymentWithin',
+    total: 'mffsCurrentVatPaymentTotal',
+    except: 'mffsCurVatExceptCapVal',
   },
   7: {
-    out: 'reafsCurrentOqoodOut',
-    within: 'reafsCurrentOqoodWithin',
-    total: 'reafsCurrentOqoodTotal',
-    except: 'reafsCurOqoodExceptCapVal',
+    out: 'mffsCurrentOqoodOut',
+    within: 'mffsCurrentOqoodWithin',
+    total: 'mffsCurrentOqoodTotal',
+    except: 'mffsCurOqoodExceptCapVal',
   },
   8: {
-    out: 'reafsCurrentRefundOut',
-    within: 'reafsCurrentRefundWithin',
-    total: 'reafsCurrentRefundTotal',
-    except: 'reafsCurRefundExceptCapVal',
+    out: 'mffsCurrentRefundOut',
+    within: 'mffsCurrentRefundWithin',
+    total: 'mffsCurrentRefundTotal',
+    except: 'mffsCurRefundExceptCapVal',
   },
   9: {
-    out: 'reafsCurBalInRetenAccOut',
-    within: 'reafsCurBalInRetenAccWithin',
-    total: 'reafsCurBalInRetenAccTotal',
-    except: 'reafsCurBalInRetenExceptCapVal',
+    out: 'mffsCurBalInRetenAccOut',
+    within: 'mffsCurBalInRetenAccWithin',
+    total: 'mffsCurBalInRetenAccTotal',
+    except: 'mffsCurBalInRetenExceptCapVal',
   },
   10: {
-    out: 'reafsCurBalInTrustAccOut',
-    within: 'reafsCurBalInTrustAccWithin',
-    total: 'reafsCurBalInTrustAccTotal',
-    except: 'reafsCurBalInExceptCapVal',
+    out: 'mffsCurBalInTrustAccOut',
+    within: 'mffsCurBalInTrustAccWithin',
+    total: 'mffsCurBalInTrustAccTotal',
+    except: 'mffsCurBalInExceptCapVal',
   },
   11: {
-    out: 'reafsCurBalInSubsConsOut',
-    within: 'reafsCurBalInRSubsConsWithin',
-    total: 'reafsCurBalInSubsConsTotal',
-    except: 'reafsCurBalInSubsConsCapVal',
+    out: 'mffsCurBalInSubsConsOut',
+    within: 'mffsCurBalInRSubsConsWithin',
+    total: 'mffsCurBalInSubsConsTotal',
+    except: 'mffsCurBalInSubsConsCapVal',
   },
   12: {
-    out: 'reafsCurTechnFeeOut',
-    within: 'reafsCurTechnFeeWithin',
-    total: 'reafsCurTechnFeeTotal',
-    except: 'reafsCurTechFeeExceptCapVal',
+    out: 'mffsCurTechnFeeOut',
+    within: 'mffsCurTechnFeeWithin',
+    total: 'mffsCurTechnFeeTotal',
+    except: 'mffsCurTechFeeExceptCapVal',
   },
   13: {
-    out: 'reafsCurUnIdeFundOut',
-    within: 'reafsCurUnIdeFundWithin',
-    total: 'reafsCurUnIdeFundTotal',
-    except: 'reafsCurUnIdeExceptCapVal',
+    out: 'mffsCurUnIdeFundOut',
+    within: 'mffsCurUnIdeFundWithin',
+    total: 'mffsCurUnIdeFundTotal',
+    except: 'mffsCurUnIdeExceptCapVal',
   },
   14: {
-    out: 'reafsCurLoanInstalOut',
-    within: 'reafsCurLoanInstalWithin',
-    total: 'reafsCurLoanInstalTotal',
-    except: 'reafsCurLoanExceptCapVal',
+    out: 'mffsCurLoanInstalOut',
+    within: 'mffsCurLoanInstalWithin',
+    total: 'mffsCurLoanInstalTotal',
+    except: 'mffsCurLoanExceptCapVal',
   },
   15: {
-    out: 'reafsCurInfraCostOut',
-    within: 'reafsCurInfraCostWithin',
-    total: 'reafsCurInfraCostTotal',
-    except: 'reafsCurInfraExceptCapVal',
+    out: 'mffsCurInfraCostOut',
+    within: 'mffsCurInfraCostWithin',
+    total: 'mffsCurInfraCostTotal',
+    except: 'mffsCurInfraExceptCapVal',
   },
   16: {
-    out: 'reafsCurOthersCostOut',
-    within: 'reafsCurOthersCostWithin',
-    total: 'reafsCurOthersCostTotal',
-    except: 'reafsCurOthersExceptCapVal',
+    out: 'mffsCurOthersCostOut',
+    within: 'mffsCurOthersCostWithin',
+    total: 'mffsCurOthersCostTotal',
+    except: 'mffsCurOthersExceptCapVal',
   },
   17: {
-    out: 'reafsCurTransferCostOut',
-    within: 'reafsCurTransferCostWithin',
-    total: 'reafsCurTransferCostTotal',
-    except: 'reafsCurTransferExceptCapVal',
+    out: 'mffsCurTransferCostOut',
+    within: 'mffsCurTransferCostWithin',
+    total: 'mffsCurTransferCostTotal',
+    except: 'mffsCurTransferExceptCapVal',
   },
   18: {
-    out: 'reafsCurForfeitCostOut',
-    within: 'reafsCurForfeitCostWithin',
-    total: 'reafsCurForfeitCostTotal',
-    except: 'reafsCurForfeitExceptCapVal',
+    out: 'mffsCurForfeitCostOut',
+    within: 'mffsCurForfeitCostWithin',
+    total: 'mffsCurForfeitCostTotal',
+    except: 'mffsCurForfeitExceptCapVal',
   },
   19: {
-    out: 'reafsCurDeveEqtycostOut',
-    within: 'reafsCurDeveEqtycostWithin',
-    total: 'reafsCurDeveEqtycostTotal',
-    except: 'reafsCurDeveExceptCapVal',
+    out: 'mffsCurDeveEqtycostOut',
+    within: 'mffsCurDeveEqtycostWithin',
+    total: 'mffsCurDeveEqtycostTotal',
+    except: 'mffsCurDeveExceptCapVal',
   },
   20: {
-    out: 'reafsCurAmntFundOut',
-    within: 'reafsCurAmntFundWithin',
-    total: 'reafsCurAmntFundTotal',
-    except: 'reafsCurAmntExceptCapVal',
+    out: 'mffsCurAmntFundOut',
+    within: 'mffsCurAmntFundWithin',
+    total: 'mffsCurAmntFundTotal',
+    except: 'mffsCurAmntExceptCapVal',
   },
   21: {
-    out: 'reafsCurOtherWithdOut',
-    within: 'reafsCurOtherWithdWithin',
-    total: 'reafsCurOtherWithdTotal',
-    except: 'reafsCurOtherExceptCapVal',
+    out: 'mffsCurOtherWithdOut',
+    within: 'mffsCurOtherWithdWithin',
+    total: 'mffsCurOtherWithdTotal',
+    except: 'mffsCurOtherExceptCapVal',
   },
   22: {
-    out: 'reafsCurOqoodOthFeeOut',
-    within: 'reafsCurOqoodOthFeeWithin',
-    total: 'reafsCurOqoodOthFeeTotal',
-    except: 'reafsOtherFeesAnPaymentExcepVal',
+    out: 'mffsCurOqoodOthFeeOut',
+    within: 'mffsCurOqoodOthFeeWithin',
+    total: 'mffsCurOqoodOthFeeTotal',
+    except: 'mffsOtherFeesAnPaymentExcepVal',
   },
   23: {
-    out: 'reafsCurVatDepositOut',
-    within: 'reafsCurVatDepositWithin',
-    total: 'reafsCurVatDepositTotal',
-    except: 'reafsCurVatDepositCapVal',
+    out: 'mffsCurVatDepositOut',
+    within: 'mffsCurVatDepositWithin',
+    total: 'mffsCurVatDepositTotal',
+    except: 'mffsCurVatDepositCapVal',
   },
 } as const
 
@@ -233,48 +233,48 @@ export function transformFinancialSummaryData(
 
   return {
     estimate: {
-      revenue: safeToString(financialData.reafsEstRevenue),
-      constructionCost: safeToString(financialData.reafsEstConstructionCost),
+      revenue: safeToString(financialData.mffsEstRevenue),
+      constructionCost: safeToString(financialData.mffsEstConstructionCost),
       projectManagementExpense: safeToString(
-        financialData.reafsEstProjectMgmtExpense
+        financialData.mffsEstProjectMgmtExpense
       ),
-      landCost: safeToString(financialData.reafsEstLandCost),
-      marketingExpense: safeToString(financialData.reafsEstMarketingExpense),
-      date: financialData.reafsEstimatedDate
-        ? dayjs(financialData.reafsEstimatedDate)
+      landCost: safeToString(financialData.mffsEstLandCost),
+      marketingExpense: safeToString(financialData.mffsEstMarketingExpense),
+      date: financialData.mffsEstimatedDate
+        ? dayjs(financialData.mffsEstimatedDate)
         : null,
     },
     actual: {
-      soldValue: safeToString(financialData.reafsActualSoldValue),
+      soldValue: safeToString(financialData.mffsActualSoldValue),
       constructionCost: safeToString(
-        financialData.reafsActualConstructionCost
+        financialData.mffsActualConstructionCost
       ),
-      infraCost: safeToString(financialData.reafsActualInfraCost),
-      landCost: safeToString(financialData.reafsActualLandCost),
+      infraCost: safeToString(financialData.mffsActualInfraCost),
+      landCost: safeToString(financialData.mffsActualLandCost),
       projectManagementExpense: safeToString(
-        financialData.reafsActualProjectMgmtExpense
+        financialData.mffsActualProjectMgmtExpense
       ),
-      marketingExpense: safeToString(financialData.reafsActualMarketingExp),
-      date: financialData.reafsActualDate
-        ? dayjs(financialData.reafsActualDate)
+      marketingExpense: safeToString(financialData.mffsActualMarketingExp),
+      date: financialData.mffsActualDate
+        ? dayjs(financialData.mffsActualDate)
         : null,
     },
     breakdown,
     additional: {
       creditInterestRetention: safeToString(
-        financialData.reafsCreditInterest
+        financialData.mffsCreditInterest
       ),
       paymentsRetentionAccount: safeToString(
-        financialData.reafsPaymentForRetentionAcc
+        financialData.mffsPaymentForRetentionAcc
       ),
       reimbursementsDeveloper: safeToString(
-        financialData.reafsDeveloperReimburse
+        financialData.mffsDeveloperReimburse
       ),
-      unitRegistrationFees: safeToString(financialData.reafsUnitRegFees),
+      unitRegistrationFees: safeToString(financialData.mffsUnitRegFees),
       creditInterestEscrow: safeToString(
-        financialData.reafsCreditInterestProfit
+        financialData.mffsCreditInterestProfit
       ),
-      vatCapped: safeToString(financialData.reafsVatCappedCost),
+      vatCapped: safeToString(financialData.mffsVatCappedCost),
     },
   }
 }

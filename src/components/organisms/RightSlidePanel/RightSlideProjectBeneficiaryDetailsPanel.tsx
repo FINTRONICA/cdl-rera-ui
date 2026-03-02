@@ -230,25 +230,36 @@ export const RightSlideProjectBeneficiaryDetailsPanel: React.FC<
         return
       }
 
+      // Backend entity uses mfb* and managementFirmDTO - send both so response is populated
       const beneficiaryData = {
         // Include ID for updates
         ...(editingBeneficiary?.id && {
           id: parseInt(editingBeneficiary.id.toString()),
         }),
-        reabBeneficiaryId: data.mfBeneficiaryId,
-        reabTranferTypeDTO: {
-          id: parseInt(data.mfBeneficiaryType.toString()) || 0,
-        },
-        reabName: data.mfName,
-        reabBank: data.mfBankName,
-        reabSwift: data.mfSwiftCode,
-        reabRoutingCode: data.mfRoutingCode,
-        reabBeneAccount: data.mfAccountNumber,
-        managementFirmDTO: [
-          {
-            id: projectId ? parseInt(projectId) : undefined,
-          },
-        ],
+        // mf* keys (for clients that expect them)
+        mfBeneficiaryId: data.mfBeneficiaryId,
+        mfBeneficiaryType: data.mfBeneficiaryType,
+        mfName: data.mfName,
+        mfBankName: data.mfBankName,
+        mfSwiftCode: data.mfSwiftCode,
+        mfRoutingCode: data.mfRoutingCode,
+        mfAccountNumber: data.mfAccountNumber,
+        // mfb* keys (backend entity fields - ensures response is populated)
+        mfbBeneficiaryId: data.mfBeneficiaryId,
+        mfbName: data.mfName,
+        mfbBank: data.mfBankName,
+        mfbSwift: data.mfSwiftCode,
+        mfbRoutingCode: data.mfRoutingCode,
+        mfbBeneAccount: data.mfAccountNumber,
+        mfbTransferTypeDTO: data.mfBeneficiaryType
+          ? { id: parseInt(data.mfBeneficiaryType.toString()) }
+          : undefined,
+        managementFirmAssetDTO: projectId
+          ? [{ id: parseInt(projectId) }]
+          : undefined,
+        managementFirmDTO: projectId
+          ? [{ id: parseInt(projectId) }]
+          : undefined,
         // Add deleted and enabled fields when editing
         ...(editingBeneficiary?.id && {
           deleted: false,
@@ -256,6 +267,7 @@ export const RightSlideProjectBeneficiaryDetailsPanel: React.FC<
         }),
       }
 
+      let createdId: string | number | undefined
       if (editingBeneficiary?.id) {
         // Update existing beneficiary using PUT
         await updateBeneficiaryMutation.mutateAsync({
@@ -263,9 +275,12 @@ export const RightSlideProjectBeneficiaryDetailsPanel: React.FC<
           beneficiaryData,
         })
         setSuccessMessage('Beneficiary updated successfully!')
+        createdId = editingBeneficiary.id
       } else {
-        // Add new beneficiary using POST
-        await addBeneficiaryMutation.mutateAsync(beneficiaryData)
+        // Add new beneficiary using POST - capture created id from response (handle various shapes)
+        const raw = await addBeneficiaryMutation.mutateAsync(beneficiaryData)
+        const res = raw as { id?: number; data?: { id?: number } }
+        createdId = res?.id ?? res?.data?.id
         setSuccessMessage('Beneficiary added successfully!')
       }
 
@@ -279,15 +294,14 @@ export const RightSlideProjectBeneficiaryDetailsPanel: React.FC<
           )?.configValue || `Type ${data.mfBeneficiaryType}`
 
         const beneficiaryForForm = {
-          // Map to table column names with display labels
+          id: createdId ?? editingBeneficiary?.id,
           mfBeneficiaryId: data.mfBeneficiaryId,
           mfBeneficiaryType: beneficiaryTypeLabel,
           mfName: data.mfName,
-          mfBankName: data.mfBankName, // Now a text field, use value directly
+          mfBankName: data.mfBankName,
           mfSwiftCode: data.mfSwiftCode,
           mfRoutingCode: data.mfRoutingCode,
           mfAccountNumber: data.mfAccountNumber,
-          // Keep original fields for reference
           mfBeneficiaryTypeId: data.mfBeneficiaryType,
           managementFirmAssetDTO: {
             id: projectId ? parseInt(projectId) : undefined,

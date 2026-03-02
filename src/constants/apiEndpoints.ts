@@ -683,7 +683,7 @@ OWNER_REGISTRY_UNIT_PURCHASE: {
     SAVE: '/management-firms-beneficiary',
     FIND_ALL: '/management-firms-beneficiary/find-all',
     GET_BY_PROJECT_ID: (projectId: string) =>
-      `/management-firms-beneficiary?managementFirmsId.equals=${projectId}`,
+      `/management-firms-beneficiary?managementFirmId.equals=${projectId}`,
   },
   MANAGEMENT_FIRMS_PAYMENT_PLAN: {
     GET_BY_ID: (id: string) => `/management-firms-payment-plan/${id}`,

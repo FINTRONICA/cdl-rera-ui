@@ -435,66 +435,104 @@ export default function StepperWrapper({
               ) {
                 const processedBeneficiaries = (
                   stepData as any
-                ).beneficiaries.map((beneficiary: any) => ({
-                  id: beneficiary.id?.toString() || '',
-                  mfBeneficiaryId:
-                    beneficiary.reabBeneficiaryId ||
-                    beneficiary.beneficiaryId ||
-                    beneficiary.mfBeneficiaryId ||
-                    '',
-                  mfBeneficiaryType:
-                    beneficiary.reabType ||
-                    beneficiary.beneficiaryType ||
-                    beneficiary.mfBeneficiaryType ||
-                    '',
-                  mfName:
-                    beneficiary.reabName ||
-                    beneficiary.name ||
-                    beneficiary.mfName ||
-                    '',
-                  mfBankName:
-                    beneficiary.reabBank ||
-                    beneficiary.bankName ||
-                    beneficiary.mfBankName ||
-                    '',
-                  mfSwiftCode:
-                    beneficiary.reabSwift ||
-                    beneficiary.swiftCode ||
-                    beneficiary.mfSwiftCode ||
-                    '',
-                  mfRoutingCode:
-                    beneficiary.reabRoutingCode ||
-                    beneficiary.routingCode ||
-                    beneficiary.mfRoutingCode ||
-                    '',
-                  mfAccountNumber:
-                    beneficiary.reabBeneAccount ||
-                    beneficiary.accountNumber ||
-                    beneficiary.mfAccountNumber ||
-                    '',
+                ).beneficiaries.map((beneficiary: any) => {
+                  const transferVal =
+                    beneficiary.mfbTransferTypeDTO?.languageTranslationId
+                      ?.configValue ||
+                    beneficiary.mfbTranferTypeDTO?.languageTranslationId
+                      ?.configValue ||
+                    beneficiary.reabTranferTypeDTO?.languageTranslationId
+                      ?.configValue ||
+                    ''
+                  return {
+                    id: beneficiary.id?.toString() || '',
+                    mfBeneficiaryId:
+                      beneficiary.mfbBeneficiaryId ||
+                      beneficiary.mfBeneficiaryId ||
+                      beneficiary.reabBeneficiaryId ||
+                      beneficiary.beneficiaryId ||
+                      '',
+                    mfBeneficiaryType:
+                      beneficiary.mfBeneficiaryType ||
+                      beneficiary.reabType ||
+                      beneficiary.beneficiaryType ||
+                      transferVal ||
+                      '',
+                    mfName:
+                      beneficiary.mfbName ||
+                      beneficiary.mfName ||
+                      beneficiary.reabName ||
+                      beneficiary.name ||
+                      '',
+                    mfBankName:
+                      beneficiary.mfbBank ||
+                      beneficiary.mfBankName ||
+                      beneficiary.reabBank ||
+                      beneficiary.bankName ||
+                      '',
+                    mfSwiftCode:
+                      beneficiary.mfbSwift ||
+                      beneficiary.mfSwiftCode ||
+                      beneficiary.reabSwift ||
+                      beneficiary.swiftCode ||
+                      '',
+                    mfRoutingCode:
+                      beneficiary.mfbRoutingCode ||
+                      beneficiary.mfRoutingCode ||
+                      beneficiary.reabRoutingCode ||
+                      beneficiary.routingCode ||
+                      '',
+                    mfAccountNumber:
+                      beneficiary.mfbBeneAccount ||
+                      beneficiary.mfAccountNumber ||
+                      beneficiary.reabBeneAccount ||
+                      beneficiary.accountNumber ||
+                      '',
 
-                  beneficiaryId:
-                    beneficiary.reabBeneficiaryId ||
-                    beneficiary.beneficiaryId ||
-                    '',
-                  beneficiaryType:
-                    beneficiary.reabTranferTypeDTO.languageTranslationId
-                      .configValue ||
-                    beneficiary.beneficiaryType ||
-                    '',
-                  name: beneficiary.reabName || beneficiary.name || '',
-                  bankName: beneficiary.reabBank || beneficiary.bankName || '',
-                  swiftCode:
-                    beneficiary.reabSwift || beneficiary.swiftCode || '',
-                  routingCode:
-                    beneficiary.reabRoutingCode ||
-                    beneficiary.routingCode ||
-                    '',
-                  accountNumber:
-                    beneficiary.reabBeneAccount ||
-                    beneficiary.accountNumber ||
-                    '',
-                }))
+                    beneficiaryId:
+                      beneficiary.mfbBeneficiaryId ||
+                      beneficiary.mfBeneficiaryId ||
+                      beneficiary.reabBeneficiaryId ||
+                      beneficiary.beneficiaryId ||
+                      '',
+                    beneficiaryType:
+                      beneficiary.mfBeneficiaryType ||
+                      beneficiary.reabType ||
+                      beneficiary.beneficiaryType ||
+                      transferVal ||
+                      '',
+                    name:
+                      beneficiary.mfbName ||
+                      beneficiary.mfName ||
+                      beneficiary.reabName ||
+                      beneficiary.name ||
+                      '',
+                    bankName:
+                      beneficiary.mfbBank ||
+                      beneficiary.mfBankName ||
+                      beneficiary.reabBank ||
+                      beneficiary.bankName ||
+                      '',
+                    swiftCode:
+                      beneficiary.mfbSwift ||
+                      beneficiary.mfSwiftCode ||
+                      beneficiary.reabSwift ||
+                      beneficiary.swiftCode ||
+                      '',
+                    routingCode:
+                      beneficiary.mfbRoutingCode ||
+                      beneficiary.mfRoutingCode ||
+                      beneficiary.reabRoutingCode ||
+                      beneficiary.routingCode ||
+                      '',
+                    accountNumber:
+                      beneficiary.mfbBeneAccount ||
+                      beneficiary.mfAccountNumber ||
+                      beneficiary.reabBeneAccount ||
+                      beneficiary.accountNumber ||
+                      '',
+                  }
+                })
                 ;(processedData as any).beneficiaries = processedBeneficiaries
               }
             }
@@ -731,28 +769,79 @@ export default function StepperWrapper({
             } else if (activeStep === 4) {
               const beneficiariesArray =
                 apiData?.content || (Array.isArray(apiData) ? apiData : [])
+              const transferVal = (b: any) =>
+                b.mfbTransferTypeDTO?.languageTranslationId?.configValue ||
+                b.mfbTranferTypeDTO?.languageTranslationId?.configValue ||
+                b.reabTranferTypeDTO?.languageTranslationId?.configValue ||
+                ''
               processedData = {
                 beneficiaries: beneficiariesArray.map((beneficiary: any) => ({
                   id: beneficiary.id?.toString() || '',
-                  mfBeneficiaryId: beneficiary.reabBeneficiaryId || '',
+                  mfBeneficiaryId:
+                    beneficiary.mfbBeneficiaryId ||
+                    beneficiary.mfBeneficiaryId ||
+                    beneficiary.reabBeneficiaryId ||
+                    '',
                   mfBeneficiaryType:
-                    beneficiary.reabTranferTypeDTO?.languageTranslationId
-                      ?.configValue || '',
-                  mfName: beneficiary.reabName || '',
-                  mfBankName: beneficiary.reabBank || '',
-                  mfSwiftCode: beneficiary.reabSwift || '',
-                  mfRoutingCode: beneficiary.reabRoutingCode || '',
-                  mfAccountNumber: beneficiary.reabBeneAccount || '',
+                    beneficiary.mfBeneficiaryType || transferVal(beneficiary) || '',
+                  mfName:
+                    beneficiary.mfbName ||
+                    beneficiary.mfName ||
+                    beneficiary.reabName ||
+                    '',
+                  mfBankName:
+                    beneficiary.mfbBank ||
+                    beneficiary.mfBankName ||
+                    beneficiary.reabBank ||
+                    '',
+                  mfSwiftCode:
+                    beneficiary.mfbSwift ||
+                    beneficiary.mfSwiftCode ||
+                    beneficiary.reabSwift ||
+                    '',
+                  mfRoutingCode:
+                    beneficiary.mfbRoutingCode ||
+                    beneficiary.mfRoutingCode ||
+                    beneficiary.reabRoutingCode ||
+                    '',
+                  mfAccountNumber:
+                    beneficiary.mfbBeneAccount ||
+                    beneficiary.mfAccountNumber ||
+                    beneficiary.reabBeneAccount ||
+                    '',
 
-                  beneficiaryId: beneficiary.reabBeneficiaryId || '',
+                  beneficiaryId:
+                    beneficiary.mfbBeneficiaryId ||
+                    beneficiary.mfBeneficiaryId ||
+                    beneficiary.reabBeneficiaryId ||
+                    '',
                   beneficiaryType:
-                    beneficiary.reabTranferTypeDTO?.languageTranslationId
-                      ?.configValue || '',
-                  name: beneficiary.reabName || '',
-                  bankName: beneficiary.reabBank || '',
-                  swiftCode: beneficiary.reabSwift || '',
-                  routingCode: beneficiary.reabRoutingCode || '',
-                  accountNumber: beneficiary.reabBeneAccount || '',
+                    beneficiary.mfBeneficiaryType || transferVal(beneficiary) || '',
+                  name:
+                    beneficiary.mfbName ||
+                    beneficiary.mfName ||
+                    beneficiary.reabName ||
+                    '',
+                  bankName:
+                    beneficiary.mfbBank ||
+                    beneficiary.mfBankName ||
+                    beneficiary.reabBank ||
+                    '',
+                  swiftCode:
+                    beneficiary.mfbSwift ||
+                    beneficiary.mfSwiftCode ||
+                    beneficiary.reabSwift ||
+                    '',
+                  routingCode:
+                    beneficiary.mfbRoutingCode ||
+                    beneficiary.mfRoutingCode ||
+                    beneficiary.reabRoutingCode ||
+                    '',
+                  accountNumber:
+                    beneficiary.mfbBeneAccount ||
+                    beneficiary.mfAccountNumber ||
+                    beneficiary.reabBeneAccount ||
+                    '',
                 })),
               }
             } else if (activeStep === 5) {
@@ -761,11 +850,9 @@ export default function StepperWrapper({
               processedData = {
                 paymentPlan: paymentPlansArray.map((plan: any) => ({
                   id: plan.id?.toString() || '',
-                  installmentNumber: plan.reappInstallmentNumber || 0,
-                  installmentPercentage:
-                    plan.reappInstallmentPercentage?.toString() || '0',
-                  projectCompletionPercentage:
-                    plan.reappProjectCompletionPercentage?.toString() || '0',
+                  installmentNumber: plan.mfppInstallmentNumber ?? 0,
+                  installmentPercentage: plan.mfppInstallmentPercentage?.toString() ?? '0',
+                  projectCompletionPercentage: plan.mfppProjectCompletionPercentage?.toString() ?? '0',
                 })),
               }
             } else if (activeStep === 7) {
@@ -778,13 +865,9 @@ export default function StepperWrapper({
               processedData = {
                 closureData: {
                   totalIncomeFund:
-                    closureData?.reacTotalIncomeFund?.toString() ||
-                    closureData?.totalIncomeFund?.toString() ||
-                    '',
+                    closureData?.mfcTotalIncomeFund?.toString() ?? '',
                   totalPayment:
-                    closureData?.reacTotalPayment?.toString() ||
-                    closureData?.totalPayment?.toString() ||
-                    '',
+                    closureData?.mfcTotalPayment?.toString() ?? '',
                 },
               }
             }
@@ -887,28 +970,79 @@ export default function StepperWrapper({
             (apiData as any)?.content || (Array.isArray(apiData) ? apiData : [])
 
           if (beneficiariesArray.length > 0) {
+            const transferVal = (b: any) =>
+              b.mfbTransferTypeDTO?.languageTranslationId?.configValue ||
+              b.mfbTranferTypeDTO?.languageTranslationId?.configValue ||
+              b.reabTranferTypeDTO?.languageTranslationId?.configValue ||
+              ''
             const processedBeneficiaries = beneficiariesArray.map(
               (beneficiary: any) => ({
                 id: beneficiary.id?.toString() || '',
-                mfBeneficiaryId: beneficiary.reabBeneficiaryId || '',
+                mfBeneficiaryId:
+                  beneficiary.mfbBeneficiaryId ||
+                  beneficiary.mfBeneficiaryId ||
+                  beneficiary.reabBeneficiaryId ||
+                  '',
                 mfBeneficiaryType:
-                  beneficiary.reabTranferTypeDTO?.languageTranslationId
-                    ?.configValue || '',
-                mfName: beneficiary.reabName || '',
-                mfBankName: beneficiary.reabBank || '',
-                mfSwiftCode: beneficiary.reabSwift || '',
-                mfRoutingCode: beneficiary.reabRoutingCode || '',
-                mfAccountNumber: beneficiary.reabBeneAccount || '',
+                  beneficiary.mfBeneficiaryType || transferVal(beneficiary) || '',
+                mfName:
+                  beneficiary.mfbName ||
+                  beneficiary.mfName ||
+                  beneficiary.reabName ||
+                  '',
+                mfBankName:
+                  beneficiary.mfbBank ||
+                  beneficiary.mfBankName ||
+                  beneficiary.reabBank ||
+                  '',
+                mfSwiftCode:
+                  beneficiary.mfbSwift ||
+                  beneficiary.mfSwiftCode ||
+                  beneficiary.reabSwift ||
+                  '',
+                mfRoutingCode:
+                  beneficiary.mfbRoutingCode ||
+                  beneficiary.mfRoutingCode ||
+                  beneficiary.reabRoutingCode ||
+                  '',
+                mfAccountNumber:
+                  beneficiary.mfbBeneAccount ||
+                  beneficiary.mfAccountNumber ||
+                  beneficiary.reabBeneAccount ||
+                  '',
 
-                beneficiaryId: beneficiary.reabBeneficiaryId || '',
+                beneficiaryId:
+                  beneficiary.mfbBeneficiaryId ||
+                  beneficiary.mfBeneficiaryId ||
+                  beneficiary.reabBeneficiaryId ||
+                  '',
                 beneficiaryType:
-                  beneficiary.reabTranferTypeDTO?.languageTranslationId
-                    ?.configValue || '',
-                name: beneficiary.reabName || '',
-                bankName: beneficiary.reabBank || '',
-                swiftCode: beneficiary.reabSwift || '',
-                routingCode: beneficiary.reabRoutingCode || '',
-                accountNumber: beneficiary.reabBeneAccount || '',
+                  beneficiary.mfBeneficiaryType || transferVal(beneficiary) || '',
+                name:
+                  beneficiary.mfbName ||
+                  beneficiary.mfName ||
+                  beneficiary.reabName ||
+                  '',
+                bankName:
+                  beneficiary.mfbBank ||
+                  beneficiary.mfBankName ||
+                  beneficiary.reabBank ||
+                  '',
+                swiftCode:
+                  beneficiary.mfbSwift ||
+                  beneficiary.mfSwiftCode ||
+                  beneficiary.reabSwift ||
+                  '',
+                routingCode:
+                  beneficiary.mfbRoutingCode ||
+                  beneficiary.mfRoutingCode ||
+                  beneficiary.reabRoutingCode ||
+                  '',
+                accountNumber:
+                  beneficiary.mfbBeneAccount ||
+                  beneficiary.mfAccountNumber ||
+                  beneficiary.reabBeneAccount ||
+                  '',
               })
             )
 
@@ -933,11 +1067,9 @@ export default function StepperWrapper({
           if (apiData && apiData.length > 0) {
             const processedPaymentPlans = apiData.map((plan: any) => ({
               id: plan.id?.toString() || '',
-              installmentNumber: plan.reappInstallmentNumber || 0,
-              installmentPercentage:
-                plan.reappInstallmentPercentage?.toString() || '',
-              projectCompletionPercentage:
-                plan.reappProjectCompletionPercentage?.toString() || '',
+              installmentNumber: plan.mfppInstallmentNumber ?? 0,
+              installmentPercentage: plan.mfppInstallmentPercentage?.toString() ?? '',
+              projectCompletionPercentage: plan.mfppProjectCompletionPercentage?.toString() ?? '',
             }))
 
             methods.setValue('paymentPlan', processedPaymentPlans)
@@ -1060,13 +1192,9 @@ export default function StepperWrapper({
 
             const processedClosureData = {
               totalIncomeFund:
-                closureData.reacTotalIncomeFund?.toString() ||
-                closureData.totalIncomeFund?.toString() ||
-                '',
+                closureData.mfcTotalIncomeFund?.toString() ?? '',
               totalPayment:
-                closureData.reacTotalPayment?.toString() ||
-                closureData.totalPayment?.toString() ||
-                '',
+                closureData.mfcTotalPayment?.toString() ?? '',
             }
 
             methods.setValue(

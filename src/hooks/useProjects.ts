@@ -220,7 +220,9 @@ export function useProjectFinancialSummary(projectId: string | undefined) {
     queryFn: async () => {
       if (!projectId) return null
       const result = await realEstateAssetService.getProjectFinancialSummary(projectId)
-      return result?.content?.[0] || result || null
+      if (!result) return null
+      const first = Array.isArray(result) ? result[0] : result?.content?.[0]
+      return first ?? null
     },
     enabled: !!projectId,
     staleTime: 5 * 60 * 1000, // 5 minutes

@@ -188,11 +188,9 @@ const Step5: React.FC<Step5Props> = ({
       // Transform server data
       const transformedPlans = existingPaymentPlans.map((plan: any) => ({
         id: plan.id?.toString(),
-        installmentNumber: plan.reappInstallmentNumber,
-        installmentPercentage:
-          plan.reappInstallmentPercentage?.toString() || '',
-        projectCompletionPercentage:
-          plan.reappProjectCompletionPercentage?.toString() || '',
+        installmentNumber: plan.mfppInstallmentNumber ?? 0,
+        installmentPercentage: plan.mfppInstallmentPercentage?.toString() ?? '',
+        projectCompletionPercentage: plan.mfppProjectCompletionPercentage?.toString() ?? '',
       }))
 
       // Check if we have any local rows that aren't on the server yet (unsaved new rows)
@@ -305,8 +303,9 @@ const Step5: React.FC<Step5Props> = ({
 
     if (existingPaymentPlans && existingPaymentPlans.length > 0) {
       existingPaymentPlans.forEach((plan: any) => {
-        if (plan.reappInstallmentNumber) {
-          existingNumbers.push(plan.reappInstallmentNumber)
+        const num = plan.mfppInstallmentNumber
+        if (num != null) {
+          existingNumbers.push(Number(num))
         }
       })
     }

@@ -160,8 +160,9 @@ export function useProjectReview(projectId: string) {
         const beneficiariesResult = beneficiaries.status === 'fulfilled' ? beneficiaries.value : []
         const paymentPlansResult = paymentPlans.status === 'fulfilled' ? paymentPlans.value : []
         const financialDataResult = financialData.status === 'fulfilled' ? financialData.value : null
-      
-        const extractedFinancialData = financialDataResult?.content?.[0] || null
+        const extractedFinancialData = financialDataResult
+          ? (Array.isArray(financialDataResult) ? financialDataResult[0] : financialDataResult?.content?.[0]) ?? null
+          : null
         const closureDataResult = closureData.status === 'fulfilled' ? closureData.value : null
        
         const extractedClosureData = closureDataResult?.content || []
@@ -236,28 +237,29 @@ export function useProjectReview(projectId: string) {
 
         const mappedBeneficiaries: BeneficiaryData[] = Array.isArray(beneficiariesResult) ? beneficiariesResult.map((ben: any) => ({
           id: ben.id?.toString() || '',
-          beneficiaryId: ben.reabBeneficiaryId || '',
-          // Use Transfer Type DTO label if available; fallback to stored string
+          beneficiaryId: ben.mfbBeneficiaryId || ben.mfBeneficiaryId || ben.reabBeneficiaryId || '',
           beneficiaryType:
-            // Handle both API spellings: reabTransferTypeDTO and reabTranferTypeDTO
+            ben.mfBeneficiaryType ||
+            ben.mfbTransferTypeDTO?.languageTranslationId?.configValue ||
+            ben.mfbTransferTypeDTO?.settingValue ||
+            ben.mfbTranferTypeDTO?.languageTranslationId?.configValue ||
+            ben.mfbTranferTypeDTO?.settingValue ||
             ben.reabTransferTypeDTO?.languageTranslationId?.configValue ||
-            ben.reabTransferTypeDTO?.settingValue ||
             ben.reabTranferTypeDTO?.languageTranslationId?.configValue ||
-            ben.reabTranferTypeDTO?.settingValue ||
             ben.reabType ||
             '',
-          name: ben.reabName || '',
-          bankName: ben.reabBank || '',
-          swiftCode: ben.reabSwift || '',
-          routingCode: ben.reabRoutingCode || '',
-          accountNumber: ben.reabBeneAccount || '',
+          name: ben.mfbName || ben.mfName || ben.reabName || '',
+          bankName: ben.mfbBank || ben.mfBankName || ben.reabBank || '',
+          swiftCode: ben.mfbSwift || ben.mfSwiftCode || ben.reabSwift || '',
+          routingCode: ben.mfbRoutingCode || ben.mfRoutingCode || ben.reabRoutingCode || '',
+          accountNumber: ben.mfbBeneAccount || ben.mfAccountNumber || ben.reabBeneAccount || '',
         })) : []
 
         const mappedPaymentPlans: PaymentPlanData[] = Array.isArray(paymentPlansResult) ? paymentPlansResult.map((plan: any) => ({
           id: plan.id?.toString() || '',
-          installmentNumber: plan.reappInstallmentNumber || 0,
-          installmentPercentage: plan.reappInstallmentPercentage?.toString() || '0',
-          projectCompletionPercentage: plan.reappProjectCompletionPercentage?.toString() || '0',
+          installmentNumber: plan.mfppInstallmentNumber ?? 0,
+          installmentPercentage: plan.mfppInstallmentPercentage?.toString() ?? '0',
+          projectCompletionPercentage: plan.mfppProjectCompletionPercentage?.toString() ?? '0',
         })) : []
 
         const mappedDocuments: DocumentData[] = Array.isArray(documentsResult) ? documentsResult.map((doc: any) => ({
@@ -271,8 +273,8 @@ export function useProjectReview(projectId: string) {
 
         const mappedClosureData: ClosureData[] = extractedClosureData.map((closure: any) => ({
           id: closure.id?.toString() || '',
-          totalIncomeFund: closure.reacTotalIncomeFund?.toString() || '0',
-          totalPayment: closure.reacTotalPayment?.toString() || '0',
+          totalIncomeFund: closure.mfcTotalIncomeFund?.toString() || '0',
+          totalPayment: closure.mfcTotalPayment?.toString() || '0',
           checkGuaranteeDoc: closure.reacCheckGuranteeDoc || null,
           enabled: closure.enabled || false,
         }))

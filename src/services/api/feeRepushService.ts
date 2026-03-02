@@ -5,21 +5,21 @@ import type { PaginatedResponse } from '@/types'
 // Fee Repush (Real Estate Asset Fee History) types - Updated to match actual API response
 export interface FeeRepushRecord {
   id: number
-  reafhAmount: number | null
-  reafhTotalAmount: number | null
-  reafhVatPercentage: number | null
-  reafhTransactionDate: string | null
-  reafhSuccess: boolean | null
-  reafhStatus: boolean | null
+  mffhAmount: number | null
+  mffhTotalAmount: number | null
+  mffhVatPercentage: number | null
+  mffhTransactionDate: string | null
+  mffhSuccess: boolean | null
+  mffhStatus: boolean | null
   reahfRemark: string | null
-  reafhFeeResponse: string | null
-  reafhResponseStatus: string | null
-  reafhSpecialField1: string | null
-  reafhSpecialField2: string | null
-  reafhSpecialField3: string | null
-  reafhSpecialField4: string | null
-  reafhSpecialField5: string | null
-  reafhFeeRequestBody: string | null
+  mffhFeeResponse: string | null
+  mffhResponseStatus: string | null
+  mffhSpecialField1: string | null
+  mffhSpecialField2: string | null
+  mffhSpecialField3: string | null
+  mffhSpecialField4: string | null
+  mffhSpecialField5: string | null
+  mffhFeeRequestBody: string | null
   realEstateAssestFeeDTO: any | null
   managementFirmDTO: {
     id?: number
@@ -192,19 +192,19 @@ export const mapFeeRepushToUIData = (
 
   // Determine status based on API response fields
   const getStatus = (): string => {
-    if (apiData.reafhResponseStatus) {
-      return apiData.reafhResponseStatus
+    if (apiData.mffhResponseStatus) {
+      return apiData.mffhResponseStatus
     }
-    if (apiData.reafhSuccess === true) {
+    if (apiData.mffhSuccess === true) {
       return 'SUCCESS'
     }
-    if (apiData.reafhSuccess === false) {
+    if (apiData.mffhSuccess === false) {
       return 'FAILED'
     }
-    if (apiData.reafhStatus === true) {
+    if (apiData.mffhStatus === true) {
       return 'ACTIVE'
     }
-    if (apiData.reafhStatus === false) {
+    if (apiData.mffhStatus === false) {
       return 'INACTIVE'
     }
     return 'UNKNOWN'
@@ -221,33 +221,33 @@ export const mapFeeRepushToUIData = (
     id: String(apiData.id),
     managementFirmName: apiData.managementFirmDTO?.mfName || '—',
     feeType: 'Fee Processing', // Default since feeType not in API response
-    amount: apiData.reafhAmount ? formatAmount(apiData.reafhAmount) : '—',
-    transactionDate: formatDate(apiData.reafhTransactionDate),
+    amount: apiData.mffhAmount ? formatAmount(apiData.mffhAmount) : '—',
+    transactionDate: formatDate(apiData.mffhTransactionDate),
     approvalStatus: getStatus(),
     paymentType: getPaymentType(),
     paymentRefNo: '—', // Not available in current API response
     tasRefNo: '—', // Not available in current API response
     narration: apiData.reahfRemark || '—',
-    description: apiData.reafhFeeResponse || '—',
+    description: apiData.mffhFeeResponse || '—',
     remark: apiData.reahfRemark || '—',
     failureReason:
-      apiData.reafhSuccess === false
+      apiData.mffhSuccess === false
         ? apiData.reahfRemark || 'Payment Failed'
         : '—',
     retryCount: '0', // Not available in current API response
-    createdDate: formatDateTime(apiData.reafhTransactionDate), // Using transaction date as created date
-    updatedDate: formatDateTime(apiData.reafhTransactionDate), // Using transaction date as updated date
+    createdDate: formatDateTime(apiData.mffhTransactionDate), // Using transaction date as created date
+    updatedDate: formatDateTime(apiData.mffhTransactionDate), // Using transaction date as updated date
     createdBy: '—', // Not available in current API response
     updatedBy: '—', // Not available in current API response
     currency: 'AED', // Default currency
-    totalAmount: apiData.reafhTotalAmount
-      ? formatAmount(apiData.reafhTotalAmount)
+    totalAmount: apiData.mffhTotalAmount
+      ? formatAmount(apiData.mffhTotalAmount)
       : '—',
     isActive:
-      apiData.reafhStatus !== null ? (apiData.reafhStatus ? 'Yes' : 'No') : '—',
+      apiData.mffhStatus !== null ? (apiData.mffhStatus ? 'Yes' : 'No') : '—',
     feaHistoryId: String(apiData.id),
-    specialField1: apiData.reafhSpecialField1 || '—',
-    specialField2: apiData.reafhSpecialField2 || '—',
+    specialField1: apiData.mffhSpecialField1 || '—',
+    specialField2: apiData.mffhSpecialField2 || '—',
   }
 }
 
@@ -303,26 +303,26 @@ export class FeeRepushService {
         // For now, we'll skip project name filtering until we know the correct API parameter
       }
       if (filters.minAmount !== undefined)
-        apiFilters['reafhAmount.greaterThanOrEqual'] = String(filters.minAmount)
+        apiFilters['mffhAmount.greaterThanOrEqual'] = String(filters.minAmount)
       if (filters.maxAmount !== undefined)
-        apiFilters['reafhAmount.lessThanOrEqual'] = String(filters.maxAmount)
+        apiFilters['mffhAmount.lessThanOrEqual'] = String(filters.maxAmount)
       if (filters.fromDate)
-        apiFilters['reafhTransactionDate.greaterThanOrEqual'] = filters.fromDate
+        apiFilters['mffhTransactionDate.greaterThanOrEqual'] = filters.fromDate
       if (filters.toDate)
-        apiFilters['reafhTransactionDate.lessThanOrEqual'] = filters.toDate
+        apiFilters['mffhTransactionDate.lessThanOrEqual'] = filters.toDate
       if (filters.isActive !== undefined)
-        apiFilters['reafhStatus.equals'] = String(filters.isActive)
+        apiFilters['mffhStatus.equals'] = String(filters.isActive)
 
       // Add success/failure status filtering
       if (filters.approvalStatus) {
         if (filters.approvalStatus.toLowerCase() === 'success') {
-          apiFilters['reafhSuccess.equals'] = 'true'
+          apiFilters['mffhSuccess.equals'] = 'true'
         } else if (filters.approvalStatus.toLowerCase() === 'failed') {
-          apiFilters['reafhSuccess.equals'] = 'false'
+          apiFilters['mffhSuccess.equals'] = 'false'
         } else if (filters.approvalStatus.toLowerCase() === 'active') {
-          apiFilters['reafhStatus.equals'] = 'true'
+          apiFilters['mffhStatus.equals'] = 'true'
         } else if (filters.approvalStatus.toLowerCase() === 'inactive') {
-          apiFilters['reafhStatus.equals'] = 'false'
+          apiFilters['mffhStatus.equals'] = 'false'
         }
       }
     }
@@ -399,8 +399,8 @@ export class FeeRepushService {
     try {
       // Update the record to mark as pending retry
       const updatedRecord = await this.updateFeeRepush(id, {
-        reafhResponseStatus: 'PENDING_RETRY',
-        reafhSuccess: null, // Reset success status
+        mffhResponseStatus: 'PENDING_RETRY',
+        mffhSuccess: null, // Reset success status
         reahfRemark: 'Payment retry initiated',
       })
 

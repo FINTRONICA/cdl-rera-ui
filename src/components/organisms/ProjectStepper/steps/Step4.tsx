@@ -99,7 +99,11 @@ const Step4: React.FC<Step4Props> = ({
     }))
   }
 
-  const fetchBeneficiariesFromAPI = async (page: number, size: number) => {
+  const fetchBeneficiariesFromAPI = async (
+    page: number,
+    size: number,
+    mergeForNewRow?: { id: string | number; data: BeneficiaryDetails }
+  ) => {
     if (!projectId) return
 
     try {
@@ -112,30 +116,111 @@ const Step4: React.FC<Step4Props> = ({
           (Array.isArray(response) ? response : [])
 
         const allProcessedBeneficiaries = beneficiariesArray.map(
-          (beneficiary: any) => ({
-            id: beneficiary.id?.toString() || '',
-            mfBeneficiaryId: beneficiary.reabBeneficiaryId || '',
-            mfBeneficiaryType:
+          (beneficiary: any) => {
+            const transferType =
+              beneficiary.mfbTransferTypeDTO?.languageTranslationId
+                ?.configValue ||
+              beneficiary.mfbTranferTypeDTO?.languageTranslationId
+                ?.configValue ||
               beneficiary.reabTransferTypeDTO?.languageTranslationId
                 ?.configValue ||
               beneficiary.reabTranferTypeDTO?.languageTranslationId
-                ?.configValue ||
-              beneficiary.reabType ||
-              '',
-            mfName: beneficiary.reabName || '',
-            mfBankName: beneficiary.reabBank || '',
-            mfSwiftCode: beneficiary.reabSwift || '',
-            mfRoutingCode: beneficiary.reabRoutingCode || '',
-            mfAccountNumber: beneficiary.reabBeneAccount || '',
+                ?.configValue
+            const base = {
+              id: beneficiary.id?.toString() || '',
+              mfBeneficiaryId:
+                beneficiary.mfbBeneficiaryId ||
+                beneficiary.mfBeneficiaryId ||
+                beneficiary.reabBeneficiaryId ||
+                '',
+              mfBeneficiaryType:
+                beneficiary.mfBeneficiaryType || transferType || beneficiary.reabType || '',
+              mfName:
+                beneficiary.mfbName ||
+                beneficiary.mfName ||
+                beneficiary.reabName ||
+                '',
+              mfBankName:
+                beneficiary.mfbBank ||
+                beneficiary.mfBankName ||
+                beneficiary.reabBank ||
+                '',
+              mfSwiftCode:
+                beneficiary.mfbSwift ||
+                beneficiary.mfSwiftCode ||
+                beneficiary.reabSwift ||
+                '',
+              mfRoutingCode:
+                beneficiary.mfbRoutingCode ||
+                beneficiary.mfRoutingCode ||
+                beneficiary.reabRoutingCode ||
+                '',
+              mfAccountNumber:
+                beneficiary.mfbBeneAccount ||
+                beneficiary.mfAccountNumber ||
+                beneficiary.reabBeneAccount ||
+                '',
 
-            beneficiaryId: beneficiary.reabBeneficiaryId || '',
-            beneficiaryType: beneficiary.reabType || '',
-            name: beneficiary.reabName || '',
-            bankName: beneficiary.reabBank || '',
-            swiftCode: beneficiary.reabSwift || '',
-            routingCode: beneficiary.reabRoutingCode || '',
-            accountNumber: beneficiary.reabBeneAccount || '',
-          })
+              beneficiaryId:
+                beneficiary.mfbBeneficiaryId ||
+                beneficiary.mfBeneficiaryId ||
+                beneficiary.reabBeneficiaryId ||
+                '',
+              beneficiaryType: beneficiary.mfBeneficiaryType || transferType || beneficiary.reabType || '',
+              name:
+                beneficiary.mfbName ||
+                beneficiary.mfName ||
+                beneficiary.reabName ||
+                '',
+              bankName:
+                beneficiary.mfbBank ||
+                beneficiary.mfBankName ||
+                beneficiary.reabBank ||
+                '',
+              swiftCode:
+                beneficiary.mfbSwift ||
+                beneficiary.mfSwiftCode ||
+                beneficiary.reabSwift ||
+                '',
+              routingCode:
+                beneficiary.mfbRoutingCode ||
+                beneficiary.mfRoutingCode ||
+                beneficiary.reabRoutingCode ||
+                '',
+              accountNumber:
+                beneficiary.mfbBeneAccount ||
+                beneficiary.mfAccountNumber ||
+                beneficiary.reabBeneAccount ||
+                '',
+            }
+            // If API returned nulls for a newly created row, overlay with form data we sent
+            if (
+              mergeForNewRow &&
+              (beneficiary.id?.toString() === mergeForNewRow.id?.toString() ||
+                beneficiary.id === mergeForNewRow.id)
+            ) {
+              const d = mergeForNewRow.data
+              return {
+                ...base,
+                id: base.id,
+                mfBeneficiaryId: d.mfBeneficiaryId ?? base.mfBeneficiaryId,
+                mfBeneficiaryType: d.mfBeneficiaryType ?? base.mfBeneficiaryType,
+                mfName: d.mfName ?? base.mfName,
+                mfBankName: d.mfBankName ?? base.mfBankName,
+                mfSwiftCode: d.mfSwiftCode ?? base.mfSwiftCode,
+                mfRoutingCode: d.mfRoutingCode ?? base.mfRoutingCode,
+                mfAccountNumber: d.mfAccountNumber ?? base.mfAccountNumber,
+                beneficiaryId: d.mfBeneficiaryId ?? base.beneficiaryId,
+                beneficiaryType: d.mfBeneficiaryType ?? base.beneficiaryType,
+                name: d.mfName ?? base.name,
+                bankName: d.mfBankName ?? base.bankName,
+                swiftCode: d.mfSwiftCode ?? base.swiftCode,
+                routingCode: d.mfRoutingCode ?? base.routingCode,
+                accountNumber: d.mfAccountNumber ?? base.accountNumber,
+              }
+            }
+            return base
+          }
         )
 
         setFullApiBeneficiariesData(allProcessedBeneficiaries)
@@ -192,26 +277,65 @@ const Step4: React.FC<Step4Props> = ({
   }
 
   const handleBeneficiaryAdded = async (newBeneficiary: unknown) => {
-    if (editingBeneficiary) {
+    const added = newBeneficiary as BeneficiaryDetails & { id?: string | number }
+    const addedAsBeneficiaryData: BeneficiaryData = {
+      id: added.id?.toString() ?? '',
+      expenseType: added.mfBeneficiaryType ?? '',
+      transferType: added.mfBeneficiaryType ?? '',
+      name: added.mfName ?? '',
+      bankName: added.mfBankName ?? '',
+      swiftCode: added.mfSwiftCode ?? '',
+      routingCode: added.mfRoutingCode ?? '',
+      account: added.mfAccountNumber ?? '',
+    }
+
+    const editingIdStr = editingBeneficiary?.id != null ? String(editingBeneficiary.id) : null
+    if (editingBeneficiary && editingIdStr) {
       const updatedBeneficiaries = beneficiaryDetails.map((beneficiary) =>
-        beneficiary.id === editingBeneficiary.id
-          ? (newBeneficiary as BeneficiaryData)
-          : beneficiary
+        String(beneficiary.id) === editingIdStr ? addedAsBeneficiaryData : beneficiary
       )
       onBeneficiariesChange(updatedBeneficiaries)
+      setFullApiBeneficiariesData((prev) =>
+        prev.map((b) =>
+          String(b.id) === editingIdStr
+            ? { ...b, ...added, id: added.id ?? b.id }
+            : b
+        )
+      )
+      setApiBeneficiariesData((prev) =>
+        prev.map((b) =>
+          String(b.id) === editingIdStr
+            ? { ...b, ...added, id: added.id ?? b.id }
+            : b
+        )
+      )
     } else {
-      const updatedBeneficiaries = [
-        ...beneficiaryDetails,
-        newBeneficiary as BeneficiaryData,
-      ]
-      onBeneficiariesChange(updatedBeneficiaries)
+      // New row: add optimistically to full list and current page so table shows it immediately
+      const newRow: BeneficiaryDetails = {
+        id: added.id ?? '',
+        mfBeneficiaryId: added.mfBeneficiaryId ?? '',
+        mfBeneficiaryType: added.mfBeneficiaryType ?? '',
+        mfName: added.mfName ?? '',
+        mfBankName: added.mfBankName ?? '',
+        mfSwiftCode: added.mfSwiftCode ?? '',
+        mfRoutingCode: added.mfRoutingCode ?? '',
+        mfAccountNumber: added.mfAccountNumber ?? '',
+      }
+      const newFull = [...fullApiBeneficiariesData, newRow]
+      const totalElements = newFull.length
+      const totalPages = Math.ceil(totalElements / currentApiSize)
+      const startIndex = (currentApiPage - 1) * currentApiSize
+      const endIndex = startIndex + currentApiSize
+      setFullApiBeneficiariesData(newFull)
+      setApiPagination({ totalElements, totalPages })
+      setApiBeneficiariesData(newFull.slice(startIndex, endIndex))
+      onBeneficiariesChange([...beneficiaryDetails, addedAsBeneficiaryData])
     }
 
     setEditingBeneficiary(null)
 
-    if (projectId) {
-      await fetchBeneficiariesFromAPI(currentApiPage, currentApiSize)
-    }
+    // Do not refetch after add: table already shows the new row via optimistic update.
+    // Refetch would overwrite with API list which may not include the new item yet.
   }
 
   const handleClosePanel = () => {
@@ -225,26 +349,36 @@ const Step4: React.FC<Step4Props> = ({
   }
 
   const confirmDelete = async () => {
-    if (beneficiaryToDelete?.id) {
-      try {
-        await realEstateAssetService.softDeleteProjectBeneficiary(
-          beneficiaryToDelete.id.toString()
-        )
+    if (beneficiaryToDelete?.id == null) return
+    const deleteIdStr = String(beneficiaryToDelete.id)
+    try {
+      await realEstateAssetService.softDeleteProjectBeneficiary(deleteIdStr)
 
-        const updatedBeneficiaries = beneficiaryDetails.filter(
-          (beneficiary) => beneficiary.id !== beneficiaryToDelete.id
-        )
-        onBeneficiariesChange(updatedBeneficiaries)
+      // Remove from parent state (for form/stepper)
+      const updatedBeneficiaries = beneficiaryDetails.filter(
+        (b) => String(b.id) !== deleteIdStr
+      )
+      onBeneficiariesChange(updatedBeneficiaries)
 
-        setDeleteDialogOpen(false)
-        setBeneficiaryToDelete(null)
-
-        if (projectId) {
-          await fetchBeneficiariesFromAPI(currentApiPage, currentApiSize)
+      // Remove from table state so row disappears immediately (table uses apiBeneficiariesData)
+      setFullApiBeneficiariesData((prev) =>
+        prev.filter((b) => String(b.id) !== deleteIdStr)
+      )
+      setApiBeneficiariesData((prev) =>
+        prev.filter((b) => String(b.id) !== deleteIdStr)
+      )
+      setApiPagination((prev) => {
+        const newTotal = Math.max(0, (prev?.totalElements ?? 1) - 1)
+        return {
+          totalElements: newTotal,
+          totalPages: Math.ceil(newTotal / currentApiSize) || 1,
         }
-      } catch (error) {
-        console.error('Error deleting beneficiary:', error)
-      }
+      })
+
+      setDeleteDialogOpen(false)
+      setBeneficiaryToDelete(null)
+    } catch (error) {
+      console.error('Error deleting beneficiary:', error)
     }
   }
 

@@ -950,7 +950,7 @@ const Step2 = forwardRef<Step2Ref, Step2Props>(
           <CardContent sx={{ color: valueStyles.color || undefined }}>
             {/* Removed top banner error; rely on inline field errors for consistency with Step 1 */}
             <Grid container rowSpacing={4} columnSpacing={2}>
-              {/* {renderProjectSelectField(
+              {renderProjectSelectField(
                 'projectNameDropdown',
                 'CDL_OWNER_UNIT_MF_NAME',
                 'Management Firm Name',
@@ -985,7 +985,7 @@ const Step2 = forwardRef<Step2Ref, Step2Props>(
                 6,
                 !selectedProject || isEditMode,
                 true
-              )} */}
+              )} 
               {renderTextField('floor', 'CDL_OWNER_UNIT_FLOOR', 'Floor', '', 3)}
               {renderTextField(
                 'bedroomCount',
