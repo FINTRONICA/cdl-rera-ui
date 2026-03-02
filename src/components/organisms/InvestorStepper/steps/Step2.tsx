@@ -253,10 +253,17 @@ const Step2 = forwardRef<Step2Ref, Step2Props>(
         )
         if (projectOption) {
           setSelectedProject(projectOption)
+          const mfId = projectOption.projectId || projectOption.settingValue
+          const assetRegister = projectOption.fullAsset?.assetRegisterDTO
+          const assetRegisterId = assetRegister?.id != null ? String(assetRegister.id) : ''
+          const assetRegisterName = projectOption.developerName ?? assetRegister?.arName ?? ''
           setValue('projectNameDropdown', projectOption.settingValue)
-          setValue('projectId', projectOption.projectId)
+          setValue('projectId', mfId)
           setValue('developerIdInput', projectOption.developerId)
           setValue('developerNameInput', projectOption.developerName)
+          setValue('managementFirmId', mfId)
+          setValue('assetRegisterIdInput', assetRegisterId)
+          setValue('assetRegisterNameInput', assetRegisterName)
         }
       }
 
@@ -369,26 +376,53 @@ const Step2 = forwardRef<Step2Ref, Step2Props>(
 
       if (selectedProjectData) {
         setSelectedProject(selectedProjectData)
-        setValue('projectId', selectedProjectData.projectId, {
+        const mfId = selectedProjectData.projectId || selectedProjectData.settingValue
+        const ar = selectedProjectData.fullAsset?.assetRegisterDTO
+        const assetRegisterId =
+          selectedProjectData.assetRegisterId ||
+          (ar?.id != null ? String(ar.id) : '')
+        const assetRegisterName =
+          selectedProjectData.assetRegisterName ||
+          selectedProjectData.developerName ||
+          ''
+
+        setValue('projectId', mfId, {
           shouldValidate: true,
           shouldDirty: true,
           shouldTouch: true,
         })
-        setValue('developerIdInput', selectedProjectData.developerId, {
+        setValue('developerIdInput', assetRegisterId, {
           shouldValidate: true,
           shouldDirty: true,
           shouldTouch: true,
         })
-        setValue('developerNameInput', selectedProjectData.developerName, {
+        setValue('developerNameInput', assetRegisterName, {
           shouldValidate: true,
           shouldDirty: true,
           shouldTouch: true,
         })
-        // Clear any prior manual errors for these auto-filled fields
+        setValue('managementFirmId', mfId, {
+          shouldValidate: true,
+          shouldDirty: true,
+          shouldTouch: true,
+        })
+        setValue('assetRegisterIdInput', assetRegisterId, {
+          shouldValidate: true,
+          shouldDirty: true,
+          shouldTouch: true,
+        })
+        setValue('assetRegisterNameInput', assetRegisterName, {
+          shouldValidate: true,
+          shouldDirty: true,
+          shouldTouch: true,
+        })
         clearErrors([
           'projectId',
           'developerIdInput',
           'developerNameInput',
+          'managementFirmId',
+          'assetRegisterIdInput',
+          'assetRegisterNameInput',
         ] as unknown as any)
       }
     }
@@ -794,14 +828,18 @@ const Step2 = forwardRef<Step2Ref, Step2Props>(
             rules={required ? { required: `${label} is required` } : {}}
             defaultValue={''}
             render={({ field }) => (
-              <FormControl fullWidth error={!!errors[name]} required={required}>
-                <InputLabel sx={labelStyles} required={required}>
+              <FormControl fullWidth error={!!errors[name]} required={required} variant="outlined">
+                <InputLabel id={`${name}-label`} sx={labelStyles} required={required} shrink>
                   {loading ? `Loading...` : label}
                 </InputLabel>
                 <Select
                   {...field}
+                  labelId={`${name}-label`}
                   label={loading ? `Loading...` : label}
                   required={required}
+                  displayEmpty
+                  InputLabelProps={{ shrink: true }}
+                  inputProps={{ 'aria-label': label }}
                   sx={[
                     selectFieldStyles,
                     valueStyles,
@@ -815,6 +853,11 @@ const Step2 = forwardRef<Step2Ref, Step2Props>(
                       },
                       '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
                         border: `2px solid ${theme.palette.primary.main}`,
+                      },
+                      '& .MuiSelect-select': {
+                        paddingTop: '14px',
+                        paddingBottom: '14px',
+                        boxSizing: 'border-box',
                       },
                     },
                     isViewMode && {
@@ -847,10 +890,37 @@ const Step2 = forwardRef<Step2Ref, Step2Props>(
                   ]}
                   IconComponent={KeyboardArrowDownIcon}
                   disabled={loading || isViewMode}
-                  value={field.value || ''}
+                  value={field.value ?? ''}
                   onChange={(e) => {
-                    field.onChange(e)
-                    handleProjectSelection(e.target.value as string)
+                    const value = e.target.value as string
+                    field.onChange(value)
+                    handleProjectSelection(value)
+                    if (errors[name]) clearErrors(name as 'projectNameDropdown')
+                    trigger(name as 'projectNameDropdown')
+                  }}
+                  onBlur={() => {
+                    field.onBlur()
+                    trigger(name as 'projectNameDropdown')
+                  }}
+                  renderValue={(selected) => {
+                    if (selected == null || selected === '') {
+                      return (
+                        <span style={{ color: theme.palette.text.secondary }}>
+                          Select...
+                        </span>
+                      )
+                    }
+                    const selectedOption = options.find((opt) => opt.settingValue === selected)
+                    return selectedOption ? (
+                      <span>{selectedOption.displayName}</span>
+                    ) : (
+                      <span style={{ color: theme.palette.text.secondary }}>{String(selected)}</span>
+                    )
+                  }}
+                  MenuProps={{
+                    PaperProps: {
+                      style: { maxHeight: 300 },
+                    },
                   }}
                 >
                   {options.map((option) => (

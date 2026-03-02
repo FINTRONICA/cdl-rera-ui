@@ -26,8 +26,11 @@ export const useRealEstateAssets = (): UseRealEstateAssetsReturn => {
 
       const response = await realEstateAssetService.findAllRealEstateAssets()
 
-      // Extract the content array from the response
-      setData(response.content || [])
+      // Normalize: API may return { content: [...] } or a plain array
+      const list = Array.isArray(response)
+        ? response
+        : (response?.content ?? [])
+      setData(list)
     } catch (err) {
       console.error('Error fetching real estate assets:', err)
       setError(
@@ -57,17 +60,21 @@ export const useRealEstateAssets = (): UseRealEstateAssetsReturn => {
  * Transform real estate asset data for dropdown usage
  */
 export const transformRealEstateAssetsForDropdown = (
-  assets: RealEstateAsset[]
+  assets: RealEstateAsset[] | undefined
 ) => {
-  return assets.map((asset) => ({
-    id: asset.id,
-    displayName: asset.mfName, // Project Name
-    settingValue: asset.mfId, // Project ID
-    // Additional data for dependent fields
-    projectId: asset.mfId,
-    developerId: asset.assetRegisterDTO?.arDeveloperId || '',
-    developerName: asset.assetRegisterDTO?.arName || '',
-    // Store the full asset for reference
-    fullAsset: asset,
-  }))
+  if (!assets || !Array.isArray(assets)) return []
+  return assets.map((asset) => {
+    const ar = asset.assetRegisterDTO
+    return {
+      id: asset.id,
+      displayName: asset.mfName ?? '',
+      settingValue: asset.mfId ?? '',
+      projectId: asset.mfId ?? '',
+      developerId: ar?.arDeveloperId ?? '',
+      developerName: ar?.arName ?? '',
+      assetRegisterId: ar?.id != null ? String(ar.id) : '',
+      assetRegisterName: ar?.arName ?? '',
+      fullAsset: asset,
+    }
+  })
 }
