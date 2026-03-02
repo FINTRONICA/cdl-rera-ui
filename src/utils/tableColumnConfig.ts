@@ -178,6 +178,48 @@ function getModuleSpecificColumns(
         }
       )
       break
+
+    case 'budget':
+      columns.push(
+        {
+          key: 'displayName',
+          label: 'Budget Name',
+          type: 'text',
+          width: 'w-40',
+          sortable: true,
+          render: (value) => truncateWords(value, 15),
+        },
+        {
+          key: 'identifier',
+          label: 'Budget ID',
+          type: 'text',
+          width: 'w-30',
+          sortable: true,
+          render: (value) => displayValue(value),
+        }
+      )
+      break
+
+    case 'budgetFirm':
+      columns.push(
+        {
+          key: 'displayName',
+          label: 'Budget Firm Name',
+          type: 'text',
+          width: 'w-40',
+          sortable: true,
+          render: (value) => truncateWords(value, 15),
+        },
+        {
+          key: 'identifier',
+          label: 'Budget Firm ID',
+          type: 'text',
+          width: 'w-30',
+          sortable: true,
+          render: (value) => displayValue(value),
+        }
+      )
+      break
   }
 
   return columns

@@ -11,6 +11,8 @@ export type TabId =
   | 'capitalPartner' 
   | 'payments' 
   | 'suretyBond'
+  | 'budget'
+  | 'budgetFirm'
 
 export type ModuleName = 
   | 'BUILD_PARTNER' 
@@ -18,6 +20,8 @@ export type ModuleName =
   | 'CAPITAL_PARTNER' 
   | 'PAYMENTS' 
   | 'SURETY_BOND'
+  | 'BUDGET'
+  | 'BUDGET_FIRM'
 
 export interface Tab {
   id: TabId
@@ -34,11 +38,13 @@ export interface TabConfig {
  * Tab configuration array
  */
 export const TABS: Tab[] = [
-  { id: 'buildPartner', label: 'Build Partner' },
-  { id: 'buildPartnerAsset', label: 'Build Partner Asset' },
-  { id: 'capitalPartner', label: 'Capital Partner' },
+  { id: 'buildPartner', label: 'Asset Register' },
+  { id: 'buildPartnerAsset', label: 'Management Firm' },
+  { id: 'capitalPartner', label: 'Owner Registry' },
   { id: 'payments', label: 'Payments' },
   { id: 'suretyBond', label: 'Surety Bond' },
+  { id: 'budget', label: 'Budget' },
+  { id: 'budgetFirm', label: 'Budget Firm' },
 ]
 
 /**
@@ -50,6 +56,8 @@ export const TAB_TO_MODULE_MAP: Record<TabId, ModuleName> = {
   capitalPartner: 'CAPITAL_PARTNER',
   payments: 'PAYMENTS',
   suretyBond: 'SURETY_BOND',
+  budget: 'BUDGET',
+  budgetFirm: 'BUDGET_FIRM',
 }
 
 /**
@@ -61,6 +69,8 @@ export const MODULE_TO_TAB_MAP: Record<ModuleName, TabId> = {
   CAPITAL_PARTNER: 'capitalPartner',
   PAYMENTS: 'payments',
   SURETY_BOND: 'suretyBond',
+  BUDGET: 'budget',
+  BUDGET_FIRM: 'budgetFirm',
 }
 
 /**
@@ -87,6 +97,8 @@ export function getNavigationPath(tabId: TabId, id: string | number): string {
     capitalPartner: (id) => `/owner-registry/${id}?mode=view`,
     suretyBond: (id) => `/surety_bond/new/${id}?step=0&mode=view`,
     payments: (id) => `/transactions/manual/new/${id}?step=0&mode=view`,
+    budget: (id) => `/budgets/budget/${id}/step/1?mode=view`,
+    budgetFirm: (id) => `/budgets/budge-firm/${id}/step/1?mode=view`,
   }
 
   return navigationMap[tabId]?.(id) || '#'

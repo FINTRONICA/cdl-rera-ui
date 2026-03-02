@@ -85,6 +85,18 @@ const PAYLOAD_FIELD_MAPPINGS: Record<ModuleName, PayloadFieldMapping> = {
       expiryDate: ['expiryDate', 'validUntil'],
     },
   },
+  BUDGET: {
+    displayName: ['categoryName', 'serviceName', 'budgetName', 'name'],
+    identifier: ['provisionalBudgetCode', 'budgetId', 'id'],
+    status: ['status', 'taskStatus'],
+    additionalFields: {},
+  },
+  BUDGET_FIRM: {
+    displayName: ['budgetName', 'budgetPeriodRange', 'name'],
+    identifier: ['budgetId', 'budgetPeriodCode', 'id'],
+    status: ['status', 'taskStatus'],
+    additionalFields: {},
+  },
 }
 
 /**
