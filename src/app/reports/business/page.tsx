@@ -95,8 +95,8 @@ const reportsData: ReportCategory[] = [
     ],
   },
   {
-    id: 'beneficiary-capital',
-    title: 'Beneficiary & Capital Partner Reports',
+    id: 'beneficiary-owner-registry',
+    title: 'Beneficiary & Owner Registry Reports',
     icon: (
       <Users
         className="w-6 h-6 text-gray-900 dark:text-gray-100"
@@ -115,8 +115,8 @@ const reportsData: ReportCategory[] = [
         ),
       },
       {
-        id: 'capital-partner-audit',
-        title: 'Capital Partner Audit Report',
+        id: 'owner-registry-audit',
+        title: 'Owner Registry Audit Report',
         icon: (
           <SquareUser
             className="w-8 h-8 text-gray-900 dark:text-gray-100"
@@ -125,8 +125,8 @@ const reportsData: ReportCategory[] = [
         ),
       },
       {
-        id: 'build-partner',
-        title: 'Build Partner Report',
+        id: 'asset-register',
+        title: 'Asset Register Report',
         icon: (
           <FolderKanban
             className="w-8 h-8 text-gray-900 dark:text-gray-100"
@@ -135,8 +135,8 @@ const reportsData: ReportCategory[] = [
         ),
       },
       {
-        id: 'build-partner-audit',
-        title: 'Build Partner Audit Report',
+        id: 'asset-registry-audit',
+        title: 'Asset Registry Audit Report',
         icon: (
           <FileChartLine
             className="w-8 h-8 text-gray-900 dark:text-gray-100"
@@ -219,8 +219,8 @@ const reportsData: ReportCategory[] = [
     ],
   },
   {
-    id: 'project-escrow',
-    title: 'Project & Escrow Reports',
+    id: 'management-firm-escrow',
+    title: 'Management Firm & Escrow Reports',
     icon: (
       <FolderOpen
         className="w-6 h-6 text-gray-900 dark:text-gray-100"
@@ -229,8 +229,8 @@ const reportsData: ReportCategory[] = [
     ),
     reports: [
       {
-        id: 'capital-partner-assets',
-        title: 'Capital Partner Assets Report',
+        id: 'owner-registry-assets',
+        title: 'Owner Registry Assets Report',
         icon: (
           <SquareUser
             className="w-8 h-8 text-gray-900 dark:text-gray-100"
@@ -239,8 +239,8 @@ const reportsData: ReportCategory[] = [
         ),
       },
       {
-        id: 'capital-partner-assets-audit',
-        title: 'Capital Partner Assets Audit Report',
+        id: 'owner-registry-assets-audit',
+        title: 'Owner Registry Assets Audit Report',
         icon: (
           <FileChartLine
             className="w-8 h-8 text-gray-900 dark:text-gray-100"
@@ -249,8 +249,8 @@ const reportsData: ReportCategory[] = [
         ),
       },
       {
-        id: 'capital-partner-assets-financial',
-        title: 'Capital Partner Assets Financial Report',
+        id: 'owner-registry-assets-financial',
+        title: 'Owner Registry Assets Financial Report',
         icon: (
           <IndianRupee
             className="w-8 h-8 text-gray-900 dark:text-gray-100"
@@ -301,28 +301,28 @@ const reportsData: ReportCategory[] = [
     ],
   },
   {
-    id: 'surety-compliance',
-    title: 'Surety Bond & Compliance Reports',
+    id: 'budget-reports',
+    title: 'Budget Reports',
     icon: (
-      <Shield
+      <FolderKanban
         className="w-6 h-6 text-gray-900 dark:text-gray-100"
         strokeWidth={2}
       />
     ),
     reports: [
       {
-        id: 'surety-bond',
-        title: 'Surety Bond Report',
+        id: 'budget',
+        title: 'Budget Report',
         icon: (
-          <Shield
+          <FolderKanban
             className="w-8 h-8 text-gray-900 dark:text-gray-100"
             strokeWidth={2}
           />
         ),
       },
       {
-        id: 'surety-bond-audit',
-        title: 'Surety Bond Audit Report',
+        id: 'budget-firm',
+        title: 'Budget Firm Report',
         icon: (
           <FileChartLine
             className="w-8 h-8 text-gray-900 dark:text-gray-100"
@@ -331,10 +331,10 @@ const reportsData: ReportCategory[] = [
         ),
       },
       {
-        id: 'financial-data',
-        title: 'Financial Data Report',
+        id: 'budget-summary',
+        title: 'Budget Summary Report',
         icon: (
-          <PcCase
+          <IndianRupee
             className="w-8 h-8 text-gray-900 dark:text-gray-100"
             strokeWidth={2}
           />
@@ -494,42 +494,42 @@ const BusinessReportPage = () => {
 
   return (
     <DashboardLayout title={businessReportTitle}>
-      <div className="flex flex-col gap-4 px-6 py-6 bg-gray-50 dark:bg-gray-900 min-h-screen">
+      <div className="flex flex-col min-h-screen gap-4 px-6 py-6 bg-gray-50 dark:bg-gray-900">
         {/* Main Categories */}
         <div className="space-y-6">
           {reportsData.map((category) => (
             <div
               key={category.id}
-              className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden hover:shadow-md transition-shadow duration-300"
+              className="overflow-hidden transition-shadow duration-300 bg-white border border-gray-100 shadow-sm dark:bg-gray-800 rounded-xl dark:border-gray-700 hover:shadow-md"
             >
               {/* Category Header */}
               <button
                 onClick={() => toggleCategory(category.id)}
-                className="w-full flex items-center justify-between p-6 bg-white dark:bg-gray-800 hover:bg-gray-50/50 dark:hover:bg-gray-700 transition-all duration-200 group"
+                className="flex items-center justify-between w-full p-6 transition-all duration-200 bg-white dark:bg-gray-800 hover:bg-gray-50/50 dark:hover:bg-gray-700 group"
               >
                 <div className="flex items-center gap-4">
-                  <div className="p-2 rounded-lg bg-blue-50 dark:bg-blue-900/30 group-hover:bg-blue-100 dark:group-hover:bg-blue-900/50 transition-colors duration-200">
+                  <div className="p-2 transition-colors duration-200 rounded-lg bg-blue-50 dark:bg-blue-900/30 group-hover:bg-blue-100 dark:group-hover:bg-blue-900/50">
                     {category.icon}
                   </div>
                   <div className="text-left">
-                    <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-200">
+                    <h3 className="text-xl font-semibold text-gray-900 transition-colors duration-200 dark:text-gray-100 group-hover:text-blue-600 dark:group-hover:text-blue-400">
                       {category.title}
                     </h3>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                    <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
                       {category.reports.length} report
                       {category.reports.length !== 1 ? 's' : ''} available
                     </p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="text-sm font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 px-3 py-1 rounded-full">
+                  <span className="px-3 py-1 text-sm font-medium text-blue-600 rounded-full dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30">
                     {category.reports.length}
                   </span>
-                  <div className="p-1 rounded-full group-hover:bg-gray-100 dark:group-hover:bg-gray-700 transition-colors duration-200">
+                  <div className="p-1 transition-colors duration-200 rounded-full group-hover:bg-gray-100 dark:group-hover:bg-gray-700">
                     {expandedCategories.has(category.id) ? (
-                      <ChevronDown className="w-5 h-5 text-gray-400 dark:text-gray-500 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-200" />
+                      <ChevronDown className="w-5 h-5 text-gray-400 transition-colors duration-200 dark:text-gray-500 group-hover:text-blue-600 dark:group-hover:text-blue-400" />
                     ) : (
-                      <ChevronRight className="w-5 h-5 text-gray-400 dark:text-gray-500 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-200" />
+                      <ChevronRight className="w-5 h-5 text-gray-400 transition-colors duration-200 dark:text-gray-500 group-hover:text-blue-600 dark:group-hover:text-blue-400" />
                     )}
                   </div>
                 </div>
@@ -538,8 +538,8 @@ const BusinessReportPage = () => {
               {/* Category Content */}
               {expandedCategories.has(category.id) && (
                 <div className="px-6 pb-6 bg-gray-50/30 dark:bg-gray-900/30">
-                  <div className="border-t border-gray-100 dark:border-gray-700 pt-6">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                  <div className="pt-6 border-t border-gray-100 dark:border-gray-700">
+                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                       {category.reports.map((report, index) => (
                         <div key={report.id} className="relative">
                           <ReportCard
@@ -550,19 +550,19 @@ const BusinessReportPage = () => {
                           {/* Vertical separator for larger screens */}
                           {(index + 1) % 4 !== 0 &&
                             index !== category.reports.length - 1 && (
-                              <div className="hidden xl:block absolute top-0 -right-3 h-full w-px bg-gray-200 dark:bg-gray-700" />
+                              <div className="absolute top-0 hidden w-px h-full bg-gray-200 xl:block -right-3 dark:bg-gray-700" />
                             )}
                           {(index + 1) % 3 !== 0 &&
                             index !== category.reports.length - 1 && (
-                              <div className="hidden lg:block xl:hidden absolute top-0 -right-3 h-full w-px bg-gray-200 dark:bg-gray-700" />
+                              <div className="absolute top-0 hidden w-px h-full bg-gray-200 lg:block xl:hidden -right-3 dark:bg-gray-700" />
                             )}
                           {(index + 1) % 2 !== 0 &&
                             index !== category.reports.length - 1 && (
-                              <div className="hidden sm:block lg:hidden absolute top-0 -right-3 h-full w-px bg-gray-200 dark:bg-gray-700" />
+                              <div className="absolute top-0 hidden w-px h-full bg-gray-200 sm:block lg:hidden -right-3 dark:bg-gray-700" />
                             )}
                           {/* Horizontal separator */}
                           {index < category.reports.length - 1 && (
-                            <div className="sm:hidden mt-4 border-b border-gray-200 dark:border-gray-700" />
+                            <div className="mt-4 border-b border-gray-200 sm:hidden dark:border-gray-700" />
                           )}
                         </div>
                       ))}
