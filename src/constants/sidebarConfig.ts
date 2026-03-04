@@ -184,14 +184,14 @@ export const createSidebarConfig = (
       },
     ],
   },
-  {
-    id: 'guarantee',
-    label: getLabel('guarantee', 'Guarantee'),
-    icon: ShieldCheckIcon,
-    href: '/surety_bond',
-    items: [],
-    permissions: ['nav_menu_surety_bond', 'nav_menu_all'],
-  },
+  // {
+  //   id: 'guarantee',
+  //   label: getLabel('guarantee', 'Guarantee'),
+  //   icon: ShieldCheckIcon,
+  //   href: '/surety_bond',
+  //   items: [],
+  //   permissions: ['nav_menu_surety_bond', 'nav_menu_all'],
+  // },
 
   {
     id: 'reports',
@@ -365,13 +365,13 @@ export const SIDEBAR_SECTIONS: SidebarSection[] = [
       },
     ],
   },
-  {
-    id: 'guarantee',
-    label: 'Guarantee',
-    icon: ShieldCheckIcon,
-    href: '/surety_bond',
-    items: [],
-  },
+  // {
+  //   id: 'guarantee',
+  //   label: 'Guarantee',
+  //   icon: ShieldCheckIcon,
+  //   href: '/surety_bond',
+  //   items: [],
+  // },
   {
     id: 'fee-reconciliation',
     label: 'Fee Reconciliation',
