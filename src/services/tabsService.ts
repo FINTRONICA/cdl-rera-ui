@@ -6,22 +6,20 @@
  */
 
 export type TabId = 
-  | 'buildPartner' 
-  | 'buildPartnerAsset' 
-  | 'capitalPartner' 
+  | 'assetsRegistry' 
+  | 'managementFirms' 
+  | 'ownerRegistry' 
   | 'payments' 
-  | 'suretyBond'
   | 'budget'
-  | 'budgetFirm'
+  | 'budgetCategory'
 
 export type ModuleName = 
-  | 'BUILD_PARTNER' 
-  | 'BUILD_PARTNER_ASSET' 
-  | 'CAPITAL_PARTNER' 
+  | 'ASSETS_REGISTRY' 
+  | 'MANAGEMENT_FIRMS' 
+  | 'OWNER_REGISTRY' 
   | 'PAYMENTS' 
-  | 'SURETY_BOND'
   | 'BUDGET'
-  | 'BUDGET_FIRM'
+  | 'BUDGET_CATEGORY'
 
 export interface Tab {
   id: TabId
@@ -38,39 +36,36 @@ export interface TabConfig {
  * Tab configuration array
  */
 export const TABS: Tab[] = [
-  { id: 'buildPartner', label: 'Asset Register' },
-  { id: 'buildPartnerAsset', label: 'Management Firm' },
-  { id: 'capitalPartner', label: 'Owner Registry' },
+  { id: 'assetsRegistry', label: 'Asset Register' },
+  { id: 'managementFirms', label: 'Management Firm' },
+  { id: 'ownerRegistry', label: 'Owner Registry' },
   { id: 'payments', label: 'Payments' },
-  { id: 'suretyBond', label: 'Surety Bond' },
   { id: 'budget', label: 'Budget' },
-  { id: 'budgetFirm', label: 'Budget Firm' },
+  { id: 'budgetCategory', label: 'Budget Category' },
 ]
 
 /**
  * Map tab ID to module name
  */
 export const TAB_TO_MODULE_MAP: Record<TabId, ModuleName> = {
-  buildPartner: 'BUILD_PARTNER',
-  buildPartnerAsset: 'BUILD_PARTNER_ASSET',
-  capitalPartner: 'CAPITAL_PARTNER',
+  assetsRegistry: 'ASSETS_REGISTRY',
+  managementFirms: 'MANAGEMENT_FIRMS',
+  ownerRegistry: 'OWNER_REGISTRY',
   payments: 'PAYMENTS',
-  suretyBond: 'SURETY_BOND',
   budget: 'BUDGET',
-  budgetFirm: 'BUDGET_FIRM',
+  budgetCategory: 'BUDGET_CATEGORY',
 }
 
 /**
  * Map module name to tab ID
  */
 export const MODULE_TO_TAB_MAP: Record<ModuleName, TabId> = {
-  BUILD_PARTNER: 'buildPartner',
-  BUILD_PARTNER_ASSET: 'buildPartnerAsset',
-  CAPITAL_PARTNER: 'capitalPartner',
+  ASSETS_REGISTRY: 'assetsRegistry',
+  MANAGEMENT_FIRMS: 'managementFirms',
+  OWNER_REGISTRY: 'ownerRegistry',
   PAYMENTS: 'payments',
-  SURETY_BOND: 'suretyBond',
   BUDGET: 'budget',
-  BUDGET_FIRM: 'budgetFirm',
+  BUDGET_CATEGORY: 'budgetCategory',
 }
 
 /**
@@ -92,13 +87,12 @@ export function getTabIdFromModuleName(moduleName: ModuleName): TabId | null {
  */
 export function getNavigationPath(tabId: TabId, id: string | number): string {
   const navigationMap: Record<TabId, (id: string | number) => string> = {
-    buildPartner: (id) => `/asset-registry/${id}/step/1?mode=view`,
-    buildPartnerAsset: (id) => `/management-firms/${id}?mode=view`,
-    capitalPartner: (id) => `/owner-registry/${id}?mode=view`,
-    suretyBond: (id) => `/surety_bond/new/${id}?step=0&mode=view`,
+    assetsRegistry: (id) => `/asset-registry/${id}/step/1?mode=view`,
+    managementFirms: (id) => `/management-firms/${id}?mode=view`,
+    ownerRegistry: (id) => `/owner-registry/${id}?mode=view`,
     payments: (id) => `/transactions/manual/new/${id}?step=0&mode=view`,
     budget: (id) => `/budgets/budget/${id}/step/1?mode=view`,
-    budgetFirm: (id) => `/budgets/budge-firm/${id}/step/1?mode=view`,
+    budgetCategory: (id) => `/budgets/budget-category/${id}/step/1?mode=view`,
   }
 
   return navigationMap[tabId]?.(id) || '#'

@@ -51,7 +51,7 @@ const PendingActivitiesPage: React.FC = () => {
     hasNoData,
   } = useTabData({
     pageType: 'pending',
-    initialTab: 'buildPartner',
+    initialTab: 'assetsRegistry',
     pageSize: 20,
   })
 

@@ -122,7 +122,7 @@ export default function StepperWrapper({
   const createProjectWorkflowRequest = useCreateDeveloperWorkflowRequest()
 
   const steps = [
-    'Build Partner Assest Details',
+    'Management Firm Assest Details',
     'Documents',
     'Account',
     'Fee Details',
@@ -1631,7 +1631,7 @@ export default function StepperWrapper({
 
           if (!projectIdFromStatus || !step1Data) {
             setErrorMessage(
-              'No Build Partner Asset data available - check stepStatus'
+              'No Management Firm data available - check stepStatus'
             )
             return
           }
@@ -1639,13 +1639,13 @@ export default function StepperWrapper({
           await createProjectWorkflowRequest.mutateAsync({
             referenceId: projectIdFromStatus,
             payloadData: step1Data as unknown as Record<string, unknown>,
-            referenceType: 'BUILD_PARTNER_ASSET',
-            moduleName: 'BUILD_PARTNER_ASSET',
+            referenceType: 'MANAGEMENT_FIRMS',
+            moduleName: 'MANAGEMENT_FIRMS',
             actionKey: 'CREATE',
           })
 
           setSuccessMessage(
-            'Build partner asset registration submitted successfully! Workflow request created.'
+            'Management Firm registration submitted successfully! Workflow request created.'
           )
           router.push('/management-firms')
           return
@@ -1928,7 +1928,7 @@ export default function StepperWrapper({
 
           if (!projectIdFromStatus || !step1Data) {
             setErrorMessage(
-              'No Build Partner Asset data available - check stepStatus'
+                'No Management Firm data available - check stepStatus'
             )
             return
           }
@@ -1936,13 +1936,13 @@ export default function StepperWrapper({
           await createProjectWorkflowRequest.mutateAsync({
             referenceId: projectIdFromStatus,
             payloadData: step1Data as unknown as Record<string, unknown>,
-            referenceType: 'BUILD_PARTNER_ASSET',
-            moduleName: 'BUILD_PARTNER_ASSET',
+            referenceType: 'MANAGEMENT_FIRMS',
+            moduleName: 'MANAGEMENT_FIRMS',
             actionKey: 'CREATE',
           })
 
           setSuccessMessage(
-            'Build Partner Asset registration submitted successfully! Workflow request created.'
+            'Management Firm registration submitted successfully! Workflow request created.'
           )
           router.push('/management-firms')
         } catch (error) {
@@ -2115,7 +2115,7 @@ export default function StepperWrapper({
                             ? 'Submitting...'
                             : 'Saving...'
                           : activeStep === steps.length - 1
-                            ? 'Submit'
+                            ? 'Complete'
                             : 'Save & Next'}
                     </Button>
                   </Box>

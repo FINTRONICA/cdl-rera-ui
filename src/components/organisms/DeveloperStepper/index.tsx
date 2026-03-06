@@ -225,7 +225,7 @@ export default function DeveloperStepperWrapper({
 
           if (!developerIdFromStatus) {
             notifications.showError(
-              'Build Partner ID not found. Please complete Step 1 first.'
+              'Asset Registry ID not found. Please complete Step 1 first.'
             )
             return
           }
@@ -235,7 +235,7 @@ export default function DeveloperStepperWrapper({
 
           if (!step1Data) {
             notifications.showError(
-              'Build Partner data not found. Please complete Step 1 first.'
+              'Asset Registry data not found. Please complete Step 1 first.'
             )
             return
           }
@@ -248,8 +248,8 @@ export default function DeveloperStepperWrapper({
 
           await createWorkflowRequest.mutateAsync({
             referenceId: developerIdFromStatus,
-            referenceType: 'BUILD_PARTNER',
-            moduleName: 'BUILD_PARTNER',
+            referenceType: 'ASSETS_REGISTRY',
+            moduleName: 'ASSETS_REGISTRY',
             actionKey: 'CREATE',
             amount: 0,
             currency: 'USD',
@@ -257,7 +257,7 @@ export default function DeveloperStepperWrapper({
           })
 
           notifications.showSuccess(
-            'Build Partner registration submitted successfully! Workflow request created.'
+            'Asset Registry registration submitted successfully! Workflow request created.'
           )
           router.push('/asset-registry')
         } catch (error) {
@@ -331,29 +331,29 @@ export default function DeveloperStepperWrapper({
 
       // Navigate to next step
       if (activeStep < steps.length - 1) {
-        // For Step 1, we need to get the Build Partner ID from the API response and navigate to dynamic route
+        // For Step 1, we need to get the Asset Registry ID from the API response and navigate to dynamic route
         if (activeStep === 0) {
-          // Step 1 just saved, get the Build Partner ID from the API response
+          // Step 1 just saved, get the Asset Registry ID from the API response
           const savedDeveloperId =
             (saveResponse as any)?.data?.id || (saveResponse as any)?.id
 
           if (savedDeveloperId) {
-            // Navigate to Step 2 using the dynamic route with the Build Partner ID from backend
+            // Navigate to Step 2 using the dynamic route with the Asset Registry ID from backend
             router.push(
               `/asset-registry/${savedDeveloperId}/step/2${getModeParam()}`
             )
           } else {
-            // Fallback to local state if no Build Partner ID
+            // Fallback to local state if no Asset Registry ID
             setActiveStep((prev) => prev + 1)
           }
         } else if (developerId) {
-          // For other steps, use the existing Build Partner ID
+          // For other steps, use the existing Asset Registry ID
           const nextStep = activeStep + 1
           router.push(
             `/asset-registry/${developerId}/step/${nextStep + 1}${getModeParam()}`
           )
         } else {
-          // Fallback to local state if no Build Partner ID
+          // Fallback to local state if no Asset Registry ID
           setActiveStep((prev) => prev + 1)
         }
       } else {

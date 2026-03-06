@@ -418,7 +418,7 @@ export default function InvestorsStepperWrapper({
       const capitalPartnerIdForWorkflow = capitalPartnerId?.toString()
       if (!capitalPartnerIdForWorkflow) {
         setErrorMessage(
-          'Capital Partner ID not found. Please complete Step 1 first.'
+          'Owner Registry ID not found. Please complete Step 1 first.'
         )
         setIsSaving(false)
         return
@@ -427,12 +427,12 @@ export default function InvestorsStepperWrapper({
       await createCapitalPartnerWorkflowRequest.mutateAsync({
         referenceId: capitalPartnerIdForWorkflow,
         payloadData: { ...step1Data } as Record<string, unknown>,
-        referenceType: 'CAPITAL_PARTNER',
-        moduleName: 'CAPITAL_PARTNER',
+        referenceType: 'OWNER_REGISTRY',
+        moduleName: 'OWNER_REGISTRY',
         actionKey: 'CREATE',
       })
       setSuccessMessage(
-        'Capital Partner registration submitted successfully! Workflow request created.'
+        'Owner Registry registration submitted successfully! Workflow request created.'
       )
       router.push('/owner-registry')
     } catch (error) {
@@ -590,7 +590,7 @@ export default function InvestorsStepperWrapper({
                     : activeStep === steps.length - 1
                       ? isViewMode
                         ? 'Close'
-                        : 'Submit'
+                        : 'Complete'
                       : isViewMode
                         ? 'Next'
                         : 'Save & Next'}

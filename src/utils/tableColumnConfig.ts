@@ -74,7 +74,7 @@ function getModuleSpecificColumns(
   const columns: TableColumn[] = []
 
   switch (tabId) {
-    case 'buildPartner':
+    case 'assetsRegistry':
       columns.push(
         {
           key: 'displayName',
@@ -95,7 +95,7 @@ function getModuleSpecificColumns(
       )
       break
 
-    case 'buildPartnerAsset':
+    case 'managementFirms':
       columns.push(
         {
           key: 'displayName',
@@ -116,7 +116,7 @@ function getModuleSpecificColumns(
       )
       break
 
-    case 'capitalPartner':
+      case 'ownerRegistry':
       columns.push(
         {
           key: 'displayName',
@@ -158,27 +158,6 @@ function getModuleSpecificColumns(
       )
       break
 
-    case 'suretyBond':
-      columns.push(
-        {
-          key: 'displayName',
-          label: 'Bond Name',
-          type: 'text',
-          width: 'w-40',
-          sortable: true,
-          render: (value) => truncateWords(value, 15),
-        },
-        {
-          key: 'identifier',
-          label: 'Bond Number',
-          type: 'text',
-          width: 'w-30',
-          sortable: true,
-          render: (value) => displayValue(value),
-        }
-      )
-      break
-
     case 'budget':
       columns.push(
         {
@@ -200,7 +179,7 @@ function getModuleSpecificColumns(
       )
       break
 
-    case 'budgetFirm':
+    case 'budgetCategory':
       columns.push(
         {
           key: 'displayName',
@@ -323,6 +302,7 @@ function getFooterColumns(
     label: getLabel('ACTIONS'),
     type: 'actions',
     width: 'w-20',
+    sortable: false
   })
 
   return columns

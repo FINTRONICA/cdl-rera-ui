@@ -51,7 +51,7 @@ const InvolvedActivitiesPage: React.FC = () => {
     hasNoData,
   } = useTabData({
     pageType: 'involved',
-    initialTab: 'buildPartner',
+    initialTab: 'assetsRegistry',
     pageSize: 20,
   })
 
